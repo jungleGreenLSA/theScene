@@ -1,0 +1,29 @@
+name: Deploy The Scene
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          script: |
+            export PATH="/usr/local/bin:/usr/bin:$PATH"
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            cd /var/www/thescene.fyi/html
+            git pull origin main
+            npm install --production=false
+            npm run build
+            pm2 restart the-scene || pm2 start ecosystem.config.js
+            echo "Deployment complete"

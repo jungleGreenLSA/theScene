@@ -1,0 +1,239 @@
+# Supabase Setup Guide -- The Scene
+
+**Step-by-step guide to setting up the Supabase backend for The Scene.**
+
+---
+
+## Step 1 -- Create a Supabase Account
+
+1. Go to [supabase.com](https://supabase.com)
+2. Click **Start your project** (top right)
+3. Sign in with your **GitHub account** (recommended -- it links directly to your repos)
+4. Authorize Supabase to access your GitHub account
+
+## Step 2 -- Create a New Project
+
+1. After signing in, you'll land on the dashboard
+2. Click **New Project**
+3. Fill in:
+   - **Organization**: Select your personal org (or create one -- free)
+   - **Project name**: `the-scene`
+   - **Database password**: Generate a strong password and **save it somewhere safe** (you'll need it for direct DB access later)
+   - **Region**: Choose the closest to your users. For Dallas, TX: **US East (N. Virginia)** or **US Central** if available
+   - **Pricing Plan**: **Free** (includes 50K auth users, 500MB DB, 1GB storage, 2 Edge Function invocations)
+4. Click **Create new project**
+5. Wait 1-2 minutes for provisioning
+
+## Step 3 -- Get Your API Keys
+
+Once the project is ready:
+
+1. Go to **Project Settings** (gear icon in left sidebar)
+2. Click **API** in the settings menu
+3. You'll see two important values:
+
+| Key | What It Is | Where It Goes |
+|---|---|---|
+| **Project URL** | `https://xxxxx.supabase.co` | `.env.local` as `NEXT_PUBLIC_SUPABASE_URL` |
+| **anon public key** | `eyJhbGci...` (long JWT) | `.env.local` as `NEXT_PUBLIC_SUPABASE_ANON_KEY` |
+| **service_role key** | `eyJhbGci...` (different JWT) | `.env.local` as `SUPABASE_SERVICE_ROLE_KEY` -- **NEVER expose this on the client** |
+
+4. Copy each value. You'll paste them into the `.env.local` file in the project.
+
+## Step 4 -- Enable Email Auth (Default)
+
+Email/password auth is enabled by default, but verify:
+
+1. Go to **Authentication** (left sidebar)
+2. Click **Providers** (under Configuration)
+3. Confirm **Email** is enabled
+4. Settings to check:
+   - **Confirm email**: ON (requires email verification)
+   - **Secure email change**: ON
+   - **Double confirm email changes**: ON (recommended)
+
+## Step 5 -- Set Up Google OAuth
+
+### 5.1 Create Google OAuth Credentials
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Create a new project (or select existing):
+   - Click the project dropdown (top bar) > **New Project**
+   - Name: `the-scene`
+   - Click **Create**
+3. Enable the Google+ API:
+   - Go to **APIs & Services > Library**
+   - Search for "Google+ API" or "Google Identity"
+   - Enable it
+4. Create OAuth credentials:
+   - Go to **APIs & Services > Credentials**
+   - Click **Create Credentials > OAuth client ID**
+   - If prompted, configure the **OAuth consent screen** first:
+     - User type: **External**
+     - App name: `The Scene`
+     - User support email: your email
+     - Developer contact: your email
+     - Click **Save and Continue** through the remaining steps
+   - Back in Credentials, click **Create Credentials > OAuth client ID**
+   - Application type: **Web application**
+   - Name: `The Scene Supabase`
+   - **Authorized JavaScript origins**: Add your Supabase project URL
+     ```
+     https://xxxxx.supabase.co
+     ```
+   - **Authorized redirect URIs**: Add:
+     ```
+     https://xxxxx.supabase.co/auth/v1/callback
+     ```
+   - Click **Create**
+5. Copy the **Client ID** and **Client Secret**
+
+### 5.2 Add Google OAuth to Supabase
+
+1. In Supabase, go to **Authentication > Providers**
+2. Find **Google** and click to expand
+3. Toggle it **ON**
+4. Paste:
+   - **Client ID**: from Google Cloud Console
+   - **Client Secret**: from Google Cloud Console
+5. Click **Save**
+
+## Step 6 -- Configure Auth URL Settings
+
+1. Go to **Authentication > URL Configuration**
+2. Set:
+   - **Site URL**: `https://thescene.jeffsquier.dev` (or your current dev URL)
+   - **Redirect URLs**: Add all of these:
+     ```
+     https://thescene.jeffsquier.dev/auth/callback
+     http://localhost:3000/auth/callback
+     ```
+   The localhost entry allows local development to work.
+
+## Step 7 -- Create the Database Schema
+
+1. Go to **SQL Editor** (left sidebar)
+2. Click **New query**
+3. Paste the contents of `supabase/migrations/001_initial_schema.sql` (included in the project)
+4. Click **Run**
+5. Verify by going to **Table Editor** -- you should see all the tables
+
+## Step 8 -- Set Up Storage Buckets
+
+1. Go to **Storage** (left sidebar)
+2. Create these buckets:
+
+### Bucket 1: avatars
+- Click **New bucket**
+- Name: `avatars`
+- Public: **ON** (profile pictures need to be publicly viewable)
+- File size limit: `2MB`
+- Allowed MIME types: `image/jpeg, image/png, image/webp`
+
+### Bucket 2: vehicles
+- Click **New bucket**
+- Name: `vehicles`
+- Public: **ON** (car photos need to be publicly viewable)
+- File size limit: `5MB`
+- Allowed MIME types: `image/jpeg, image/png, image/webp`
+
+### Bucket 3: posts
+- Click **New bucket**
+- Name: `posts`
+- Public: **ON**
+- File size limit: `5MB`
+- Allowed MIME types: `image/jpeg, image/png, image/webp`
+
+### Bucket 4: events
+- Click **New bucket**
+- Name: `events`
+- Public: **ON**
+- File size limit: `5MB`
+- Allowed MIME types: `image/jpeg, image/png, image/webp`
+
+## Step 9 -- Set Up Storage Policies
+
+For each bucket, you need access policies. Go to **Storage > Policies** for each bucket:
+
+### Public Read (all buckets)
+- Click **New Policy > For full customization**
+- Name: `Public read access`
+- Allowed operations: **SELECT**
+- Target roles: **public** (anon)
+- Policy: `true`
+
+### Authenticated Upload (all buckets)
+- Click **New Policy > For full customization**
+- Name: `Authenticated users can upload`
+- Allowed operations: **INSERT**
+- Target roles: **authenticated**
+- Policy: `true`
+
+### Owner Delete (all buckets)
+- Click **New Policy > For full customization**
+- Name: `Users can delete own files`
+- Allowed operations: **DELETE**
+- Target roles: **authenticated**
+- Policy: `(bucket_id = 'avatars' AND auth.uid()::text = (storage.foldername(name))[1])`
+
+Adjust the bucket_id for each bucket. The folder structure will be: `user_id/filename.jpg`
+
+## Step 10 -- Configure Your .env.local File
+
+In your project root, create `.env.local`:
+
+```bash
+# ============================================
+# THE SCENE - Environment Configuration
+# ============================================
+
+# Site
+NEXT_PUBLIC_SITE_NAME="The Scene"
+NEXT_PUBLIC_SITE_URL="https://thescene.jeffsquier.dev"
+
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL="https://your-project-id.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key-here"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key-here"
+
+# Google OAuth (these are configured IN Supabase, not in the app directly)
+# Kept here for reference only
+# GOOGLE_CLIENT_ID="your-google-client-id"
+# GOOGLE_CLIENT_SECRET="your-google-client-secret"
+
+# Google Maps (for event locations)
+NEXT_PUBLIC_GOOGLE_MAPS_KEY="your-google-maps-api-key"
+```
+
+**IMPORTANT**: `.env.local` is in `.gitignore` and will NOT be pushed to GitHub. Never commit this file.
+
+## Step 11 -- Verify Everything Works
+
+After setting up Supabase and deploying the app:
+
+| Check | How | Expected |
+|---|---|---|
+| Auth email signup | Register with email on the site | Receive verification email |
+| Auth Google login | Click "Sign in with Google" | Redirected to Google, then back to site |
+| Database tables | Supabase Dashboard > Table Editor | All tables visible |
+| Storage buckets | Supabase Dashboard > Storage | 4 buckets visible |
+| RLS policies | Supabase Dashboard > Authentication > Policies | Policies active on all tables |
+
+---
+
+## Supabase Free Tier Limits (for reference)
+
+| Resource | Limit |
+|---|---|
+| Database | 500 MB |
+| Storage | 1 GB |
+| Bandwidth | 2 GB |
+| Auth users | 50,000 |
+| Edge Functions | 500K invocations |
+| Realtime | 200 concurrent connections |
+
+For a prototype/proof of concept, this is more than enough.
+
+---
+
+*This guide is specific to The Scene project. Supabase dashboard UI may change over time -- screenshots may differ from current UI.*

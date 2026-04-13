@@ -1,0 +1,128 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
+
+export default function ClubActions({ clubId }: { clubId: string }) {
+  const supabase = createClient()
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [showAddMember, setShowAddMember] = useState(false)
+  const [memberUsername, setMemberUsername] = useState('')
+  const [memberRole, setMemberRole] = useState('member')
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data } = await supabase
+        .from('club_members')
+        .select('role')
+        .eq('club_id', clubId)
+        .eq('user_id', user.id)
+        .single()
+
+      if (data && ['admin', 'founder'].includes(data.role)) {
+        setIsAdmin(true)
+      }
+    }
+    checkAdmin()
+  }, [clubId])
+
+  const handleAddMember = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setMessage('')
+
+    // Look up the user by username
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id, username')
+      .eq('username', memberUsername.toLowerCase().trim())
+      .single()
+
+    if (!profile) {
+      setMessage('User not found. Make sure the username is correct.')
+      setLoading(false)
+      return
+    }
+
+    // Check if already a member
+    const { data: existing } = await supabase
+      .from('club_members')
+      .select('id')
+      .eq('club_id', clubId)
+      .eq('user_id', profile.id)
+      .single()
+
+    if (existing) {
+      setMessage('This user is already a member of this club.')
+      setLoading(false)
+      return
+    }
+
+    const { data: { user } } = await supabase.auth.getUser()
+
+    const { error } = await supabase.from('club_members').insert({
+      club_id: clubId,
+      user_id: profile.id,
+      role: memberRole,
+      added_by: user?.id,
+    })
+
+    if (error) {
+      setMessage(error.message)
+    } else {
+      setMessage(`Added @${profile.username} as ${memberRole}!`)
+      setMemberUsername('')
+      setMemberRole('member')
+    }
+    setLoading(false)
+  }
+
+  if (!isAdmin) return null
+
+  return (
+    <div>
+      <button
+        onClick={() => setShowAddMember(!showAddMember)}
+        className="btn-neon text-xs"
+      >
+        + Add Member
+      </button>
+
+      {showAddMember && (
+        <form onSubmit={handleAddMember} className="mt-4 glass p-4 space-y-3">
+          <p className="text-xs text-muted-light">Only club admins and founders can add members.</p>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1">Username</label>
+            <input
+              type="text"
+              value={memberUsername}
+              onChange={(e) => setMemberUsername(e.target.value)}
+              className="input"
+              placeholder="Enter their username"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1">Role</label>
+            <select value={memberRole} onChange={(e) => setMemberRole(e.target.value)} className="input">
+              <option value="member">Member</option>
+              <option value="officer">Officer</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          {message && (
+            <p className={`text-sm ${message.includes('Added') ? 'text-success' : 'text-danger'}`}>{message}</p>
+          )}
+          <button type="submit" disabled={loading} className="btn-primary text-xs w-full justify-center disabled:opacity-50">
+            {loading ? 'Adding...' : 'Add to Club'}
+          </button>
+        </form>
+      )}
+    </div>
+  )
+}
