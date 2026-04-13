@@ -4,7 +4,7 @@ module.exports = {
       name: 'the-scene',
       script: 'node_modules/.bin/next',
       args: 'start -p 3001',
-      cwd: '/var/www/thescene.fyi/html',
+      cwd: '/var/www/theScene/html',
       env: {
         NODE_ENV: 'production',
         PORT: 3001,
