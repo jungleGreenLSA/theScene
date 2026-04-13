@@ -37,7 +37,7 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled ? 'bg-[#0c0c14]/97 border-b border-border' : 'bg-[#0c0c14]/70 backdrop-blur-xl'
     }`}>
-      <div className="max-w-5xl mx-auto px-8 h-16 flex items-center justify-between">
+      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 32px' }} className="h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image src="/images/logo.png" alt="The Scene" width={44} height={44} className="rounded-full" />
