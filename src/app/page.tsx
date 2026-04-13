@@ -11,7 +11,7 @@ export default function Home() {
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-neon/8 blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
 
         {/* Watermark logo */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ opacity: 0.08 }}>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ opacity: 0.18 }}>
           <Image src="/images/logo.png" alt="" width={700} height={700} aria-hidden="true" />
         </div>
 
@@ -209,7 +209,7 @@ export default function Home() {
       {/* ===== FINAL CTA ===== */}
       <section className="relative overflow-hidden" style={{ padding: '100px 0' }}>
         {/* Watermark logo */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ opacity: 0.05 }}>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ opacity: 0.12 }}>
           <Image src="/images/logo.png" alt="" width={500} height={500} aria-hidden="true" />
         </div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-purple/8 blur-[150px]" />
