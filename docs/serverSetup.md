@@ -139,9 +139,9 @@ Expected output:
 ## Step 8 -- Create Web Root Directory
 
 ```bash
-sudo mkdir -p /var/www/thescene.fyi/html
-sudo chown -R deploy:deploy /var/www/thescene.fyi
-sudo chmod -R 755 /var/www/thescene.fyi
+sudo mkdir -p /var/www/theScene/html
+sudo chown -R deploy:deploy /var/www/theScene
+sudo chmod -R 755 /var/www/theScene
 ```
 
 ---
@@ -149,7 +149,7 @@ sudo chmod -R 755 /var/www/thescene.fyi
 ## Step 9 -- Clone the Repository
 
 ```bash
-cd /var/www/thescene.fyi
+cd /var/www/theScene
 git clone https://jungleGreenLSA:YOUR_GITHUB_TOKEN@github.com/jungleGreenLSA/theScene.git html
 cd html
 git config credential.helper store
@@ -162,7 +162,7 @@ Replace `YOUR_GITHUB_TOKEN` with a GitHub Personal Access Token (classic) with `
 ## Step 10 -- Create .env.local on the Server
 
 ```bash
-nano /var/www/thescene.fyi/html/.env.local
+nano /var/www/theScene/html/.env.local
 ```
 
 Paste your production environment variables:
@@ -184,7 +184,7 @@ Save and exit (Ctrl+O, Enter, Ctrl+X).
 ## Step 11 -- Install Dependencies and Build
 
 ```bash
-cd /var/www/thescene.fyi/html
+cd /var/www/theScene/html
 npm install
 npm run build
 ```
@@ -436,8 +436,111 @@ This calls the `auto_close_expired_events()` function we created in the database
 | www works | Visit `https://www.thescene.fyi` | Site loads |
 | Certbot renewal | `sudo certbot renew --dry-run` | Success |
 | App logs | `pm2 logs the-scene` | No errors |
-| Git pull works | `cd /var/www/thescene.fyi/html && git pull` | Up to date |
+| Git pull works | `cd /var/www/theScene/html && git pull` | Up to date |
 | Cron set | `crontab -l` | Auto-close line visible |
+
+---
+
+## IMPORTANT: .env.local Is NOT In Git (By Design)
+
+The `.env.local` file contains your Supabase secret keys. It is listed in `.gitignore` and will **never** be pushed to GitHub. This is intentional -- secret keys should never exist in a repository.
+
+**You must create `.env.local` manually on every machine that runs the app:**
+
+- On your Mac (for local development)
+- On your VPS (for production)
+
+If you skip this step, the build will fail with: `@supabase/ssr: Your project's URL and API key are required to create a Supabase client!`
+
+To create it on the server:
+
+```bash
+nano /var/www/theScene/html/.env.local
+```
+
+Paste your keys, save, then rebuild with `npm run build`.
+
+---
+
+## Common Issues and Fixes
+
+### Build fails: "Supabase URL and API key are required"
+
+**Cause**: `.env.local` is missing or empty on the server.
+**Fix**: Create the file with your Supabase keys (see above). Remember, this file is never pushed via git -- you create it manually on each machine.
+
+### Git error: "detected dubious ownership in repository"
+
+**Cause**: You're running git commands as root, but the repo was cloned as the deploy user.
+**Fix**:
+
+```bash
+git config --global --add safe.directory /var/www/theScene/html
+```
+
+### Git clone: "Invalid username or token"
+
+**Cause**: GitHub Personal Access Token is expired, missing `repo` scope, or has a typo.
+**Fix**: Generate a new classic token at GitHub > Settings > Developer settings > Personal access tokens > Tokens (classic). Check the `repo` scope. Then update the remote:
+
+```bash
+git remote set-url origin https://USERNAME:NEW_TOKEN@github.com/jungleGreenLSA/theScene.git
+```
+
+**Common typo**: Make sure the URL starts with `https://` (one time, not `https://https://`).
+
+### Git clone: "remote: Repository not found"
+
+**Cause**: Token doesn't have `repo` scope, or the repo name is wrong.
+**Fix**: Verify the exact repo name on GitHub. Ensure the token has the `repo` checkbox selected (the top-level one, not just sub-items).
+
+### Cloudflare DNS: Domain shows NXDOMAIN
+
+**Cause 1**: CNAME record instead of A record. A CNAME pointing to itself creates a circular reference.
+**Fix**: Delete the CNAME record. Create an A record with Name `@` pointing to your server IP.
+
+**Cause 2**: Nameservers not pointed to Cloudflare yet. If the domain was registered elsewhere, the registrar must have Cloudflare's nameservers set.
+**Fix**: Go to your domain registrar and set nameservers to the ones Cloudflare assigned (shown at the bottom of the DNS page).
+
+**Cause 3**: DNS propagation delay. New A records can take 2-10 minutes.
+**Fix**: Wait, then test with `dig @8.8.8.8 thescene.fyi +short` to query Google's DNS directly.
+
+### Ping from VPS says "Name or service not known"
+
+**Cause**: VPS DNS resolver can't resolve the domain. This is normal for many VPS configurations and does NOT mean your domain is broken.
+**Fix**: Ignore it. Test from your Mac browser or with `dig @8.8.8.8 thescene.fyi +short` instead. The domain may resolve fine from the outside world.
+
+### curl localhost:3001 returns nothing or "Connection refused"
+
+**Cause**: PM2 isn't running or the app crashed during startup.
+**Fix**:
+
+```bash
+pm2 status              # Check if the app is running
+pm2 logs the-scene      # Check for errors
+pm2 restart the-scene   # Try restarting
+```
+
+If it keeps crashing, check the logs for missing environment variables or build errors.
+
+### Browser shows 502 Bad Gateway
+
+**Cause**: Nginx is running but the Next.js app on port 3001 is not.
+**Fix**: Start or restart the app with PM2:
+
+```bash
+pm2 restart the-scene
+```
+
+### Browser shows "can't find server" or ERR_NAME_NOT_RESOLVED
+
+**Cause**: DNS hasn't propagated yet or A record is wrong.
+**Fix**: Check `dig @8.8.8.8 thescene.fyi +short` returns your server IP. If not, check Cloudflare DNS settings.
+
+### Certbot fails: "Could not find a CNAME record"
+
+**Cause**: Cloudflare proxy (orange cloud) is enabled, which hides your server IP from Let's Encrypt.
+**Fix**: Set the A record to **DNS only** (grey cloud) in Cloudflare before running Certbot. You can re-enable the proxy after SSL is set up.
 
 ---
 
@@ -468,7 +571,7 @@ Manual deploy (if Actions fails):
 
 ```bash
 ssh deploy@YOUR_SERVER_IP
-cd /var/www/thescene.fyi/html
+cd /var/www/theScene/html
 git pull origin main
 npm install
 npm run build
@@ -499,17 +602,20 @@ sudo ufw allow OpenSSH
 sudo ufw enable
 
 # Web root
-sudo mkdir -p /var/www/thescene.fyi/html
-sudo chown -R deploy:deploy /var/www/thescene.fyi
+sudo mkdir -p /var/www/theScene/html
+sudo chown -R deploy:deploy /var/www/theScene
 
-# Clone
-cd /var/www/thescene.fyi
+# Clone (as deploy user)
+cd /var/www/theScene
 git clone https://USER:TOKEN@github.com/jungleGreenLSA/theScene.git html
 cd html
 git config credential.helper store
 
-# Env file
-nano .env.local   # paste production values
+# Fix git ownership warning (if running commands as root)
+git config --global --add safe.directory /var/www/theScene/html
+
+# Env file -- MUST be created manually, it is NOT in git
+nano .env.local   # paste production Supabase keys
 
 # Build and start
 npm install

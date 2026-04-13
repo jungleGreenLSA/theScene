@@ -1,86 +1,73 @@
-# Server Deployment Guide -- The Scene
+# Quick Deployment Guide -- The Scene
+
+**Condensed steps for deploying The Scene to the VPS. For the full guide with troubleshooting, see `serverSetup.md`.**
+
+---
 
 ## Prerequisites on VPS
-- Node.js 20+ installed
+- Node.js 22+ installed
 - PM2 installed globally
-- Nginx configured
+- Nginx configured for thescene.fyi
 - SSL via Certbot
+- Git clone of the repo in `/var/www/theScene/html`
 
-## Step 1 -- Install Node.js on the VPS
+---
 
-```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
-node -v
-npm -v
-```
-
-## Step 2 -- Install PM2
+## First-Time Deployment
 
 ```bash
-sudo npm install -g pm2
-```
-
-## Step 3 -- Clone the Repo
-
-```bash
+# 1. Pull the code
 cd /var/www/theScene/html
-git init
-git remote add origin https://jungleGreenLSA:YOUR_TOKEN@github.com/jungleGreenLSA/theScene.git
 git pull origin main
+
+# 2. Fix git ownership warning if running as root
+git config --global --add safe.directory /var/www/theScene/html
+
+# 3. Create .env.local (NOT in git -- must be created manually)
+nano .env.local
 ```
 
-## Step 4 -- Create .env.local on the Server
-
-```bash
-nano /var/www/theScene/html/.env.local
-```
-
-Paste your environment variables (same as local but with production URL):
+Paste your Supabase keys:
 
 ```
 NEXT_PUBLIC_SITE_NAME="The Scene"
-NEXT_PUBLIC_SITE_URL="https://thescene.jeffsquier.dev"
-NEXT_PUBLIC_SITE_DOMAIN="thescene.jeffsquier.dev"
-NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
-NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
-SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+NEXT_PUBLIC_SITE_URL="https://thescene.fyi"
+NEXT_PUBLIC_SITE_DOMAIN="thescene.fyi"
+NEXT_PUBLIC_SUPABASE_URL="https://ehnijylwegzlrydlzicp.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-publishable-key"
+SUPABASE_SERVICE_ROLE_KEY="your-secret-key"
 NEXT_PUBLIC_GOOGLE_MAPS_KEY=""
 ```
 
-## Step 5 -- Build and Start
+Save (Ctrl+O, Enter, Ctrl+X). Then:
 
 ```bash
-cd /var/www/theScene/html
+# 4. Install dependencies
 npm install
+
+# 5. Build the app
 npm run build
+
+# 6. Start with PM2
 pm2 start ecosystem.config.js
 pm2 save
 pm2 startup
+
+# 7. Verify it's running
+curl http://localhost:3001
 ```
 
-`pm2 save` remembers your process list. `pm2 startup` generates a startup script so PM2 restarts your app on server reboot.
+---
 
-## Step 6 -- Update Nginx
+## Nginx Configuration
 
-Edit your Nginx config for thescene.jeffsquier.dev:
-
-```bash
-sudo nano /etc/nginx/sites-available/thescene.jeffsquier.dev
-```
-
-Replace the contents of the `server` block (port 443) with:
+The Nginx config at `/etc/nginx/sites-available/thescene.fyi` should reverse proxy to port 3001:
 
 ```nginx
 server {
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
-    server_name thescene.jeffsquier.dev;
-
-    ssl_certificate /etc/letsencrypt/live/thescene.jeffsquier.dev/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/thescene.jeffsquier.dev/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    listen 80;
+    listen [::]:80;
+    server_name thescene.fyi www.thescene.fyi;
 
     location / {
         proxy_pass http://127.0.0.1:3001;
@@ -93,28 +80,60 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
     }
+
+    location ~ /\.git { deny all; }
+    location ~ /\.env { deny all; }
 }
 ```
 
-This is the key difference from the static sites -- Nginx acts as a **reverse proxy** to Next.js running on port 3001, instead of serving static files directly.
-
-Test and reload:
+After Certbot runs, it will add SSL directives automatically.
 
 ```bash
+sudo ln -s /etc/nginx/sites-available/thescene.fyi /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
+sudo certbot --nginx -d thescene.fyi
 ```
 
-## Step 7 -- Verify
+---
 
-Visit `https://thescene.jeffsquier.dev` -- you should see the landing page.
+## Ongoing Deployments
+
+After initial setup, every deploy is:
+
+```bash
+cd /var/www/theScene/html
+git pull origin main
+npm install
+npm run build
+pm2 restart the-scene
+```
+
+Or just push to GitHub -- the GitHub Actions workflow handles this automatically.
+
+---
 
 ## Useful PM2 Commands
 
 ```bash
-pm2 status           # See running processes
-pm2 logs the-scene   # View logs
-pm2 restart the-scene # Restart the app
-pm2 stop the-scene   # Stop the app
-pm2 monit            # Live monitoring dashboard
+pm2 status              # See running processes
+pm2 logs the-scene      # View logs (live tail)
+pm2 restart the-scene   # Restart the app
+pm2 stop the-scene      # Stop the app
+pm2 monit               # Live monitoring dashboard
 ```
+
+---
+
+## Quick Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| Build fails: "Supabase URL required" | `.env.local` is missing. Create it manually with your keys. |
+| Git: "dubious ownership" | `git config --global --add safe.directory /var/www/theScene/html` |
+| Git: "Invalid username or token" | Generate new GitHub PAT with `repo` scope, update remote URL |
+| 502 Bad Gateway | PM2 isn't running. `pm2 restart the-scene` |
+| Can't find server | DNS not propagated. Check `dig @8.8.8.8 thescene.fyi +short` |
+| VPS can't ping domain | Normal. Test from your Mac browser instead. |
+
+For the full troubleshooting guide, see `serverSetup.md`.

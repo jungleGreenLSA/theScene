@@ -236,4 +236,50 @@ For a prototype/proof of concept, this is more than enough.
 
 ---
 
+## Important Notes
+
+### .env.local Is NOT In Git
+
+The `.env.local` file is listed in `.gitignore` and will **never** be pushed to GitHub. This is a security feature -- your Supabase secret keys should never exist in a repository.
+
+You must create `.env.local` **manually** on every machine:
+- On your Mac for local development
+- On your VPS for production
+
+Without this file, the Next.js build will fail with: `@supabase/ssr: Your project's URL and API key are required to create a Supabase client!`
+
+### Where to Find Your Keys
+
+If you need to look up your keys again:
+
+1. Go to the Supabase dashboard
+2. Click **Project Settings** (gear icon)
+3. Click **API**
+4. You'll see:
+
+| Dashboard Label | .env.local Variable |
+|---|---|
+| Project URL (Settings > General) | `NEXT_PUBLIC_SUPABASE_URL` |
+| **Publishable key** (top, under "anon public") | `NEXT_PUBLIC_SUPABASE_ANON_KEY` |
+| **Secret key** (bottom, under "service_role") | `SUPABASE_SERVICE_ROLE_KEY` |
+
+Both keys are long JWT strings starting with `eyJ...`. If your key starts with `sb_secret_`, that's the **database password** -- not the API key.
+
+### Running SQL Migrations
+
+The two migration files only need to be run **once** during initial setup. They create the database structure. If you run them again, they will fail with "already exists" errors -- that's harmless.
+
+| File | Tables Created | Run Order |
+|---|---|---|
+| `001_initial_schema.sql` | 18 core tables (profiles, vehicles, posts, events, etc.) | First |
+| `002_clubs_and_event_photos.sql` | 5 additional tables (clubs, club_locations, club_members, event_photo_posts, event_photo_comments) | Second |
+
+After running both, verify in **Table Editor** -- you should see 23 tables total.
+
+### Google Maps Key (Optional)
+
+`NEXT_PUBLIC_GOOGLE_MAPS_KEY` is optional. Leave it empty for now. Event pages will work without it -- you just won't get embedded map views. You can add it later via the Google Cloud Console if desired.
+
+---
+
 *This guide is specific to The Scene project. Supabase dashboard UI may change over time -- screenshots may differ from current UI.*
