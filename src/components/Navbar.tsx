@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
@@ -39,10 +38,9 @@ export default function Navbar() {
     }`}>
       <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 32px' }} className="h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/images/logo.png" alt="The Scene" width={44} height={44} className="rounded-full" />
-          <span className="text-xl font-bold tracking-wider uppercase hidden sm:inline">
-            the<span className="text-purple">Scene</span>
+        <Link href="/" className="flex items-center">
+          <span className="text-xl font-bold tracking-wider uppercase">
+            THE<span className="text-purple">SCENE</span>
           </span>
         </Link>
 
