@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "title": "What's the one mod you'd undo?",
+    "description": "If you could take back one modification you've done to your car, what would it be and why? Sometimes the best lessons come from the mods that didn't work out.",
+    "category": "discussion",
+    "emoji": "🔧"
+  },
+  {
+    "id": 2,
+    "title": "Show us your engine bay!",
+    "description": "Clean or dirty, stock or built -- post a photo of what's under the hood. Bonus props for the cleanest engine bays.",
+    "category": "photo",
+    "emoji": "📸"
+  },
+  {
+    "id": 3,
+    "title": "What's your daily driver vs. your show car?",
+    "description": "Some of us have both. Show us what you drive to work and what comes out on weekends.",
+    "category": "discussion",
+    "emoji": "🚗"
+  },
+  {
+    "id": 4,
+    "title": "Best mod under $500?",
+    "description": "What's the single best bang-for-the-buck modification you've done? Help the community find affordable wins.",
+    "category": "discussion",
+    "emoji": "💰"
+  },
+  {
+    "id": 5,
+    "title": "Throwback time! First car vs. current car.",
+    "description": "Post a photo of your first car next to your current build. Show us how far you've come.",
+    "category": "throwback",
+    "emoji": "⏪"
+  },
+  {
+    "id": 6,
+    "title": "What's your dream build?",
+    "description": "Unlimited budget, no rules. What car would you build and what would you do to it? Dream big.",
+    "category": "discussion",
+    "emoji": "💭"
+  },
+  {
+    "id": 7,
+    "title": "Favorite exhaust note?",
+    "description": "Upload a sound clip or just tell us -- what's the best exhaust sound you've ever heard? V8 rumble? Turbo flutter? Flat-six scream?",
+    "category": "audio",
+    "emoji": "🔊"
+  },
+  {
+    "id": 8,
+    "title": "Car show ready? Show your detail game.",
+    "description": "Post your best detail job. Paint correction, ceramic coat, fresh wax -- let's see that shine.",
+    "category": "photo",
+    "emoji": "✨"
+  },
+  {
+    "id": 9,
+    "title": "What are you working on this weekend?",
+    "description": "Installing parts? Going to a meet? Just cruising? Share your weekend plans with The Scene.",
+    "category": "discussion",
+    "emoji": "🛠️"
+  },
+  {
+    "id": 10,
+    "title": "Interior shots only!",
+    "description": "Show us the inside. Custom steering wheel? Aftermarket seats? Roll cage? Clean stock interior? Let's see it.",
+    "category": "photo",
+    "emoji": "🪑"
+  },
+  {
+    "id": 11,
+    "title": "What car turned you into an enthusiast?",
+    "description": "Every car person has that one car that started it all. What was yours? Share the story.",
+    "category": "discussion",
+    "emoji": "❤️"
+  },
+  {
+    "id": 12,
+    "title": "Wheel Wednesday!",
+    "description": "Show off your wheel setup. Brand, size, offset, tire specs. The community wants to know.",
+    "category": "photo",
+    "emoji": "🛞"
+  },
+  {
+    "id": 13,
+    "title": "What's the most underrated car platform?",
+    "description": "What car doesn't get enough love? Make your case for the most slept-on platform in the game.",
+    "category": "discussion",
+    "emoji": "🤔"
+  },
+  {
+    "id": 14,
+    "title": "Night photo challenge!",
+    "description": "Post your best night photo. Parking garages, city lights, neon signs -- dark backgrounds make cars pop.",
+    "category": "photo",
+    "emoji": "🌙"
+  },
+  {
+    "id": 15,
+    "title": "Before and after: biggest transformation",
+    "description": "Post a before and after of your build. The bigger the change, the better. Show the journey.",
+    "category": "throwback",
+    "emoji": "🔄"
+  },
+  {
+    "id": 16,
+    "title": "What's your next mod?",
+    "description": "What's next on the list? Saving up for something big? Planning a small upgrade? Share your plans.",
+    "category": "discussion",
+    "emoji": "📋"
+  },
+  {
+    "id": 17,
+    "title": "Favorite driving road near you?",
+    "description": "Every car person has a favorite road. Where's yours? Mountain twisties? Highway pulls? Back roads?",
+    "category": "discussion",
+    "emoji": "🛣️"
+  },
+  {
+    "id": 18,
+    "title": "Show your garage / workspace!",
+    "description": "Not your car garage on The Scene -- your actual garage. Where the work happens. Tools, lifts, and all.",
+    "category": "photo",
+    "emoji": "🏠"
+  },
+  {
+    "id": 19,
+    "title": "What's your car's name?",
+    "description": "Does your car have a name? Most of us name our builds. What's yours and how did you pick it?",
+    "category": "discussion",
+    "emoji": "🏷️"
+  },
+  {
+    "id": 20,
+    "title": "Dyno day! Post your numbers.",
+    "description": "If you've hit the dyno, share your sheet. WHP, WTQ, tuner, fuel type. The community loves numbers.",
+    "category": "dyno",
+    "emoji": "📊"
+  }
+]

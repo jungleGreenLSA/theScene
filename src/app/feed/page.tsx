@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import ActivityFeed from '@/components/ActivityFeed'
+import DailySuggestion from '@/components/DailySuggestion'
 
 export default function FeedPage() {
   const supabase = createClient()
@@ -49,6 +50,8 @@ export default function FeedPage() {
             </div>
           </div>
 
+          <DailySuggestion />
+          <div style={{ marginTop: '16px' }} />
           <ActivityFeed />
         </div>
 

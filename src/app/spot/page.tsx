@@ -1,0 +1,146 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import Link from 'next/link'
+
+interface Sighting {
+  id: string
+  image_url: string
+  location_name: string
+  city: string
+  state: string
+  description: string
+  props_count: number
+  created_at: string
+  spotter: { username: string; display_name: string; avatar_url: string }
+  claimed_vehicle_id: string | null
+}
+
+export default function SpotPage() {
+  const supabase = createClient()
+  const [sightings, setSightings] = useState<Sighting[]>([])
+  const [loading, setLoading] = useState(true)
+  const [showForm, setShowForm] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [form, setForm] = useState({ location_name: '', city: '', state: '', description: '' })
+  const [file, setFile] = useState<File | null>(null)
+  const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { data } = await supabase
+        .from('sightings')
+        .select('*, spotter:profiles!sightings_spotter_id_fkey(username, display_name, avatar_url)')
+        .order('created_at', { ascending: false })
+        .limit(30)
+      setSightings((data || []) as unknown as Sighting[])
+      setLoading(false)
+    }
+    fetch()
+  }, [])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!file) return
+    setUploading(true)
+
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { window.location.href = '/auth/login'; return }
+
+    const filename = `sightings/${user.id}/${Date.now()}.${file.name.split('.').pop()}`
+    await supabase.storage.from('posts').upload(filename, file)
+    const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
+
+    await supabase.from('sightings').insert({
+      spotter_id: user.id,
+      image_url: urlData.publicUrl,
+      location_name: form.location_name,
+      city: form.city,
+      state: form.state.toUpperCase(),
+      description: form.description,
+    })
+
+    setMessage('Sighting posted! If the owner is on The Scene, they\'ll get notified.')
+    setShowForm(false)
+    setForm({ location_name: '', city: '', state: '', description: '' })
+    setFile(null)
+    setUploading(false)
+    setTimeout(() => setMessage(''), 4000)
+
+    // Refresh
+    const { data } = await supabase.from('sightings').select('*, spotter:profiles!sightings_spotter_id_fkey(username, display_name, avatar_url)').order('created_at', { ascending: false }).limit(30)
+    setSightings((data || []) as unknown as Sighting[])
+  }
+
+  return (
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
+        <div>
+          <h1 className="text-3xl font-bold">Spot a <span className="text-neon-light">Ride</span></h1>
+          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>See a cool car? Snap it. Share it. The owner might be on The Scene.</p>
+        </div>
+        <button onClick={() => setShowForm(!showForm)} className="btn-neon" style={{ fontSize: '12px' }}>
+          {showForm ? 'Cancel' : '📸 Spot a Ride'}
+        </button>
+      </div>
+
+      {message && (
+        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#22c55e', fontSize: '13px' }}>{message}</div>
+      )}
+
+      {showForm && (
+        <form onSubmit={handleSubmit} className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+          <h3 className="font-bold text-foreground" style={{ marginBottom: '16px' }}>Post a Sighting</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+            <input value={form.location_name} onChange={(e) => setForm({ ...form, location_name: e.target.value })} className="input" placeholder="Where? (e.g. Starbucks on Elm St)" required />
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} className="input" placeholder="City" required style={{ flex: 2 }} />
+              <input value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} className="input" placeholder="ST" required style={{ flex: 0.6, textTransform: 'uppercase' }} maxLength={2} />
+            </div>
+          </div>
+          <input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" placeholder="What did you spot? (e.g. Jungle Green Chevy SS, heavily modified)" style={{ marginBottom: '12px' }} />
+          <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} className="input" style={{ marginBottom: '12px', fontSize: '13px' }} required />
+          <button type="submit" disabled={uploading} className="btn-neon" style={{ opacity: uploading ? 0.5 : 1, fontSize: '12px' }}>
+            {uploading ? 'Posting...' : '📸 Post Sighting'}
+          </button>
+        </form>
+      )}
+
+      {loading ? (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+          {[1,2,3].map(i => <div key={i} className="glass animate-pulse" style={{ height: '300px' }} />)}
+        </div>
+      ) : sightings.length === 0 ? (
+        <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
+          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📸</span>
+          <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No sightings yet</h2>
+          <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Be the first to spot a cool ride in the wild!</p>
+        </div>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+          {sightings.map((s) => (
+            <div key={s.id} className="glass overflow-hidden card-hover">
+              <div style={{ height: '220px', background: 'rgba(26,26,46,0.5)' }}>
+                <img src={s.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <div style={{ padding: '16px' }}>
+                {s.description && <p className="text-foreground" style={{ fontSize: '14px', marginBottom: '8px' }}>{s.description}</p>}
+                <p className="text-muted-light" style={{ fontSize: '12px' }}>📍 {s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <Link href={`/user/${s.spotter?.username}`} className="text-muted" style={{ fontSize: '12px' }}>by @{s.spotter?.username}</Link>
+                  <span className="text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                </div>
+                {s.claimed_vehicle_id && (
+                  <div style={{ marginTop: '8px', padding: '6px 10px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)' }}>
+                    <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600 }}>✓ Owner claimed this sighting!</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}

@@ -45,7 +45,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-5">
           <Link href="/explore" className="text-sm text-muted-light hover:text-purple-light transition-colors uppercase tracking-wider font-medium">
             Explore
           </Link>
@@ -57,6 +57,12 @@ export default function Navbar() {
           </Link>
           <Link href="/clubs" className="text-sm text-muted-light hover:text-purple-light transition-colors uppercase tracking-wider font-medium">
             Clubs
+          </Link>
+          <Link href="/spot" className="text-sm text-muted-light hover:text-neon-light transition-colors uppercase tracking-wider font-medium">
+            Spot
+          </Link>
+          <Link href="/wwyd" className="text-sm text-muted-light hover:text-neon-light transition-colors uppercase tracking-wider font-medium">
+            WWYD
           </Link>
         </div>
 
@@ -105,6 +111,11 @@ export default function Navbar() {
           <Link href="/feed" className="block py-2 text-sm text-muted-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Feed</Link>
           <Link href="/events" className="block py-2 text-sm text-muted-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Events</Link>
           <Link href="/clubs" className="block py-2 text-sm text-muted-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Clubs</Link>
+          <Link href="/spot" className="block py-2 text-sm text-neon-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Spot a Ride</Link>
+          <Link href="/wwyd" className="block py-2 text-sm text-muted-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>What Would You Do?</Link>
+          <Link href="/runs" className="block py-2 text-sm text-muted-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Crew Runs</Link>
+          <Link href="/challenges" className="block py-2 text-sm text-muted-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Challenges</Link>
+          <Link href="/leaderboard" className="block py-2 text-sm text-muted-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Leaderboard</Link>
           {user ? (
             <>
               <Link href="/garage/setup" className="block py-2 text-sm text-neon-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>My Garage</Link>

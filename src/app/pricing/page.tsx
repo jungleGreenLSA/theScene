@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 const FREE_FEATURES = [
-  '1 vehicle in your garage',
+  '2 vehicles in your garage',
   '5 photos per vehicle',
   'Basic specs & mod list',
   'Feed posting (1 photo per post)',
@@ -32,6 +32,10 @@ const PREMIUM_FEATURES = [
   'Unlimited marketplace listings (free gets 2)',
   'Verified seller badge in marketplace',
   'Premium flair on all posts & comments',
+  'Build cost tracker -- log what you spent on every mod',
+  'Instagram feed embed on your garage page',
+  'Sound clip uploads (exhaust clips)',
+  'Garage tour creator (structured walkaround)',
 ]
 
 const PREMIUM_HIGHLIGHTS = [
@@ -47,9 +51,9 @@ export default function PricingPage() {
   const [showPremiumDetails, setShowPremiumDetails] = useState(false)
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly')
 
-  const price = billingCycle === 'monthly' ? '$7.99' : '$69.99'
-  const perMonth = billingCycle === 'yearly' ? '$5.83' : '$7.99'
-  const savings = billingCycle === 'yearly' ? 'Save $26/year' : ''
+  const price = billingCycle === 'monthly' ? '$6.99' : '$69.99'
+  const perMonth = billingCycle === 'yearly' ? '$5.83' : '$6.99'
+  const savings = billingCycle === 'yearly' ? '2 months free!' : ''
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>

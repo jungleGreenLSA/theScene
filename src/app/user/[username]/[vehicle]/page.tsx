@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import GuestbookSection from '@/components/GuestbookSection'
 import PropsButton from '@/components/PropsButton'
+import GarageQR from '@/components/GarageQR'
 
 export async function generateMetadata({ params }: { params: Promise<{ username: string; vehicle: string }> }) {
   const { username, vehicle } = await params
@@ -138,11 +139,12 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
               </h1>
               <p className="text-lg text-purple-light mt-1">{vehicle.color}</p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4" style={{ flexWrap: 'wrap' }}>
               <PropsButton vehicleId={vehicle.id} initialCount={vehicle.props_count || 0} />
               <div className="text-sm text-muted">
                 👁 {vehicle.view_count || 0} views
               </div>
+              <GarageQR username={username} vehicleSlug={vehicleSlug} />
             </div>
           </div>
 
