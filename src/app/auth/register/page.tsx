@@ -8,6 +8,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
+  const [firstName, setFirstName] = useState('')
   const [phone, setPhone] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -42,7 +43,7 @@ export default function RegisterPage() {
         email,
         password,
         options: {
-          data: { username: username.toLowerCase() },
+          data: { username: username.toLowerCase(), first_name: firstName, full_name: firstName },
           emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
         },
       })
@@ -146,6 +147,11 @@ export default function RegisterPage() {
           </div>
 
           <form onSubmit={handleRegister}>
+            <div style={{ marginBottom: '16px' }}>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>First Name</label>
+              <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input" placeholder="Jeff" required />
+            </div>
+
             <div style={{ marginBottom: '16px' }}>
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Username</label>
               <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="input" placeholder="ex: chevyGuy95" required minLength={3} />

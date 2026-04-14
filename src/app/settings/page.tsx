@@ -21,6 +21,8 @@ interface Profile {
   bio: string
   location: string
   is_public: boolean
+  avatar_url: string
+  subscription_tier: string
 }
 
 export default function SettingsPage() {
@@ -100,6 +102,35 @@ export default function SettingsPage() {
       {/* Profile Settings */}
       <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
         <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '20px' }}>👤 Profile</h2>
+
+        {/* Avatar */}
+        <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <label style={{ cursor: 'pointer', position: 'relative' }}>
+            <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(124,58,237,0.3)' }}>
+              {profile?.avatar_url ? (
+                <img src={profile.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280' }}>📷</div>
+              )}
+            </div>
+            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#7c3aed', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: 'white' }}>✏</div>
+            <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={async (e) => {
+              const file = e.target.files?.[0]
+              if (!file || !profile) return
+              const filename = `${profile.id}/${Date.now()}.${file.name.split('.').pop()}`
+              await supabase.storage.from('avatars').upload(filename, file, { upsert: true })
+              const { data } = supabase.storage.from('avatars').getPublicUrl(filename)
+              await supabase.from('profiles').update({ avatar_url: data.publicUrl }).eq('id', profile.id)
+              setProfile({ ...profile, avatar_url: data.publicUrl })
+              setMessage('Avatar updated!')
+              setTimeout(() => setMessage(''), 3000)
+            }} />
+          </label>
+          <div>
+            <p className="text-foreground font-semibold" style={{ fontSize: '14px' }}>Profile Photo</p>
+            <p className="text-muted" style={{ fontSize: '11px' }}>Click to upload (JPEG, PNG, WebP, max 2MB)</p>
+          </div>
+        </div>
 
         <div style={{ marginBottom: '16px' }}>
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Display Name</label>

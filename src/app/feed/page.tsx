@@ -3,264 +3,122 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-
-interface Post {
-  id: string
-  content: string
-  props_count: number
-  comment_count: number
-  created_at: string
-  author: {
-    username: string
-    display_name: string
-    avatar_url: string
-  }
-  images: { image_url: string; sort_order: number }[]
-}
+import ActivityFeed from '@/components/ActivityFeed'
 
 export default function FeedPage() {
   const supabase = createClient()
-  const [posts, setPosts] = useState<Post[]>([])
-  const [loading, setLoading] = useState(true)
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null)
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [latestMembers, setLatestMembers] = useState<any[]>([])
+  const [onlineCount, setOnlineCount] = useState(0)
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const { data } = await supabase
-        .from('posts')
-        .select(`
-          *,
-          author:profiles(username, display_name, avatar_url),
-          images:post_images(image_url, sort_order)
-        `)
-        .eq('visibility', 'public')
+    const fetchSidebar = async () => {
+      // Latest members
+      const { data: members } = await supabase
+        .from('profiles')
+        .select('username, display_name, first_name, avatar_url, location, is_online, created_at')
+        .eq('is_public', true)
         .order('created_at', { ascending: false })
-        .limit(48)
+        .limit(8)
 
-      setPosts((data || []) as Post[])
-      setLoading(false)
+      setLatestMembers(members || [])
+
+      // Online count
+      const { count } = await supabase
+        .from('profiles')
+        .select('id', { count: 'exact', head: true })
+        .eq('is_online', true)
+
+      setOnlineCount(count || 0)
     }
-    fetchPosts()
+    fetchSidebar()
   }, [])
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
-        <div>
-          <h1 className="text-3xl font-bold">Feed</h1>
-          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>Latest from The Scene community</p>
-        </div>
-        <div className="flex items-center gap-3">
-          {/* View toggle */}
-          <div className="flex glass overflow-hidden">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`px-3 py-2 text-xs font-semibold transition-colors ${viewMode === 'grid' ? 'bg-purple/20 text-purple-light' : 'text-muted'}`}
-            >
-              ▦ Grid
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`px-3 py-2 text-xs font-semibold transition-colors ${viewMode === 'list' ? 'bg-purple/20 text-purple-light' : 'text-muted'}`}
-            >
-              ☰ List
-            </button>
-          </div>
-          <Link href="/feed/new" className="btn-primary text-xs">
-            New Post
-          </Link>
-        </div>
-      </div>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
 
-      {loading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-          {[1,2,3,4,5,6,7,8].map(i => (
-            <div key={i} className="aspect-square bg-surface-light rounded-lg animate-pulse" />
-          ))}
-        </div>
-      ) : posts.length === 0 ? (
-        <div className="glass p-16 text-center">
-          <span className="text-5xl block mb-4">📸</span>
-          <h2 className="text-xl font-bold mb-2">No posts yet</h2>
-          <p className="text-muted-light mb-6">Be the first to share something with The Scene.</p>
-          <Link href="/feed/new" className="btn-neon">Create a Post</Link>
-        </div>
-      ) : viewMode === 'grid' ? (
-        /* ===== INSTAGRAM-STYLE GRID ===== */
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-          {posts.map((post) => (
-            <button
-              key={post.id}
-              onClick={() => setSelectedPost(post)}
-              className="aspect-square bg-surface-light rounded-lg overflow-hidden relative group"
-            >
-              {post.images && post.images.length > 0 ? (
-                <img
-                  src={post.images[0].image_url}
-                  alt=""
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center p-4">
-                  <p className="text-sm text-muted-light line-clamp-4 text-center">{post.content}</p>
-                </div>
-              )}
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                <span className="text-white text-sm font-semibold">🤙 {post.props_count || 0}</span>
-                <span className="text-white text-sm font-semibold">💬 {post.comment_count || 0}</span>
-              </div>
-              {/* Multi-image indicator */}
-              {post.images && post.images.length > 1 && (
-                <div className="absolute top-2 right-2 bg-black/50 rounded px-1.5 py-0.5 text-[10px] text-white">
-                  +{post.images.length - 1}
-                </div>
-              )}
-            </button>
-          ))}
-        </div>
-      ) : (
-        /* ===== FACEBOOK-STYLE LIST ===== */
-        <div className="max-w-2xl mx-auto space-y-6">
-          {posts.map((post) => (
-            <article key={post.id} className="glass p-6 card-hover">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-surface-light flex items-center justify-center overflow-hidden">
-                  {post.author?.avatar_url ? (
-                    <img src={post.author.avatar_url} alt="" className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-sm text-muted">
-                      {post.author?.username?.charAt(0).toUpperCase() || '?'}
-                    </span>
-                  )}
-                </div>
-                <div>
-                  <Link href={`/user/${post.author?.username}`} className="text-sm font-semibold text-foreground hover:text-purple-light">
-                    {post.author?.display_name || post.author?.username}
-                  </Link>
-                  <p className="text-xs text-muted">
-                    {new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  </p>
-                </div>
-              </div>
-
-              {post.content && (
-                <p className="text-foreground mb-4 leading-relaxed">{post.content}</p>
-              )}
-
-              {post.images && post.images.length > 0 && (
-                <div className={`grid gap-2 mb-4 ${post.images.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
-                  {post.images.slice(0, 4).map((img, i) => (
-                    <div key={i} className="rounded-lg overflow-hidden bg-surface-light aspect-video">
-                      <img src={img.image_url} alt="" className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <div className="flex items-center gap-6 pt-3 border-t border-border">
-                <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light py-1">
-                  🤙 <span>{post.props_count || 0}</span>
-                </button>
-                <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-purple-light py-1">
-                  🔥 <span>Fire</span>
-                </button>
-                <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-purple-light py-1">
-                  💬 <span>{post.comment_count || 0}</span>
-                </button>
-              </div>
-            </article>
-          ))}
-        </div>
-      )}
-
-      {/* ===== POST DETAIL MODAL (opens when clicking grid item) ===== */}
-      {selectedPost && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedPost(null)} />
-          <div className="relative glass max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setSelectedPost(null)}
-              className="absolute top-4 right-4 text-muted-light hover:text-foreground text-2xl z-10"
-            >
-              &times;
-            </button>
-
-            {/* Images */}
-            {selectedPost.images && selectedPost.images.length > 0 && (
-              <div className="bg-surface-light">
-                <img
-                  src={selectedPost.images[0].image_url}
-                  alt=""
-                  className="w-full max-h-[50vh] object-contain"
-                />
-                {selectedPost.images.length > 1 && (
-                  <div className="flex gap-2 p-3 overflow-x-auto">
-                    {selectedPost.images.map((img, i) => (
-                      <img key={i} src={img.image_url} alt="" className="w-20 h-20 object-cover rounded cursor-pointer hover:opacity-80 transition-opacity" />
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Content */}
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-surface-light flex items-center justify-center overflow-hidden">
-                  {selectedPost.author?.avatar_url ? (
-                    <img src={selectedPost.author.avatar_url} alt="" className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-sm text-muted">
-                      {selectedPost.author?.username?.charAt(0).toUpperCase() || '?'}
-                    </span>
-                  )}
-                </div>
-                <div>
-                  <Link href={`/user/${selectedPost.author?.username}`} className="text-sm font-semibold text-foreground hover:text-purple-light">
-                    {selectedPost.author?.display_name || selectedPost.author?.username}
-                  </Link>
-                  <p className="text-xs text-muted">
-                    {new Date(selectedPost.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                  </p>
-                </div>
-              </div>
-
-              {selectedPost.content && (
-                <p className="text-foreground leading-relaxed mb-4">{selectedPost.content}</p>
-              )}
-
-              <div className="flex items-center gap-6 pt-4 border-t border-border">
-                <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light">
-                  🤙 <span>{selectedPost.props_count || 0} Props</span>
-                </button>
-                <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light">
-                  🔥 <span>Fire</span>
-                </button>
-                <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light">
-                  🔧 <span>Wrench</span>
-                </button>
-                <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light">
-                  🏆 <span>Trophy</span>
-                </button>
-                <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light">
-                  🏁 <span>Checkered</span>
-                </button>
-              </div>
-
-              {/* Comment section placeholder */}
-              <div className="mt-6 pt-4 border-t border-border">
-                <h3 className="text-sm font-semibold text-foreground mb-3">Comments</h3>
-                <div className="flex gap-2">
-                  <input className="input flex-1" placeholder="Add a comment..." />
-                  <button className="btn-primary text-xs">Post</button>
-                </div>
-              </div>
+        {/* Main feed */}
+        <div style={{ flex: '1 1 600px', minWidth: 0 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div>
+              <h1 className="text-3xl font-bold">Feed</h1>
+              <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>
+                What&apos;s happening on The Scene
+                {onlineCount > 0 && <span className="text-success" style={{ marginLeft: '8px' }}>● {onlineCount} online now</span>}
+              </p>
             </div>
           </div>
+
+          <ActivityFeed />
         </div>
-      )}
+
+        {/* Sidebar */}
+        <div style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Latest rides */}
+          <div className="glass" style={{ padding: '20px' }}>
+            <h3 className="font-bold text-foreground" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '14px' }}>
+              Latest Rides
+            </h3>
+            {latestMembers.length === 0 ? (
+              <p className="text-muted" style={{ fontSize: '12px' }}>No members yet. Be the first!</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {latestMembers.map((m) => (
+                  <Link key={m.username} href={`/user/${m.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px', borderRadius: '6px', transition: 'background 0.2s' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
+                  >
+                    <div style={{ position: 'relative', flexShrink: 0 }}>
+                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+                        {m.avatar_url ? (
+                          <img src={m.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        ) : (
+                          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#6b7280' }}>
+                            {m.username?.charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                      </div>
+                      {m.is_online && (
+                        <div style={{ position: 'absolute', bottom: -1, right: -1, width: '10px', height: '10px', borderRadius: '50%', background: '#22c55e', border: '2px solid #0c0c14' }} />
+                      )}
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <p className="text-foreground" style={{ fontSize: '12px', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {m.first_name || m.display_name || m.username}
+                      </p>
+                      {m.location && (
+                        <p className="text-muted" style={{ fontSize: '10px' }}>from {m.location}</p>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Quick links */}
+          <div className="glass" style={{ padding: '20px' }}>
+            <h3 className="font-bold text-foreground" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '14px' }}>
+              Quick Links
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Link href="/explore" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>🔍 Explore Builds</Link>
+              <Link href="/events" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>📅 Events</Link>
+              <Link href="/clubs" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>🏁 Clubs</Link>
+              <Link href="/garage/setup" style={{ fontSize: '13px', color: '#fb923c', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>🏠 Build Your Garage</Link>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(124,58,237,0.2)' }}>
+            <p className="text-foreground font-semibold" style={{ fontSize: '14px', marginBottom: '8px' }}>Unlock More with Premium</p>
+            <p className="text-muted" style={{ fontSize: '12px', marginBottom: '12px' }}>Unlimited garage, analytics, and more.</p>
+            <Link href="/pricing" className="btn-primary" style={{ fontSize: '11px', padding: '8px 16px', width: '100%', justifyContent: 'center', display: 'flex' }}>
+              Upgrade
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

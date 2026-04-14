@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import UserActions from '@/components/UserActions'
+import FollowButton from '@/components/FollowButton'
+import FollowLists from '@/components/FollowLists'
 
 export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params
@@ -27,122 +29,135 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
     .eq('is_public', true)
     .order('is_primary', { ascending: false })
 
-  const { data: followers } = await supabase
-    .from('follows')
-    .select('id')
-    .eq('following_id', profile.id)
-
-  const { data: following } = await supabase
-    .from('follows')
-    .select('id')
-    .eq('follower_id', profile.id)
-
   const { data: eventsAttended } = await supabase
     .from('event_rsvps')
     .select('id')
     .eq('user_id', profile.id)
 
-  // Calculate total props across all vehicles
   const totalProps = vehicles?.reduce((sum, v) => sum + (v.props_count || 0), 0) || 0
   const totalViews = vehicles?.reduce((sum, v) => sum + (v.view_count || 0), 0) || 0
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
       {/* Profile header */}
-      <div className="glass p-8 mb-8">
-        <div className="flex flex-col md:flex-row items-center gap-6">
-          <div className="w-24 h-24 rounded-full bg-surface-light border-2 border-purple/30 overflow-hidden flex items-center justify-center">
-            {profile.avatar_url ? (
-              <img src={profile.avatar_url} alt={profile.username} className="w-full h-full object-cover" />
-            ) : (
-              <span className="text-3xl text-muted">{profile.username.charAt(0).toUpperCase()}</span>
+      <div className="glass" style={{ padding: '32px', marginBottom: '24px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '20px' }}>
+          {/* Avatar with online indicator */}
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(124,58,237,0.3)' }}>
+              {profile.avatar_url ? (
+                <img src={profile.avatar_url} alt={profile.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', color: '#6b7280' }}>
+                  {profile.username.charAt(0).toUpperCase()}
+                </div>
+              )}
+            </div>
+            {profile.is_online && (
+              <div style={{ position: 'absolute', bottom: 2, right: 2, width: '16px', height: '16px', borderRadius: '50%', background: '#22c55e', border: '3px solid #12121e', boxShadow: '0 0 8px rgba(34,197,94,0.5)' }} />
             )}
           </div>
-          <div className="text-center md:text-left flex-1">
-            <h1 className="text-2xl font-bold text-foreground">{profile.display_name || profile.username}</h1>
-            <p className="text-purple-light text-sm">@{profile.username}</p>
+
+          {/* Name + meta */}
+          <div style={{ flex: 1, minWidth: '200px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <h1 className="text-2xl font-bold text-foreground">{profile.display_name || profile.username}</h1>
+              {profile.subscription_tier === 'premium' && (
+                <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.2)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa' }}>Premium</span>
+              )}
+              {profile.is_online && (
+                <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600 }}>● Active now</span>
+              )}
+            </div>
+            <p className="text-purple-light" style={{ fontSize: '14px' }}>@{profile.username}</p>
             {profile.location && (
-              <p className="text-muted-light text-sm mt-1">📍 {profile.location}</p>
+              <p className="text-muted-light" style={{ fontSize: '13px', marginTop: '4px' }}>📍 {profile.location}</p>
             )}
             {profile.bio && (
-              <p className="text-muted-light mt-3 max-w-lg">{profile.bio}</p>
+              <p className="text-muted-light" style={{ fontSize: '14px', marginTop: '8px', lineHeight: 1.6, maxWidth: '500px' }}>{profile.bio}</p>
             )}
-            <div className="flex flex-wrap items-center gap-4 mt-4 justify-center md:justify-start">
-              <span className="text-sm"><strong className="text-foreground">{followers?.length || 0}</strong> <span className="text-muted-light">followers</span></span>
-              <span className="text-sm"><strong className="text-foreground">{following?.length || 0}</strong> <span className="text-muted-light">following</span></span>
-              <span className="text-sm"><strong className="text-foreground">{vehicles?.length || 0}</strong> <span className="text-muted-light">rides</span></span>
+            <p className="text-muted" style={{ fontSize: '11px', marginTop: '6px' }}>
+              Joined {new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+            </p>
+
+            {/* Followers/Following */}
+            <div style={{ marginTop: '12px' }}>
+              <FollowLists userId={profile.id} />
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <button className="btn-primary text-xs">Follow</button>
+
+          {/* Actions */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            <FollowButton targetUserId={profile.id} targetUsername={profile.username} />
             <UserActions targetUserId={profile.id} targetUsername={profile.username} />
           </div>
         </div>
 
-        {/* Garage Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6 pt-6 border-t border-border">
-          <div className="text-center">
-            <div className="text-xl font-bold text-purple-light">🤙 {totalProps}</div>
-            <div className="text-xs text-muted-light uppercase tracking-wider mt-1">Total Props</div>
+        {/* Stats bar */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 120px), 1fr))', gap: '12px', marginTop: '20px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div className="text-purple-light font-bold" style={{ fontSize: '1.2rem' }}>🤙 {totalProps}</div>
+            <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Props</div>
           </div>
-          <div className="text-center">
-            <div className="text-xl font-bold text-purple-light">👁 {totalViews}</div>
-            <div className="text-xs text-muted-light uppercase tracking-wider mt-1">Total Views</div>
+          <div style={{ textAlign: 'center' }}>
+            <div className="text-purple-light font-bold" style={{ fontSize: '1.2rem' }}>👁 {totalViews}</div>
+            <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Views</div>
           </div>
-          <div className="text-center">
-            <div className="text-xl font-bold text-neon-light">📅 {eventsAttended?.length || 0}</div>
-            <div className="text-xs text-muted-light uppercase tracking-wider mt-1">Events Attended</div>
+          <div style={{ textAlign: 'center' }}>
+            <div className="text-neon-light font-bold" style={{ fontSize: '1.2rem' }}>📅 {eventsAttended?.length || 0}</div>
+            <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Events</div>
           </div>
-          <div className="text-center">
-            <div className="text-xl font-bold text-neon-light">📅 {new Date(profile.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</div>
-            <div className="text-xs text-muted-light uppercase tracking-wider mt-1">Member Since</div>
+          <div style={{ textAlign: 'center' }}>
+            <div className="text-neon-light font-bold" style={{ fontSize: '1.2rem' }}>🚗 {vehicles?.length || 0}</div>
+            <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Rides</div>
           </div>
         </div>
       </div>
 
       {/* Garage */}
-      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        🏠 <span>{profile.display_name || profile.username}&apos;s Garage</span>
+      <h2 className="font-bold text-foreground" style={{ fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        🏠 {profile.display_name || profile.username}&apos;s Garage
       </h2>
 
       {(!vehicles || vehicles.length === 0) ? (
-        <div className="glass p-12 text-center">
+        <div className="glass" style={{ padding: '40px 32px', textAlign: 'center' }}>
           <p className="text-muted-light">No vehicles in this garage yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '16px' }}>
           {vehicles.map((vehicle) => (
             <Link
               key={vehicle.id}
               href={`/user/${username}/${vehicle.slug}`}
               className="glass overflow-hidden card-hover group"
             >
-              <div className="h-48 bg-surface-light overflow-hidden">
+              <div style={{ height: '200px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                 {vehicle.primary_image_url ? (
                   <img
                     src={vehicle.primary_image_url}
                     alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="group-hover:scale-105 transition-transform duration-500"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-4xl">🚗</span>
+                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '40px' }}>🚗</span>
                   </div>
                 )}
               </div>
-              <div className="p-5">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-foreground group-hover:text-purple-light transition-colors">
+              <div style={{ padding: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <h3 className="font-bold text-foreground group-hover:text-purple-light transition-colors" style={{ fontSize: '1rem' }}>
                     {vehicle.year} {vehicle.make} {vehicle.model}
                   </h3>
-                  <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded bg-purple/10 text-purple-light border border-purple/20">
+                  <span className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)' }}>
                     {vehicle.build_status?.replace('_', ' ')}
                   </span>
                 </div>
-                <p className="text-sm text-muted-light mt-1">{vehicle.color} {vehicle.engine && `• ${vehicle.engine}`}</p>
-                <div className="flex items-center gap-4 mt-3 text-xs text-muted">
-                  <span>🤙 {vehicle.props_count || 0} props</span>
-                  <span>👁 {vehicle.view_count || 0} views</span>
+                <p className="text-muted-light" style={{ fontSize: '13px', marginTop: '4px' }}>{vehicle.color} {vehicle.engine && `· ${vehicle.engine}`}</p>
+                <div style={{ display: 'flex', gap: '12px', marginTop: '10px', fontSize: '12px' }}>
+                  <span className="text-muted">🤙 {vehicle.props_count || 0} props</span>
+                  <span className="text-muted">👁 {vehicle.view_count || 0} views</span>
                 </div>
               </div>
             </Link>

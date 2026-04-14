@@ -58,7 +58,7 @@ export default function EventsPage() {
           <h1 className="text-3xl font-bold">Events</h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>Car shows, meets, track days, and cruises</p>
         </div>
-        <Link href="/events/new" className="btn-primary text-xs">Create Event</Link>
+        <Link href="/events/create" className="btn-primary text-xs">Create Event</Link>
       </div>
 
       {/* Search */}
@@ -91,7 +91,7 @@ export default function EventsPage() {
           <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📅</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No upcoming events</h2>
           <p className="text-muted-light" style={{ marginBottom: '20px', fontSize: '0.9rem' }}>Be the first to list a car show or meet on The Scene.</p>
-          <Link href="/events/new" className="btn-neon">Create an Event</Link>
+          <Link href="/events/create" className="btn-neon">Create an Event</Link>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
