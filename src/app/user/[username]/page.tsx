@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import UserActions from '@/components/UserActions'
 
 export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params
@@ -72,7 +73,10 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
               <span className="text-sm"><strong className="text-foreground">{vehicles?.length || 0}</strong> <span className="text-muted-light">rides</span></span>
             </div>
           </div>
-          <button className="btn-primary text-xs">Follow</button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button className="btn-primary text-xs">Follow</button>
+            <UserActions targetUserId={profile.id} targetUsername={profile.username} />
+          </div>
         </div>
 
         {/* Garage Stats */}
