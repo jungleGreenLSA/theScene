@@ -5,48 +5,71 @@ export default function Home() {
   return (
     <>
       {/* ===== HERO ===== */}
-      <section className="relative flex items-center justify-center overflow-hidden" style={{ minHeight: '92vh' }}>
+      <section className="relative overflow-hidden" style={{ minHeight: '85vh', display: 'flex', alignItems: 'center' }}>
         <div className="absolute inset-0 bg-gradient-to-br from-background via-surface to-background" />
         <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-purple/10 blur-[120px] animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-neon/8 blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
 
-        {/* Watermark logo */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ opacity: 0.18 }}>
-          <Image src="/images/logo.png" alt="" width={700} height={700} aria-hidden="true" />
-        </div>
-
-        <div className="relative z-10 w-full text-center" style={{ maxWidth: '900px', margin: '0 auto', padding: '100px 32px' }}>
-          <div className="inline-block mb-8 px-5 py-2.5 rounded-full border border-purple/30 bg-purple/5">
-            <span className="text-xs font-semibold uppercase tracking-[3px] text-purple-light">
+        <div className="relative z-10 w-full" style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
+          {/* Badge at very top */}
+          <div className="text-center" style={{ marginBottom: '32px' }}>
+            <span style={{ display: 'inline-block', padding: '8px 20px', borderRadius: '50px', border: '1px solid rgba(124,58,237,0.3)', background: 'rgba(124,58,237,0.05)', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', color: '#a78bfa' }}>
               The car community, reimagined
             </span>
           </div>
 
-          <h1 className="font-bold tracking-tight leading-[1.08] mb-8" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}>
-            Your Ride Is Your
-            <br />
-            <span className="text-purple-light text-glow-purple">Identity.</span>
-          </h1>
+          {/* Desktop: logo left, text right. Mobile: logo above text */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '48px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {/* Logo - visible and glowing */}
+            <div className="relative flex-shrink-0" style={{ order: 0 }}>
+              <div className="absolute inset-0 rounded-full" style={{ background: 'rgba(124,58,237,0.25)', filter: 'blur(40px)' }} />
+              <Image
+                src="/images/logo.png"
+                alt="The Scene"
+                width={280}
+                height={280}
+                className="relative z-10"
+                style={{ filter: 'drop-shadow(0 0 30px rgba(124,58,237,0.4))' }}
+                priority
+              />
+            </div>
 
-          <p className="text-muted-light leading-relaxed mb-12" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', maxWidth: '640px', margin: '0 auto 48px' }}>
-            Build your garage. Show off your build. Connect with enthusiasts. Discover car shows and events across the country. Welcome to <strong className="text-neon-light">The Scene</strong>.
-          </p>
+            {/* Text content */}
+            <div style={{ flex: '1 1 400px', textAlign: 'left' }}>
+              <h1 className="font-bold tracking-tight leading-[1.08]" style={{ fontSize: 'clamp(2.2rem, 5vw, 4rem)', marginBottom: '20px' }}>
+                Your Ride Is Your
+                <br />
+                <span className="text-purple-light text-glow-purple">Identity.</span>
+              </h1>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/auth/register" className="btn-neon text-center" style={{ padding: '16px 40px', fontSize: '0.95rem' }}>
-              Build Your Garage
-            </Link>
-            <Link href="/explore" className="btn-outline text-center" style={{ padding: '16px 40px', fontSize: '0.95rem' }}>
-              Explore Builds
-            </Link>
+              <p className="text-muted-light leading-relaxed" style={{ fontSize: 'clamp(0.95rem, 1.8vw, 1.15rem)', maxWidth: '520px', marginBottom: '32px' }}>
+                Build your garage. Show off your build. Connect with enthusiasts. Discover car shows and events across the country. Welcome to <strong className="text-neon-light">The Scene</strong>.
+              </p>
+
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link href="/auth/register" className="btn-neon text-center" style={{ padding: '14px 36px', fontSize: '0.9rem' }}>
+                  Build Your Garage
+                </Link>
+                <Link href="/explore" className="btn-outline text-center" style={{ padding: '14px 36px', fontSize: '0.9rem' }}>
+                  Explore Builds
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Mobile: center everything */}
+        <style>{`
+          @media (max-width: 768px) {
+            .relative.flex-shrink-0 { order: -1 !important; }
+          }
+        `}</style>
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section style={{ padding: '80px 0' }}>
+      <section style={{ padding: '48px 0' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 32px' }}>
-          <div className="text-center" style={{ marginBottom: '56px' }}>
+          <div className="text-center" style={{ marginBottom: '32px' }}>
             <span className="text-xs font-semibold uppercase tracking-[3px] text-neon-light">How It Works</span>
             <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '12px' }}>
               More Than a Profile. <span className="text-purple-light">It&apos;s a Garage.</span>
@@ -72,9 +95,9 @@ export default function Home() {
       </section>
 
       {/* ===== PLATFORM FEATURES ===== */}
-      <section className="border-y border-border" style={{ padding: '80px 0' }}>
+      <section className="border-y border-border" style={{ padding: '48px 0' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 32px' }}>
-          <div className="text-center" style={{ marginBottom: '56px' }}>
+          <div className="text-center" style={{ marginBottom: '32px' }}>
             <span className="text-xs font-semibold uppercase tracking-[3px] text-purple-light">The Platform</span>
             <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '12px' }}>
               Everything Your Build <span className="text-neon-light">Deserves</span>
@@ -105,9 +128,9 @@ export default function Home() {
       </section>
 
       {/* ===== RIDE OF THE WEEK ===== */}
-      <section style={{ padding: '80px 0' }}>
+      <section style={{ padding: '48px 0' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 32px' }}>
-          <div className="text-center" style={{ marginBottom: '48px' }}>
+          <div className="text-center" style={{ marginBottom: '28px' }}>
             <span className="text-xs font-semibold uppercase tracking-[3px] text-neon-light">Featured</span>
             <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '12px' }}>
               Ride of the <span className="text-neon-light text-glow-neon">Week</span>
@@ -141,9 +164,9 @@ export default function Home() {
       </section>
 
       {/* ===== BROWSE BY CATEGORY ===== */}
-      <section className="border-y border-border" style={{ padding: '80px 0' }}>
+      <section className="border-y border-border" style={{ padding: '48px 0' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 32px' }}>
-          <div className="text-center" style={{ marginBottom: '48px' }}>
+          <div className="text-center" style={{ marginBottom: '28px' }}>
             <span className="text-xs font-semibold uppercase tracking-[3px] text-purple-light">Discover</span>
             <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '12px' }}>
               Find Your <span className="text-purple-light">People</span>
@@ -180,9 +203,9 @@ export default function Home() {
       </section>
 
       {/* ===== GARAGE STATS ===== */}
-      <section style={{ padding: '80px 0' }}>
+      <section style={{ padding: '48px 0' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 32px' }}>
-          <div className="text-center" style={{ marginBottom: '48px' }}>
+          <div className="text-center" style={{ marginBottom: '28px' }}>
             <span className="text-xs font-semibold uppercase tracking-[3px] text-neon-light">The Numbers</span>
             <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '12px' }}>
               Growing Every <span className="text-neon-light">Day</span>
@@ -207,14 +230,14 @@ export default function Home() {
       </section>
 
       {/* ===== FINAL CTA ===== */}
-      <section className="relative overflow-hidden" style={{ padding: '100px 0' }}>
+      <section className="relative overflow-hidden" style={{ padding: '56px 0' }}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-purple/8 blur-[150px]" />
 
         <div className="relative z-10 text-center" style={{ maxWidth: '700px', margin: '0 auto', padding: '0 32px' }}>
           <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', marginBottom: '24px' }}>
             Ready to Join <span className="text-neon-light text-glow-neon">The Scene</span>?
           </h2>
-          <p className="text-muted-light leading-relaxed" style={{ fontSize: '1.1rem', marginBottom: '48px', maxWidth: '560px', marginLeft: 'auto', marginRight: 'auto' }}>
+          <p className="text-muted-light leading-relaxed" style={{ fontSize: '1.1rem', marginBottom: '28px', maxWidth: '560px', marginLeft: 'auto', marginRight: 'auto' }}>
             Your build deserves more than a classified ad. Give it a home. Build your garage, share your story, and connect with the community.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
