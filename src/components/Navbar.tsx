@@ -79,7 +79,7 @@ export default function Navbar() {
               <Link href="/auth/login" className="btn-outline text-xs py-2 px-4">
                 Sign In
               </Link>
-              <Link href="/auth/register" className="btn-primary text-xs py-2 px-4">
+              <Link href="/pricing" className="btn-primary text-xs py-2 px-4">
                 Join The Scene
               </Link>
             </>
@@ -114,7 +114,7 @@ export default function Navbar() {
           ) : (
             <div className="flex gap-2 pt-2">
               <Link href="/auth/login" className="flex-1 btn-outline text-xs py-2 text-center" onClick={() => setMenuOpen(false)}>Sign In</Link>
-              <Link href="/auth/register" className="flex-1 btn-primary text-xs py-2 text-center" onClick={() => setMenuOpen(false)}>Join</Link>
+              <Link href="/pricing" className="flex-1 btn-primary text-xs py-2 text-center" onClick={() => setMenuOpen(false)}>Join</Link>
             </div>
           )}
         </div>
