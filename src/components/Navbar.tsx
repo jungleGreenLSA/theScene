@@ -73,6 +73,12 @@ export default function Navbar() {
               <Link href="/garage/setup" className="text-sm text-muted-light hover:text-neon-light transition-colors uppercase tracking-wider font-medium">
                 My Garage
               </Link>
+              <Link href="/analytics" className="text-sm text-muted-light hover:text-purple-light transition-colors uppercase tracking-wider font-medium">
+                Analytics
+              </Link>
+              <Link href="/journal" className="text-sm text-muted-light hover:text-purple-light transition-colors uppercase tracking-wider font-medium">
+                Journal
+              </Link>
               <Link href="/settings" className="text-sm text-muted-light hover:text-neon-light transition-colors uppercase tracking-wider font-medium">
                 Settings
               </Link>
@@ -119,6 +125,9 @@ export default function Navbar() {
           {user ? (
             <>
               <Link href="/garage/setup" className="block py-2 text-sm text-neon-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>My Garage</Link>
+              <Link href="/analytics" className="block py-2 text-sm text-purple-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Analytics ★</Link>
+              <Link href="/journal" className="block py-2 text-sm text-purple-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Build Journal ★</Link>
+              <Link href="/collections" className="block py-2 text-sm text-purple-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Collections ★</Link>
               <Link href="/settings" className="block py-2 text-sm text-muted-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Settings</Link>
               <button onClick={handleSignOut} className="w-full btn-outline text-xs py-2">Sign Out</button>
             </>
