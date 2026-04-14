@@ -82,11 +82,13 @@ export default function Home() {
               { icon: '🤙', title: 'Give & Get Props', desc: 'Show love for builds you respect. Props, guestbook entries, and trophy badges. The more props, the higher you climb.' },
               { icon: '📍', title: 'Discover & Connect', desc: 'Find car shows, meets, and track days near you. Browse builds by make, model, or location. Check in at events and share photos.' },
             ].map((f) => (
-              <div key={f.title} className="glass card-hover text-center" style={{ padding: '40px 32px' }}>
-                <div className="bg-purple/20 flex items-center justify-center mx-auto" style={{ width: '56px', height: '56px', borderRadius: '16px', marginBottom: '24px' }}>
-                  <span style={{ fontSize: '28px' }}>{f.icon}</span>
+              <div key={f.title} className="glass card-hover" style={{ padding: '28px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(124,58,237,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <span style={{ fontSize: '22px' }}>{f.icon}</span>
+                  </div>
+                  <h3 className="font-bold text-foreground" style={{ fontSize: '1.05rem' }}>{f.title}</h3>
                 </div>
-                <h3 className="font-bold text-foreground" style={{ fontSize: '1.15rem', marginBottom: '12px' }}>{f.title}</h3>
                 <p className="text-muted-light text-sm leading-relaxed">{f.desc}</p>
               </div>
             ))}
