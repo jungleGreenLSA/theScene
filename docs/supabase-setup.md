@@ -98,19 +98,104 @@ Email/password auth is enabled by default, but verify:
    - **Client Secret**: from Google Cloud Console
 5. Click **Save**
 
-## Step 6 -- Configure Auth URL Settings
+## Step 6 -- Set Up Facebook OAuth
+
+### 6.1 Create a Facebook App
+
+1. Go to [developers.facebook.com](https://developers.facebook.com)
+2. Click **My Apps** (top right) > **Create App**
+3. Select **Consumer** (or **None** if prompted for use case)
+4. App name: `The Scene`
+5. Click **Create App**
+6. On the app dashboard, find **Facebook Login** and click **Set Up**
+7. Choose **Web**
+8. For **Site URL**, enter your Supabase project URL:
+   ```
+   https://ehnijylwegzlrydlzicp.supabase.co
+   ```
+9. Click **Save** > **Continue**
+10. Go to **Facebook Login > Settings** (left sidebar)
+11. Under **Valid OAuth Redirect URIs**, add:
+    ```
+    https://ehnijylwegzlrydlzicp.supabase.co/auth/v1/callback
+    ```
+12. Click **Save Changes**
+13. Go to **Settings > Basic** (left sidebar)
+14. Copy the **App ID** and **App Secret** (click "Show" to reveal the secret)
+
+### 6.2 Add Facebook OAuth to Supabase
+
+1. In Supabase, go to **Authentication > Providers**
+2. Find **Facebook** and click to expand
+3. Toggle it **ON**
+4. Paste:
+   - **Client ID**: The App ID from Facebook
+   - **Client Secret**: The App Secret from Facebook
+5. Click **Save**
+
+### 6.3 Make the Facebook App Live
+
+By default, Facebook apps are in **Development Mode** and only you can log in. To allow other users:
+
+1. In the Facebook developer dashboard, go to **App Review > Permissions and Features**
+2. You need the **email** permission (should be auto-approved)
+3. Go to the top of the page and toggle **App Mode** from **Development** to **Live**
+4. You may need to provide a Privacy Policy URL (use `https://thescene.fyi/privacy`)
+
+---
+
+## Step 7 -- Set Up Phone (SMS) Authentication
+
+### 7.1 Enable Phone Provider in Supabase
+
+1. In Supabase, go to **Authentication > Providers**
+2. Find **Phone** and click to expand
+3. Toggle it **ON**
+4. Choose an SMS provider. Supabase supports:
+   - **Twilio** (recommended -- most reliable)
+   - **Messagebird**
+   - **Vonage**
+
+### 7.2 Set Up Twilio (Recommended)
+
+1. Create a Twilio account at [twilio.com](https://www.twilio.com)
+2. From the Twilio Console, get:
+   - **Account SID** (starts with `AC...`)
+   - **Auth Token**
+3. Get a phone number:
+   - Go to **Phone Numbers > Manage > Buy a Number**
+   - Buy a number with **SMS capability** (starts around $1/month)
+4. Copy the **Twilio phone number** (e.g. `+15551234567`)
+
+### 7.3 Configure Twilio in Supabase
+
+1. In Supabase **Authentication > Providers > Phone**
+2. Select **Twilio** as the SMS provider
+3. Fill in:
+   - **Twilio Account SID**: Your `AC...` value
+   - **Twilio Auth Token**: Your auth token
+   - **Twilio Message Service SID OR Sender Phone Number**: Your Twilio phone number (e.g. `+15551234567`)
+4. Click **Save**
+
+### 7.4 Test Phone Auth
+
+Try signing up with a phone number on the site. You should receive an SMS with a 6-digit verification code. Enter it to complete signup.
+
+**Note**: Twilio's free trial has limitations -- it can only send to verified phone numbers. Add your test numbers at **Twilio Console > Verified Caller IDs**. Once you upgrade to a paid Twilio account, any number can receive codes.
+
+---
+
+## Step 8 -- Configure Auth URL Settings
 
 1. Go to **Authentication > URL Configuration**
 2. Set:
-   - **Site URL**: `https://thescene.jeffsquier.dev` (or your current dev URL)
-   - **Redirect URLs**: Add all of these:
+   - **Site URL**: `https://thescene.fyi`
+   - **Redirect URLs**: Add:
      ```
-     https://thescene.jeffsquier.dev/auth/callback
-     http://localhost:3000/auth/callback
+     https://thescene.fyi/auth/callback
      ```
-   The localhost entry allows local development to work.
 
-## Step 7 -- Create the Database Schema
+## Step 9 -- Create the Database Schema
 
 1. Go to **SQL Editor** (left sidebar)
 2. Click **New query**
@@ -118,7 +203,7 @@ Email/password auth is enabled by default, but verify:
 4. Click **Run**
 5. Verify by going to **Table Editor** -- you should see all the tables
 
-## Step 8 -- Set Up Storage Buckets
+## Step 10 -- Set Up Storage Buckets
 
 1. Go to **Storage** (left sidebar)
 2. Create these buckets:
@@ -151,7 +236,7 @@ Email/password auth is enabled by default, but verify:
 - File size limit: `5MB`
 - Allowed MIME types: `image/jpeg, image/png, image/webp`
 
-## Step 9 -- Set Up Storage Policies
+## Step 11 -- Set Up Storage Policies
 
 For each bucket, you need access policies. Go to **Storage > Policies** for each bucket:
 
@@ -178,7 +263,7 @@ For each bucket, you need access policies. Go to **Storage > Policies** for each
 
 Adjust the bucket_id for each bucket. The folder structure will be: `user_id/filename.jpg`
 
-## Step 10 -- Configure Your .env.local File
+## Step 12 -- Configure Your .env.local File
 
 In your project root, create `.env.local`:
 
@@ -207,7 +292,7 @@ NEXT_PUBLIC_GOOGLE_MAPS_KEY="your-google-maps-api-key"
 
 **IMPORTANT**: `.env.local` is in `.gitignore` and will NOT be pushed to GitHub. Never commit this file.
 
-## Step 11 -- Verify Everything Works
+## Step 13 -- Verify Everything Works
 
 After setting up Supabase and deploying the app:
 
