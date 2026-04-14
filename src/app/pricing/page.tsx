@@ -58,13 +58,21 @@ export default function PricingPage() {
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
       {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '32px' }}>
         <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', color: '#a78bfa' }}>Choose Your Plan</span>
         <h1 className="font-bold text-foreground" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginTop: '8px' }}>
           Join <span className="text-neon-light text-glow-neon">The Scene</span>
         </h1>
         <p className="text-muted-light" style={{ marginTop: '12px', fontSize: '1rem', maxWidth: '500px', marginLeft: 'auto', marginRight: 'auto' }}>
           Start free. Upgrade when you&apos;re ready to unlock the full experience.
+        </p>
+      </div>
+
+      {/* Members-only notice */}
+      <div className="glass" style={{ padding: '16px 24px', marginBottom: '32px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', border: '1px solid rgba(124,58,237,0.2)' }}>
+        <p className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>🔒 Members-Only Community</p>
+        <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.5 }}>
+          Explore, Events, Clubs, What Would You Do, Spot a Ride, Crew Runs, Challenges, and Leaderboards are exclusively available to registered members. Create a free account to access the full Scene.
         </p>
       </div>
 

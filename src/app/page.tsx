@@ -51,8 +51,8 @@ export default function Home() {
                 <Link href="/auth/register" className="btn-neon text-center" style={{ padding: '14px 36px', fontSize: '0.9rem' }}>
                   Build Your Garage
                 </Link>
-                <Link href="/explore" className="btn-outline text-center" style={{ padding: '14px 36px', fontSize: '0.9rem' }}>
-                  Explore Builds
+                <Link href="/pricing" className="btn-outline text-center" style={{ padding: '14px 36px', fontSize: '0.9rem' }}>
+                  See What&apos;s Inside
                 </Link>
               </div>
             </div>
@@ -263,8 +263,8 @@ export default function Home() {
             <Link href="/auth/register" className="btn-neon" style={{ padding: '16px 40px', fontSize: '0.95rem' }}>
               Create Your Free Garage
             </Link>
-            <Link href="/explore" className="btn-outline" style={{ padding: '16px 40px', fontSize: '0.95rem' }}>
-              Browse Builds
+            <Link href="/pricing" className="btn-outline" style={{ padding: '16px 40px', fontSize: '0.95rem' }}>
+              See Plans
             </Link>
           </div>
         </div>

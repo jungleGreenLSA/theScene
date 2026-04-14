@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
 
   // Protect routes that require auth
-  const protectedPaths = ['/feed', '/garage', '/settings']
+  const protectedPaths = ['/feed', '/garage', '/settings', '/explore', '/events', '/clubs', '/wwyd', '/spot', '/runs', '/challenges', '/leaderboard']
   const isProtected = protectedPaths.some(path =>
     request.nextUrl.pathname.startsWith(path)
   )

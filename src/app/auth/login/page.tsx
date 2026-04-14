@@ -77,7 +77,7 @@ export default function LoginPage() {
           <h1 className="text-3xl font-bold">
             Welcome Back to <span className="text-purple-light">The Scene</span>
           </h1>
-          <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>Sign in to your garage</p>
+          <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>Sign in to access your garage, explore builds, events, and more</p>
         </div>
 
         <div className="glass" style={{ padding: '36px 32px' }}>
