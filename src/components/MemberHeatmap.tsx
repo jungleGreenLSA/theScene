@@ -95,20 +95,7 @@ export default function MemberHeatmap() {
         intensity: count / maxCount,
       }))
 
-      // If no real data yet, show a few demo spots to make the map look alive
-      if (spots.length === 0) {
-        const demoCities = ['dallas', 'phoenix', 'los angeles', 'chicago', 'miami', 'new york', 'houston', 'atlanta', 'denver', 'seattle']
-        demoCities.forEach((city, i) => {
-          const coords = CITY_COORDS[city]
-          if (coords) {
-            spots.push({
-              ...coords,
-              count: Math.floor(Math.random() * 15) + 2,
-              intensity: 0.3 + Math.random() * 0.7,
-            })
-          }
-        })
-      }
+      // No demo data -- only show real members
 
       setHotSpots(spots)
     }
