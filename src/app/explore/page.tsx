@@ -32,12 +32,7 @@ export default function ExplorePage() {
 
   const [search, setSearch] = useState('')
   const [make, setMake] = useState('')
-  const [color, setColor] = useState('')
-  const [buildStatus, setBuildStatus] = useState('')
   const [location, setLocation] = useState('')
-  const [partSearch, setPartSearch] = useState('')
-  const [sortBy, setSortBy] = useState('props')
-  const [showAdvanced, setShowAdvanced] = useState(false)
 
   const fetchVehicles = async () => {
     setLoading(true)
@@ -51,19 +46,11 @@ export default function ExplorePage() {
       .eq('is_public', true)
 
     if (make) query = query.ilike('make', `%${make}%`)
-    if (color) query = query.ilike('color', `%${color}%`)
-    if (buildStatus) query = query.eq('build_status', buildStatus)
     if (search) {
       query = query.or(`make.ilike.%${search}%,model.ilike.%${search}%`)
     }
 
-    if (sortBy === 'props') {
-      query = query.order('props_count', { ascending: false })
-    } else if (sortBy === 'newest') {
-      query = query.order('created_at', { ascending: false })
-    } else if (sortBy === 'views') {
-      query = query.order('view_count', { ascending: false })
-    }
+    query = query.order('props_count', { ascending: false })
 
     query = query.limit(48)
     const { data } = await query
@@ -87,29 +74,6 @@ export default function ExplorePage() {
     fetchVehicles()
   }
 
-  const searchByPart = async () => {
-    if (!partSearch.trim()) return
-    setLoading(true)
-
-    const { data: mods } = await supabase
-      .from('vehicle_modifications')
-      .select('vehicle_id, item, brand')
-      .or(`item.ilike.%${partSearch}%,brand.ilike.%${partSearch}%`)
-      .limit(100)
-
-    if (mods && mods.length > 0) {
-      const vehicleIds = [...new Set(mods.map(m => m.vehicle_id))]
-      const { data } = await supabase
-        .from('vehicles')
-        .select(`*, owner:profiles(username, display_name, avatar_url, location)`)
-        .in('id', vehicleIds)
-        .eq('is_public', true)
-      setVehicles((data || []) as Vehicle[])
-    } else {
-      setVehicles([])
-    }
-    setLoading(false)
-  }
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
@@ -159,38 +123,6 @@ export default function ExplorePage() {
           <button type="submit" className="btn-primary text-xs">Search</button>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          className="text-purple-light hover:text-neon-light transition-colors"
-          style={{ fontSize: '11px', marginTop: '10px', background: 'none', border: 'none', cursor: 'pointer' }}
-        >
-          {showAdvanced ? '▲ Hide' : '▼ Show'} Advanced Filters
-        </button>
-
-        {showAdvanced && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-            <input type="text" value={color} onChange={(e) => setColor(e.target.value)} placeholder="Color..." className="input" style={{ flex: '1 1 140px' }} />
-            <select value={buildStatus} onChange={(e) => setBuildStatus(e.target.value)} className="input" style={{ flex: '1 1 150px' }}>
-              <option value="">Build Status</option>
-              <option value="stock">Stock</option>
-              <option value="lightly_modified">Lightly Modified</option>
-              <option value="modified">Modified</option>
-              <option value="full_build">Full Build</option>
-              <option value="race_car">Race Car</option>
-              <option value="project">Project</option>
-            </select>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="input" style={{ flex: '1 1 140px' }}>
-              <option value="props">Most Props</option>
-              <option value="newest">Newest</option>
-              <option value="views">Most Viewed</option>
-            </select>
-            <input type="text" value={partSearch} onChange={(e) => setPartSearch(e.target.value)} placeholder="Search by part..." className="input" style={{ flex: '2 1 200px' }} />
-            <button type="button" onClick={searchByPart} className="btn-outline text-xs" style={{ whiteSpace: 'nowrap' }}>
-              Find by Part
-            </button>
-          </div>
-        )}
       </form>
 
       {/* AI Search Teaser */}
