@@ -11,10 +11,8 @@ interface Event {
   description: string
   cover_image_url: string
   event_date: string
-  end_date: string
   location_name: string
   location_address: string
-  admission_info: string
   categories: string[]
   status: string
   rsvp_count: number
@@ -30,20 +28,15 @@ export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [loading, setLoading] = useState(true)
   const [locationFilter, setLocationFilter] = useState('')
-  const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list')
 
   useEffect(() => {
     const fetchEvents = async () => {
       const { data } = await supabase
         .from('events')
-        .select(`
-          *,
-          organizer:profiles(username, display_name, avatar_url)
-        `)
+        .select(`*, organizer:profiles(username, display_name, avatar_url)`)
         .in('status', ['published', 'active'])
         .order('event_date', { ascending: true })
         .limit(30)
-
       setEvents((data || []) as Event[])
       setLoading(false)
     }
@@ -57,121 +50,51 @@ export default function EventsPage() {
       )
     : events
 
-  // Group by month for calendar-ish view
-  const eventsByMonth: Record<string, Event[]> = {}
-  filteredEvents.forEach(event => {
-    const month = new Date(event.event_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-    if (!eventsByMonth[month]) eventsByMonth[month] = []
-    eventsByMonth[month].push(event)
-  })
-
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 className="text-3xl font-bold">Events</h1>
-          <p className="text-muted-light mt-1">Car shows, meets, track days, and cruises</p>
+          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>Car shows, meets, track days, and cruises</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex glass overflow-hidden">
-            <button
-              onClick={() => setViewMode('list')}
-              className={`px-3 py-2 text-xs font-semibold transition-colors ${viewMode === 'list' ? 'bg-purple/20 text-purple-light' : 'text-muted'}`}
-            >
-              ☰ List
-            </button>
-            <button
-              onClick={() => setViewMode('calendar')}
-              className={`px-3 py-2 text-xs font-semibold transition-colors ${viewMode === 'calendar' ? 'bg-purple/20 text-purple-light' : 'text-muted'}`}
-            >
-              📅 Calendar
-            </button>
-          </div>
-          <Link href="/events/new" className="btn-primary text-xs">
-            Create Event
-          </Link>
-        </div>
+        <Link href="/events/new" className="btn-primary text-xs">Create Event</Link>
       </div>
 
-      {/* Search / Filter */}
-      <div className="glass p-4 mb-8">
-        <div className="flex flex-col md:flex-row gap-3">
-          <input
-            type="text"
-            value={locationFilter}
-            onChange={(e) => setLocationFilter(e.target.value)}
-            placeholder="Filter by city, state, or zip code..."
-            className="input flex-1"
-          />
-          <select className="input md:w-48">
-            <option value="">All Categories</option>
-            <option>Car Show</option>
-            <option>Car Meet</option>
-            <option>Track Day</option>
-            <option>Cruise</option>
-            <option>Swap Meet</option>
-            <option>Drag Race</option>
-            <option>Autocross</option>
-          </select>
-        </div>
+      {/* Search */}
+      <div className="glass" style={{ padding: '20px', marginBottom: '20px' }}>
+        <input
+          type="text"
+          value={locationFilter}
+          onChange={(e) => setLocationFilter(e.target.value)}
+          placeholder="Filter by city, state, or zip code..."
+          className="input"
+          style={{ width: '100%' }}
+        />
       </div>
 
+      {/* Results */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {[1,2,3].map(i => (
             <div key={i} className="glass overflow-hidden animate-pulse">
-              <div className="h-44 bg-surface-light" />
-              <div className="p-5 space-y-3">
-                <div className="h-4 bg-surface-light rounded w-3/4" />
-                <div className="h-3 bg-surface-light rounded w-1/2" />
+              <div style={{ height: '160px', background: 'rgba(26,26,46,0.5)' }} />
+              <div style={{ padding: '16px' }}>
+                <div style={{ height: '14px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
+                <div style={{ height: '12px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '50%' }} />
               </div>
             </div>
           ))}
         </div>
       ) : filteredEvents.length === 0 ? (
-        <div className="glass p-16 text-center">
-          <span className="text-6xl block mb-4">📅</span>
-          <h2 className="text-xl font-bold mb-2">No upcoming events</h2>
-          <p className="text-muted-light mb-6">Be the first to list a car show or meet on The Scene.</p>
+        <div className="glass text-center" style={{ padding: '48px 32px' }}>
+          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📅</span>
+          <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No upcoming events</h2>
+          <p className="text-muted-light" style={{ marginBottom: '20px', fontSize: '0.9rem' }}>Be the first to list a car show or meet on The Scene.</p>
           <Link href="/events/new" className="btn-neon">Create an Event</Link>
         </div>
-      ) : viewMode === 'calendar' ? (
-        /* ===== CALENDAR VIEW (grouped by month) ===== */
-        <div className="space-y-10">
-          {Object.entries(eventsByMonth).map(([month, monthEvents]) => (
-            <div key={month}>
-              <h2 className="text-xl font-bold text-purple-light mb-4 flex items-center gap-2">
-                📅 {month}
-              </h2>
-              <div className="space-y-3">
-                {monthEvents.map((event) => {
-                  const d = new Date(event.event_date)
-                  return (
-                    <Link key={event.id} href={`/events/${event.slug}`} className="glass p-4 flex items-center gap-5 card-hover group">
-                      <div className="flex-shrink-0 w-16 text-center">
-                        <div className="text-xs text-neon-light font-bold uppercase">{d.toLocaleDateString('en-US', { weekday: 'short' })}</div>
-                        <div className="text-2xl font-bold text-foreground">{d.getDate()}</div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-foreground group-hover:text-purple-light transition-colors truncate">{event.title}</h3>
-                        <p className="text-sm text-muted-light truncate">📍 {event.location_name || event.location_address || 'TBD'}</p>
-                      </div>
-                      <div className="flex-shrink-0 text-right">
-                        <span className="text-sm text-muted">👥 {event.rsvp_count || 0}</span>
-                        {event.categories && event.categories.length > 0 && (
-                          <span className="block text-[10px] uppercase tracking-wider text-purple-light mt-1">{event.categories[0]}</span>
-                        )}
-                      </div>
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
       ) : (
-        /* ===== LIST/CARD VIEW ===== */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {filteredEvents.map((event) => {
             const eventDate = new Date(event.event_date)
             const month = eventDate.toLocaleDateString('en-US', { month: 'short' })
@@ -179,44 +102,42 @@ export default function EventsPage() {
 
             return (
               <Link key={event.id} href={`/events/${event.slug}`} className="glass overflow-hidden card-hover group">
-                <div className="h-44 bg-surface-light relative overflow-hidden">
+                <div style={{ height: '160px', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                   {event.cover_image_url ? (
-                    <img src={event.cover_image_url} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={event.cover_image_url} alt={event.title} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple/10 to-neon/10">
-                      <span className="text-4xl">🏁</span>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))' }}>
+                      <span style={{ fontSize: '36px' }}>🏁</span>
                     </div>
                   )}
-                  <div className="absolute top-3 left-3 bg-background/90 border border-border rounded-lg px-3 py-2 text-center">
-                    <div className="text-xs text-neon-light font-bold uppercase">{month}</div>
-                    <div className="text-xl font-bold text-foreground leading-none">{day}</div>
+                  {/* Date badge */}
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(12,12,20,0.9)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
+                    <div className="text-neon-light font-bold" style={{ fontSize: '10px', textTransform: 'uppercase' }}>{month}</div>
+                    <div className="text-foreground font-bold" style={{ fontSize: '20px', lineHeight: 1 }}>{day}</div>
                   </div>
-                  {/* Check-in badge for active events */}
+                  {/* Live badge */}
                   {event.status === 'active' && (
-                    <div className="absolute top-3 right-3 bg-neon/90 text-background text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded animate-pulse">
+                    <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(249,115,22,0.9)', color: '#0c0c14', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '4px 10px', borderRadius: '4px' }}>
                       Live Now
                     </div>
                   )}
                 </div>
 
-                <div className="p-5">
-                  <h3 className="font-bold text-foreground group-hover:text-purple-light transition-colors mb-2">
+                <div style={{ padding: '16px' }}>
+                  <h3 className="font-bold text-foreground group-hover:text-purple-light transition-colors" style={{ fontSize: '0.95rem', marginBottom: '6px' }}>
                     {event.title}
                   </h3>
-                  <p className="text-sm text-muted-light flex items-center gap-2 mb-1">
+                  <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '4px' }}>
                     📍 {event.location_name || event.location_address || 'TBD'}
                   </p>
-                  <div className="flex items-center justify-between mt-3">
-                    <span className="text-sm text-muted">👥 {event.rsvp_count || 0} interested</span>
-                    {event.status === 'active' && (
-                      <span className="btn-neon text-[10px] py-1 px-3">Check In</span>
-                    )}
-                  </div>
+                  <p className="text-muted" style={{ fontSize: '13px' }}>
+                    👥 {event.rsvp_count || 0} interested
+                  </p>
 
                   {event.categories && event.categories.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-3">
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '10px' }}>
                       {event.categories.slice(0, 3).map((cat: string) => (
-                        <span key={cat} className="text-[10px] uppercase tracking-wider font-semibold px-2 py-1 rounded bg-purple/10 text-purple-light border border-purple/20">
+                        <span key={cat} className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)' }}>
                           {cat}
                         </span>
                       ))}

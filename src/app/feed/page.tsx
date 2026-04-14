@@ -45,11 +45,11 @@ export default function FeedPage() {
   }, [])
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 className="text-2xl font-bold">Feed</h1>
-          <p className="text-muted-light text-sm mt-1">Latest from The Scene community</p>
+          <h1 className="text-3xl font-bold">Feed</h1>
+          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>Latest from The Scene community</p>
         </div>
         <div className="flex items-center gap-3">
           {/* View toggle */}
