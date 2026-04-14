@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import MemberHeatmap from '@/components/MemberHeatmap'
 
 export default function Home() {
   return (
@@ -93,6 +94,22 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ===== MEMBER HEATMAP ===== */}
+      <section style={{ padding: '48px 0' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 32px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', color: '#fb923c' }}>Live Map</span>
+            <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '8px' }}>
+              Where The <span className="text-neon-light text-glow-neon">Action</span> Is
+            </h2>
+            <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem', maxWidth: '500px', marginLeft: 'auto', marginRight: 'auto' }}>
+              See where members are building across the country. Click a hot spot to zoom in.
+            </p>
+          </div>
+          <MemberHeatmap />
         </div>
       </section>
 
