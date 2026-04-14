@@ -208,14 +208,9 @@ export default function Home() {
 
       {/* ===== FINAL CTA ===== */}
       <section className="relative overflow-hidden" style={{ padding: '100px 0' }}>
-        {/* Watermark logo */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ opacity: 0.12 }}>
-          <Image src="/images/logo.png" alt="" width={500} height={500} aria-hidden="true" />
-        </div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-purple/8 blur-[150px]" />
 
         <div className="relative z-10 text-center" style={{ maxWidth: '700px', margin: '0 auto', padding: '0 32px' }}>
-          <Image src="/images/logo.png" alt="The Scene" width={120} height={120} className="mx-auto drop-shadow-2xl" style={{ marginBottom: '40px' }} />
           <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', marginBottom: '24px' }}>
             Ready to Join <span className="text-neon-light text-glow-neon">The Scene</span>?
           </h2>

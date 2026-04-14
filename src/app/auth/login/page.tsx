@@ -40,7 +40,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '32px' }}>
+    <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
       <div style={{ maxWidth: '440px', width: '100%' }}>
         <div className="text-center" style={{ marginBottom: '32px' }}>
           <h1 className="text-3xl font-bold">

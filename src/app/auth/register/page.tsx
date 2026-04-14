@@ -60,7 +60,7 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '32px' }}>
+      <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
         <div className="glass text-center" style={{ padding: '48px 40px', maxWidth: '440px', width: '100%' }}>
           <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>📧</span>
           <h2 className="text-2xl font-bold" style={{ marginBottom: '12px' }}>Check Your Email</h2>
@@ -76,7 +76,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '32px' }}>
+    <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
       <div style={{ maxWidth: '440px', width: '100%' }}>
         <div className="text-center" style={{ marginBottom: '32px' }}>
           <h1 className="text-3xl font-bold">
@@ -116,7 +116,7 @@ export default function RegisterPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="input"
-                placeholder="your_username"
+                placeholder="ex: chevyGuy95"
                 required
                 minLength={3}
               />
