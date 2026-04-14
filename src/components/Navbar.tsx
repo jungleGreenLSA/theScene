@@ -67,6 +67,9 @@ export default function Navbar() {
               <Link href="/garage/setup" className="text-sm text-muted-light hover:text-neon-light transition-colors uppercase tracking-wider font-medium">
                 My Garage
               </Link>
+              <Link href="/settings" className="text-sm text-muted-light hover:text-neon-light transition-colors uppercase tracking-wider font-medium">
+                Settings
+              </Link>
               <button onClick={handleSignOut} className="btn-outline text-xs py-2 px-4">
                 Sign Out
               </button>
@@ -105,6 +108,7 @@ export default function Navbar() {
           {user ? (
             <>
               <Link href="/garage/setup" className="block py-2 text-sm text-neon-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>My Garage</Link>
+              <Link href="/settings" className="block py-2 text-sm text-muted-light uppercase tracking-wider" onClick={() => setMenuOpen(false)}>Settings</Link>
               <button onClick={handleSignOut} className="w-full btn-outline text-xs py-2">Sign Out</button>
             </>
           ) : (

@@ -34,6 +34,7 @@ export default function GarageSetupPage() {
     bio: '',
     location: '',
     club_affiliation: '',
+    visibility: 'public',
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -75,6 +76,7 @@ export default function GarageSetupPage() {
       build_status: form.build_status,
       bio: form.bio,
       club_affiliation: form.club_affiliation,
+      is_public: form.visibility === 'public',
       is_primary: true,
     })
 
@@ -226,6 +228,58 @@ export default function GarageSetupPage() {
             rows={4}
             placeholder="Tell the story of your build... What makes it special? What have you done to it? What are your plans?"
           />
+        </div>
+
+        {/* Visibility */}
+        <div>
+          <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+            🔒 Visibility
+          </h2>
+          <p className="text-muted-light text-sm mb-4">Choose who can see your garage page. You can change this anytime in settings.</p>
+          <div className="grid grid-cols-2 gap-3">
+            <label
+              className={`flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
+                form.visibility === 'public'
+                  ? 'border-purple bg-purple/10'
+                  : 'border-border bg-surface hover:border-border-hover'
+              }`}
+            >
+              <input
+                type="radio"
+                name="visibility"
+                value="public"
+                checked={form.visibility === 'public'}
+                onChange={handleChange}
+                className="sr-only"
+              />
+              <div>
+                <span style={{ fontSize: '24px', display: 'block', marginBottom: '6px' }}>🌎</span>
+                <span className={`text-sm font-semibold block ${form.visibility === 'public' ? 'text-purple-light' : 'text-muted-light'}`}>Public</span>
+                <span className="text-xs text-muted block mt-1">Anyone can find and view your garage, specs, mods, photos, and guestbook.</span>
+              </div>
+            </label>
+            <label
+              className={`flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
+                form.visibility === 'private'
+                  ? 'border-purple bg-purple/10'
+                  : 'border-border bg-surface hover:border-border-hover'
+              }`}
+            >
+              <input
+                type="radio"
+                name="visibility"
+                value="private"
+                checked={form.visibility === 'private'}
+                onChange={handleChange}
+                className="sr-only"
+              />
+              <div>
+                <span style={{ fontSize: '24px', display: 'block', marginBottom: '6px' }}>🔒</span>
+                <span className={`text-sm font-semibold block ${form.visibility === 'private' ? 'text-purple-light' : 'text-muted-light'}`}>Private</span>
+                <span className="text-xs text-muted block mt-1">Only people with your direct link can view your garage. Hidden from search and explore.</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         {error && (
