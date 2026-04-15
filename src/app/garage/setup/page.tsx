@@ -101,15 +101,15 @@ export default function GarageSetupPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">
+    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+        <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>
           Build Your <span className="text-neon-light text-glow-neon">Garage</span>
         </h1>
-        <p className="text-muted-light">Tell us about your ride</p>
+        <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Tell us about your ride</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="glass p-8 space-y-6">
+      <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {/* Vehicle basics */}
         <div>
           <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">

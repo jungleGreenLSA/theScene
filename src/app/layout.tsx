@@ -48,7 +48,7 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} dark`}>
       <body className="antialiased">
         <Navbar />
-        <main className="min-h-screen pt-16">
+        <main className="min-h-screen" style={{ paddingTop: '56px' }}>
           {children}
         </main>
         <Footer />
