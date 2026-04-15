@@ -7,12 +7,12 @@ import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
 const NAV_LINKS = [
-  { href: '/explore', label: 'Explore' },
-  { href: '/feed', label: 'Feed' },
-  { href: '/events', label: 'Events' },
-  { href: '/clubs', label: 'Clubs' },
-  { href: '/spot', label: 'Spot' },
-  { href: '/wwyd', label: 'WWYD' },
+  { href: '/explore', label: 'Explore', membersOnly: true },
+  { href: '/feed', label: 'Feed', membersOnly: true },
+  { href: '/events', label: 'Events', membersOnly: true },
+  { href: '/clubs', label: 'Clubs', membersOnly: true },
+  { href: '/spot', label: 'Spot', membersOnly: false },
+  { href: '/wwyd', label: 'WWYD', membersOnly: true },
 ]
 
 export default function Navbar() {
@@ -51,7 +51,7 @@ export default function Navbar() {
 
         {/* Desktop Nav - center links with active state */}
         <div className="hidden lg:flex items-center gap-1">
-          {NAV_LINKS.map(link => (
+          {NAV_LINKS.filter(link => !link.membersOnly || user).map(link => (
             <Link
               key={link.href}
               href={link.href}
@@ -102,10 +102,10 @@ export default function Navbar() {
         <div className="lg:hidden bg-[#0c0c14]/97 border-t border-border" style={{ padding: '12px 24px 16px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
             {[...NAV_LINKS,
-              { href: '/runs', label: 'Crew Runs' },
-              { href: '/challenges', label: 'Challenges' },
-              { href: '/leaderboard', label: 'Leaderboard' },
-            ].map(link => (
+              { href: '/runs', label: 'Crew Runs', membersOnly: true },
+              { href: '/challenges', label: 'Challenges', membersOnly: true },
+              { href: '/leaderboard', label: 'Leaderboard', membersOnly: true },
+            ].filter(link => !link.membersOnly || user).map(link => (
               <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
                 style={{ padding: '10px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: 500, color: isActive(link.href) ? '#a78bfa' : '#9ca3af', background: isActive(link.href) ? 'rgba(124,58,237,0.1)' : 'transparent' }}>
                 {link.label}
