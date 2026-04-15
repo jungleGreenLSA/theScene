@@ -8,10 +8,10 @@ import type { User } from '@supabase/supabase-js'
 
 const NAV_LINKS = [
   { href: '/explore', label: 'Explore', membersOnly: true },
-  { href: '/feed', label: 'Feed', membersOnly: true },
+  { href: '/feed', label: 'Feed', membersOnly: false },
   { href: '/events', label: 'Events', membersOnly: true },
   { href: '/clubs', label: 'Clubs', membersOnly: true },
-  { href: '/spot', label: 'Spot', membersOnly: false },
+  { href: '/spot', label: 'Spot', membersOnly: true },
   { href: '/wwyd', label: 'WWYD', membersOnly: true },
 ]
 
@@ -49,8 +49,8 @@ export default function Navbar() {
           THE<span style={{ color: '#a78bfa' }}>SCENE</span>
         </Link>
 
-        {/* Desktop Nav - center links with active state */}
-        <div className="hidden lg:flex items-center gap-1">
+        {/* Desktop Nav + Right side grouped */}
+        <div className="hidden lg:flex items-center gap-1" style={{ marginLeft: 'auto' }}>
           {NAV_LINKS.filter(link => !link.membersOnly || user).map(link => (
             <Link
               key={link.href}
@@ -68,10 +68,7 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-        </div>
-
-        {/* Right side */}
-        <div className="hidden lg:flex items-center gap-3">
+          <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.08)', margin: '0 8px' }} />
           {user ? (
             <>
               <Link href="/garage/setup" style={{ fontSize: '13px', fontWeight: 600, color: isActive('/garage') ? '#fb923c' : '#8892a4' }}>Garage</Link>
