@@ -27,8 +27,7 @@ export default function LoginPage() {
       setError(error.message)
       setLoading(false)
     } else {
-      router.push('/feed')
-      router.refresh()
+      window.location.href = '/feed'
     }
   }
 
@@ -57,8 +56,7 @@ export default function LoginPage() {
       setError(error.message)
       setLoading(false)
     } else {
-      router.push('/feed')
-      router.refresh()
+      window.location.href = '/feed'
     }
   }
 

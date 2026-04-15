@@ -33,29 +33,30 @@ export default function Navbar() {
     }`}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }} className="h-14 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" style={{ flexShrink: 0 }}>
-          <Image src="/images/logo.png" alt="The Scene" width={36} height={36} className="rounded-full" />
+        <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Image src="/images/logo.png" alt="The Scene" width={40} height={40} className="rounded-full" />
+          <span className="hidden sm:inline" style={{ fontSize: '15px', fontWeight: 700, letterSpacing: '1px', color: '#e2e4e9' }}>THE<span style={{ color: '#a78bfa' }}>SCENE</span></span>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-4" style={{ fontSize: '11px' }}>
-          <Link href="/explore" className="text-muted-light hover:text-purple-light transition-colors uppercase tracking-wider font-semibold">Explore</Link>
-          <Link href="/feed" className="text-muted-light hover:text-purple-light transition-colors uppercase tracking-wider font-semibold">Feed</Link>
-          <Link href="/events" className="text-muted-light hover:text-purple-light transition-colors uppercase tracking-wider font-semibold">Events</Link>
-          <Link href="/clubs" className="text-muted-light hover:text-purple-light transition-colors uppercase tracking-wider font-semibold">Clubs</Link>
-          <Link href="/spot" className="text-muted-light hover:text-neon-light transition-colors uppercase tracking-wider font-semibold">Spot</Link>
-          <Link href="/wwyd" className="text-muted-light hover:text-neon-light transition-colors uppercase tracking-wider font-semibold">WWYD</Link>
+        <div className="hidden lg:flex items-center gap-5" style={{ fontSize: '13px' }}>
+          <Link href="/explore" style={{ color: '#9ca3af', fontWeight: 600 }} className="hover:text-purple-light transition-colors">Explore</Link>
+          <Link href="/feed" style={{ color: '#9ca3af', fontWeight: 600 }} className="hover:text-purple-light transition-colors">Feed</Link>
+          <Link href="/events" style={{ color: '#9ca3af', fontWeight: 600 }} className="hover:text-purple-light transition-colors">Events</Link>
+          <Link href="/clubs" style={{ color: '#9ca3af', fontWeight: 600 }} className="hover:text-purple-light transition-colors">Clubs</Link>
+          <Link href="/spot" style={{ color: '#fb923c', fontWeight: 600 }} className="hover:text-neon-light transition-colors">Spot</Link>
+          <Link href="/wwyd" style={{ color: '#9ca3af', fontWeight: 600 }} className="hover:text-neon-light transition-colors">WWYD</Link>
         </div>
 
         {/* Right side */}
         <div className="hidden lg:flex items-center gap-3">
           {user ? (
             <>
-              <Link href="/garage/setup" style={{ fontSize: '11px' }} className="text-muted-light hover:text-neon-light transition-colors uppercase tracking-wider font-semibold">Garage</Link>
-              <Link href="/analytics" style={{ fontSize: '11px' }} className="text-muted-light hover:text-purple-light transition-colors uppercase tracking-wider font-semibold">Analytics</Link>
-              <Link href="/settings" style={{ fontSize: '11px' }} className="text-muted-light hover:text-muted transition-colors uppercase tracking-wider font-semibold">Settings</Link>
-              <button onClick={handleSignOut} style={{ padding: '6px 14px', borderRadius: '6px', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#6b7280', cursor: 'pointer' }}>
-                Out
+              <Link href="/garage/setup" style={{ fontSize: '13px', color: '#fb923c', fontWeight: 600 }} className="hover:text-neon-light transition-colors">Garage</Link>
+              <Link href="/analytics" style={{ fontSize: '13px', color: '#a78bfa', fontWeight: 600 }} className="hover:text-purple-bright transition-colors">Analytics</Link>
+              <Link href="/settings" style={{ fontSize: '13px', color: '#9ca3af', fontWeight: 600 }} className="hover:text-foreground transition-colors">Settings</Link>
+              <button onClick={handleSignOut} style={{ padding: '7px 16px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', cursor: 'pointer' }}>
+                Sign Out
               </button>
             </>
           ) : (

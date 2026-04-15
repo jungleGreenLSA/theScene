@@ -232,51 +232,37 @@ export default function GarageSetupPage() {
 
         {/* Visibility */}
         <div>
-          <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-            🔒 Visibility
-          </h2>
-          <p className="text-muted-light text-sm mb-4">Choose who can see your garage page. You can change this anytime in settings.</p>
-          <div className="grid grid-cols-2 gap-3">
+          <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>🔒 Visibility</h2>
+          <p style={{ fontSize: '13px', color: '#9ca3af', marginBottom: '14px' }}>Choose who can see your garage page. You can change this anytime in settings.</p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <label
-              className={`flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
-                form.visibility === 'public'
-                  ? 'border-purple bg-purple/10'
-                  : 'border-border bg-surface hover:border-border-hover'
-              }`}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '12px', padding: '16px',
+                borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s',
+                background: form.visibility === 'public' ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
+                border: form.visibility === 'public' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.08)',
+              }}
             >
-              <input
-                type="radio"
-                name="visibility"
-                value="public"
-                checked={form.visibility === 'public'}
-                onChange={handleChange}
-                className="sr-only"
-              />
+              <input type="radio" name="visibility" value="public" checked={form.visibility === 'public'} onChange={handleChange} style={{ display: 'none' }} />
+              <span style={{ fontSize: '28px', flexShrink: 0 }}>🌎</span>
               <div>
-                <span style={{ fontSize: '24px', display: 'block', marginBottom: '6px' }}>🌎</span>
-                <span className={`text-sm font-semibold block ${form.visibility === 'public' ? 'text-purple-light' : 'text-muted-light'}`}>Public</span>
-                <span className="text-xs text-muted block mt-1">Anyone can find and view your garage, specs, mods, photos, and guestbook.</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: form.visibility === 'public' ? '#a78bfa' : '#9ca3af', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginTop: '2px', lineHeight: 1.4 }}>Anyone can find and view your garage.</span>
               </div>
             </label>
             <label
-              className={`flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
-                form.visibility === 'private'
-                  ? 'border-purple bg-purple/10'
-                  : 'border-border bg-surface hover:border-border-hover'
-              }`}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '12px', padding: '16px',
+                borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s',
+                background: form.visibility === 'private' ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
+                border: form.visibility === 'private' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.08)',
+              }}
             >
-              <input
-                type="radio"
-                name="visibility"
-                value="private"
-                checked={form.visibility === 'private'}
-                onChange={handleChange}
-                className="sr-only"
-              />
+              <input type="radio" name="visibility" value="private" checked={form.visibility === 'private'} onChange={handleChange} style={{ display: 'none' }} />
+              <span style={{ fontSize: '28px', flexShrink: 0 }}>🔒</span>
               <div>
-                <span style={{ fontSize: '24px', display: 'block', marginBottom: '6px' }}>🔒</span>
-                <span className={`text-sm font-semibold block ${form.visibility === 'private' ? 'text-purple-light' : 'text-muted-light'}`}>Private</span>
-                <span className="text-xs text-muted block mt-1">Only people with your direct link can view your garage. Hidden from search and explore.</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: form.visibility === 'private' ? '#a78bfa' : '#9ca3af', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginTop: '2px', lineHeight: 1.4 }}>Only people with your direct link can view.</span>
               </div>
             </label>
           </div>
