@@ -158,7 +158,8 @@ export default function SettingsPage() {
             defaultValue={profile?.display_name || ''}
             onBlur={(e) => updateProfile('display_name', e.target.value)}
             className="input"
-            placeholder="Your display name"
+            placeholder="Enter your display name"
+            maxLength={128}
           />
         </div>
 
@@ -170,6 +171,7 @@ export default function SettingsPage() {
             className="input"
             rows={3}
             placeholder="Tell people about yourself..."
+            maxLength={500}
           />
         </div>
 
@@ -180,7 +182,8 @@ export default function SettingsPage() {
             defaultValue={profile?.location || ''}
             onBlur={(e) => updateProfile('location', e.target.value)}
             className="input"
-            placeholder="Dallas, TX"
+            placeholder="City, State"
+            maxLength={128}
           />
         </div>
       </div>
