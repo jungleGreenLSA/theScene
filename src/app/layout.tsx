@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "The Scene";
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thescene.fyi";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thescene.jeffsquier.dev";
 
 export const metadata: Metadata = {
   title: {

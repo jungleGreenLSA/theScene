@@ -35,9 +35,9 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} The Scene. All rights reserved.
           </p>
           <p style={{ fontSize: '12px' }}>
-            <a href="mailto:support@thescene.fyi" style={{ color: '#a78bfa' }}>Contact Support</a>
+            <a href="mailto:support@thescene.jeffsquier.dev" style={{ color: '#a78bfa' }}>Contact Support</a>
             <span style={{ color: '#3a3a4a', margin: '0 8px' }}>|</span>
-            <span style={{ color: '#6b7280' }}>support@thescene.fyi</span>
+            <span style={{ color: '#6b7280' }}>support@thescene.jeffsquier.dev</span>
           </p>
         </div>
       </div>

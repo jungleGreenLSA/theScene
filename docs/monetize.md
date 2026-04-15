@@ -99,7 +99,7 @@ Stripe sends events to your server when payments happen (subscription created, c
 
 1. Go to **Developers > Webhooks**
 2. Click **Add endpoint**
-3. Endpoint URL: `https://thescene.fyi/api/stripe/webhook`
+3. Endpoint URL: `https://thescene.jeffsquier.dev/api/stripe/webhook`
 4. Select events to listen to:
    - `checkout.session.completed`
    - `customer.subscription.created`

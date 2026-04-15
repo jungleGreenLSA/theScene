@@ -1,4 +1,4 @@
-# Server Setup Guide -- thescene.fyi
+# Server Setup Guide -- thescene.jeffsquier.dev
 
 **Complete VPS preparation for The Scene -- Node.js, PM2, Nginx, and Let's Encrypt.**
 
@@ -8,7 +8,7 @@
 
 - Ubuntu 22.04+ VPS (Hostinger, DigitalOcean, etc.)
 - Root or sudo access
-- Domain `thescene.fyi` registered and managed via Cloudflare
+- Domain `thescene.jeffsquier.dev` registered and managed via Cloudflare
 - SSH key access to the server
 
 ---
@@ -18,7 +18,7 @@
 Since the domain is on Cloudflare:
 
 1. Log into Cloudflare dashboard
-2. Select `thescene.fyi`
+2. Select `thescene.jeffsquier.dev`
 3. Go to **DNS > Records**
 4. Add these records:
 
@@ -32,8 +32,8 @@ Since the domain is on Cloudflare:
 5. Verify DNS propagation:
 
 ```bash
-dig thescene.fyi +short
-dig www.thescene.fyi +short
+dig thescene.jeffsquier.dev +short
+dig www.thescene.jeffsquier.dev +short
 ```
 
 Both should return your server IP. Wait 2-5 minutes for Cloudflare DNS to propagate.
@@ -169,8 +169,8 @@ Paste your production environment variables:
 
 ```
 NEXT_PUBLIC_SITE_NAME="The Scene"
-NEXT_PUBLIC_SITE_URL="https://thescene.fyi"
-NEXT_PUBLIC_SITE_DOMAIN="thescene.fyi"
+NEXT_PUBLIC_SITE_URL="https://thescene.jeffsquier.dev"
+NEXT_PUBLIC_SITE_DOMAIN="thescene.jeffsquier.dev"
 NEXT_PUBLIC_SUPABASE_URL="https://your-project-id.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
 SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
@@ -228,7 +228,7 @@ You should see HTML output.
 Create the Nginx server block:
 
 ```bash
-sudo nano /etc/nginx/sites-available/thescene.fyi
+sudo nano /etc/nginx/sites-available/thescene.jeffsquier.dev
 ```
 
 Paste this configuration:
@@ -237,7 +237,7 @@ Paste this configuration:
 server {
     listen 80;
     listen [::]:80;
-    server_name thescene.fyi www.thescene.fyi;
+    server_name thescene.jeffsquier.dev www.thescene.jeffsquier.dev;
 
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
@@ -287,7 +287,7 @@ Save and exit.
 ## Step 14 -- Enable the Site
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/thescene.fyi /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/thescene.jeffsquier.dev /etc/nginx/sites-enabled/
 ```
 
 Test the configuration:
@@ -309,7 +309,7 @@ Reload Nginx:
 sudo systemctl reload nginx
 ```
 
-At this point, visiting `http://thescene.fyi` should show the site (without SSL).
+At this point, visiting `http://thescene.jeffsquier.dev` should show the site (without SSL).
 
 ---
 
@@ -322,7 +322,7 @@ sudo apt install -y certbot python3-certbot-nginx
 Run Certbot:
 
 ```bash
-sudo certbot --nginx -d thescene.fyi -d www.thescene.fyi
+sudo certbot --nginx -d thescene.jeffsquier.dev -d www.thescene.jeffsquier.dev
 ```
 
 When prompted:
@@ -344,7 +344,7 @@ sudo certbot renew --dry-run
 sudo systemctl list-timers | grep certbot
 ```
 
-Visit `https://thescene.fyi` -- you should see the padlock icon and the site loads over HTTPS.
+Visit `https://thescene.jeffsquier.dev` -- you should see the padlock icon and the site loads over HTTPS.
 
 ---
 
@@ -431,9 +431,9 @@ This calls the `auto_close_expired_events()` function we created in the database
 | Node installed | `node -v` | v22.x.x |
 | PM2 running | `pm2 status` | `the-scene` online |
 | Nginx running | `sudo systemctl status nginx` | active (running) |
-| HTTPS works | Visit `https://thescene.fyi` | Padlock + site loads |
-| HTTP redirects | Visit `http://thescene.fyi` | Redirects to HTTPS |
-| www works | Visit `https://www.thescene.fyi` | Site loads |
+| HTTPS works | Visit `https://thescene.jeffsquier.dev` | Padlock + site loads |
+| HTTP redirects | Visit `http://thescene.jeffsquier.dev` | Redirects to HTTPS |
+| www works | Visit `https://www.thescene.jeffsquier.dev` | Site loads |
 | Certbot renewal | `sudo certbot renew --dry-run` | Success |
 | App logs | `pm2 logs the-scene` | No errors |
 | Git pull works | `cd /var/www/theScene/html && git pull` | Up to date |
@@ -503,12 +503,12 @@ git remote set-url origin https://USERNAME:NEW_TOKEN@github.com/jungleGreenLSA/t
 **Fix**: Go to your domain registrar and set nameservers to the ones Cloudflare assigned (shown at the bottom of the DNS page).
 
 **Cause 3**: DNS propagation delay. New A records can take 2-10 minutes.
-**Fix**: Wait, then test with `dig @8.8.8.8 thescene.fyi +short` to query Google's DNS directly.
+**Fix**: Wait, then test with `dig @8.8.8.8 thescene.jeffsquier.dev +short` to query Google's DNS directly.
 
 ### Ping from VPS says "Name or service not known"
 
 **Cause**: VPS DNS resolver can't resolve the domain. This is normal for many VPS configurations and does NOT mean your domain is broken.
-**Fix**: Ignore it. Test from your Mac browser or with `dig @8.8.8.8 thescene.fyi +short` instead. The domain may resolve fine from the outside world.
+**Fix**: Ignore it. Test from your Mac browser or with `dig @8.8.8.8 thescene.jeffsquier.dev +short` instead. The domain may resolve fine from the outside world.
 
 ### curl localhost:3001 returns nothing or "Connection refused"
 
@@ -535,7 +535,7 @@ pm2 restart the-scene
 ### Browser shows "can't find server" or ERR_NAME_NOT_RESOLVED
 
 **Cause**: DNS hasn't propagated yet or A record is wrong.
-**Fix**: Check `dig @8.8.8.8 thescene.fyi +short` returns your server IP. If not, check Cloudflare DNS settings.
+**Fix**: Check `dig @8.8.8.8 thescene.jeffsquier.dev +short` returns your server IP. If not, check Cloudflare DNS settings.
 
 ### Certbot fails: "Could not find a CNAME record"
 
@@ -625,13 +625,13 @@ pm2 save
 pm2 startup
 
 # Nginx
-sudo nano /etc/nginx/sites-available/thescene.fyi   # paste config
-sudo ln -s /etc/nginx/sites-available/thescene.fyi /etc/nginx/sites-enabled/
+sudo nano /etc/nginx/sites-available/thescene.jeffsquier.dev   # paste config
+sudo ln -s /etc/nginx/sites-available/thescene.jeffsquier.dev /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 
 # SSL
-sudo certbot --nginx -d thescene.fyi -d www.thescene.fyi
+sudo certbot --nginx -d thescene.jeffsquier.dev -d www.thescene.jeffsquier.dev
 sudo certbot renew --dry-run
 
 # Security

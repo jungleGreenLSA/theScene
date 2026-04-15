@@ -140,7 +140,7 @@ By default, Facebook apps are in **Development Mode** and only you can log in. T
 1. In the Facebook developer dashboard, go to **App Review > Permissions and Features**
 2. You need the **email** permission (should be auto-approved)
 3. Go to the top of the page and toggle **App Mode** from **Development** to **Live**
-4. You may need to provide a Privacy Policy URL (use `https://thescene.fyi/privacy`)
+4. You may need to provide a Privacy Policy URL (use `https://thescene.jeffsquier.dev/privacy`)
 
 ---
 
@@ -189,10 +189,10 @@ Try signing up with a phone number on the site. You should receive an SMS with a
 
 1. Go to **Authentication > URL Configuration**
 2. Set:
-   - **Site URL**: `https://thescene.fyi`
+   - **Site URL**: `https://thescene.jeffsquier.dev`
    - **Redirect URLs**: Add:
      ```
-     https://thescene.fyi/auth/callback
+     https://thescene.jeffsquier.dev/auth/callback
      ```
 
 ## Step 9 -- Create the Database Schema

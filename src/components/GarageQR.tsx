@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 export default function GarageQR({ username, vehicleSlug }: { username: string; vehicleSlug: string }) {
   const [showQR, setShowQR] = useState(false)
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.jeffsquier.dev'
   const garageUrl = `${siteUrl}/user/${username}/${vehicleSlug}`
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(garageUrl)}&bgcolor=0c0c14&color=a78bfa`
 

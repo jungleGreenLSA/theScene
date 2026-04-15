@@ -7,7 +7,7 @@
 ## Prerequisites on VPS
 - Node.js 22+ installed
 - PM2 installed globally
-- Nginx configured for thescene.fyi
+- Nginx configured for thescene.jeffsquier.dev
 - SSL via Certbot
 - Git clone of the repo in `/var/www/theScene/html`
 
@@ -31,8 +31,8 @@ Paste your Supabase keys:
 
 ```
 NEXT_PUBLIC_SITE_NAME="The Scene"
-NEXT_PUBLIC_SITE_URL="https://thescene.fyi"
-NEXT_PUBLIC_SITE_DOMAIN="thescene.fyi"
+NEXT_PUBLIC_SITE_URL="https://thescene.jeffsquier.dev"
+NEXT_PUBLIC_SITE_DOMAIN="thescene.jeffsquier.dev"
 NEXT_PUBLIC_SUPABASE_URL="https://ehnijylwegzlrydlzicp.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="your-publishable-key"
 SUPABASE_SERVICE_ROLE_KEY="your-secret-key"
@@ -61,13 +61,13 @@ curl http://localhost:3001
 
 ## Nginx Configuration
 
-The Nginx config at `/etc/nginx/sites-available/thescene.fyi` should reverse proxy to port 3001:
+The Nginx config at `/etc/nginx/sites-available/thescene.jeffsquier.dev` should reverse proxy to port 3001:
 
 ```nginx
 server {
     listen 80;
     listen [::]:80;
-    server_name thescene.fyi www.thescene.fyi;
+    server_name thescene.jeffsquier.dev www.thescene.jeffsquier.dev;
 
     location / {
         proxy_pass http://127.0.0.1:3001;
@@ -89,10 +89,10 @@ server {
 After Certbot runs, it will add SSL directives automatically.
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/thescene.fyi /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/thescene.jeffsquier.dev /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
-sudo certbot --nginx -d thescene.fyi
+sudo certbot --nginx -d thescene.jeffsquier.dev
 ```
 
 ---
@@ -133,7 +133,7 @@ pm2 monit               # Live monitoring dashboard
 | Git: "dubious ownership" | `git config --global --add safe.directory /var/www/theScene/html` |
 | Git: "Invalid username or token" | Generate new GitHub PAT with `repo` scope, update remote URL |
 | 502 Bad Gateway | PM2 isn't running. `pm2 restart the-scene` |
-| Can't find server | DNS not propagated. Check `dig @8.8.8.8 thescene.fyi +short` |
+| Can't find server | DNS not propagated. Check `dig @8.8.8.8 thescene.jeffsquier.dev +short` |
 | VPS can't ping domain | Normal. Test from your Mac browser instead. |
 
 For the full troubleshooting guide, see `serverSetup.md`.

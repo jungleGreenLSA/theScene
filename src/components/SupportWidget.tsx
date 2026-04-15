@@ -56,7 +56,7 @@ export default function SupportWidget() {
           <p className="text-muted-light" style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: '16px' }}>
             See an issue?{' '}
             <a
-              href="mailto:support@thescene.fyi?subject=Bug Report"
+              href="mailto:support@thescene.jeffsquier.dev?subject=Bug Report"
               className="text-purple-light hover:text-neon-light font-semibold"
             >
               Report it here
@@ -66,11 +66,11 @@ export default function SupportWidget() {
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
             <p className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>Or reach us directly:</p>
             <a
-              href="mailto:support@thescene.fyi"
+              href="mailto:support@thescene.jeffsquier.dev"
               className="text-purple-light hover:text-neon-light"
               style={{ fontSize: '0.85rem', fontWeight: 600 }}
             >
-              support@thescene.fyi
+              support@thescene.jeffsquier.dev
             </a>
           </div>
         </div>
