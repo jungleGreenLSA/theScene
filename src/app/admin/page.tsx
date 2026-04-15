@@ -63,6 +63,10 @@ export default function AdminDashboard() {
   const [topCities, setTopCities] = useState<TopCity[]>([])
   const [topVehicles, setTopVehicles] = useState<TopVehicle[]>([])
   const [reports, setReports] = useState<Report[]>([])
+  const [announcements, setAnnouncements] = useState<any[]>([])
+  const [announcementForm, setAnnouncementForm] = useState({ title: '', content: '', category: 'update', is_pinned: false })
+  const [showAnnouncementForm, setShowAnnouncementForm] = useState(false)
+  const [announcementSaving, setAnnouncementSaving] = useState(false)
   const [activeTab, setActiveTab] = useState('overview')
 
   useEffect(() => {
@@ -167,10 +171,56 @@ export default function AdminDashboard() {
         .limit(20)
       setReports((reps || []) as unknown as Report[])
 
+      // Announcements
+      const { data: anns } = await supabase
+        .from('announcements')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(20)
+      setAnnouncements(anns || [])
+
       setLoading(false)
     }
     load()
   }, [])
+
+  const handleCreateAnnouncement = async () => {
+    if (!announcementForm.title || !announcementForm.content) return
+    setAnnouncementSaving(true)
+
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+
+    const { data, error } = await supabase.from('announcements').insert({
+      author_id: user.id,
+      title: announcementForm.title,
+      content: announcementForm.content,
+      category: announcementForm.category,
+      is_pinned: announcementForm.is_pinned,
+    }).select().single()
+
+    if (!error && data) {
+      setAnnouncements([data, ...announcements])
+      setAnnouncementForm({ title: '', content: '', category: 'update', is_pinned: false })
+      setShowAnnouncementForm(false)
+    }
+    setAnnouncementSaving(false)
+  }
+
+  const handleDeleteAnnouncement = async (id: string) => {
+    await supabase.from('announcements').delete().eq('id', id)
+    setAnnouncements(announcements.filter(a => a.id !== id))
+  }
+
+  const handleTogglePin = async (id: string, currentPin: boolean) => {
+    await supabase.from('announcements').update({ is_pinned: !currentPin }).eq('id', id)
+    setAnnouncements(announcements.map(a => a.id === id ? { ...a, is_pinned: !currentPin } : a))
+  }
+
+  const handleTogglePublish = async (id: string, currentPublished: boolean) => {
+    await supabase.from('announcements').update({ is_published: !currentPublished }).eq('id', id)
+    setAnnouncements(announcements.map(a => a.id === id ? { ...a, is_published: !currentPublished } : a))
+  }
 
   if (loading) return <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px', textAlign: 'center' }} className="text-muted-light">Loading dashboard...</div>
 
@@ -192,6 +242,7 @@ export default function AdminDashboard() {
 
   const tabs = [
     { id: 'overview', label: 'Overview' },
+    { id: 'announcements', label: 'News & Updates' },
     { id: 'users', label: 'Users' },
     { id: 'geography', label: 'Geography' },
     { id: 'content', label: 'Content' },
@@ -223,6 +274,83 @@ export default function AdminDashboard() {
           </button>
         ))}
       </div>
+
+      {/* ANNOUNCEMENTS TAB */}
+      {activeTab === 'announcements' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h2 className="font-bold text-foreground" style={{ fontSize: '1rem' }}>📋 News & Updates</h2>
+            <button onClick={() => setShowAnnouncementForm(!showAnnouncementForm)} className="btn-neon" style={{ fontSize: '12px', padding: '8px 16px' }}>
+              {showAnnouncementForm ? 'Cancel' : '+ New Post'}
+            </button>
+          </div>
+
+          {/* Create form */}
+          {showAnnouncementForm && (
+            <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+              <div style={{ marginBottom: '12px' }}>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#8892a4', marginBottom: '6px' }}>Title *</label>
+                <input value={announcementForm.title} onChange={(e) => setAnnouncementForm({ ...announcementForm, title: e.target.value })} className="input" placeholder="What's new?" maxLength={128} />
+              </div>
+              <div style={{ marginBottom: '12px' }}>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#8892a4', marginBottom: '6px' }}>Content *</label>
+                <textarea value={announcementForm.content} onChange={(e) => setAnnouncementForm({ ...announcementForm, content: e.target.value })} className="input" rows={4} placeholder="Write your update..." maxLength={2000} />
+              </div>
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#8892a4', marginBottom: '6px' }}>Category</label>
+                  <select value={announcementForm.category} onChange={(e) => setAnnouncementForm({ ...announcementForm, category: e.target.value })} className="input" style={{ width: '180px' }}>
+                    <option value="update">Update</option>
+                    <option value="feature">New Feature</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="outage">Outage</option>
+                    <option value="news">News</option>
+                    <option value="event">Event</option>
+                  </select>
+                </div>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginTop: '20px' }}>
+                  <input type="checkbox" checked={announcementForm.is_pinned} onChange={(e) => setAnnouncementForm({ ...announcementForm, is_pinned: e.target.checked })} />
+                  <span style={{ fontSize: '13px', color: '#9ca3af' }}>📌 Pin to top</span>
+                </label>
+              </div>
+              <button onClick={handleCreateAnnouncement} disabled={announcementSaving || !announcementForm.title || !announcementForm.content} className="btn-neon" style={{ fontSize: '12px', padding: '10px 20px', opacity: announcementSaving ? 0.5 : 1 }}>
+                {announcementSaving ? 'Publishing...' : '📢 Publish'}
+              </button>
+            </div>
+          )}
+
+          {/* List */}
+          {announcements.length === 0 ? (
+            <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
+              <p className="text-muted" style={{ fontSize: '13px' }}>No announcements yet. Click "+ New Post" to create one.</p>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {announcements.map(a => (
+                <div key={a.id} className="glass" style={{ padding: '18px 20px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', color: '#a78bfa' }}>{a.category}</span>
+                        {a.is_pinned && <span style={{ fontSize: '10px', color: '#fb923c', fontWeight: 600 }}>📌 Pinned</span>}
+                        {!a.is_published && <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: 600 }}>Draft</span>}
+                        <span style={{ fontSize: '11px', color: '#6b7280' }}>{new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                      </div>
+                      <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', marginBottom: '4px' }}>{a.title}</h4>
+                      <p style={{ fontSize: '13px', color: '#9ca3af', lineHeight: 1.5 }}>{a.content.length > 150 ? a.content.slice(0, 150) + '...' : a.content}</p>
+                    </div>
+                    <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+                      <button onClick={() => handleTogglePin(a.id, a.is_pinned)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', padding: '4px', opacity: 0.6 }} title={a.is_pinned ? 'Unpin' : 'Pin'}>📌</button>
+                      <button onClick={() => handleTogglePublish(a.id, a.is_published)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', padding: '4px', opacity: 0.6 }} title={a.is_published ? 'Unpublish' : 'Publish'}>{a.is_published ? '👁' : '🙈'}</button>
+                      <button onClick={() => handleDeleteAnnouncement(a.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', padding: '4px', opacity: 0.6, color: '#ef4444' }} title="Delete">🗑</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* OVERVIEW TAB */}
       {activeTab === 'overview' && stats && (

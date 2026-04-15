@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import ActivityFeed from '@/components/ActivityFeed'
 import DailySuggestion from '@/components/DailySuggestion'
+import Announcements from '@/components/Announcements'
 
 export default function FeedPage() {
   const supabase = createClient()
@@ -50,6 +51,7 @@ export default function FeedPage() {
             </div>
           </div>
 
+          <Announcements />
           <DailySuggestion />
           <div style={{ marginTop: '16px' }} />
           <ActivityFeed />
