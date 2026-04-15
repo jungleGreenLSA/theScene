@@ -120,11 +120,27 @@ export default function SettingsPage() {
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={async (e) => {
               const file = e.target.files?.[0]
               if (!file || !profile) return
-              const filename = `${profile.id}/${Date.now()}.${file.name.split('.').pop()}`
-              await supabase.storage.from('avatars').upload(filename, file, { upsert: true })
-              const { data } = supabase.storage.from('avatars').getPublicUrl(filename)
-              await supabase.from('profiles').update({ avatar_url: data.publicUrl }).eq('id', profile.id)
-              setProfile({ ...profile, avatar_url: data.publicUrl })
+
+              const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
+              const filename = `avatars/${profile.id}/${Date.now()}.${ext}`
+
+              // Upload to posts bucket (reliable, already configured)
+              const { error: uploadError } = await supabase.storage.from('posts').upload(filename, file, { upsert: true })
+              if (uploadError) {
+                setMessage('Upload failed: ' + uploadError.message)
+                setTimeout(() => setMessage(''), 5000)
+                return
+              }
+
+              const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
+              const { error: updateError } = await supabase.from('profiles').update({ avatar_url: urlData.publicUrl }).eq('id', profile.id)
+              if (updateError) {
+                setMessage('Profile update failed: ' + updateError.message)
+                setTimeout(() => setMessage(''), 5000)
+                return
+              }
+
+              setProfile({ ...profile, avatar_url: urlData.publicUrl })
               setMessage('Avatar updated!')
               setTimeout(() => setMessage(''), 3000)
             }} />
