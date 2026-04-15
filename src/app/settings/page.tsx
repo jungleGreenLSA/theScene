@@ -106,9 +106,9 @@ export default function SettingsPage() {
         {/* Avatar */}
         <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
           <label style={{ cursor: 'pointer', position: 'relative' }}>
-            <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(124,58,237,0.3)' }}>
+            <div style={{ width: '72px', height: '72px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(124,58,237,0.3)', flexShrink: 0, position: 'relative' }}>
               {profile?.avatar_url ? (
-                <img src={profile.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={profile.avatar_url} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
               ) : (
                 <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280' }}>📷</div>
               )}
