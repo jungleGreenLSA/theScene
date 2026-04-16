@@ -63,7 +63,10 @@ export default function LoginPage() {
   const handleOAuth = async (provider: 'google' | 'facebook') => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback` },
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback`,
+        queryParams: { prompt: 'select_account' },
+      },
     })
     if (error) setError(error.message)
   }
