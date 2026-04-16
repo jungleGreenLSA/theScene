@@ -34,7 +34,7 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>5. Your Rights</h2>
-            <p className="text-muted-light" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. You have the right to access, correct, or delete your personal data. You can manage your profile visibility settings at any time. To request data deletion, contact support@thescene.jeffsquier.dev.</p>
+            <p className="text-muted-light" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. You have the right to access, correct, or delete your personal data. You can manage your profile visibility settings at any time. To request data deletion, contact support@thescene.fyi.</p>
           </div>
 
           <div>
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>7. Contact</h2>
-            <p className="text-muted-light" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>For privacy-related questions, contact us at <a href="mailto:support@thescene.jeffsquier.dev" className="text-purple-light hover:text-neon-light">support@thescene.jeffsquier.dev</a>.</p>
+            <p className="text-muted-light" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>For privacy-related questions, contact us at <a href="mailto:support@thescene.fyi" className="text-purple-light hover:text-neon-light">support@thescene.fyi</a>.</p>
           </div>
         </div>
       </div>

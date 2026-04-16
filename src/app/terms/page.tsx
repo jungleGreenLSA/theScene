@@ -44,7 +44,7 @@ export default function TermsPage() {
 
           <div>
             <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>7. Contact</h2>
-            <p className="text-muted-light" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>For questions about these terms, contact us at <a href="mailto:support@thescene.jeffsquier.dev" className="text-purple-light hover:text-neon-light">support@thescene.jeffsquier.dev</a>.</p>
+            <p className="text-muted-light" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>For questions about these terms, contact us at <a href="mailto:support@thescene.fyi" className="text-purple-light hover:text-neon-light">support@thescene.fyi</a>.</p>
           </div>
         </div>
       </div>

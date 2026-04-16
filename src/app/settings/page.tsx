@@ -263,7 +263,7 @@ export default function SettingsPage() {
         <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>⚙️ Account</h2>
         <p className="text-muted-light text-sm" style={{ marginBottom: '16px' }}>Username: <span className="text-foreground font-semibold">@{profile?.username}</span></p>
         <p className="text-muted" style={{ fontSize: '12px' }}>
-          Need to change your email or delete your account? Contact <a href="mailto:support@thescene.jeffsquier.dev" className="text-purple-light hover:text-neon-light">support@thescene.jeffsquier.dev</a>.
+          Need to change your email or delete your account? Contact <a href="mailto:support@thescene.fyi" className="text-purple-light hover:text-neon-light">support@thescene.fyi</a>.
         </p>
       </div>
     </div>
