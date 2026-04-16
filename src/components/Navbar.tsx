@@ -88,8 +88,8 @@ export default function Navbar() {
                 </div>
                 <span style={{ fontSize: '12px', fontWeight: 600, color: '#9ca3af' }}>My Profile</span>
               </Link>
-              <button onClick={handleSignOut} style={{ padding: '7px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#8892a4', cursor: 'pointer' }}>
-                Sign Out
+              <button onClick={handleSignOut} title="Sign Out" style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#8892a4', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', transition: 'all 0.2s' }}>
+                🚪
               </button>
             </>
           ) : (

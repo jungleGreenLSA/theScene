@@ -227,6 +227,12 @@ export default function SettingsPage() {
             maxLength={128}
           />
         </div>
+
+        <div style={{ textAlign: 'right', marginTop: '8px' }}>
+          <button onClick={() => { setMessage('Profile saved!'); setTimeout(() => setMessage(''), 3000) }} style={{ padding: '10px 24px', borderRadius: '8px', background: '#7c3aed', border: '1px solid #a78bfa', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+            Save Changes
+          </button>
+        </div>
       </div>
 
       {/* Profile Visibility */}

@@ -4,14 +4,22 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
+const YEARS = Array.from({ length: new Date().getFullYear() - 1919 }, (_, i) => new Date().getFullYear() + 1 - i)
+const BODY_STYLES = ['Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Wagon', 'SUV', 'Truck', 'Van', 'Roadster', 'Other']
+const TRANSMISSIONS = ['Automatic', 'Manual', 'DCT / Dual Clutch', 'CVT', 'Other']
+const DRIVETRAINS = ['RWD', 'FWD', 'AWD', '4WD']
 const BUILD_STATUSES = [
-  { value: 'stock', label: 'Stock' },
-  { value: 'lightly_modified', label: 'Lightly Modified' },
-  { value: 'modified', label: 'Modified' },
-  { value: 'full_build', label: 'Full Build' },
-  { value: 'race_car', label: 'Race Car' },
-  { value: 'project', label: 'Project' },
+  { value: 'stock', label: 'Stock', icon: '🏭' },
+  { value: 'lightly_modified', label: 'Lightly Modified', icon: '🔩' },
+  { value: 'modified', label: 'Modified', icon: '🔧' },
+  { value: 'full_build', label: 'Full Build', icon: '⚡' },
+  { value: 'race_car', label: 'Race Car', icon: '🏁' },
+  { value: 'project', label: 'Project', icon: '🚧' },
 ]
+
+const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }
+const sectionTitle = { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }
+const hintStyle = { fontSize: '11px', color: '#6b7280', marginTop: '4px' }
 
 export default function GarageSetupPage() {
   const supabase = createClient()
@@ -47,18 +55,10 @@ export default function GarageSetupPage() {
     setError('')
 
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      setError('You must be signed in')
-      setLoading(false)
-      return
-    }
+    if (!user) { setError('You must be signed in'); setLoading(false); return }
 
-    // Generate slug from vehicle details
     const slug = `${form.year}-${form.make}-${form.model}-${form.color}`
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '')
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
 
     const { error: insertError } = await supabase.from('vehicles').insert({
       owner_id: user.id,
@@ -84,113 +84,109 @@ export default function GarageSetupPage() {
       setError(insertError.message)
       setLoading(false)
     } else {
-      // Update profile location if provided
       if (form.location) {
         await supabase.from('profiles').update({ location: form.location }).eq('id', user.id)
       }
-
-      // Get username for redirect
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('id', user.id)
-        .single()
-
+      const { data: profile } = await supabase.from('profiles').select('username').eq('id', user.id).single()
       router.push(`/user/${profile?.username}/${slug}`)
     }
   }
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-        <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>
-          Build Your <span className="text-neon-light text-glow-neon">Garage</span>
+    <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+        <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
+          Build Your <span style={{ color: '#fb923c' }}>Garage</span>
         </h1>
-        <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Tell us about your ride</p>
+        <p style={{ fontSize: '14px', color: '#8892a4' }}>Add your ride to The Scene</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {/* Vehicle basics */}
-        <div>
-          <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-            🚗 Vehicle Info
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+
+        {/* Vehicle Info */}
+        <div className="glass" style={{ padding: '24px' }}>
+          <div style={sectionTitle}><span>🚗</span> Vehicle Info</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Year *</label>
-              <input name="year" value={form.year} onChange={handleChange} className="input" placeholder="2015" required type="number" min="1900" max="2030" />
+              <label style={labelStyle}>Year *</label>
+              <select name="year" value={form.year} onChange={handleChange} className="input" required>
+                <option value="">Select year</option>
+                {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+              </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Make *</label>
+              <label style={labelStyle}>Make *</label>
               <input name="make" value={form.make} onChange={handleChange} className="input" placeholder="Chevrolet" required maxLength={128} />
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Model *</label>
-              <input name="model" value={form.model} onChange={handleChange} className="input" placeholder="SS" required maxLength={128} />
+              <label style={labelStyle}>Model *</label>
+              <input name="model" value={form.model} onChange={handleChange} className="input" placeholder="Camaro" required maxLength={128} />
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Trim</label>
-              <input name="trim" value={form.trim} onChange={handleChange} className="input" placeholder="SS" maxLength={128} />
+              <label style={labelStyle}>Body Style</label>
+              <select name="trim" value={form.trim} onChange={handleChange} className="input">
+                <option value="">Select type</option>
+                {BODY_STYLES.map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Color *</label>
+              <label style={labelStyle}>Color *</label>
               <input name="color" value={form.color} onChange={handleChange} className="input" placeholder="Jungle Green" required maxLength={128} />
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Mileage</label>
-              <input name="mileage" value={form.mileage} onChange={handleChange} className="input" placeholder="47,000" maxLength={128} />
+              <label style={labelStyle}>Mileage</label>
+              <input name="mileage" value={form.mileage} onChange={handleChange} className="input" placeholder="48,000" maxLength={128} />
             </div>
           </div>
         </div>
 
         {/* Powertrain */}
-        <div>
-          <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-            ⚡ Powertrain
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
+        <div className="glass" style={{ padding: '24px' }}>
+          <div style={sectionTitle}><span>⚡</span> Powertrain</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Engine</label>
+              <label style={labelStyle}>Engine</label>
               <input name="engine" value={form.engine} onChange={handleChange} className="input" placeholder="6.2L LS3 V8" maxLength={128} />
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Transmission</label>
-              <input name="transmission" value={form.transmission} onChange={handleChange} className="input" placeholder="6-Speed Auto" maxLength={128} />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Drivetrain</label>
-              <input name="drivetrain" value={form.drivetrain} onChange={handleChange} className="input" placeholder="RWD" maxLength={128} />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Horsepower</label>
+              <label style={labelStyle}>Horsepower</label>
               <input name="horsepower" value={form.horsepower} onChange={handleChange} className="input" placeholder="725 WHP" maxLength={128} />
+            </div>
+            <div>
+              <label style={labelStyle}>Transmission</label>
+              <select name="transmission" value={form.transmission} onChange={handleChange} className="input">
+                <option value="">Select</option>
+                {TRANSMISSIONS.map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+            </div>
+            <div>
+              <label style={labelStyle}>Drivetrain</label>
+              <select name="drivetrain" value={form.drivetrain} onChange={handleChange} className="input">
+                <option value="">Select</option>
+                {DRIVETRAINS.map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
             </div>
           </div>
         </div>
 
-        {/* Build status */}
-        <div>
-          <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-            🔧 Build Status
-          </h2>
-          <div className="grid grid-cols-3 gap-3">
+        {/* Build Status */}
+        <div className="glass" style={{ padding: '24px' }}>
+          <div style={sectionTitle}><span>🔧</span> Build Status</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
             {BUILD_STATUSES.map((status) => (
               <label
                 key={status.value}
-                className={`flex items-center justify-center p-3 rounded-lg border cursor-pointer transition-all text-sm font-medium ${
-                  form.build_status === status.value
-                    ? 'border-purple bg-purple/10 text-purple-light'
-                    : 'border-border bg-surface hover:border-border-hover text-muted-light'
-                }`}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  padding: '10px 14px', borderRadius: '20px', cursor: 'pointer', transition: 'all 0.2s',
+                  background: form.build_status === status.value ? 'rgba(124,58,237,0.15)' : 'rgba(18,18,30,0.5)',
+                  border: form.build_status === status.value ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
+                  fontSize: '12px', fontWeight: 600,
+                  color: form.build_status === status.value ? '#a78bfa' : '#8892a4',
+                }}
               >
-                <input
-                  type="radio"
-                  name="build_status"
-                  value={status.value}
-                  checked={form.build_status === status.value}
-                  onChange={handleChange}
-                  className="sr-only"
-                />
+                <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
+                <span style={{ fontSize: '14px' }}>{status.icon}</span>
                 {status.label}
               </label>
             ))}
@@ -198,86 +194,86 @@ export default function GarageSetupPage() {
         </div>
 
         {/* Location & Community */}
-        <div>
-          <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-            📍 Location &amp; Community
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
+        <div className="glass" style={{ padding: '24px' }}>
+          <div style={sectionTitle}><span>📍</span> Location & Community</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Location (City, State or Zip)</label>
-              <input name="location" value={form.location} onChange={handleChange} className="input" placeholder="Dallas, TX or 75201" maxLength={128} />
-              <p className="text-xs text-muted mt-1">Helps others find builds near them</p>
+              <label style={labelStyle}>Location</label>
+              <input name="location" value={form.location} onChange={handleChange} className="input" placeholder="City, ST or Zip" maxLength={128} />
+              <p style={hintStyle}>Helps others find builds near them</p>
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-1.5">Club Affiliation</label>
+              <label style={labelStyle}>Club Affiliation</label>
               <input name="club_affiliation" value={form.club_affiliation} onChange={handleChange} className="input" placeholder="Lone Star SS Club" maxLength={128} />
             </div>
           </div>
         </div>
 
-        {/* Bio */}
-        <div>
-          <h2 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-            📝 About This Build
-          </h2>
+        {/* About */}
+        <div className="glass" style={{ padding: '24px' }}>
+          <div style={sectionTitle}><span>📝</span> About This Build</div>
           <textarea
             name="bio"
             value={form.bio}
             onChange={handleChange}
             className="input"
             rows={4}
-            placeholder="Tell the story of your build... What makes it special? What have you done to it? What are your plans?"
+            placeholder="Tell the story of your build..."
+            maxLength={2000}
           />
         </div>
 
         {/* Visibility */}
-        <div>
-          <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>🔒 Visibility</h2>
-          <p style={{ fontSize: '13px', color: '#9ca3af', marginBottom: '14px' }}>Choose who can see your garage page. You can change this anytime in settings.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <label
-              style={{
-                display: 'flex', alignItems: 'center', gap: '12px', padding: '16px',
-                borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s',
-                background: form.visibility === 'public' ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
-                border: form.visibility === 'public' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.08)',
-              }}
-            >
+        <div className="glass" style={{ padding: '24px' }}>
+          <div style={sectionTitle}><span>🔒</span> Visibility</div>
+          <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '12px' }}>You can change this anytime in settings.</p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <label style={{
+              display: 'flex', alignItems: 'center', gap: '10px', padding: '14px',
+              borderRadius: '12px', cursor: 'pointer',
+              background: form.visibility === 'public' ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
+              border: form.visibility === 'public' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
+            }}>
               <input type="radio" name="visibility" value="public" checked={form.visibility === 'public'} onChange={handleChange} style={{ display: 'none' }} />
-              <span style={{ fontSize: '28px', flexShrink: 0 }}>🌎</span>
+              <span style={{ fontSize: '22px' }}>🌎</span>
               <div>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: form.visibility === 'public' ? '#a78bfa' : '#9ca3af', display: 'block' }}>Public</span>
-                <span style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginTop: '2px', lineHeight: 1.4 }}>Anyone can find and view your garage.</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? '#a78bfa' : '#8892a4', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '10px', color: '#6b7280' }}>Visible to everyone</span>
               </div>
             </label>
-            <label
-              style={{
-                display: 'flex', alignItems: 'center', gap: '12px', padding: '16px',
-                borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s',
-                background: form.visibility === 'private' ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
-                border: form.visibility === 'private' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.08)',
-              }}
-            >
+            <label style={{
+              display: 'flex', alignItems: 'center', gap: '10px', padding: '14px',
+              borderRadius: '12px', cursor: 'pointer',
+              background: form.visibility === 'private' ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
+              border: form.visibility === 'private' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
+            }}>
               <input type="radio" name="visibility" value="private" checked={form.visibility === 'private'} onChange={handleChange} style={{ display: 'none' }} />
-              <span style={{ fontSize: '28px', flexShrink: 0 }}>🔒</span>
+              <span style={{ fontSize: '22px' }}>🔒</span>
               <div>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: form.visibility === 'private' ? '#a78bfa' : '#9ca3af', display: 'block' }}>Private</span>
-                <span style={{ fontSize: '11px', color: '#6b7280', display: 'block', marginTop: '2px', lineHeight: 1.4 }}>Only people with your direct link can view.</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? '#a78bfa' : '#8892a4', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '10px', color: '#6b7280' }}>Link only</span>
               </div>
             </label>
           </div>
         </div>
 
+        {/* Error */}
         {error && (
-          <div className="bg-danger/10 border border-danger/30 rounded-lg px-4 py-3 text-sm text-danger">
+          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: '#ef4444', fontSize: '13px' }}>
             {error}
           </div>
         )}
 
+        {/* Submit */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full btn-neon justify-center py-4 text-base disabled:opacity-50"
+          style={{
+            width: '100%', padding: '16px', borderRadius: '12px',
+            background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
+            fontSize: '15px', fontWeight: 700, cursor: 'pointer',
+            opacity: loading ? 0.5 : 1, transition: 'all 0.2s',
+          }}
         >
           {loading ? 'Creating your garage...' : '🏁 Create My Garage'}
         </button>
