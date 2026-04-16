@@ -18,6 +18,7 @@ interface Profile {
   id: string
   username: string
   display_name: string
+  first_name: string
   bio: string
   location: string
   is_public: boolean
@@ -33,11 +34,14 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [userEmail, setUserEmail] = useState('')
 
   useEffect(() => {
     const loadData = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/auth/login'); return }
+
+      setUserEmail(user.email || '')
 
       const { data: p } = await supabase.from('profiles').select('*').eq('id', user.id).single()
       const { data: v } = await supabase.from('vehicles').select('id, year, make, model, color, is_public, slug').eq('owner_id', user.id)
@@ -151,18 +155,55 @@ export default function SettingsPage() {
           </div>
         </div>
 
+        {/* Email */}
         <div style={{ marginBottom: '16px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Display Name</label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Email</label>
           <input
-            type="text"
-            defaultValue={profile?.display_name || ''}
-            onBlur={(e) => updateProfile('display_name', e.target.value)}
+            type="email"
+            defaultValue={userEmail}
+            onBlur={async (e) => {
+              const newEmail = e.target.value.trim()
+              if (newEmail && newEmail !== userEmail) {
+                const { error } = await supabase.auth.updateUser({ email: newEmail })
+                if (error) { setMessage('Email update failed: ' + error.message) }
+                else { setMessage('Confirmation email sent to ' + newEmail); setUserEmail(newEmail) }
+                setTimeout(() => setMessage(''), 5000)
+              }
+            }}
             className="input"
-            placeholder="Enter your display name"
+            placeholder="you@example.com"
             maxLength={128}
           />
+          <p className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>Changing email requires confirmation via the new address</p>
         </div>
 
+        {/* Name */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>First Name</label>
+            <input
+              type="text"
+              defaultValue={profile?.first_name || ''}
+              onBlur={(e) => updateProfile('first_name', e.target.value)}
+              className="input"
+              placeholder="Jeff"
+              maxLength={64}
+            />
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Display Name</label>
+            <input
+              type="text"
+              defaultValue={profile?.display_name || ''}
+              onBlur={(e) => updateProfile('display_name', e.target.value)}
+              className="input"
+              placeholder="Jeff S."
+              maxLength={128}
+            />
+          </div>
+        </div>
+
+        {/* Bio */}
         <div style={{ marginBottom: '16px' }}>
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Bio</label>
           <textarea
