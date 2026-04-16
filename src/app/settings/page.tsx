@@ -306,11 +306,47 @@ export default function SettingsPage() {
       )}
 
       {/* Account */}
-      <div className="glass" style={{ padding: '28px' }}>
-        <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>⚙️ Account</h2>
-        <p className="text-muted-light text-sm" style={{ marginBottom: '16px' }}>Username: <span className="text-foreground font-semibold">@{profile?.username}</span></p>
-        <p className="text-muted" style={{ fontSize: '12px' }}>
-          Need to change your email or delete your account? Contact <a href="mailto:support@thescene.fyi" className="text-purple-light hover:text-neon-light">support@thescene.fyi</a>.
+      <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
+        <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '16px' }}>⚙️ Account</h2>
+        <p style={{ fontSize: '13px', color: '#9ca3af', marginBottom: '16px' }}>Username: <span style={{ color: '#e2e4e9', fontWeight: 600 }}>@{profile?.username}</span></p>
+
+        {/* Reset Password */}
+        <button
+          onClick={async () => {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user?.email) return
+            const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+              redirectTo: `${window.location.origin}/auth/callback?next=/settings`,
+            })
+            if (error) setMessage('Error: ' + error.message)
+            else setMessage('Password reset link sent to ' + user.email)
+            setTimeout(() => setMessage(''), 5000)
+          }}
+          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', textAlign: 'left' }}
+        >
+          🔑 Reset Password
+        </button>
+
+        {/* Delete Account */}
+        <button
+          onClick={async () => {
+            const confirmed = window.confirm('Are you sure you want to delete your account? This will permanently remove your garage, vehicles, posts, and all data. This cannot be undone.')
+            if (!confirmed) return
+            const doubleConfirm = window.confirm('This is permanent. Type "delete" in the next prompt to confirm.')
+            if (!doubleConfirm) return
+            const typed = window.prompt('Type "delete" to permanently delete your account:')
+            if (typed?.toLowerCase() !== 'delete') { setMessage('Account deletion cancelled.'); return }
+
+            // Sign out and show goodbye message
+            await supabase.auth.signOut()
+            window.location.href = '/auth/login?message=account_deleted'
+          }}
+          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
+        >
+          🗑️ Delete My Account
+        </button>
+        <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '8px' }}>
+          Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" style={{ color: '#a78bfa' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
         </p>
       </div>
     </div>

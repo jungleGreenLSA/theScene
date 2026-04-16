@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -14,7 +13,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
   const [otpSent, setOtpSent] = useState(false)
-  const router = useRouter()
   const supabase = createClient()
 
   const handleEmailLogin = async (e: React.FormEvent) => {
@@ -140,6 +138,15 @@ export default function LoginPage() {
               <div style={{ marginBottom: '20px' }}>
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Password</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="Your password" required />
+                <button type="button" onClick={async () => {
+                  if (!email) { setError('Enter your email first'); return }
+                  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback?next=/settings` })
+                  if (error) setError(error.message)
+                  else setError('')
+                  alert(error ? error.message : 'Password reset link sent to ' + email)
+                }} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
+                  Forgot password?
+                </button>
               </div>
 
               {error && (
