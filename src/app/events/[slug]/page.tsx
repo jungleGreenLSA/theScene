@@ -5,6 +5,7 @@ import EventPhotoUpload from '@/components/EventPhotoUpload'
 import EventPhotoFeed from '@/components/EventPhotoFeed'
 import EventCheckIn from '@/components/EventCheckIn'
 import EventOrganizerActions from '@/components/EventOrganizerActions'
+import EventRSVP from '@/components/EventRSVP'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -124,10 +125,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
           {/* RSVP buttons */}
           {!isCompleted && (
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
-              <button style={{ padding: '8px 18px', borderRadius: '20px', background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', color: '#22c55e', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>✅ I&apos;m Going</button>
-              <button style={{ padding: '8px 18px', borderRadius: '20px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', color: '#fb923c', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>🤔 Might Go</button>
-              <button style={{ padding: '8px 18px', borderRadius: '20px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#6b7280', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>❌ Can&apos;t Make It</button>
+            <div style={{ marginBottom: '14px' }}>
+              <EventRSVP eventId={event.id} />
             </div>
           )}
 
@@ -157,7 +156,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             </div>
           </div>
           {/* Organizer actions */}
-          <EventOrganizerActions eventId={event.id} organizerId={event.organizer_id} />
+          <EventOrganizerActions eventId={event.id} organizerId={event.organizer_id} eventSlug={event.slug} />
         </div>
       </div>
 

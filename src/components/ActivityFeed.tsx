@@ -151,6 +151,8 @@ export default function ActivityFeed() {
   const supabase = createClient()
   const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
+  const [hearts, setHearts] = useState<Set<string>>(new Set())
+  const [heartCounts, setHeartCounts] = useState<Record<string, number>>({})
 
   useEffect(() => {
     const fetch = async () => {
@@ -236,7 +238,28 @@ export default function ActivityFeed() {
           {/* Content */}
           <div style={{ flex: 1, minWidth: 0 }}>
             {renderActivity(a)}
-            <p className="text-muted" style={{ fontSize: '11px', marginTop: '6px' }}>{timeAgo(a.created_at)}</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
+              <button
+                onClick={async () => {
+                  const { data: { user } } = await supabase.auth.getUser()
+                  if (!user) { window.location.href = '/auth/login'; return }
+                  const isHearted = hearts.has(a.id)
+                  if (isHearted) {
+                    await supabase.from('feed_reactions').delete().eq('activity_id', a.id).eq('user_id', user.id)
+                    const next = new Set(hearts); next.delete(a.id); setHearts(next)
+                    setHeartCounts(prev => ({ ...prev, [a.id]: (prev[a.id] || 1) - 1 }))
+                  } else {
+                    await supabase.from('feed_reactions').insert({ activity_id: a.id, user_id: user.id, reaction: 'heart' })
+                    setHearts(new Set([...hearts, a.id]))
+                    setHeartCounts(prev => ({ ...prev, [a.id]: (prev[a.id] || 0) + 1 }))
+                  }
+                }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px', color: hearts.has(a.id) ? '#ef4444' : '#6b7280', transition: 'color 0.2s', padding: 0 }}
+              >
+                {hearts.has(a.id) ? '❤️' : '🤍'} {heartCounts[a.id] || ''}
+              </button>
+              <span style={{ fontSize: '11px', color: '#6b7280' }}>{timeAgo(a.created_at)}</span>
+            </div>
           </div>
         </div>
       ))}
