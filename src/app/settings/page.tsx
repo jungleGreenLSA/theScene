@@ -26,7 +26,11 @@ interface Profile {
   is_public: boolean
   avatar_url: string
   subscription_tier: string
+  username_changed_at: string | null
 }
+
+const USERNAME_COOLDOWN_DAYS = 60
+const USERNAME_PATTERN = /^[a-z0-9_]{3,30}$/
 
 export default function SettingsPage() {
   const supabase = createClient()
@@ -337,7 +341,66 @@ export default function SettingsPage() {
       {/* Account */}
       <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
         <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '16px' }}>⚙️ Account</h2>
-        <p style={{ fontSize: '13px', color: '#9ca3af', marginBottom: '16px' }}>Username: <span style={{ color: '#e2e4e9', fontWeight: 600 }}>@{profile?.username}</span></p>
+
+        {/* Username */}
+        {profile && (() => {
+          const lastChanged = profile.username_changed_at ? new Date(profile.username_changed_at) : null
+          const cooldownEnds = lastChanged ? new Date(lastChanged.getTime() + USERNAME_COOLDOWN_DAYS * 86400000) : null
+          const now = new Date()
+          const canChange = !cooldownEnds || cooldownEnds <= now
+          const daysLeft = cooldownEnds && cooldownEnds > now ? Math.ceil((cooldownEnds.getTime() - now.getTime()) / 86400000) : 0
+          return (
+            <div style={{ marginBottom: '20px' }}>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
+                Username {!canChange && <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(locked for {daysLeft} more day{daysLeft !== 1 ? 's' : ''})</span>}
+              </label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <span style={{ display: 'flex', alignItems: 'center', padding: '0 12px', color: '#6b7280', fontSize: '13px' }}>@</span>
+                <input
+                  type="text"
+                  defaultValue={profile.username}
+                  disabled={!canChange}
+                  onBlur={async (e) => {
+                    const newUsername = e.target.value.trim().toLowerCase()
+                    if (!newUsername || newUsername === profile.username) return
+                    if (!USERNAME_PATTERN.test(newUsername)) {
+                      setMessage('Username must be 3–30 characters, lowercase letters, numbers, or underscores only.')
+                      e.target.value = profile.username
+                      setTimeout(() => setMessage(''), 5000)
+                      return
+                    }
+                    const { data: existing } = await supabase.from('profiles').select('id').ilike('username', newUsername).neq('id', profile.id).limit(1)
+                    if (existing && existing.length > 0) {
+                      setMessage(`@${newUsername} is already taken.`)
+                      e.target.value = profile.username
+                      setTimeout(() => setMessage(''), 5000)
+                      return
+                    }
+                    const { error } = await supabase.from('profiles').update({ username: newUsername, username_changed_at: new Date().toISOString() }).eq('id', profile.id)
+                    if (error) {
+                      setMessage('Username update failed: ' + error.message)
+                      e.target.value = profile.username
+                      setTimeout(() => setMessage(''), 5000)
+                      return
+                    }
+                    setProfile({ ...profile, username: newUsername, username_changed_at: new Date().toISOString() })
+                    setMessage(`Username changed to @${newUsername}. Next change available in ${USERNAME_COOLDOWN_DAYS} days.`)
+                    setTimeout(() => setMessage(''), 5000)
+                  }}
+                  className="input"
+                  style={{ flex: 1, opacity: canChange ? 1 : 0.6 }}
+                  placeholder="your_username"
+                  maxLength={30}
+                />
+              </div>
+              <p className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>
+                {canChange
+                  ? 'Lowercase letters, numbers, and underscores. 3–30 characters. Changeable once every 60 days.'
+                  : `Next change available ${cooldownEnds!.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}.`}
+              </p>
+            </div>
+          )
+        })()}
 
         {/* Reset Password */}
         <button
