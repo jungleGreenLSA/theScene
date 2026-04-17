@@ -153,10 +153,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
         + Add Member
       </button>
       {isFounder && (
-        <button
-          onClick={handleDeleteClub}
-          style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
-        >
+        <button onClick={handleDeleteClub} className="btn-danger">
           🗑 Delete Club
         </button>
       )}

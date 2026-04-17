@@ -152,9 +152,7 @@ export default function WWYDPage() {
                     <p className="text-muted" style={{ fontSize: '11px' }}>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                   </div>
                   {currentUserId === post.author?.id && (
-                    <button onClick={() => handleDeletePost(post.id)} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>
-                      🗑 Delete
-                    </button>
+                    <button onClick={() => handleDeletePost(post.id)} className="btn-danger-sm">🗑 Delete</button>
                   )}
                 </div>
 

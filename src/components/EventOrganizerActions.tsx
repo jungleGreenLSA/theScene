@@ -46,8 +46,8 @@ export default function EventOrganizerActions({ eventId, organizerId, eventSlug 
       <button onClick={handleClose} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', color: '#fb923c', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>
         Mark as Completed
       </button>
-      <button onClick={handleDelete} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>
-        🗑️ Delete
+      <button onClick={handleDelete} className="btn-danger">
+        🗑 Delete
       </button>
     </div>
   )

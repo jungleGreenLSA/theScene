@@ -203,12 +203,7 @@ export default function ActivityPage() {
   )
 
   const deleteBtn = (onClick: () => void) => (
-    <button
-      onClick={onClick}
-      style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
-    >
-      🗑 Delete
-    </button>
+    <button onClick={onClick} className="btn-danger-sm">🗑 Delete</button>
   )
 
   const emptyState = (icon: string, text: string) => (

@@ -192,9 +192,7 @@ export default function SpotPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
                   <span className="text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                   {currentUserId === s.spotter_id && (
-                    <button onClick={() => handleDeleteSighting(s.id)} style={{ padding: '3px 8px', borderRadius: '4px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '10px', fontWeight: 600, cursor: 'pointer' }}>
-                      🗑
-                    </button>
+                    <button onClick={() => handleDeleteSighting(s.id)} className="btn-danger-sm">🗑 Delete</button>
                   )}
                 </div>
                 {s.claimed_vehicle_id && (

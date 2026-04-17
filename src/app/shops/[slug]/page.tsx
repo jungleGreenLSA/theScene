@@ -40,7 +40,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
         <div style={{ padding: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', flexWrap: 'wrap' }}>
             {shop.logo_url && (
-              <div style={{ width: '72px', height: '72px', borderRadius: '12px', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(34,197,94,0.3)', marginTop: '-48px', position: 'relative', zIndex: 1, flexShrink: 0 }}>
+              <div style={{ width: '72px', height: '72px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(34,197,94,0.3)', marginTop: '-48px', position: 'relative', zIndex: 1, flexShrink: 0 }}>
                 <img src={shop.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}

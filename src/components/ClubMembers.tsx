@@ -126,8 +126,8 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
                   <Link href={`/user/${m.user?.username}`} style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{m.user?.display_name || m.user?.username}</Link>
                   {m.user?.location && <p style={{ fontSize: '11px', color: '#6b7280' }}>📍 {m.user.location}</p>}
                 </div>
-                <button onClick={() => approve(m.id)} style={{ padding: '6px 14px', borderRadius: '6px', background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)', color: '#22c55e', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>✓ Approve</button>
-                <button onClick={() => reject(m.id)} style={{ padding: '6px 14px', borderRadius: '6px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '11px', fontWeight: 700, cursor: 'pointer' }}>✕ Reject</button>
+                <button onClick={() => approve(m.id)} className="btn-success-sm">✓ Approve</button>
+                <button onClick={() => reject(m.id)} className="btn-danger-sm">✕ Reject</button>
               </div>
             ))}
           </div>
@@ -172,7 +172,7 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
                   </div>
                   {m.user?.location && <span style={{ fontSize: '12px', color: '#6b7280' }}>📍 {m.user.location}</span>}
                   {canRemove && (
-                    <button onClick={() => removeMember(m.id, m.user?.username || 'member', m.role)} style={{ padding: '5px 10px', borderRadius: '6px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '11px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>🗑 Remove</button>
+                    <button onClick={() => removeMember(m.id, m.user?.username || 'member', m.role)} className="btn-danger-sm">🗑 Remove</button>
                   )}
                 </div>
               )
