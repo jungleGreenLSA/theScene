@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { href: '/feed', label: 'Feed', membersOnly: false },
   { href: '/events', label: 'Events', membersOnly: true },
   { href: '/clubs', label: 'Clubs', membersOnly: true },
-  { href: '/marketplace', label: 'Market', membersOnly: false },
+  { href: '/marketplace', label: 'Market', membersOnly: true },
   { href: '/spot', label: 'Spot', membersOnly: true },
   { href: '/wwyd', label: 'WWYD', membersOnly: true },
 ]
@@ -27,16 +27,22 @@ export default function Navbar() {
 
   useEffect(() => {
     const loadUser = async () => {
-      const { data } = await supabase.auth.getUser()
-      setUser(data.user)
-      if (data.user) {
-        const { data: profile } = await supabase.from('profiles').select('avatar_url').eq('id', data.user.id).single()
+      // Use getSession first (reads from local storage, faster)
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session?.user) {
+        setUser(session.user)
+        const { data: profile } = await supabase.from('profiles').select('avatar_url').eq('id', session.user.id).single()
         if (profile?.avatar_url) setAvatarUrl(profile.avatar_url)
       }
     }
     loadUser()
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
+      if (session?.user) {
+        supabase.from('profiles').select('avatar_url').eq('id', session.user.id).single().then(({ data }) => {
+          if (data?.avatar_url) setAvatarUrl(data.avatar_url)
+        })
+      }
     })
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll, { passive: true })
