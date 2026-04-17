@@ -40,10 +40,16 @@ export default function FeedPage() {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .feed-sidebar { display: none !important; }
+          .feed-main { flex: 1 1 100% !important; }
+        }
+      `}</style>
       <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
 
         {/* Main feed */}
-        <div style={{ flex: '1 1 600px', minWidth: 0 }}>
+        <div className="feed-main" style={{ flex: '1 1 600px', minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <div>
               <h1 className="text-3xl font-bold">Feed</h1>
@@ -62,7 +68,7 @@ export default function FeedPage() {
         </div>
 
         {/* Sidebar */}
-        <div style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '16px', alignSelf: 'flex-start', position: 'sticky', top: '72px' }}>
+        <div className="feed-sidebar" style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '16px', alignSelf: 'flex-start', position: 'sticky', top: '72px' }}>
           {/* Latest rides */}
           <div className="glass" style={{ padding: '20px' }}>
             <h3 className="font-bold text-foreground" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '14px' }}>
