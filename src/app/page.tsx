@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import MemberHeatmap from '@/components/MemberHeatmap'
+import LiveStats from '@/components/LiveStats'
 
 export default function Home() {
   return (
@@ -230,21 +231,7 @@ export default function Home() {
               Growing Every <span className="text-neon-light">Day</span>
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px' }}>
-            {[
-              { value: '0', label: 'Garages Built', icon: '🏠', note: 'Be the first!' },
-              { value: '0', label: 'Props Given', icon: '🤙' },
-              { value: '0', label: 'Events Listed', icon: '📅' },
-              { value: '0', label: 'Guestbook Signs', icon: '📖' },
-            ].map((stat) => (
-              <div key={stat.label} className="glass card-hover text-center" style={{ padding: '28px 16px' }}>
-                <span className="block" style={{ fontSize: '24px', marginBottom: '12px' }}>{stat.icon}</span>
-                <div className="font-bold text-purple-light" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.5rem)' }}>{stat.value}</div>
-                <div className="text-muted-light uppercase tracking-wider" style={{ fontSize: '11px', marginTop: '8px' }}>{stat.label}</div>
-                {stat.note && <div className="text-neon-light font-semibold" style={{ fontSize: '11px', marginTop: '8px' }}>{stat.note}</div>}
-              </div>
-            ))}
-          </div>
+          <LiveStats />
         </div>
       </section>
 
