@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface Vehicle {
   id: string
@@ -121,6 +122,15 @@ export default function SettingsPage() {
           {message}
         </div>
       )}
+
+      {/* My Activity */}
+      <Link href="/activity" className="glass" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', marginBottom: '20px', textDecoration: 'none' }}>
+        <div>
+          <h2 className="text-foreground font-bold" style={{ fontSize: '15px', marginBottom: '2px' }}>📋 My Activity</h2>
+          <p className="text-muted-light" style={{ fontSize: '12px' }}>Manage your guestbook comments, WWYD votes, and sightings</p>
+        </div>
+        <span className="text-muted" style={{ fontSize: '18px' }}>›</span>
+      </Link>
 
       {/* Profile Settings */}
       <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
