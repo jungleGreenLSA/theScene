@@ -175,12 +175,29 @@ export default function ActivityFeed() {
   const supabase = createClient()
   const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
+  const [mode, setMode] = useState<'following' | 'all'>('following')
+  const [followingCount, setFollowingCount] = useState(0)
   const [hearts, setHearts] = useState<Set<string>>(new Set())
   const [heartCounts, setHeartCounts] = useState<Record<string, number>>({})
 
   useEffect(() => {
     const fetch = async () => {
-      const { data } = await supabase
+      setLoading(true)
+      const { data: { user } } = await supabase.auth.getUser()
+
+      // Following mode: only show activity from people the user follows (+ themselves)
+      let allowedActorIds: string[] | null = null
+      if (mode === 'following' && user) {
+        const { data: following } = await supabase
+          .from('follows')
+          .select('following_id')
+          .eq('follower_id', user.id)
+        const ids = (following || []).map(f => f.following_id as string)
+        setFollowingCount(ids.length)
+        allowedActorIds = [...ids, user.id]
+      }
+
+      let q = supabase
         .from('activity_feed')
         .select(`
           *,
@@ -190,6 +207,12 @@ export default function ActivityFeed() {
         .order('created_at', { ascending: false })
         .limit(30)
 
+      if (allowedActorIds) {
+        if (allowedActorIds.length === 0) { setActivities([]); setLoading(false); return }
+        q = q.in('actor_id', allowedActorIds)
+      }
+
+      const { data } = await q
       const acts = (data || []) as unknown as Activity[]
 
       // For 'joined' activities, fetch primary vehicle + its main photo
@@ -216,7 +239,8 @@ export default function ActivityFeed() {
     // Poll for new activity every 30 seconds
     const interval = setInterval(fetch, 30000)
     return () => clearInterval(interval)
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode])
 
   // Update user's last_active timestamp
   useEffect(() => {
@@ -247,18 +271,47 @@ export default function ActivityFeed() {
     )
   }
 
+  const toggle = (
+    <div style={{ display: 'inline-flex', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '3px', marginBottom: '16px' }}>
+      <button
+        onClick={() => setMode('following')}
+        style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'following' ? 'rgba(124,58,237,0.2)' : 'transparent', color: mode === 'following' ? '#a78bfa' : '#6b7280' }}
+      >
+        Following {mode === 'following' && followingCount > 0 && `(${followingCount})`}
+      </button>
+      <button
+        onClick={() => setMode('all')}
+        style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'all' ? 'rgba(124,58,237,0.2)' : 'transparent', color: mode === 'all' ? '#a78bfa' : '#6b7280' }}
+      >
+        All
+      </button>
+    </div>
+  )
+
   if (activities.length === 0) {
     return (
-      <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-        <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📡</span>
-        <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No activity yet</h2>
-        <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>When people join and share their builds, it&apos;ll show up here.</p>
+      <div>
+        {toggle}
+        <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
+          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📡</span>
+          <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>
+            {mode === 'following' ? 'Quiet on your side of the scene' : 'No activity yet'}
+          </h2>
+          <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>
+            {mode === 'following'
+              ? (followingCount === 0
+                ? "You're not following anyone yet. Hit Explore to find people to follow."
+                : "The people you follow haven't posted anything recently. Switch to All to see the wider scene.")
+              : "When people join and share their builds, it'll show up here."}
+          </p>
+        </div>
       </div>
     )
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      {toggle}
       {activities.map((a) => (
         <div key={a.id} className="glass card-hover" style={{ padding: '16px 20px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
           {/* Avatar with online indicator */}

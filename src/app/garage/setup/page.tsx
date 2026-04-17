@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import AddressAutocomplete from '@/components/AddressAutocomplete'
 
 const YEARS = Array.from({ length: new Date().getFullYear() - 1919 }, (_, i) => new Date().getFullYear() + 1 - i)
 const BODY_STYLES = ['Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Wagon', 'SUV', 'Truck', 'Van', 'Roadster', 'Other']
@@ -232,8 +233,16 @@ export default function GarageSetupPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Location</label>
-              <input name="location" value={form.location} onChange={handleChange} className="input" placeholder="City, ST or Zip" maxLength={128} />
-              <p style={hintStyle}>Helps others find builds near them</p>
+              <AddressAutocomplete
+                defaultValue={form.location}
+                placeholder="Start typing your city..."
+                mode="city"
+                onChange={(a) => {
+                  const value = [a.city, a.state].filter(Boolean).join(', ')
+                  if (value) setForm({ ...form, location: value })
+                }}
+              />
+              <p style={hintStyle}>Pick your city — it drops a pin on the heatmaps and shows up on the feed</p>
             </div>
             <div>
               <label style={labelStyle}>Club Affiliation</label>
