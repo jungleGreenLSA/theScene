@@ -1,37 +1,20 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import mapboxgl from 'mapbox-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
 import { createClient } from '@/lib/supabase/client'
-import { loadGoogleMaps, centerForState, geocodeCityState } from '@/lib/googleMaps'
-
-interface Point {
-  lat: number
-  lng: number
-  label: string
-}
+import { centerForState, geocodeCityState, ensureMapboxToken } from '@/lib/mapbox'
 
 interface Props {
   type: 'events' | 'clubs' | 'shops'
   title: string
 }
 
-// Dark map styling to match the site's theme
-const DARK_MAP_STYLES: google.maps.MapTypeStyle[] = [
-  { elementType: 'geometry', stylers: [{ color: '#12121e' }] },
-  { elementType: 'labels.text.stroke', stylers: [{ color: '#0c0c14' }] },
-  { elementType: 'labels.text.fill', stylers: [{ color: '#6b7280' }] },
-  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#9ca3af' }] },
-  { featureType: 'poi', stylers: [{ visibility: 'off' }] },
-  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
-  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#4b5563' }] },
-  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0c0c14' }] },
-  { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#374151' }] },
-  { featureType: 'transit', stylers: [{ visibility: 'off' }] },
-]
-
 export default function StateHeatmap({ type, title }: Props) {
   const supabase = createClient()
   const mapRef = useRef<HTMLDivElement>(null)
+  const mapInstance = useRef<mapboxgl.Map | null>(null)
   const [state, setState] = useState<string | null>(null)
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -39,12 +22,11 @@ export default function StateHeatmap({ type, title }: Props) {
 
   useEffect(() => {
     let cancelled = false
-    let mapInstance: google.maps.Map | null = null
-    let heatmap: google.maps.visualization.HeatmapLayer | null = null
-    const markers: google.maps.Marker[] = []
 
     const build = async () => {
-      // 1. Resolve user's profile state
+      try { ensureMapboxToken() }
+      catch (e: any) { setError(e.message || 'Mapbox token missing'); setLoading(false); return }
+
       const { data: { user } } = await supabase.auth.getUser()
       let userState: string | null = null
       if (user) {
@@ -57,7 +39,6 @@ export default function StateHeatmap({ type, title }: Props) {
       if (cancelled) return
       setState(userState)
 
-      // 2. Query the right table for rows in that state (or nationwide if unknown)
       let rows: { city: string; state: string; lat: number | null; lng: number | null; label: string }[] = []
       if (type === 'events') {
         const q = supabase.from('events').select('title, city, state, lat, lng').in('status', ['published', 'active'])
@@ -75,19 +56,8 @@ export default function StateHeatmap({ type, title }: Props) {
       if (cancelled) return
       setCount(rows.length)
 
-      // 3. Load Google Maps
-      try {
-        await loadGoogleMaps()
-      } catch (e: any) {
-        if (cancelled) return
-        setError(e.message || 'Google Maps failed to load')
-        setLoading(false)
-        return
-      }
-      if (cancelled || !mapRef.current || !window.google) return
-
-      // 4. Geocode any rows missing lat/lng (city+state)
-      const points: Point[] = []
+      // Resolve missing coordinates via Mapbox geocoding
+      const points: { lat: number; lng: number; label: string }[] = []
       for (const row of rows) {
         if (row.lat != null && row.lng != null) {
           points.push({ lat: row.lat, lng: row.lng, label: row.label })
@@ -96,64 +66,100 @@ export default function StateHeatmap({ type, title }: Props) {
           if (coords) points.push({ lat: coords.lat, lng: coords.lng, label: row.label })
         }
       }
-      if (cancelled) return
+      if (cancelled || !mapRef.current) return
 
-      // 5. Build map
       const center = centerForState(userState)
-      mapInstance = new window.google.maps.Map(mapRef.current, {
-        center: { lat: center.lat, lng: center.lng },
+      const colorRgb = type === 'events' ? '249,115,22' : type === 'shops' ? '34,197,94' : '124,58,237'
+      const colorSolid = `rgb(${colorRgb})`
+
+      const map = new mapboxgl.Map({
+        container: mapRef.current,
+        style: 'mapbox://styles/mapbox/dark-v11',
+        center: [center.lng, center.lat],
         zoom: center.zoom,
-        styles: DARK_MAP_STYLES,
-        disableDefaultUI: true,
-        zoomControl: true,
-        gestureHandling: 'cooperative',
+        attributionControl: true,
+      })
+      mapInstance.current = map
+
+      map.on('error', (e) => {
+        const msg = (e as any)?.error?.message || 'Map failed to load'
+        if (!cancelled) setError(msg)
       })
 
-      if (points.length > 0) {
-        const color = type === 'events' ? [249, 115, 22] : type === 'shops' ? [34, 197, 94] : [124, 58, 237]
-        heatmap = new window.google.maps.visualization.HeatmapLayer({
-          data: points.map(p => new window.google!.maps.LatLng(p.lat, p.lng)),
-          radius: 40,
-          opacity: 0.75,
-          gradient: [
-            'rgba(0,0,0,0)',
-            `rgba(${color[0]},${color[1]},${color[2]},0.4)`,
-            `rgba(${color[0]},${color[1]},${color[2]},0.7)`,
-            `rgba(${color[0]},${color[1]},${color[2]},1)`,
-          ],
-        })
-        heatmap.setMap(mapInstance)
+      map.on('load', () => {
+        if (cancelled) return
+        if (points.length === 0) { setLoading(false); return }
 
-        // Clickable markers so users can see what the heat represents
-        points.forEach(p => {
-          const marker = new window.google!.maps.Marker({
-            position: { lat: p.lat, lng: p.lng },
-            map: mapInstance!,
-            icon: {
-              path: window.google!.maps.SymbolPath.CIRCLE,
-              scale: 5,
-              fillColor: `rgb(${color[0]},${color[1]},${color[2]})`,
-              fillOpacity: 1,
-              strokeColor: '#ffffff',
-              strokeWeight: 1,
-            },
-            title: p.label,
-          })
-          markers.push(marker)
+        map.addSource('points', {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: points.map(p => ({
+              type: 'Feature' as const,
+              geometry: { type: 'Point' as const, coordinates: [p.lng, p.lat] },
+              properties: { label: p.label },
+            })),
+          },
         })
-      }
 
-      setLoading(false)
+        map.addLayer({
+          id: 'heat',
+          type: 'heatmap',
+          source: 'points',
+          paint: {
+            'heatmap-weight': 1,
+            'heatmap-intensity': 1,
+            'heatmap-color': [
+              'interpolate', ['linear'], ['heatmap-density'],
+              0, 'rgba(0,0,0,0)',
+              0.2, `rgba(${colorRgb},0.35)`,
+              0.5, `rgba(${colorRgb},0.6)`,
+              1, colorSolid,
+            ],
+            'heatmap-radius': 38,
+            'heatmap-opacity': 0.8,
+          },
+        })
+
+        map.addLayer({
+          id: 'markers',
+          type: 'circle',
+          source: 'points',
+          paint: {
+            'circle-radius': 6,
+            'circle-color': colorSolid,
+            'circle-stroke-width': 1.5,
+            'circle-stroke-color': '#ffffff',
+          },
+        })
+
+        const popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false, offset: 10, className: 'scene-map-popup' })
+        map.on('mouseenter', 'markers', (e) => {
+          map.getCanvas().style.cursor = 'pointer'
+          const f = e.features?.[0]
+          if (!f) return
+          const coords = ((f.geometry as any).coordinates as [number, number]).slice() as [number, number]
+          const label = (f.properties as any).label || ''
+          popup.setLngLat(coords).setHTML(`<div style="color:#0c0c14;font-size:11px;font-weight:700;padding:2px 4px;">${label.replace(/</g, '&lt;')}</div>`).addTo(map)
+        })
+        map.on('mouseleave', 'markers', () => {
+          map.getCanvas().style.cursor = ''
+          popup.remove()
+        })
+
+        setLoading(false)
+      })
     }
 
     build()
 
     return () => {
       cancelled = true
-      if (heatmap) heatmap.setMap(null)
-      markers.forEach(m => m.setMap(null))
+      if (mapInstance.current) {
+        mapInstance.current.remove()
+        mapInstance.current = null
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type])
 
   return (

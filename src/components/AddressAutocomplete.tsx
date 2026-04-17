@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { loadGoogleMaps, parsePlace, ParsedAddress } from '@/lib/googleMaps'
+import { searchAddresses, ParsedAddress } from '@/lib/mapbox'
 
 interface Props {
   onChange: (address: ParsedAddress) => void
   defaultValue?: string
   placeholder?: string
-  types?: string[]
+  mode?: 'address' | 'city'
   required?: boolean
 }
 
@@ -15,51 +15,67 @@ export default function AddressAutocomplete({
   onChange,
   defaultValue = '',
   placeholder = 'Start typing an address...',
-  types = ['address'],
+  mode = 'address',
   required = false,
 }: Props) {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [value, setValue] = useState(defaultValue)
+  const [suggestions, setSuggestions] = useState<ParsedAddress[]>([])
+  const [open, setOpen] = useState(false)
   const [warning, setWarning] = useState('')
+  const debounceRef = useRef<number | null>(null)
 
   useEffect(() => {
-    let ac: google.maps.places.Autocomplete | null = null
+    if (debounceRef.current) window.clearTimeout(debounceRef.current)
+    if (value.trim().length < 3) { setSuggestions([]); return }
+    debounceRef.current = window.setTimeout(async () => {
+      try {
+        const results = await searchAddresses(value, mode)
+        setSuggestions(results)
+        setOpen(results.length > 0)
+        setWarning('')
+      } catch (e: any) {
+        setWarning(e.message || 'Search unavailable')
+      }
+    }, 250)
+    return () => { if (debounceRef.current) window.clearTimeout(debounceRef.current) }
+  }, [value, mode])
 
-    loadGoogleMaps()
-      .then(() => {
-        if (!inputRef.current || !window.google) return
-        ac = new window.google.maps.places.Autocomplete(inputRef.current, {
-          types,
-          componentRestrictions: { country: 'us' },
-          fields: ['address_components', 'formatted_address', 'geometry'],
-        })
-        ac.addListener('place_changed', () => {
-          const place = ac!.getPlace()
-          if (!place.geometry) return
-          const parsed = parsePlace(place)
-          onChange(parsed)
-          if (inputRef.current) inputRef.current.value = parsed.formatted
-        })
-      })
-      .catch((err) => setWarning(err.message || 'Maps unavailable'))
-
-    return () => {
-      if (ac && window.google) window.google.maps.event.clearInstanceListeners(ac)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const pick = (s: ParsedAddress) => {
+    setValue(s.formatted)
+    setSuggestions([])
+    setOpen(false)
+    onChange(s)
+  }
 
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       <input
-        ref={inputRef}
         type="text"
-        defaultValue={defaultValue}
+        value={value}
+        onChange={(e) => { setValue(e.target.value); setOpen(true) }}
+        onFocus={() => setOpen(suggestions.length > 0)}
+        onBlur={() => setTimeout(() => setOpen(false), 180)}
         placeholder={placeholder}
         className="input"
         required={required}
         autoComplete="off"
       />
       {warning && <p style={{ fontSize: '11px', color: '#f59e0b', marginTop: '4px' }}>⚠ {warning} — fill fields manually below.</p>}
-    </>
+      {open && suggestions.length > 0 && (
+        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', zIndex: 50, maxHeight: '280px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
+          {suggestions.map((s, i) => (
+            <button
+              key={i}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => pick(s)}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'none', border: 'none', borderBottom: i < suggestions.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: 'pointer', color: '#e2e4e9', fontSize: '13px' }}
+            >
+              {s.formatted}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }

@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
-import type { ParsedAddress } from '@/lib/googleMaps'
+import type { ParsedAddress } from '@/lib/mapbox'
 
 export default function CreateClubPage() {
   const supabase = createClient()
@@ -143,7 +143,6 @@ export default function CreateClubPage() {
               <div style={{ marginBottom: '8px' }}>
                 <AddressAutocomplete
                   placeholder="Start typing address or city..."
-                  types={['geocode']}
                   onChange={(a) => applyAddress(i, a)}
                 />
               </div>

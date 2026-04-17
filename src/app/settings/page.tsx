@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
-import type { ParsedAddress } from '@/lib/googleMaps'
+import type { ParsedAddress } from '@/lib/mapbox'
 
 interface Vehicle {
   id: string
@@ -258,7 +258,7 @@ export default function SettingsPage() {
           <AddressAutocomplete
             defaultValue={profile?.location || ''}
             placeholder="Start typing a city — e.g. &quot;Omaha, NE&quot;"
-            types={['(cities)']}
+            mode="city"
             onChange={(a: ParsedAddress) => {
               const value = [a.city, a.state].filter(Boolean).join(', ')
               if (value) updateProfile('location', value)

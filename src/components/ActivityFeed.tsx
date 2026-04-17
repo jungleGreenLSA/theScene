@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { stateFullName } from '@/lib/googleMaps'
+import { stateFullName } from '@/lib/mapbox'
 
 interface Activity {
   id: string

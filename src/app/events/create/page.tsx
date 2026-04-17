@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
-import type { ParsedAddress } from '@/lib/googleMaps'
+import type { ParsedAddress } from '@/lib/mapbox'
 
 interface Club {
   id: string

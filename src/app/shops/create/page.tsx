@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
-import type { ParsedAddress } from '@/lib/googleMaps'
+import type { ParsedAddress } from '@/lib/mapbox'
 
 const SPECIALTY_OPTIONS = ['Performance', 'Tune', 'Dyno', 'Engine Build', 'Body & Paint', 'Wheels & Tires', 'Detail', 'Suspension', 'Fabrication', 'Exhaust', 'Wrap', 'Audio', 'Custom']
 
