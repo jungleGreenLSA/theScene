@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import PropsButton from '@/components/PropsButton'
+import ClaimSightingButton from '@/components/ClaimSightingButton'
 
 interface Sighting {
   id: string
@@ -188,6 +189,9 @@ export default function SpotPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <PropsButton targetType="sighting" targetId={s.id} initialCount={s.props_count || 0} size="sm" />
                   <Link href={`/user/${s.spotter?.username}`} className="text-muted" style={{ fontSize: '12px' }}>by @{s.spotter?.username}</Link>
+                </div>
+                <div style={{ marginTop: '8px' }}>
+                  <ClaimSightingButton sightingId={s.id} spotterId={s.spotter_id} alreadyClaimed={!!s.claimed_vehicle_id} onClaimed={() => setSightings(sightings.map(x => x.id === s.id ? { ...x, claimed_vehicle_id: 'claimed' } as any : x))} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
                   <span className="text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>

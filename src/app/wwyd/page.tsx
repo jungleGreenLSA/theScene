@@ -23,6 +23,7 @@ export default function WWYDPage() {
   const [showForm, setShowForm] = useState(false)
   const [votedPosts, setVotedPosts] = useState<Set<string>>(new Set())
   const [form, setForm] = useState({ title: '', description: '', budget: '', options: ['', '', ''] })
+  const [imageFile, setImageFile] = useState<File | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
 
@@ -70,8 +71,19 @@ export default function WWYDPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { window.location.href = '/auth/login'; return }
 
+    let imageUrl: string | null = null
+    if (imageFile) {
+      const ext = imageFile.name.split('.').pop()?.toLowerCase() || 'jpg'
+      const filename = `wwyd/${user.id}/${Date.now()}.${ext}`
+      const { error: upErr } = await supabase.storage.from('posts').upload(filename, imageFile)
+      if (!upErr) {
+        const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
+        imageUrl = urlData.publicUrl
+      }
+    }
+
     const { data: post } = await supabase.from('wwyd_posts').insert({
-      author_id: user.id, title: form.title, description: form.description, budget: form.budget,
+      author_id: user.id, title: form.title, description: form.description, budget: form.budget, image_url: imageUrl,
     }).select().single()
 
     if (post) {
@@ -83,6 +95,7 @@ export default function WWYDPage() {
 
     setShowForm(false)
     setForm({ title: '', description: '', budget: '', options: ['', '', ''] })
+    setImageFile(null)
     setSubmitting(false)
     window.location.reload()
   }
@@ -112,6 +125,11 @@ export default function WWYDPage() {
           <div style={{ marginBottom: '12px' }}>
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Details (optional)</label>
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" rows={2} placeholder="Tell the community about your car and what you're thinking..." />
+          </div>
+          <div style={{ marginBottom: '12px' }}>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Photo of your car (optional)</label>
+            <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '13px' }} />
+            {imageFile && <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '4px' }}>✓ {imageFile.name}</p>}
           </div>
           <div style={{ marginBottom: '16px' }}>
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On</label>
@@ -157,6 +175,11 @@ export default function WWYDPage() {
                 </div>
 
                 <h3 className="font-bold text-foreground" style={{ fontSize: '1.1rem', marginBottom: '6px' }}>{post.title}</h3>
+                {post.image_url && (
+                  <div style={{ borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', maxHeight: '360px', background: 'rgba(26,26,46,0.5)' }}>
+                    <img src={post.image_url} alt="" style={{ width: '100%', maxHeight: '360px', objectFit: 'cover' }} />
+                  </div>
+                )}
                 {post.budget && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>💰 Budget: {post.budget}</span>}
                 {post.description && <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '14px', lineHeight: 1.5 }}>{post.description}</p>}
 
