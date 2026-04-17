@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import { getNearbyPrefs } from '@/lib/nearbyFilter'
 
 interface Vehicle {
   id: string
@@ -29,6 +30,7 @@ export default function ExplorePage() {
   const supabase = createClient()
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
   const [loading, setLoading] = useState(true)
+  const [nearbyState, setNearbyState] = useState<string | null>(null)
 
   const [search, setSearch] = useState('')
   const [make, setMake] = useState('')
@@ -63,6 +65,16 @@ export default function ExplorePage() {
       )
     }
 
+    // "Only show people near me" toggle from settings
+    const prefs = await getNearbyPrefs(supabase)
+    if (prefs.filterPeople && prefs.state) {
+      results = results.filter(v => {
+        const parts = (v.owner?.location || '').split(',').map(s => s.trim())
+        return (parts[1] || '').toUpperCase().slice(0, 2) === prefs.state
+      })
+      setNearbyState(prefs.state)
+    }
+
     setVehicles(results)
     setLoading(false)
   }
@@ -80,7 +92,9 @@ export default function ExplorePage() {
       {/* Header */}
       <div className="text-center" style={{ marginBottom: '24px' }}>
         <h1 className="text-3xl font-bold">Explore <span className="text-purple-light">The Scene</span></h1>
-        <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>Discover builds from enthusiasts across the country</p>
+        <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>
+          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: '#a78bfa' }}>{nearbyState}</span></> : ' across the country'}
+        </p>
       </div>
 
       {/* Search Bar */}

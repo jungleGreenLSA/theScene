@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import SceneHeatmap from '@/components/SceneHeatmap'
+import { getNearbyPrefs } from '@/lib/nearbyFilter'
 
 interface Event {
   id: string
@@ -30,14 +31,22 @@ export default function EventsPage() {
   const [loading, setLoading] = useState(true)
   const [locationFilter, setLocationFilter] = useState('')
 
+  const [nearbyState, setNearbyState] = useState<string | null>(null)
+
   useEffect(() => {
     const fetchEvents = async () => {
-      const { data } = await supabase
+      const prefs = await getNearbyPrefs(supabase)
+      let q = supabase
         .from('events')
         .select(`*, organizer:profiles(username, display_name, avatar_url)`)
         .in('status', ['published', 'active'])
         .order('event_date', { ascending: true })
         .limit(30)
+      if (prefs.filterEvents && prefs.state) {
+        q = q.eq('state', prefs.state)
+        setNearbyState(prefs.state)
+      }
+      const { data } = await q
       setEvents((data || []) as Event[])
       setLoading(false)
     }
@@ -57,7 +66,9 @@ export default function EventsPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 className="text-3xl font-bold">Events</h1>
-          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>Car shows, meets, track days, and cruises</p>
+          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>
+            Car shows, meets, track days, and cruises{nearbyState && <> · filtered to <span style={{ color: '#fb923c' }}>{nearbyState}</span></>}
+          </p>
         </div>
         <Link href="/events/create" className="btn-primary text-xs">Create Event</Link>
       </div>

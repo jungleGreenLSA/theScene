@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import { getNearbyPrefs } from '@/lib/nearbyFilter'
 
 interface Listing {
   id: string
@@ -27,14 +28,22 @@ export default function MarketplacePage() {
   const [filter, setFilter] = useState('')
   const [typeFilter, setTypeFilter] = useState('')
 
+  const [nearbyState, setNearbyState] = useState<string | null>(null)
+
   useEffect(() => {
     const fetch = async () => {
-      const { data } = await supabase
+      const prefs = await getNearbyPrefs(supabase)
+      let q = supabase
         .from('listings')
         .select('*, seller:profiles!listings_seller_id_fkey(username, display_name, avatar_url, location), images:listing_images(image_url), comments:listing_comments(id)')
         .eq('status', 'active')
         .order('created_at', { ascending: false })
         .limit(30)
+      if (prefs.filterMarketplace && prefs.state) {
+        q = q.eq('state', prefs.state)
+        setNearbyState(prefs.state)
+      }
+      const { data } = await q
       setListings((data || []) as unknown as Listing[])
       setLoading(false)
     }

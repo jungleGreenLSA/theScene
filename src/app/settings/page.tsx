@@ -29,6 +29,10 @@ interface Profile {
   avatar_url: string
   subscription_tier: string
   username_changed_at: string | null
+  filter_clubs_nearby: boolean
+  filter_events_nearby: boolean
+  filter_people_nearby: boolean
+  filter_marketplace_nearby: boolean
 }
 
 const USERNAME_COOLDOWN_DAYS = 60
@@ -272,6 +276,55 @@ export default function SettingsPage() {
           </button>
         </div>
       </div>
+
+      {/* Nearby Filters */}
+      {profile && (() => {
+        const userState = (profile.location || '').split(',').map(s => s.trim())[1]?.toUpperCase().slice(0, 2) || null
+        const toggleRow = (key: 'filter_clubs_nearby' | 'filter_events_nearby' | 'filter_people_nearby' | 'filter_marketplace_nearby', label: string, desc: string) => {
+          const on = !!profile[key]
+          return (
+            <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{label}</p>
+                <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>{desc}</p>
+              </div>
+              <button
+                onClick={async () => {
+                  await supabase.from('profiles').update({ [key]: !on }).eq('id', profile.id)
+                  setProfile({ ...profile, [key]: !on })
+                }}
+                style={{
+                  width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
+                  background: on ? '#7c3aed' : 'rgba(255,255,255,0.08)',
+                  position: 'relative', transition: 'background 0.2s',
+                  flexShrink: 0, marginLeft: '16px',
+                }}
+              >
+                <span style={{
+                  position: 'absolute', top: '3px', left: on ? '23px' : '3px',
+                  width: '18px', height: '18px', borderRadius: '50%', background: 'white',
+                  transition: 'left 0.2s',
+                }} />
+              </button>
+            </div>
+          )
+        }
+        return (
+          <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
+            <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '4px' }}>📍 Only Show Me What&apos;s Nearby</h2>
+            <p className="text-muted-light text-sm" style={{ marginBottom: '8px' }}>
+              Scope listings to your state{userState ? ` (${userState})` : ''}.
+              {!userState && ' Set your Location above to enable these.'}
+            </p>
+            <div style={{ opacity: userState ? 1 : 0.5, pointerEvents: userState ? 'auto' : 'none' }}>
+              {toggleRow('filter_events_nearby', '📅 Events only near me', 'Hides car shows outside your state on /events')}
+              {toggleRow('filter_clubs_nearby', '🏁 Clubs only near me', 'Hides clubs with no chapter in your state on /clubs')}
+              {toggleRow('filter_people_nearby', '👥 People only near me', 'Filters the Explore page to members in your state')}
+              {toggleRow('filter_marketplace_nearby', '🏪 Marketplace only near me', 'Hides listings from sellers outside your state')}
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Profile Visibility */}
       <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>

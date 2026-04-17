@@ -36,14 +36,29 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
     const { data: { user } } = await supabase.auth.getUser()
     setCurrentUserId(user?.id || null)
 
-    const { data: memberRows } = await supabase
+    let { data: memberRows } = await supabase
       .from('club_members')
       .select('id, user_id, role, status, joined_at, user:profiles(username, display_name, avatar_url, location)')
       .eq('club_id', clubId)
       .order('role')
       .order('joined_at')
 
-    const rows = (memberRows || []) as unknown as Member[]
+    let rows = (memberRows || []) as unknown as Member[]
+
+    // Self-heal: if the club's creator isn't in the members list (earlier
+    // insert may have failed silently), insert them as founder and reload.
+    if (createdBy && !rows.some(r => r.user_id === createdBy)) {
+      await supabase.from('club_members').insert({ club_id: clubId, user_id: createdBy, role: 'founder', added_by: createdBy, status: 'active' })
+      const { data: refetched } = await supabase
+        .from('club_members')
+        .select('id, user_id, role, status, joined_at, user:profiles(username, display_name, avatar_url, location)')
+        .eq('club_id', clubId)
+        .order('role')
+        .order('joined_at')
+      memberRows = refetched
+      rows = (refetched || []) as unknown as Member[]
+    }
+
     const active = rows.filter(m => m.status !== 'pending' && m.status !== 'rejected')
     const pendingRows = rows.filter(m => m.status === 'pending')
 

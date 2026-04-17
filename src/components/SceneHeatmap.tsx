@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { geocodeCityState } from '@/lib/mapbox'
 
 // Project continental-US lat/lng onto the SVG viewBox (0 0 960 600).
 // Calibrated with Seattle / LA / NYC / Miami as anchor points (linear
@@ -49,20 +50,36 @@ export default function SceneHeatmap({ type, title }: Props) {
 
   useEffect(() => {
     const fetchRows = async () => {
-      let rows: { lat: number | null; lng: number | null; label: string; city: string | null }[] = []
+      let rows: { lat: number | null; lng: number | null; label: string; city: string | null; state: string | null }[] = []
 
       if (type === 'events') {
-        const { data } = await supabase.from('events').select('title, city, lat, lng').in('status', ['published', 'active'])
-        rows = (data || []).map(e => ({ lat: e.lat, lng: e.lng, label: e.title, city: e.city }))
+        const { data } = await supabase.from('events').select('title, city, state, lat, lng').in('status', ['published', 'active'])
+        rows = (data || []).map(e => ({ lat: e.lat, lng: e.lng, label: e.title, city: e.city, state: e.state }))
       } else if (type === 'shops') {
-        const { data } = await supabase.from('shops').select('name, city, lat, lng')
-        rows = (data || []).map(s => ({ lat: s.lat, lng: s.lng, label: s.name, city: s.city }))
+        const { data } = await supabase.from('shops').select('name, city, state, lat, lng')
+        rows = (data || []).map(s => ({ lat: s.lat, lng: s.lng, label: s.name, city: s.city, state: s.state }))
       } else {
-        const { data } = await supabase.from('club_locations').select('city, lat, lng, clubs(name)')
-        rows = (data || []).map((l: any) => ({ lat: l.lat, lng: l.lng, label: l.clubs?.name || 'Club', city: l.city }))
+        const { data } = await supabase.from('club_locations').select('city, state, lat, lng, clubs(name)')
+        rows = (data || []).map((l: any) => ({ lat: l.lat, lng: l.lng, label: l.clubs?.name || 'Club', city: l.city, state: l.state }))
       }
 
       setTotal(rows.length)
+
+      // Client-side geocode fallback for legacy rows missing lat/lng
+      // (e.g. events created before Mapbox was wired up). Cheap — only
+      // fires for rows that need it, and results are cached in-memory.
+      const geocodeCache = new Map<string, { lat: number; lng: number } | null>()
+      await Promise.all(rows.map(async (r) => {
+        if (r.lat != null && r.lng != null) return
+        if (!r.city) return
+        const key = `${r.city.toLowerCase()}|${(r.state || '').toLowerCase()}`
+        if (!geocodeCache.has(key)) {
+          try { geocodeCache.set(key, await geocodeCityState(r.city, r.state || '')) }
+          catch { geocodeCache.set(key, null) }
+        }
+        const coords = geocodeCache.get(key)
+        if (coords) { r.lat = coords.lat; r.lng = coords.lng }
+      }))
 
       // Bucket points that land on similar map pixels so duplicate cities
       // stack rather than overlap. Key by rounded projected coords.

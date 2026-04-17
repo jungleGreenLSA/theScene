@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import SceneHeatmap from '@/components/SceneHeatmap'
+import { getNearbyPrefs } from '@/lib/nearbyFilter'
 
 interface Club {
   id: string
@@ -24,18 +25,22 @@ export default function ClubsPage() {
 
   useEffect(() => { fetchClubs() }, [])
 
+  const [nearbyState, setNearbyState] = useState<string | null>(null)
+
   const fetchClubs = async () => {
     setLoading(true)
+    const prefs = await getNearbyPrefs(supabase)
     const { data } = await supabase
       .from('clubs')
       .select(`*, locations:club_locations(city, state, label), members:club_members(id)`)
       .eq('is_public', true)
       .order('name')
 
-    const mapped = (data || []).map((c: any) => ({
-      ...c,
-      member_count: c.members?.length || 0,
-    }))
+    let mapped = (data || []).map((c: any) => ({ ...c, member_count: c.members?.length || 0 }))
+    if (prefs.filterClubs && prefs.state) {
+      mapped = mapped.filter((c: any) => c.locations?.some((l: any) => (l.state || '').toUpperCase() === prefs.state))
+      setNearbyState(prefs.state)
+    }
     setClubs(mapped)
     setLoading(false)
   }
@@ -55,7 +60,9 @@ export default function ClubsPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 className="text-3xl font-bold">Car <span className="text-purple-light">Clubs</span></h1>
-          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>Find your crew. Join your local scene.</p>
+          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>
+            Find your crew. Join your local scene.{nearbyState && <> · filtered to <span style={{ color: '#a78bfa' }}>{nearbyState}</span></>}
+          </p>
         </div>
         <Link href="/clubs/create" className="btn-primary text-xs">Start a Club</Link>
       </div>
