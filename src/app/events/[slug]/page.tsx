@@ -6,6 +6,7 @@ import EventPhotoFeed from '@/components/EventPhotoFeed'
 import EventCheckIn from '@/components/EventCheckIn'
 import EventOrganizerActions from '@/components/EventOrganizerActions'
 import EventRSVP from '@/components/EventRSVP'
+import PropsButton from '@/components/PropsButton'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -117,10 +118,11 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             </div>
           )}
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', fontSize: '14px', color: '#8892a4', marginBottom: '14px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', fontSize: '14px', color: '#8892a4', marginBottom: '14px', alignItems: 'center' }}>
             <span>📅 {eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} at {eventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
             {event.location_name && <span>📍 {event.location_name}</span>}
             <span>👥 {event.rsvp_count || 0} interested</span>
+            <PropsButton targetType="event" targetId={event.id} size="sm" />
           </div>
 
           {/* RSVP buttons */}

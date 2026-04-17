@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import PropsButton from '@/components/PropsButton'
 
 interface Sighting {
   id: string
@@ -12,6 +13,7 @@ interface Sighting {
   city: string
   state: string
   description: string
+  instagram_handle: string | null
   props_count: number
   created_at: string
   spotter: { username: string; display_name: string; avatar_url: string }
@@ -24,7 +26,7 @@ export default function SpotPage() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [uploading, setUploading] = useState(false)
-  const [form, setForm] = useState({ location_name: '', city: '', state: '', description: '' })
+  const [form, setForm] = useState({ location_name: '', city: '', state: '', description: '', instagram_handle: '' })
   const [file, setFile] = useState<File | null>(null)
   const [message, setMessage] = useState('')
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
@@ -76,6 +78,7 @@ export default function SpotPage() {
       city: form.city,
       state: form.state.toUpperCase(),
       description: form.description,
+      instagram_handle: form.instagram_handle ? form.instagram_handle.replace(/^@/, '').trim() : null,
     })
     if (insertError) {
       setMessage(`Post failed: ${insertError.message}`)
@@ -86,7 +89,7 @@ export default function SpotPage() {
 
     setMessage('Sighting posted! If the owner is on The Scene, they\'ll get notified.')
     setShowForm(false)
-    setForm({ location_name: '', city: '', state: '', description: '' })
+    setForm({ location_name: '', city: '', state: '', description: '', instagram_handle: '' })
     setFile(null)
     setUploading(false)
     setTimeout(() => setMessage(''), 4000)
@@ -123,6 +126,17 @@ export default function SpotPage() {
             </div>
           </div>
           <input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" placeholder="What did you spot? (e.g. Jungle Green Chevy SS, heavily modified)" style={{ marginBottom: '12px' }} />
+          <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '12px' }}>
+            <span style={{ padding: '0 10px', color: '#6b7280', fontSize: '13px' }}>@</span>
+            <input
+              value={form.instagram_handle}
+              onChange={(e) => setForm({ ...form, instagram_handle: e.target.value.replace(/^@/, '').trim() })}
+              className="input"
+              placeholder="IG handle if you saw one on the car (sticker, plate frame)"
+              style={{ flex: 1 }}
+              maxLength={30}
+            />
+          </div>
           <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} className="input" style={{ marginBottom: '12px', fontSize: '13px' }} required />
           <button type="submit" disabled={uploading} className="btn-neon" style={{ opacity: uploading ? 0.5 : 1, fontSize: '12px' }}>
             {uploading ? 'Posting...' : '📸 Post Sighting'}
@@ -166,16 +180,22 @@ export default function SpotPage() {
               <div style={{ padding: '16px' }}>
                 {s.description && <p className="text-foreground" style={{ fontSize: '14px', marginBottom: '8px' }}>{s.description}</p>}
                 <p className="text-muted-light" style={{ fontSize: '12px' }}>📍 {s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
+                {s.instagram_handle && (
+                  <a href={`https://instagram.com/${s.instagram_handle}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '6px', fontSize: '12px', color: '#a78bfa' }}>
+                    📸 @{s.instagram_handle} on IG
+                  </a>
+                )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <PropsButton targetType="sighting" targetId={s.id} initialCount={s.props_count || 0} size="sm" />
                   <Link href={`/user/${s.spotter?.username}`} className="text-muted" style={{ fontSize: '12px' }}>by @{s.spotter?.username}</Link>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <span className="text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-                    {currentUserId === s.spotter_id && (
-                      <button onClick={() => handleDeleteSighting(s.id)} style={{ padding: '3px 8px', borderRadius: '4px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '10px', fontWeight: 600, cursor: 'pointer' }}>
-                        🗑
-                      </button>
-                    )}
-                  </div>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
+                  <span className="text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  {currentUserId === s.spotter_id && (
+                    <button onClick={() => handleDeleteSighting(s.id)} style={{ padding: '3px 8px', borderRadius: '4px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '10px', fontWeight: 600, cursor: 'pointer' }}>
+                      🗑
+                    </button>
+                  )}
                 </div>
                 {s.claimed_vehicle_id && (
                   <div style={{ marginTop: '8px', padding: '6px 10px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)' }}>

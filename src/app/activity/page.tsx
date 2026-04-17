@@ -54,6 +54,15 @@ interface WwydPostItem {
   created_at: string
 }
 
+interface ListingItem {
+  id: string
+  title: string
+  listing_type: string
+  price: number
+  status: string
+  created_at: string
+}
+
 export default function ActivityPage() {
   const supabase = createClient()
   const router = useRouter()
@@ -64,15 +73,16 @@ export default function ActivityPage() {
   const [events, setEvents] = useState<EventItem[]>([])
   const [clubs, setClubs] = useState<ClubItem[]>([])
   const [wwydPosts, setWwydPosts] = useState<WwydPostItem[]>([])
+  const [listings, setListings] = useState<ListingItem[]>([])
   const [message, setMessage] = useState('')
-  const [activeTab, setActiveTab] = useState<'events' | 'clubs' | 'wwydPosts' | 'guestbook' | 'wwyd' | 'sightings'>('events')
+  const [activeTab, setActiveTab] = useState<'events' | 'clubs' | 'listings' | 'wwydPosts' | 'guestbook' | 'wwyd' | 'sightings'>('events')
 
   useEffect(() => {
     const load = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/auth/login'); return }
 
-      const [g, v, s, e, c, wp] = await Promise.all([
+      const [g, v, s, e, c, wp, li] = await Promise.all([
         supabase
           .from('guestbook_entries')
           .select('id, content, created_at, vehicle:vehicles(slug, year, make, model, owner:profiles!owner_id(username))')
@@ -103,6 +113,11 @@ export default function ActivityPage() {
           .select('id, title, budget, created_at')
           .eq('author_id', user.id)
           .order('created_at', { ascending: false }),
+        supabase
+          .from('listings')
+          .select('id, title, listing_type, price, status, created_at')
+          .eq('seller_id', user.id)
+          .order('created_at', { ascending: false }),
       ])
 
       setGuestbook((g.data || []) as unknown as GuestbookItem[])
@@ -111,35 +126,41 @@ export default function ActivityPage() {
       setEvents((e.data || []) as unknown as EventItem[])
       setClubs((c.data || []) as unknown as ClubItem[])
       setWwydPosts((wp.data || []) as unknown as WwydPostItem[])
+      setListings((li.data || []) as unknown as ListingItem[])
       setLoading(false)
     }
     load()
   }, [])
 
+  const runDelete = async <T extends { id: string }>(table: string, id: string, list: T[], setList: (rows: T[]) => void, label: string, migrationNote: string) => {
+    const { error, count } = await supabase.from(table).delete({ count: 'exact' }).eq('id', id)
+    if (error) { flash('Delete failed: ' + error.message); return false }
+    if (count === 0) { flash(`Blocked by RLS. ${migrationNote}`); return false }
+    setList(list.filter(x => x.id !== id))
+    flash(`${label} removed.`)
+    return true
+  }
+
   const removeEvent = async (id: string) => {
     if (!window.confirm('Delete this event and all RSVPs? This cannot be undone.')) return
-    const { error } = await supabase.from('events').delete().eq('id', id)
-    if (error) { flash('Delete failed: ' + error.message); return }
-    setEvents(events.filter(e => e.id !== id))
-    flash('Event removed.')
+    await runDelete('events', id, events, setEvents, 'Event', 'Apply migration 013 in Supabase.')
   }
 
   const removeClub = async (id: string) => {
     if (!window.confirm('Delete this club and all chapters/members? This cannot be undone.')) return
     const typed = window.prompt('Type "delete" to confirm:')
     if (typed?.toLowerCase() !== 'delete') return
-    const { error } = await supabase.from('clubs').delete().eq('id', id)
-    if (error) { flash('Delete failed: ' + error.message); return }
-    setClubs(clubs.filter(c => c.id !== id))
-    flash('Club removed.')
+    await runDelete('clubs', id, clubs, setClubs, 'Club', 'Apply migration 013 in Supabase.')
   }
 
   const removeWwydPost = async (id: string) => {
     if (!window.confirm('Delete this WWYD post and all votes? This cannot be undone.')) return
-    const { error } = await supabase.from('wwyd_posts').delete().eq('id', id)
-    if (error) { flash('Delete failed: ' + error.message); return }
-    setWwydPosts(wwydPosts.filter(p => p.id !== id))
-    flash('Post removed.')
+    await runDelete('wwyd_posts', id, wwydPosts, setWwydPosts, 'Post', 'Apply migration 013 in Supabase.')
+  }
+
+  const removeListing = async (id: string) => {
+    if (!window.confirm('Delete this listing? This cannot be undone.')) return
+    await runDelete('listings', id, listings, setListings, 'Listing', 'Listings DELETE policy is in migration 010.')
   }
 
   const flash = (text: string) => {
@@ -149,26 +170,17 @@ export default function ActivityPage() {
 
   const removeGuestbook = async (id: string) => {
     if (!window.confirm('Delete this guestbook comment?')) return
-    const { error } = await supabase.from('guestbook_entries').delete().eq('id', id)
-    if (error) { flash('Delete failed: ' + error.message); return }
-    setGuestbook(guestbook.filter(g => g.id !== id))
-    flash('Comment removed.')
+    await runDelete('guestbook_entries', id, guestbook, setGuestbook, 'Comment', 'Apply migration 012.')
   }
 
   const removeVote = async (id: string) => {
     if (!window.confirm('Remove this vote?')) return
-    const { error } = await supabase.from('wwyd_votes').delete().eq('id', id)
-    if (error) { flash('Delete failed: ' + error.message); return }
-    setVotes(votes.filter(v => v.id !== id))
-    flash('Vote removed.')
+    await runDelete('wwyd_votes', id, votes, setVotes, 'Vote', 'Apply migration 012.')
   }
 
   const removeSighting = async (id: string) => {
     if (!window.confirm('Delete this sighting?')) return
-    const { error } = await supabase.from('sightings').delete().eq('id', id)
-    if (error) { flash('Delete failed: ' + error.message); return }
-    setSightings(sightings.filter(s => s.id !== id))
-    flash('Sighting removed.')
+    await runDelete('sightings', id, sightings, setSightings, 'Sighting', 'Sightings DELETE policy is in migration 005.')
   }
 
   const fmtDate = (d: string) => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -230,11 +242,31 @@ export default function ActivityPage() {
       <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
         {tabBtn('events', '📅 Events', events.length)}
         {tabBtn('clubs', '🏁 Clubs', clubs.length)}
+        {tabBtn('listings', '🏪 Marketplace', listings.length)}
         {tabBtn('wwydPosts', '🤔 WWYD Posts', wwydPosts.length)}
         {tabBtn('guestbook', '📝 Guestbook', guestbook.length)}
         {tabBtn('wwyd', '🗳 WWYD Votes', votes.length)}
         {tabBtn('sightings', '📸 Sightings', sightings.length)}
       </div>
+
+      {activeTab === 'listings' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {listings.length === 0 ? emptyState('🏪', "You haven't posted any marketplace listings yet.") : listings.map(l => (
+            <div key={l.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <Link href={`/marketplace/${l.id}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{l.title}</Link>
+                <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
+                  <span style={{ color: '#fb923c', fontWeight: 600 }}>${l.price}</span>
+                  <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.listing_type}</span>
+                  <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.status}</span>
+                  <span className="text-muted" style={{ marginLeft: '8px' }}>· {fmtDate(l.created_at)}</span>
+                </p>
+              </div>
+              {deleteBtn(() => removeListing(l.id))}
+            </div>
+          ))}
+        </div>
+      )}
 
       {activeTab === 'events' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

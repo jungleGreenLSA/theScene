@@ -11,6 +11,7 @@ interface Activity {
   target_id: string
   metadata: Record<string, string>
   created_at: string
+  actor_id: string
   actor: {
     username: string
     display_name: string
@@ -19,6 +20,7 @@ interface Activity {
     first_name: string
     location: string
   }
+  primary_vehicle?: { year: number; make: string; model: string; color: string; slug: string; image_url: string | null } | null
 }
 
 function timeAgo(date: string) {
@@ -36,16 +38,34 @@ function renderActivity(a: Activity) {
   const m = a.metadata || {}
 
   switch (a.action) {
-    case 'joined':
+    case 'joined': {
+      const v = a.primary_vehicle
+      const cityOnly = (m.location || '').split(',')[0].trim()
       return (
         <div>
           <p className="text-foreground" style={{ fontSize: '14px' }}>
             <Link href={`/user/${username}`} className="font-semibold hover:text-purple-light">{name}</Link>
-            {m.location ? ` from ${m.location}` : ''} joined The Scene
+            {cityOnly ? ` from ${cityOnly}` : ''} joined The Scene
           </p>
-          <span style={{ fontSize: '11px', color: '#fb923c', fontWeight: 600 }}>Welcome! 🎉</span>
+          {v && (
+            <Link href={`/user/${username}/${v.slug}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px', padding: '8px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)', maxWidth: '340px' }}>
+              <div style={{ width: '52px', height: '52px', borderRadius: '6px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {v.image_url ? (
+                  <img src={v.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <span style={{ fontSize: '22px' }}>🏁</span>
+                )}
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ fontSize: '12px', color: '#a78bfa', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.year} {v.make} {v.model}</p>
+                {v.color && <p style={{ fontSize: '11px', color: '#6b7280' }}>{v.color}</p>}
+              </div>
+            </Link>
+          )}
+          <span style={{ fontSize: '11px', color: '#fb923c', fontWeight: 600, display: 'inline-block', marginTop: '8px' }}>Welcome! 🎉</span>
         </div>
       )
+    }
 
     case 'added_vehicle':
       return (
@@ -166,7 +186,25 @@ export default function ActivityFeed() {
         .order('created_at', { ascending: false })
         .limit(30)
 
-      setActivities((data || []) as unknown as Activity[])
+      const acts = (data || []) as unknown as Activity[]
+
+      // For 'joined' activities, fetch primary vehicle + its main photo
+      const joinedActorIds = acts.filter(a => a.action === 'joined').map(a => a.actor_id).filter(Boolean)
+      if (joinedActorIds.length > 0) {
+        const { data: vehicles } = await supabase
+          .from('vehicles')
+          .select('owner_id, year, make, model, color, slug, primary_image_url')
+          .in('owner_id', joinedActorIds)
+          .eq('is_primary', true)
+          .eq('is_public', true)
+        const vMap: Record<string, any> = {}
+        vehicles?.forEach(v => {
+          vMap[v.owner_id] = { year: v.year, make: v.make, model: v.model, color: v.color, slug: v.slug, image_url: v.primary_image_url }
+        })
+        acts.forEach(a => { if (a.action === 'joined' && vMap[a.actor_id]) a.primary_vehicle = vMap[a.actor_id] })
+      }
+
+      setActivities(acts)
       setLoading(false)
     }
     fetch()
