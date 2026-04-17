@@ -40,7 +40,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
   const totalViews = vehicles?.reduce((sum, v) => sum + (v.view_count || 0), 0) || 0
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
       {/* Cover image */}
       <div className="glass" style={{ overflow: 'hidden', marginBottom: '24px' }}>
         <div style={{ height: '180px', position: 'relative', background: 'rgba(26,26,46,0.5)' }}>
@@ -53,81 +53,83 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
         </div>
       </div>
 
+      <div className="profile-grid">
+        <div className="profile-grid-sidebar">
+
       {/* Profile header */}
-      <div className="glass" style={{ padding: '32px', marginBottom: '24px' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '20px' }}>
-          {/* Avatar with online indicator */}
-          <div style={{ position: 'relative', flexShrink: 0 }}>
-            <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(124,58,237,0.3)' }}>
+      <div className="glass" style={{ padding: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '12px' }}>
+          <div style={{ position: 'relative' }}>
+            <div style={{ width: '96px', height: '96px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(124,58,237,0.3)' }}>
               {profile.avatar_url ? (
                 <img src={profile.avatar_url} alt={profile.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
-                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', color: '#6b7280' }}>
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', color: '#6b7280' }}>
                   {profile.username.charAt(0).toUpperCase()}
                 </div>
               )}
             </div>
             {profile.is_online && (
-              <div style={{ position: 'absolute', bottom: 2, right: 2, width: '16px', height: '16px', borderRadius: '50%', background: '#22c55e', border: '3px solid #12121e', boxShadow: '0 0 8px rgba(34,197,94,0.5)' }} />
+              <div style={{ position: 'absolute', bottom: 4, right: 4, width: '18px', height: '18px', borderRadius: '50%', background: '#22c55e', border: '3px solid #12121e', boxShadow: '0 0 8px rgba(34,197,94,0.5)' }} />
             )}
           </div>
 
-          {/* Name + meta */}
-          <div style={{ flex: 1, minWidth: '200px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', justifyContent: 'center' }}>
               <h1 className="text-2xl font-bold text-foreground">{profile.display_name || profile.username}</h1>
               {profile.subscription_tier === 'premium' && (
                 <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.2)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa' }}>Premium</span>
               )}
-              {profile.is_online && (
-                <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600 }}>● Active now</span>
-              )}
             </div>
             <p className="text-purple-light" style={{ fontSize: '14px' }}>@{profile.username}</p>
-            {profile.location && (
-              <p className="text-muted-light" style={{ fontSize: '13px', marginTop: '4px' }}>📍 {profile.location}</p>
-            )}
-            {profile.bio && (
-              <p className="text-muted-light" style={{ fontSize: '14px', marginTop: '8px', lineHeight: 1.6, maxWidth: '500px' }}>{profile.bio}</p>
-            )}
-            <p className="text-muted" style={{ fontSize: '11px', marginTop: '6px' }}>
-              Joined {new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-            </p>
-
-            {/* Followers/Following */}
-            <div style={{ marginTop: '12px' }}>
-              <FollowLists userId={profile.id} />
-              <UserBadges userId={profile.id} />
-            </div>
+            {profile.is_online && <p style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600, marginTop: '4px' }}>● Active now</p>}
           </div>
 
-          {/* Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+          {profile.location && (
+            <p className="text-muted-light" style={{ fontSize: '13px' }}>📍 {profile.location}</p>
+          )}
+          {profile.bio && (
+            <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.6 }}>{profile.bio}</p>
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', alignItems: 'stretch' }}>
             <FollowButton targetUserId={profile.id} targetUsername={profile.username} />
             <UserActions targetUserId={profile.id} targetUsername={profile.username} />
           </div>
+
+          <p className="text-muted" style={{ fontSize: '11px' }}>
+            Joined {new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+          </p>
         </div>
 
-        {/* Stats bar */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 120px), 1fr))', gap: '12px', marginTop: '20px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          <div style={{ textAlign: 'center' }}>
-            <div className="text-purple-light font-bold" style={{ fontSize: '1.2rem' }}>🤙 {totalProps}</div>
-            <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Props</div>
+        {/* Stats grid — 2x2 in the narrow sidebar */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '18px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
+            <div className="text-purple-light font-bold" style={{ fontSize: '1.1rem' }}>🤙 {totalProps}</div>
+            <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Props</div>
           </div>
-          <div style={{ textAlign: 'center' }}>
-            <div className="text-purple-light font-bold" style={{ fontSize: '1.2rem' }}>👁 {totalViews}</div>
-            <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Views</div>
+          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
+            <div className="text-purple-light font-bold" style={{ fontSize: '1.1rem' }}>👁 {totalViews}</div>
+            <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Views</div>
           </div>
-          <div style={{ textAlign: 'center' }}>
-            <div className="text-neon-light font-bold" style={{ fontSize: '1.2rem' }}>📅 {eventsAttended?.length || 0}</div>
-            <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Events</div>
+          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
+            <div className="text-neon-light font-bold" style={{ fontSize: '1.1rem' }}>📅 {eventsAttended?.length || 0}</div>
+            <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Events</div>
           </div>
-          <div style={{ textAlign: 'center' }}>
-            <div className="text-neon-light font-bold" style={{ fontSize: '1.2rem' }}>🚗 {vehicles?.length || 0}</div>
-            <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Rides</div>
+          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
+            <div className="text-neon-light font-bold" style={{ fontSize: '1.1rem' }}>🚗 {vehicles?.length || 0}</div>
+            <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Rides</div>
           </div>
         </div>
+
+        <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <FollowLists userId={profile.id} />
+          <UserBadges userId={profile.id} />
+        </div>
       </div>
+
+      </div>
+      <div>
 
       {/* Garage */}
       <h2 className="font-bold text-foreground" style={{ fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -179,6 +181,9 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
           ))}
         </div>
       )}
+
+        </div>
+      </div>
     </div>
   )
 }
