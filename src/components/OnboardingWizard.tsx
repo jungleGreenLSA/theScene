@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
+import { compressImage } from '@/lib/imageUpload'
 
 interface Profile {
   id: string
@@ -68,7 +69,7 @@ export default function OnboardingWizard() {
     setBusy(true)
     const ext = avatarFile.name.split('.').pop()?.toLowerCase() || 'jpg'
     const filename = `avatars/${profile.id}/${Date.now()}.${ext}`
-    const { error: upErr } = await supabase.storage.from('posts').upload(filename, avatarFile, { upsert: true })
+    const { error: upErr } = await supabase.storage.from('posts').upload(filename, await compressImage(avatarFile), { upsert: true })
     if (upErr) { setError('Avatar upload failed: ' + upErr.message); setBusy(false); return }
     const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
     await supabase.from('profiles').update({ avatar_url: urlData.publicUrl }).eq('id', profile.id)
@@ -87,7 +88,7 @@ export default function OnboardingWizard() {
     if (vehicleFile) {
       const ext = vehicleFile.name.split('.').pop()?.toLowerCase() || 'jpg'
       const filename = `vehicles/${profile.id}/${Date.now()}.${ext}`
-      const { error: upErr } = await supabase.storage.from('posts').upload(filename, vehicleFile, { upsert: true })
+      const { error: upErr } = await supabase.storage.from('posts').upload(filename, await compressImage(vehicleFile), { upsert: true })
       if (!upErr) {
         const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
         imageUrl = urlData.publicUrl

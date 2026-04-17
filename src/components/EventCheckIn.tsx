@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import { compressImage } from '@/lib/imageUpload'
 
 interface Vehicle { id: string; year: number; make: string; model: string; color: string }
 interface CheckIn { id: string; note: string; image_url: string; created_at: string; user: { username: string; display_name: string; avatar_url: string }; vehicle: { year: number; make: string; model: string; color: string } | null }
@@ -50,7 +51,7 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
     let imageUrl = ''
     if (file) {
       const filename = `checkins/${user.id}/${Date.now()}.${file.name.split('.').pop()}`
-      await supabase.storage.from('events').upload(filename, file)
+      await supabase.storage.from('events').upload(filename, await compressImage(file))
       const { data } = supabase.storage.from('events').getPublicUrl(filename)
       imageUrl = data.publicUrl
     }

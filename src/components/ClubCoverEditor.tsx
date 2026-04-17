@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { compressImage } from '@/lib/imageUpload'
 
 interface Props {
   clubId: string
@@ -39,7 +40,7 @@ export default function ClubCoverEditor({ clubId, currentCoverUrl, currentLogoUr
     setUploading(kind)
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
     const filename = `clubs/${clubId}/${kind}_${Date.now()}.${ext}`
-    const { error: upErr } = await supabase.storage.from('posts').upload(filename, file, { upsert: true })
+    const { error: upErr } = await supabase.storage.from('posts').upload(filename, await compressImage(file), { upsert: true })
     if (upErr) { flash('Upload failed: ' + upErr.message); setUploading(null); return }
     const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
 

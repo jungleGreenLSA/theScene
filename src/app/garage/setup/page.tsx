@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
+import { compressImage } from '@/lib/imageUpload'
 
 const YEARS = Array.from({ length: new Date().getFullYear() - 1919 }, (_, i) => new Date().getFullYear() + 1 - i)
 const BODY_STYLES = ['Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Wagon', 'SUV', 'Truck', 'Van', 'Roadster', 'Other']
@@ -106,7 +107,7 @@ export default function GarageSetupPage() {
         for (let i = 0; i < photoFiles.length; i++) {
           const file = photoFiles[i]
           const filename = `vehicles/${user.id}/${newVehicle.id}/${Date.now()}_${i}.${file.name.split('.').pop()}`
-          const { error: uploadErr } = await supabase.storage.from('posts').upload(filename, file)
+          const { error: uploadErr } = await supabase.storage.from('posts').upload(filename, await compressImage(file))
           if (!uploadErr) {
             const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
             await supabase.from('vehicle_images').insert({ vehicle_id: newVehicle.id, image_url: urlData.publicUrl, sort_order: i })

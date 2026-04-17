@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { compressImage } from '@/lib/imageUpload'
+
+const FREE_PHOTO_LIMIT = 5
 
 interface VehicleImage { id: string; image_url: string; caption: string; sort_order: number }
 
@@ -17,6 +20,7 @@ export default function VehiclePhotosPage() {
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState('')
+  const [isPremium, setIsPremium] = useState(false)
 
   useEffect(() => {
     const load = async () => {
@@ -25,6 +29,13 @@ export default function VehiclePhotosPage() {
 
       const { data: imgs } = await supabase.from('vehicle_images').select('*').eq('vehicle_id', vehicleId).order('sort_order')
       setImages(imgs || [])
+
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data: prof } = await supabase.from('profiles').select('subscription_tier, role').eq('id', user.id).maybeSingle()
+        if (prof?.subscription_tier === 'premium' || prof?.role === 'admin') setIsPremium(true)
+      }
+
       setLoading(false)
     }
     load()
@@ -33,14 +44,25 @@ export default function VehiclePhotosPage() {
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files) return
-    setUploading(true)
 
+    // Enforce free-tier limit of 5 photos per vehicle
+    const current = images.length
+    const incoming = files.length
+    if (!isPremium && current + incoming > FREE_PHOTO_LIMIT) {
+      setMessage(`Free accounts are capped at ${FREE_PHOTO_LIMIT} photos per car. You have ${current}. Upgrade for unlimited.`)
+      setTimeout(() => setMessage(''), 6000)
+      e.target.value = ''
+      return
+    }
+
+    setUploading(true)
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
 
     for (let i = 0; i < files.length; i++) {
-      const file = files[i]
-      if (file.size > 5 * 1024 * 1024) { setMessage('Max 5MB per photo'); continue }
+      const raw = files[i]
+      if (raw.size > 15 * 1024 * 1024) { setMessage('Max 15MB per photo'); continue }
+      const file = await compressImage(raw)
 
       const filename = `vehicles/${user.id}/${vehicleId}/${Date.now()}_${i}.${file.name.split('.').pop()}`
       const { error } = await supabase.storage.from('posts').upload(filename, file)
@@ -54,13 +76,11 @@ export default function VehiclePhotosPage() {
         sort_order: images.length + i,
       })
 
-      // Set first image as primary if none exists
       if (!vehicle?.primary_image_url && i === 0) {
         await supabase.from('vehicles').update({ primary_image_url: urlData.publicUrl }).eq('id', vehicleId)
       }
     }
 
-    // Refresh
     const { data: imgs } = await supabase.from('vehicle_images').select('*').eq('vehicle_id', vehicleId).order('sort_order')
     setImages(imgs || [])
     setMessage(`${files.length} photo${files.length > 1 ? 's' : ''} uploaded!`)

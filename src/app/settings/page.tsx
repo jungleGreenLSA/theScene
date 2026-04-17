@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
 import type { ParsedAddress } from '@/lib/mapbox'
+import { compressImage } from '@/lib/imageUpload'
 
 interface Vehicle {
   id: string
@@ -168,7 +169,7 @@ export default function SettingsPage() {
               const filename = `avatars/${profile.id}/${Date.now()}.${ext}`
 
               // Upload to posts bucket (reliable, already configured)
-              const { error: uploadError } = await supabase.storage.from('posts').upload(filename, file, { upsert: true })
+              const { error: uploadError } = await supabase.storage.from('posts').upload(filename, await compressImage(file), { upsert: true })
               if (uploadError) {
                 setMessage('Upload failed: ' + uploadError.message)
                 setTimeout(() => setMessage(''), 5000)

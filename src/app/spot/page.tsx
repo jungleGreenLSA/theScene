@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import PropsButton from '@/components/PropsButton'
 import ClaimSightingButton from '@/components/ClaimSightingButton'
+import { compressImage } from '@/lib/imageUpload'
 
 interface Sighting {
   id: string
@@ -63,7 +64,7 @@ export default function SpotPage() {
     if (!user) { window.location.href = '/auth/login'; return }
 
     const filename = `sightings/${user.id}/${Date.now()}.${file.name.split('.').pop()}`
-    const { error: uploadError } = await supabase.storage.from('posts').upload(filename, file)
+    const { error: uploadError } = await supabase.storage.from('posts').upload(filename, await compressImage(file))
     if (uploadError) {
       setMessage(`Upload failed: ${uploadError.message}`)
       setUploading(false)

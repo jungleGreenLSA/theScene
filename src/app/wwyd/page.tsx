@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import { compressImage } from '@/lib/imageUpload'
 
 interface WYDPost {
   id: string
@@ -75,7 +76,7 @@ export default function WWYDPage() {
     if (imageFile) {
       const ext = imageFile.name.split('.').pop()?.toLowerCase() || 'jpg'
       const filename = `wwyd/${user.id}/${Date.now()}.${ext}`
-      const { error: upErr } = await supabase.storage.from('posts').upload(filename, imageFile)
+      const { error: upErr } = await supabase.storage.from('posts').upload(filename, await compressImage(imageFile))
       if (!upErr) {
         const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
         imageUrl = urlData.publicUrl

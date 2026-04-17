@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { compressImage } from '@/lib/imageUpload'
 
 export default function CreateListingPage() {
   const supabase = createClient()
@@ -61,7 +62,7 @@ export default function CreateListingPage() {
     for (let i = 0; i < Math.min(files.length, maxPhotos); i++) {
       const file = files[i]
       const filename = `marketplace/${user.id}/${Date.now()}_${i}.${file.name.split('.').pop()}`
-      const { error: uploadErr } = await supabase.storage.from('posts').upload(filename, file)
+      const { error: uploadErr } = await supabase.storage.from('posts').upload(filename, await compressImage(file))
       if (!uploadErr) {
         const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
         await supabase.from('listing_images').insert({ listing_id: listing.id, image_url: urlData.publicUrl, sort_order: i })

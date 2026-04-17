@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
 import { geocodeCityState, type ParsedAddress } from '@/lib/mapbox'
+import { compressImage } from '@/lib/imageUpload'
 
 interface Club {
   id: string
@@ -100,7 +101,7 @@ export default function CreateEventPage() {
       if (flyerFile.size > 5 * 1024 * 1024) { setError('Flyer must be under 5MB'); setLoading(false); return }
 
       const filename = `${user.id}/${Date.now()}_flyer.${flyerFile.name.split('.').pop()}`
-      const { error: uploadError } = await supabase.storage.from('events').upload(filename, flyerFile)
+      const { error: uploadError } = await supabase.storage.from('events').upload(filename, await compressImage(flyerFile))
       if (uploadError) { setError('Flyer upload failed'); setLoading(false); return }
       const { data: urlData } = supabase.storage.from('events').getPublicUrl(filename)
       flyerUrl = urlData.publicUrl

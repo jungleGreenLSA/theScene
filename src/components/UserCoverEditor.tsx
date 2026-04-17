@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { compressImage } from '@/lib/imageUpload'
 
 export default function UserCoverEditor({ userId, currentCoverUrl }: { userId: string; currentCoverUrl: string | null }) {
   const supabase = createClient()
@@ -21,7 +22,7 @@ export default function UserCoverEditor({ userId, currentCoverUrl }: { userId: s
     setUploading(true)
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
     const filename = `covers/${userId}/${Date.now()}.${ext}`
-    const { error: upErr } = await supabase.storage.from('posts').upload(filename, file, { upsert: true })
+    const { error: upErr } = await supabase.storage.from('posts').upload(filename, await compressImage(file), { upsert: true })
     if (upErr) { setMessage('Upload failed: ' + upErr.message); setUploading(false); return }
     const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
 

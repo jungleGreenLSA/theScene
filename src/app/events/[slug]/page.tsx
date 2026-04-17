@@ -8,6 +8,7 @@ import EventOrganizerActions from '@/components/EventOrganizerActions'
 import EventRSVP from '@/components/EventRSVP'
 import PropsButton from '@/components/PropsButton'
 import ShareButton from '@/components/ShareButton'
+import EventComments from '@/components/EventComments'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -213,6 +214,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
       {(isToday || isActive) && (
         <EventCheckIn eventId={event.id} eventTitle={event.title} />
       )}
+
+      {/* Comments */}
+      <EventComments eventId={event.id} organizerId={event.organizer_id} />
 
       {/* Post-Event Photo Section */}
       {isCompleted && (
