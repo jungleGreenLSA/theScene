@@ -105,71 +105,61 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
       {/* Breadcrumb */}
-      <div className="text-sm text-muted mb-6">
-        <Link href={`/user/${username}`} className="hover:text-purple-light">@{username}</Link>
-        <span className="mx-2">/</span>
-        <span className="text-foreground">{vehicle.year} {vehicle.make} {vehicle.model}</span>
+      <div style={{ fontSize: '14px', color: '#6b7280', marginBottom: '20px' }}>
+        <Link href={`/user/${username}`} style={{ color: '#8892a4' }}>@{username}</Link>
+        <span style={{ margin: '0 8px' }}>/</span>
+        <span style={{ color: '#e2e4e9' }}>{vehicle.year} {vehicle.make} {vehicle.model}</span>
       </div>
 
       {/* Hero card */}
-      <div className="glass overflow-hidden mb-8 glow-purple">
-        <div className="h-80 md:h-[450px] bg-surface-light relative overflow-hidden">
+      <div className="glass glow-purple" style={{ overflow: 'hidden', marginBottom: '24px' }}>
+        <div style={{ height: '350px', background: 'rgba(26,26,46,0.5)', position: 'relative', overflow: 'hidden' }}>
           {vehicle.primary_image_url ? (
-            <img
-              src={vehicle.primary_image_url}
-              alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
-              className="w-full h-full object-cover"
-            />
+            <img src={vehicle.primary_image_url} alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="text-6xl">🚗</span>
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: '64px' }}>🚗</span>
             </div>
           )}
-          <span className="absolute top-4 right-4 text-xs uppercase tracking-wider font-bold px-3 py-1.5 rounded-full bg-background/80 text-neon-light border border-neon/30">
+          <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(12,12,20,0.8)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.3)' }}>
             {vehicle.build_status?.replace('_', ' ')}
           </span>
         </div>
 
-        <div className="p-6 md:p-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div style={{ padding: '24px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+              <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9' }}>
                 {vehicle.year} {vehicle.make} {vehicle.model}
               </h1>
-              <p className="text-lg text-purple-light mt-1">{vehicle.color}</p>
+              <p style={{ fontSize: '16px', color: '#a78bfa', marginTop: '4px' }}>{vehicle.color}</p>
             </div>
-            <div className="flex items-center gap-4" style={{ flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <PropsButton vehicleId={vehicle.id} initialCount={vehicle.props_count || 0} />
-              <div className="text-sm text-muted">
-                👁 {vehicle.view_count || 0} views
-              </div>
+              <span style={{ fontSize: '13px', color: '#6b7280' }}>👁 {vehicle.view_count || 0} views</span>
               <GarageQR username={username} vehicleSlug={vehicleSlug} />
             </div>
           </div>
 
           {/* Owner */}
-          <Link href={`/user/${username}`} className="flex items-center gap-3 mt-6 pt-4 border-t border-border">
-            <div className="w-10 h-10 rounded-full bg-surface-light overflow-hidden flex items-center justify-center">
-              {profile.avatar_url ? (
-                <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
-              ) : (
-                <span className="text-sm text-muted">{profile.username.charAt(0).toUpperCase()}</span>
-              )}
+          <Link href={`/user/${username}`} style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', backgroundImage: profile.avatar_url ? `url(${profile.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {!profile.avatar_url && <span style={{ fontSize: '14px', color: '#6b7280' }}>{profile.username.charAt(0).toUpperCase()}</span>}
             </div>
             <div>
-              <p className="text-sm font-semibold text-foreground hover:text-purple-light">{profile.display_name || profile.username}</p>
-              <p className="text-xs text-muted-light">@{profile.username} {profile.location && `• ${profile.location}`}</p>
+              <p style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>{profile.display_name || profile.username}</p>
+              <p style={{ fontSize: '12px', color: '#8892a4' }}>@{profile.username} {profile.location && `· ${profile.location}`}</p>
             </div>
           </Link>
         </div>
       </div>
 
       {/* Specs grid */}
-      <div className="glass p-6 mb-8">
-        <h2 className="text-lg font-bold text-foreground mb-4">📋 Specs</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>📋 Specs</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 140px), 1fr))', gap: '10px' }}>
           {[
             { label: 'Year', value: vehicle.year },
             { label: 'Make', value: vehicle.make },
@@ -182,9 +172,9 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
             { label: 'Horsepower', value: vehicle.horsepower },
             { label: 'Mileage', value: vehicle.mileage },
           ].filter(s => s.value).map((spec) => (
-            <div key={spec.label} className="bg-surface rounded-lg p-3">
-              <p className="text-[10px] uppercase tracking-wider text-purple-light font-semibold">{spec.label}</p>
-              <p className="text-sm font-medium text-foreground mt-0.5">{spec.value}</p>
+            <div key={spec.label} style={{ padding: '12px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px' }}>
+              <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#a78bfa', fontWeight: 600 }}>{spec.label}</p>
+              <p style={{ fontSize: '14px', fontWeight: 500, color: '#e2e4e9', marginTop: '2px' }}>{spec.value}</p>
             </div>
           ))}
         </div>
@@ -192,20 +182,20 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
 
       {/* About */}
       {vehicle.bio && (
-        <div className="glass p-6 mb-8">
-          <h2 className="text-lg font-bold text-foreground mb-3">📝 About This Build</h2>
-          <p className="text-muted-light leading-relaxed whitespace-pre-wrap">{vehicle.bio}</p>
+        <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>📝 About This Build</h2>
+          <p style={{ fontSize: '14px', color: '#9ca3af', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{vehicle.bio}</p>
         </div>
       )}
 
       {/* Gallery */}
       {images && images.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-lg font-bold text-foreground mb-4">📸 Gallery</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div style={{ marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>📸 Gallery</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '10px' }}>
             {images.map((img) => (
-              <div key={img.id} className="rounded-lg overflow-hidden bg-surface-light aspect-video">
-                <img src={img.image_url} alt={img.caption || ''} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+              <div key={img.id} style={{ borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '16/9' }}>
+                <img src={img.image_url} alt={img.caption || ''} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             ))}
           </div>
@@ -214,25 +204,25 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
 
       {/* Modifications */}
       {Object.keys(modsByCategory).length > 0 && (
-        <div className="glass p-6 mb-8">
-          <h2 className="text-lg font-bold text-foreground mb-4">🔧 Modifications</h2>
-          <div className="space-y-6">
+        <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>🔧 Modifications</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {Object.entries(modsByCategory).map(([category, items]) => (
               <div key={category}>
-                <h3 className="text-sm font-bold text-neon-light uppercase tracking-wider mb-2">
+                <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#fb923c', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '8px' }}>
                   {categoryLabels[category] || category}
                 </h3>
-                <ul className="space-y-1.5">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {items?.map((mod) => (
-                    <li key={mod.id} className="flex items-start gap-2 text-sm text-muted-light">
-                      <span className="text-purple-light mt-1">•</span>
+                    <div key={mod.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: '#9ca3af' }}>
+                      <span style={{ color: '#a78bfa', marginTop: '2px' }}>•</span>
                       <span>
-                        {mod.brand && <strong className="text-foreground">{mod.brand}</strong>} {mod.item}
-                        {mod.notes && <span className="text-muted ml-1">— {mod.notes}</span>}
+                        {mod.brand && <strong style={{ color: '#e2e4e9' }}>{mod.brand}</strong>} {mod.item}
+                        {mod.notes && <span style={{ color: '#6b7280', marginLeft: '4px' }}>— {mod.notes}</span>}
                       </span>
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
             ))}
           </div>

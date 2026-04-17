@@ -57,6 +57,21 @@ export default function GarageSetupPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { setError('You must be signed in'); setLoading(false); return }
 
+    // Ensure profile exists (Google OAuth users may not have one)
+    const { data: existingProfile } = await supabase.from('profiles').select('id').eq('id', user.id).single()
+    if (!existingProfile) {
+      const fullName = user.user_metadata?.full_name || user.user_metadata?.name || ''
+      const nameParts = fullName.split(' ')
+      await supabase.from('profiles').insert({
+        id: user.id,
+        username: (user.user_metadata?.username || fullName.toLowerCase().replace(/[^a-z0-9]/g, '_') || 'user') + '_' + user.id.slice(0, 4),
+        display_name: fullName,
+        avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || '',
+        first_name: nameParts[0] || '',
+        last_name: nameParts.length > 1 ? nameParts.slice(1).join(' ') : '',
+      })
+    }
+
     const slug = `${form.year}-${form.make}-${form.model}-${form.color}`
       .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
 
