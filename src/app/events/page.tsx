@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import EventHeatmap from '@/components/EventHeatmap'
 
 interface Event {
   id: string
@@ -71,6 +72,11 @@ export default function EventsPage() {
           className="input"
           style={{ width: '100%' }}
         />
+      </div>
+
+      {/* Event Heatmap */}
+      <div style={{ marginBottom: '20px' }}>
+        <EventHeatmap />
       </div>
 
       {/* Results */}

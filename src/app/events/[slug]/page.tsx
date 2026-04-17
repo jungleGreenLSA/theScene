@@ -4,6 +4,7 @@ import Link from 'next/link'
 import EventPhotoUpload from '@/components/EventPhotoUpload'
 import EventPhotoFeed from '@/components/EventPhotoFeed'
 import EventCheckIn from '@/components/EventCheckIn'
+import EventOrganizerActions from '@/components/EventOrganizerActions'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -155,6 +156,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
               </Link>
             </div>
           </div>
+        </div>
+        {/* Organizer actions */}
+        <EventOrganizerActions eventId={event.id} organizerId={event.organizer_id} />
         </div>
       </div>
 

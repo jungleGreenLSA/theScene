@@ -17,6 +17,9 @@ export default function CreateEventPage() {
   const [error, setError] = useState('')
   const [clubs, setClubs] = useState<Club[]>([])
   const [flyerFile, setFlyerFile] = useState<File | null>(null)
+  const [canCreate, setCanCreate] = useState(true)
+  const [eventCount, setEventCount] = useState(0)
+  const [maxEvents, setMaxEvents] = useState(2)
 
   const [form, setForm] = useState({
     title: '',
@@ -36,6 +39,17 @@ export default function CreateEventPage() {
     const loadClubs = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
+
+      // Check event limits
+      const { data: profile } = await supabase.from('profiles').select('subscription_tier, role').eq('id', user.id).single()
+      const isPremium = profile?.subscription_tier === 'premium' || profile?.role === 'admin'
+      const limit = isPremium ? 10 : 2
+      setMaxEvents(limit)
+
+      const { count } = await supabase.from('events').select('id', { count: 'exact', head: true }).eq('organizer_id', user.id).in('status', ['published', 'active', 'draft'])
+      setEventCount(count || 0)
+      setCanCreate((count || 0) < limit)
+
       // Get clubs where user is admin or founder
       const { data } = await supabase
         .from('club_members')
@@ -124,8 +138,17 @@ export default function CreateEventPage() {
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>
         Create an <span className="text-neon-light">Event</span>
       </h1>
-      <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '28px' }}>List a car show, meet, track day, or cruise</p>
+      <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '12px' }}>List a car show, meet, track day, or cruise</p>
+      <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '28px' }}>{eventCount} of {maxEvents} events used {maxEvents <= 2 && '· Upgrade to premium for up to 10'}</p>
 
+      {!canCreate ? (
+        <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
+          <span style={{ fontSize: '40px', display: 'block', marginBottom: '12px' }}>📅</span>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Event limit reached</h2>
+          <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '20px' }}>Free members can create up to {maxEvents} events. Upgrade for more.</p>
+          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Upgrade to Premium</Link>
+        </div>
+      ) : (
       <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px' }}>
         {/* Title */}
         <div style={{ marginBottom: '16px' }}>
@@ -234,6 +257,7 @@ export default function CreateEventPage() {
           {loading ? 'Creating event...' : '📅 Publish Event'}
         </button>
       </form>
+      )}
     </div>
   )
 }
