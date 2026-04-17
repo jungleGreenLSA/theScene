@@ -67,31 +67,31 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
       {/* Club Header */}
-      <div className="glass overflow-hidden mb-8 glow-purple">
-        <div className="h-48 md:h-64 bg-surface-light relative overflow-hidden">
+      <div className="glass glow-purple" style={{ overflow: 'hidden', marginBottom: '24px' }}>
+        <div style={{ height: '220px', background: 'rgba(26,26,46,0.5)', position: 'relative', overflow: 'hidden' }}>
           {club.cover_image_url ? (
-            <img src={club.cover_image_url} alt={club.name} className="w-full h-full object-cover" />
+            <img src={club.cover_image_url} alt={club.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple/15 to-neon/10">
-              <span className="text-6xl">🏁</span>
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(249,115,22,0.1))' }}>
+              <span style={{ fontSize: '64px' }}>🏁</span>
             </div>
           )}
         </div>
 
-        <div className="p-6 md:p-8">
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+        <div style={{ padding: '24px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px' }}>
             {club.logo_url && (
-              <div className="w-20 h-20 rounded-full bg-surface-light border-2 border-purple/30 overflow-hidden flex-shrink-0 -mt-14 md:-mt-16 relative z-10">
-                <img src={club.logo_url} alt="" className="w-full h-full object-cover" />
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(124,58,237,0.3)', flexShrink: 0, marginTop: '-48px', position: 'relative', zIndex: 1 }}>
+                <img src={club.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold text-foreground">{club.name}</h1>
+            <div style={{ flex: 1 }}>
+              <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9' }}>{club.name}</h1>
               {founder && (
-                <p className="text-sm text-muted-light mt-1">
-                  Founded by <Link href={`/user/${founder.username}`} className="text-purple-light hover:text-neon-light">{founder.display_name || founder.username}</Link>
+                <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>
+                  Founded by <Link href={`/user/${founder.username}`} style={{ color: '#a78bfa' }}>{founder.display_name || founder.username}</Link>
                 </p>
               )}
             </div>
@@ -99,29 +99,29 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
           </div>
 
           {club.description && (
-            <p className="text-muted-light mt-4 leading-relaxed">{club.description}</p>
+            <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '14px', lineHeight: 1.7 }}>{club.description}</p>
           )}
 
           {/* Social Links */}
-          <div className="flex items-center gap-3 mt-4">
-            {club.website && <a href={club.website} target="_blank" rel="noopener" className="text-xs text-purple-light hover:text-neon-light">🌐 Website</a>}
-            {club.instagram_handle && <a href={`https://instagram.com/${club.instagram_handle}`} target="_blank" rel="noopener" className="text-xs text-purple-light hover:text-neon-light">📸 Instagram</a>}
-            {club.facebook_url && <a href={club.facebook_url} target="_blank" rel="noopener" className="text-xs text-purple-light hover:text-neon-light">👥 Facebook</a>}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px' }}>
+            {club.website && <a href={club.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>🌐 Website</a>}
+            {club.instagram_handle && <a href={`https://instagram.com/${club.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>📸 Instagram</a>}
+            {club.facebook_url && <a href={club.facebook_url} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>👥 Facebook</a>}
           </div>
         </div>
       </div>
 
       {/* Locations / Chapters */}
       {locations && locations.length > 0 && (
-        <div className="glass p-6 mb-8">
-          <h2 className="text-lg font-bold text-foreground mb-4">📍 Chapters &amp; Locations</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>📍 Chapters &amp; Locations</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '10px' }}>
             {locations.map((loc) => (
-              <div key={loc.id} className="bg-surface rounded-lg p-4 border border-border">
-                <p className="font-semibold text-foreground">{loc.city}, {loc.state}</p>
-                {loc.label && <p className="text-xs text-purple-light mt-0.5">{loc.label}</p>}
-                {loc.zip_code && <p className="text-xs text-muted mt-0.5">ZIP: {loc.zip_code}</p>}
-                {loc.is_primary && <span className="text-[10px] uppercase tracking-wider text-neon-light font-bold mt-1 block">Primary Chapter</span>}
+              <div key={loc.id} style={{ padding: '14px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <p style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>{loc.city}, {loc.state}</p>
+                {loc.label && <p style={{ fontSize: '12px', color: '#a78bfa', marginTop: '2px' }}>{loc.label}</p>}
+                {loc.zip_code && <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>ZIP: {loc.zip_code}</p>}
+                {loc.is_primary && <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', color: '#fb923c', fontWeight: 700, display: 'block', marginTop: '4px' }}>Primary Chapter</span>}
               </div>
             ))}
           </div>
@@ -129,52 +129,45 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
       )}
 
       {/* Members */}
-      <div className="glass p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-foreground">👥 Members ({members?.length || 0})</h2>
+      <div className="glass" style={{ padding: '24px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9' }}>👥 Members ({members?.length || 0})</h2>
         </div>
 
         {(!members || members.length === 0) ? (
-          <p className="text-muted-light text-sm">No members yet.</p>
+          <p style={{ fontSize: '13px', color: '#8892a4' }}>No members yet.</p>
         ) : (
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {members.map((member) => {
               const v = vehicleMap[member.user_id]
               return (
-                <div key={member.id} className="flex items-center gap-4 p-3 rounded-lg bg-surface border border-border hover:border-purple/20 transition-colors">
-                  {/* Avatar */}
-                  <Link href={`/user/${member.user?.username}`} className="flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-surface-light overflow-hidden flex items-center justify-center">
-                      {member.user?.avatar_url ? (
-                        <img src={member.user.avatar_url} alt="" className="w-full h-full object-cover" />
-                      ) : (
-                        <span className="text-sm text-muted">{member.user?.username?.charAt(0).toUpperCase()}</span>
-                      )}
+                <div key={member.id} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <Link href={`/user/${member.user?.username}`} style={{ flexShrink: 0 }}>
+                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', backgroundImage: member.user?.avatar_url ? `url(${member.user.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {!member.user?.avatar_url && <span style={{ fontSize: '14px', color: '#6b7280' }}>{member.user?.username?.charAt(0).toUpperCase()}</span>}
                     </div>
                   </Link>
 
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <Link href={`/user/${member.user?.username}`} className="text-sm font-semibold text-foreground hover:text-purple-light truncate">
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Link href={`/user/${member.user?.username}`} style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {member.user?.display_name || member.user?.username}
                       </Link>
-                      <span className="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-purple/10 text-purple-light border border-purple/20 flex-shrink-0">
+                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', color: '#a78bfa', border: '1px solid rgba(124,58,237,0.2)', flexShrink: 0 }}>
                         {roleBadges[member.role] || member.role}
                       </span>
                     </div>
                     {v ? (
-                      <Link href={`/user/${member.user?.username}/${v.slug}`} className="text-xs text-muted-light hover:text-neon-light mt-0.5 block truncate">
+                      <Link href={`/user/${member.user?.username}/${v.slug}`} style={{ fontSize: '12px', color: '#8892a4', display: 'block', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {v.year} {v.make} {v.model} {v.color && `— ${v.color}`}
                       </Link>
                     ) : (
-                      <p className="text-xs text-muted mt-0.5">No garage yet</p>
+                      <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>No garage yet</p>
                     )}
                   </div>
 
-                  {/* Location */}
                   {member.user?.location && (
-                    <span className="text-xs text-muted hidden md:block">📍 {member.user.location}</span>
+                    <span style={{ fontSize: '12px', color: '#6b7280' }}>📍 {member.user.location}</span>
                   )}
                 </div>
               )
