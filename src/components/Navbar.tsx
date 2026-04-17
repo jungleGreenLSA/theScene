@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
+import GlobalSearch from '@/components/GlobalSearch'
 
 const NAV_LINKS = [
   { href: '/explore', label: 'Explore', membersOnly: true },
@@ -70,6 +71,13 @@ export default function Navbar() {
         <Link href="/" style={{ flexShrink: 0, fontSize: '16px', fontWeight: 700, letterSpacing: '1.5px', color: '#e2e4e9' }}>
           THE<span style={{ color: '#a78bfa' }}>SCENE</span>
         </Link>
+
+        {/* Global search — desktop only */}
+        {user && (
+          <div className="nav-desktop" style={{ margin: 0, flex: 'none', width: '320px' }}>
+            <GlobalSearch />
+          </div>
+        )}
 
         {/* Desktop Nav + Right side grouped */}
         <div className="nav-desktop">

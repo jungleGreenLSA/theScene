@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import OnboardingWizard from "@/components/OnboardingWizard";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,6 +58,7 @@ export default function RootLayout({
         <main className="min-h-screen" style={{ paddingTop: '56px' }}>
           {children}
         </main>
+        <OnboardingWizard />
         <Footer />
       </body>
     </html>
