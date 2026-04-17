@@ -51,9 +51,9 @@ export default function PricingPage() {
   const [showPremiumDetails, setShowPremiumDetails] = useState(false)
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly')
 
-  const price = billingCycle === 'monthly' ? '$6.99' : '$69.99'
-  const perMonth = billingCycle === 'yearly' ? '$5.83' : '$6.99'
-  const savings = billingCycle === 'yearly' ? '2 months free!' : ''
+  const price = billingCycle === 'monthly' ? '$4.99' : '$50'
+  const perMonth = billingCycle === 'yearly' ? '$4.17' : '$4.99'
+  const savings = billingCycle === 'yearly' ? 'Save $10/year!' : ''
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>

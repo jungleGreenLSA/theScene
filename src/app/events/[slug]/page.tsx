@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import EventPhotoUpload from '@/components/EventPhotoUpload'
 import EventPhotoFeed from '@/components/EventPhotoFeed'
+import EventCheckIn from '@/components/EventCheckIn'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -180,6 +181,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           </div>
         </div>
       )}
+
+      {/* Check-In */}
+      <EventCheckIn eventId={event.id} eventTitle={event.title} />
 
       {/* Post-Event Photo Section */}
       {isCompleted && (

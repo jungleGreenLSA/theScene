@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: '/feed', label: 'Feed', membersOnly: false },
   { href: '/events', label: 'Events', membersOnly: true },
   { href: '/clubs', label: 'Clubs', membersOnly: true },
+  { href: '/marketplace', label: 'Market', membersOnly: false },
   { href: '/spot', label: 'Spot', membersOnly: true },
   { href: '/wwyd', label: 'WWYD', membersOnly: true },
 ]
