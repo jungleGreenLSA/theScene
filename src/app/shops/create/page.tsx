@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
-import type { ParsedAddress } from '@/lib/mapbox'
+import { geocodeCityState, type ParsedAddress } from '@/lib/mapbox'
 
 const SPECIALTY_OPTIONS = ['Performance', 'Tune', 'Dyno', 'Engine Build', 'Body & Paint', 'Wheels & Tires', 'Detail', 'Suspension', 'Fabrication', 'Exhaust', 'Wrap', 'Audio', 'Custom']
 
@@ -36,6 +36,15 @@ export default function CreateShopPage() {
 
     const slug = form.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') + '-' + Date.now().toString(36)
 
+    // Backfill coordinates if the user typed city/state without clicking
+    // an autocomplete suggestion.
+    let shopLat = form.lat
+    let shopLng = form.lng
+    if (shopLat == null || shopLng == null) {
+      const coords = await geocodeCityState(form.city, form.state)
+      if (coords) { shopLat = coords.lat; shopLng = coords.lng }
+    }
+
     const { data: shop, error: insertError } = await supabase.from('shops').insert({
       slug,
       name: form.name,
@@ -47,8 +56,8 @@ export default function CreateShopPage() {
       city: form.city,
       state: form.state.toUpperCase(),
       zip_code: form.zip_code || null,
-      lat: form.lat,
-      lng: form.lng,
+      lat: shopLat,
+      lng: shopLng,
       specialties: form.specialties,
       created_by: user.id,
     }).select().single()

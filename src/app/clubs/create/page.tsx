@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
-import type { ParsedAddress } from '@/lib/mapbox'
+import { geocodeCityState, type ParsedAddress } from '@/lib/mapbox'
 
 export default function CreateClubPage() {
   const supabase = createClient()
@@ -81,8 +81,16 @@ export default function CreateClubPage() {
 
     if (clubError) { setError(clubError.message); setLoading(false); return }
 
-    // Add locations
-    const locs = locations.filter(l => l.city && l.state).map(l => ({
+    // Backfill lat/lng from city+state for any chapter where the user
+    // didn't click an autocomplete suggestion.
+    const filtered = locations.filter(l => l.city && l.state)
+    const withCoords = await Promise.all(filtered.map(async (l) => {
+      if (l.lat != null && l.lng != null) return l
+      const coords = await geocodeCityState(l.city, l.state)
+      return { ...l, lat: coords?.lat ?? null, lng: coords?.lng ?? null }
+    }))
+
+    const locs = withCoords.map(l => ({
       club_id: club.id,
       city: l.city,
       state: l.state.toUpperCase(),

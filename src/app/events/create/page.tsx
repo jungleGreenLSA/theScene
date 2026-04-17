@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
-import type { ParsedAddress } from '@/lib/mapbox'
+import { geocodeCityState, type ParsedAddress } from '@/lib/mapbox'
 
 interface Club {
   id: string
@@ -108,6 +108,15 @@ export default function CreateEventPage() {
 
     const eventDate = new Date(`${form.event_date}T${form.event_time || '12:00'}`)
 
+    // Backfill coordinates if the user typed city/state without clicking
+    // an autocomplete suggestion.
+    let eventLat = form.lat
+    let eventLng = form.lng
+    if (eventLat == null || eventLng == null) {
+      const coords = await geocodeCityState(form.city, form.state)
+      if (coords) { eventLat = coords.lat; eventLng = coords.lng }
+    }
+
     const { error: insertError } = await supabase.from('events').insert({
       organizer_id: user.id,
       title: form.title,
@@ -119,8 +128,8 @@ export default function CreateEventPage() {
       city: form.city,
       state: form.state,
       zip_code: form.zip_code || null,
-      lat: form.lat,
-      lng: form.lng,
+      lat: eventLat,
+      lng: eventLng,
       admission_info: form.admission_info,
       club_id: form.club_id || null,
       categories: form.categories,
