@@ -13,8 +13,8 @@ export default function GarageQR({ username, vehicleSlug, vehicleId }: { usernam
       <button
         onClick={() => setShowQR(!showQR)}
         style={{
-          background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)',
-          borderRadius: '8px', padding: '8px 16px', color: '#9ca3af', fontSize: '12px',
+          background: 'none', border: 'none',
+          padding: '0', color: '#8892a4', fontSize: '14px',
           fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
         }}
       >

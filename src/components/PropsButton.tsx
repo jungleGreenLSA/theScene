@@ -53,13 +53,16 @@ export default function PropsButton({ vehicleId, initialCount }: PropsButtonProp
   return (
     <button
       onClick={handleProps}
-      className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all ${
-        propped
-          ? 'bg-neon/20 border border-neon/40 text-neon-light'
-          : 'bg-surface border border-border text-muted-light hover:border-neon/40 hover:text-neon-light'
-      } ${animating ? 'scale-110' : ''}`}
+      style={{
+        display: 'flex', alignItems: 'center', gap: '6px',
+        padding: '0', background: 'none', border: 'none',
+        fontSize: '14px', fontWeight: 600, cursor: 'pointer',
+        color: propped ? '#fb923c' : '#8892a4',
+        transition: 'all 0.2s',
+        transform: animating ? 'scale(1.1)' : 'scale(1)',
+      }}
     >
-      <span className={`text-lg ${animating ? 'animate-bounce' : ''}`}>🤙</span>
+      <span style={{ fontSize: '16px' }}>🤙</span>
       <span>{count} Props</span>
     </button>
   )

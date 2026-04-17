@@ -52,8 +52,8 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
       {/* Hero Image */}
       <div className="glass" style={{ overflow: 'hidden', marginBottom: '20px' }}>
         <div style={{ height: '300px', background: 'rgba(26,26,46,0.5)', position: 'relative' }}>
-          {vehicle.primary_image_url ? (
-            <img src={vehicle.primary_image_url} alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          {(vehicle.primary_image_url || (images && images.length > 0)) ? (
+            <img src={vehicle.primary_image_url || images?.[0]?.image_url} alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
             <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '64px' }}>🚗</div>
           )}
