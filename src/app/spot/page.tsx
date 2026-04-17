@@ -49,10 +49,16 @@ export default function SpotPage() {
     if (!user) { window.location.href = '/auth/login'; return }
 
     const filename = `sightings/${user.id}/${Date.now()}.${file.name.split('.').pop()}`
-    await supabase.storage.from('posts').upload(filename, file)
+    const { error: uploadError } = await supabase.storage.from('posts').upload(filename, file)
+    if (uploadError) {
+      setMessage(`Upload failed: ${uploadError.message}`)
+      setUploading(false)
+      setTimeout(() => setMessage(''), 5000)
+      return
+    }
     const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
 
-    await supabase.from('sightings').insert({
+    const { error: insertError } = await supabase.from('sightings').insert({
       spotter_id: user.id,
       image_url: urlData.publicUrl,
       location_name: form.location_name,
@@ -60,6 +66,12 @@ export default function SpotPage() {
       state: form.state.toUpperCase(),
       description: form.description,
     })
+    if (insertError) {
+      setMessage(`Post failed: ${insertError.message}`)
+      setUploading(false)
+      setTimeout(() => setMessage(''), 5000)
+      return
+    }
 
     setMessage('Sighting posted! If the owner is on The Scene, they\'ll get notified.')
     setShowForm(false)
@@ -121,8 +133,24 @@ export default function SpotPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {sightings.map((s) => (
             <div key={s.id} className="glass overflow-hidden card-hover">
-              <div style={{ height: '220px', background: 'rgba(26,26,46,0.5)' }}>
-                <img src={s.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ height: '220px', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src={s.image_url}
+                  alt=""
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  onError={(e) => {
+                    const img = e.currentTarget
+                    img.style.display = 'none'
+                    const parent = img.parentElement
+                    if (parent && !parent.querySelector('.img-fallback')) {
+                      const fb = document.createElement('div')
+                      fb.className = 'img-fallback'
+                      fb.style.cssText = 'color:#6b7280;font-size:36px'
+                      fb.textContent = '📸'
+                      parent.appendChild(fb)
+                    }
+                  }}
+                />
               </div>
               <div style={{ padding: '16px' }}>
                 {s.description && <p className="text-foreground" style={{ fontSize: '14px', marginBottom: '8px' }}>{s.description}</p>}
