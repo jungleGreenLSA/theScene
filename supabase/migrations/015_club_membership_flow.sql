@@ -2,22 +2,21 @@
 -- CLUB MEMBERSHIP: JOIN REQUESTS + APPROVALS
 -- Lets users request to join a club (status=pending) and lets
 -- admins/founders approve (→ active) or reject.
+-- Safe to re-run.
 -- ============================================
 
 ALTER TABLE club_members ADD COLUMN IF NOT EXISTS status TEXT
   DEFAULT 'active'
   CHECK (status IN ('active', 'pending', 'rejected'));
 
--- Backfill any rows missing a status
 UPDATE club_members SET status = 'active' WHERE status IS NULL;
 
 -- Replace the old INSERT policy so users can create their own pending request.
 DROP POLICY IF EXISTS "Club admins can add members" ON club_members;
-
+DROP POLICY IF EXISTS "Admins add or users request" ON club_members;
 CREATE POLICY "Admins add or users request"
   ON club_members FOR INSERT
   WITH CHECK (
-    -- Admins/founders/club creator can add anyone
     EXISTS (
       SELECT 1 FROM club_members cm
       WHERE cm.club_id = club_members.club_id
@@ -30,14 +29,13 @@ CREATE POLICY "Admins add or users request"
         AND clubs.created_by = auth.uid()
     )
     OR (
-      -- Users can create their own pending join request
       auth.uid() = user_id
       AND status = 'pending'
       AND role = 'member'
     )
   );
 
--- Admins/founders can update member status (approve/reject, change roles)
+DROP POLICY IF EXISTS "Admins update members" ON club_members;
 CREATE POLICY "Admins update members"
   ON club_members FOR UPDATE
   USING (
@@ -49,7 +47,7 @@ CREATE POLICY "Admins update members"
     )
   );
 
--- Users can cancel their own pending request (delete own pending row)
+DROP POLICY IF EXISTS "Users cancel own pending request" ON club_members;
 CREATE POLICY "Users cancel own pending request"
   ON club_members FOR DELETE
   USING (
