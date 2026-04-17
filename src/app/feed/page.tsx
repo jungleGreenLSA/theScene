@@ -62,7 +62,7 @@ export default function FeedPage() {
         </div>
 
         {/* Sidebar */}
-        <div style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '16px', alignSelf: 'flex-start', position: 'sticky', top: '72px' }}>
           {/* Latest rides */}
           <div className="glass" style={{ padding: '20px' }}>
             <h3 className="font-bold text-foreground" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '14px' }}>

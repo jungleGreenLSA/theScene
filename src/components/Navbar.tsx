@@ -8,7 +8,7 @@ import type { User } from '@supabase/supabase-js'
 
 const NAV_LINKS = [
   { href: '/explore', label: 'Explore', membersOnly: true },
-  { href: '/garage/setup', label: 'My Garage', membersOnly: true },
+  { href: '/garage', label: 'My Garage', membersOnly: true },
   { href: '/feed', label: 'Feed', membersOnly: false },
   { href: '/events', label: 'Events', membersOnly: true },
   { href: '/clubs', label: 'Clubs', membersOnly: true },
