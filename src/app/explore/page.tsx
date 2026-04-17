@@ -163,7 +163,7 @@ export default function ExplorePage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {[1,2,3].map(i => (
             <div key={i} className="glass overflow-hidden animate-pulse">
-              <div style={{ height: '180px', background: 'rgba(26,26,46,0.5)' }} />
+              <div style={{ aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)' }} />
               <div style={{ padding: '16px' }}>
                 <div style={{ height: '14px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
                 <div style={{ height: '12px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '50%' }} />
@@ -186,7 +186,7 @@ export default function ExplorePage() {
               href={`/user/${vehicle.owner?.username}/${vehicle.slug}`}
               className="glass overflow-hidden card-hover group"
             >
-              <div style={{ height: '180px', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+              <div style={{ aspectRatio: '16 / 9', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                 {vehicle.primary_image_url ? (
                   <img
                     src={vehicle.primary_image_url}

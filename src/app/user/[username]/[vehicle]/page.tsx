@@ -128,7 +128,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
 
       {/* Hero card */}
       <div className="glass glow-purple" style={{ overflow: 'hidden', marginBottom: '24px' }}>
-        <div style={{ height: '350px', background: 'rgba(26,26,46,0.5)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', position: 'relative', overflow: 'hidden' }}>
           {(vehicle.primary_image_url || (images && images.length > 0)) ? (
             <img src={vehicle.primary_image_url || images?.[0]?.image_url} alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
@@ -276,7 +276,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '12px' }}>
             {similarBuilds.map((sim) => (
               <Link key={sim.id} href={`/user/${sim.owner?.username}/${sim.slug}`} className="glass card-hover" style={{ display: 'flex', overflow: 'hidden' }}>
-                <div style={{ width: '110px', height: '110px', background: 'rgba(26,26,46,0.5)', flexShrink: 0, overflow: 'hidden' }}>
+                <div style={{ width: '160px', aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', flexShrink: 0, overflow: 'hidden' }}>
                   {sim.primary_image_url ? (
                     <img src={sim.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (

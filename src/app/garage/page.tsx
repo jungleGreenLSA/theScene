@@ -79,7 +79,7 @@ export default function MyGaragePage() {
             <div key={v.id} className="glass" style={{ overflow: 'hidden' }}>
               <div style={{ display: 'flex', gap: '0' }}>
                 {/* Image */}
-                <div style={{ width: '200px', minHeight: '160px', background: 'rgba(26,26,46,0.5)', flexShrink: 0, position: 'relative' }}>
+                <div style={{ width: '250px', aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', flexShrink: 0, position: 'relative' }}>
                   {v.primary_image_url ? (
                     <img src={v.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
