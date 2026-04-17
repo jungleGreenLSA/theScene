@@ -29,6 +29,31 @@ interface SightingItem {
   created_at: string
 }
 
+interface EventItem {
+  id: string
+  title: string
+  slug: string
+  event_date: string
+  city: string
+  state: string
+  status: string
+}
+
+interface ClubItem {
+  id: string
+  name: string
+  slug: string
+  description: string
+  created_at: string
+}
+
+interface WwydPostItem {
+  id: string
+  title: string
+  budget: string
+  created_at: string
+}
+
 export default function ActivityPage() {
   const supabase = createClient()
   const router = useRouter()
@@ -36,15 +61,18 @@ export default function ActivityPage() {
   const [guestbook, setGuestbook] = useState<GuestbookItem[]>([])
   const [votes, setVotes] = useState<WwydVoteItem[]>([])
   const [sightings, setSightings] = useState<SightingItem[]>([])
+  const [events, setEvents] = useState<EventItem[]>([])
+  const [clubs, setClubs] = useState<ClubItem[]>([])
+  const [wwydPosts, setWwydPosts] = useState<WwydPostItem[]>([])
   const [message, setMessage] = useState('')
-  const [activeTab, setActiveTab] = useState<'guestbook' | 'wwyd' | 'sightings'>('guestbook')
+  const [activeTab, setActiveTab] = useState<'events' | 'clubs' | 'wwydPosts' | 'guestbook' | 'wwyd' | 'sightings'>('events')
 
   useEffect(() => {
     const load = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/auth/login'); return }
 
-      const [g, v, s] = await Promise.all([
+      const [g, v, s, e, c, wp] = await Promise.all([
         supabase
           .from('guestbook_entries')
           .select('id, content, created_at, vehicle:vehicles(slug, year, make, model, owner:profiles!owner_id(username))')
@@ -60,15 +88,59 @@ export default function ActivityPage() {
           .select('id, image_url, description, location_name, city, state, created_at')
           .eq('spotter_id', user.id)
           .order('created_at', { ascending: false }),
+        supabase
+          .from('events')
+          .select('id, title, slug, event_date, city, state, status')
+          .eq('organizer_id', user.id)
+          .order('event_date', { ascending: false }),
+        supabase
+          .from('clubs')
+          .select('id, name, slug, description, created_at')
+          .eq('created_by', user.id)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('wwyd_posts')
+          .select('id, title, budget, created_at')
+          .eq('author_id', user.id)
+          .order('created_at', { ascending: false }),
       ])
 
       setGuestbook((g.data || []) as unknown as GuestbookItem[])
       setVotes((v.data || []) as unknown as WwydVoteItem[])
       setSightings((s.data || []) as unknown as SightingItem[])
+      setEvents((e.data || []) as unknown as EventItem[])
+      setClubs((c.data || []) as unknown as ClubItem[])
+      setWwydPosts((wp.data || []) as unknown as WwydPostItem[])
       setLoading(false)
     }
     load()
   }, [])
+
+  const removeEvent = async (id: string) => {
+    if (!window.confirm('Delete this event and all RSVPs? This cannot be undone.')) return
+    const { error } = await supabase.from('events').delete().eq('id', id)
+    if (error) { flash('Delete failed: ' + error.message); return }
+    setEvents(events.filter(e => e.id !== id))
+    flash('Event removed.')
+  }
+
+  const removeClub = async (id: string) => {
+    if (!window.confirm('Delete this club and all chapters/members? This cannot be undone.')) return
+    const typed = window.prompt('Type "delete" to confirm:')
+    if (typed?.toLowerCase() !== 'delete') return
+    const { error } = await supabase.from('clubs').delete().eq('id', id)
+    if (error) { flash('Delete failed: ' + error.message); return }
+    setClubs(clubs.filter(c => c.id !== id))
+    flash('Club removed.')
+  }
+
+  const removeWwydPost = async (id: string) => {
+    if (!window.confirm('Delete this WWYD post and all votes? This cannot be undone.')) return
+    const { error } = await supabase.from('wwyd_posts').delete().eq('id', id)
+    if (error) { flash('Delete failed: ' + error.message); return }
+    setWwydPosts(wwydPosts.filter(p => p.id !== id))
+    flash('Post removed.')
+  }
 
   const flash = (text: string) => {
     setMessage(text)
@@ -156,10 +228,63 @@ export default function ActivityPage() {
       )}
 
       <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
+        {tabBtn('events', '📅 Events', events.length)}
+        {tabBtn('clubs', '🏁 Clubs', clubs.length)}
+        {tabBtn('wwydPosts', '🤔 WWYD Posts', wwydPosts.length)}
         {tabBtn('guestbook', '📝 Guestbook', guestbook.length)}
         {tabBtn('wwyd', '🗳 WWYD Votes', votes.length)}
         {tabBtn('sightings', '📸 Sightings', sightings.length)}
       </div>
+
+      {activeTab === 'events' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {events.length === 0 ? emptyState('📅', "You haven't created any events yet.") : events.map(e => (
+            <div key={e.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <Link href={`/events/${e.slug}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{e.title}</Link>
+                <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
+                  📅 {new Date(e.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  {e.city && <span> · 📍 {e.city}, {e.state}</span>}
+                  <span className="text-muted" style={{ marginLeft: '8px' }}>· {e.status}</span>
+                </p>
+              </div>
+              {deleteBtn(() => removeEvent(e.id))}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {activeTab === 'clubs' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {clubs.length === 0 ? emptyState('🏁', "You haven't started any clubs yet.") : clubs.map(c => (
+            <div key={c.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <Link href={`/clubs/${c.slug}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{c.name}</Link>
+                {c.description && <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.description}</p>}
+                <p className="text-muted" style={{ fontSize: '11px', marginTop: '2px' }}>Founded {fmtDate(c.created_at)}</p>
+              </div>
+              {deleteBtn(() => removeClub(c.id))}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {activeTab === 'wwydPosts' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {wwydPosts.length === 0 ? emptyState('🤔', "You haven't posted any WWYD questions yet.") : wwydPosts.map(p => (
+            <div key={p.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <Link href={`/wwyd`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{p.title}</Link>
+                <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
+                  {p.budget && <span style={{ color: '#22c55e' }}>💰 {p.budget} · </span>}
+                  <span className="text-muted">{fmtDate(p.created_at)}</span>
+                </p>
+              </div>
+              {deleteBtn(() => removeWwydPost(p.id))}
+            </div>
+          ))}
+        </div>
+      )}
 
       {activeTab === 'guestbook' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

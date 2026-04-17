@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import EventHeatmap from '@/components/EventHeatmap'
+import StateHeatmap from '@/components/StateHeatmap'
 
 interface Event {
   id: string
@@ -74,9 +74,9 @@ export default function EventsPage() {
         />
       </div>
 
-      {/* Event Heatmap */}
+      {/* Event Heatmap (dynamic, based on user's state) */}
       <div style={{ marginBottom: '20px' }}>
-        <EventHeatmap />
+        <StateHeatmap type="events" title="📅 Where the Shows Are" />
       </div>
 
       {/* Results */}

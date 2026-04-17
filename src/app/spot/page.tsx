@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 interface Sighting {
   id: string
+  spotter_id: string
   image_url: string
   location_name: string
   city: string
@@ -26,9 +27,12 @@ export default function SpotPage() {
   const [form, setForm] = useState({ location_name: '', city: '', state: '', description: '' })
   const [file, setFile] = useState<File | null>(null)
   const [message, setMessage] = useState('')
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
 
   useEffect(() => {
     const fetch = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setCurrentUserId(user?.id || null)
       const { data } = await supabase
         .from('sightings')
         .select('*, spotter:profiles!sightings_spotter_id_fkey(username, display_name, avatar_url)')
@@ -39,6 +43,13 @@ export default function SpotPage() {
     }
     fetch()
   }, [])
+
+  const handleDeleteSighting = async (id: string) => {
+    if (!window.confirm('Delete this sighting?')) return
+    const { error } = await supabase.from('sightings').delete().eq('id', id)
+    if (error) { setMessage('Delete failed: ' + error.message); setTimeout(() => setMessage(''), 4000); return }
+    setSightings(sightings.filter(s => s.id !== id))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -157,7 +168,14 @@ export default function SpotPage() {
                 <p className="text-muted-light" style={{ fontSize: '12px' }}>📍 {s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <Link href={`/user/${s.spotter?.username}`} className="text-muted" style={{ fontSize: '12px' }}>by @{s.spotter?.username}</Link>
-                  <span className="text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <span className="text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                    {currentUserId === s.spotter_id && (
+                      <button onClick={() => handleDeleteSighting(s.id)} style={{ padding: '3px 8px', borderRadius: '4px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '10px', fontWeight: 600, cursor: 'pointer' }}>
+                        🗑
+                      </button>
+                    )}
+                  </div>
                 </div>
                 {s.claimed_vehicle_id && (
                   <div style={{ marginTop: '8px', padding: '6px 10px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)' }}>

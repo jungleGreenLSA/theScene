@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import AddressAutocomplete from '@/components/AddressAutocomplete'
+import type { ParsedAddress } from '@/lib/googleMaps'
 
 interface Club {
   id: string
@@ -30,6 +32,9 @@ export default function CreateEventPage() {
     location_address: '',
     city: '',
     state: '',
+    zip_code: '',
+    lat: null as number | null,
+    lng: null as number | null,
     admission_info: '',
     club_id: '',
     categories: [] as string[],
@@ -113,6 +118,9 @@ export default function CreateEventPage() {
       location_address: form.location_address,
       city: form.city,
       state: form.state,
+      zip_code: form.zip_code || null,
+      lat: form.lat,
+      lng: form.lng,
       admission_info: form.admission_info,
       club_id: form.club_id || null,
       categories: form.categories,
@@ -186,10 +194,22 @@ export default function CreateEventPage() {
           <input name="location_name" value={form.location_name} onChange={handleChange} className="input" placeholder="e.g. Dallas Convention Center" />
         </div>
         <div style={{ marginBottom: '16px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Address</label>
-          <input name="location_address" value={form.location_address} onChange={handleChange} className="input" placeholder="123 Main St" />
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(start typing — we&apos;ll fill in the rest)</span></label>
+          <AddressAutocomplete
+            defaultValue={form.location_address}
+            placeholder="Start typing a venue address..."
+            onChange={(a: ParsedAddress) => setForm(f => ({
+              ...f,
+              location_address: a.street || a.formatted,
+              city: a.city,
+              state: a.state,
+              zip_code: a.zip,
+              lat: a.lat,
+              lng: a.lng,
+            }))}
+          />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '12px', marginBottom: '16px' }}>
           <div>
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>City *</label>
             <input name="city" value={form.city} onChange={handleChange} className="input" placeholder="Dallas" required />
@@ -197,6 +217,10 @@ export default function CreateEventPage() {
           <div>
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>State *</label>
             <input name="state" value={form.state} onChange={handleChange} className="input" placeholder="TX" required maxLength={2} style={{ textTransform: 'uppercase' }} />
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>ZIP</label>
+            <input name="zip_code" value={form.zip_code} onChange={handleChange} className="input" placeholder="75201" maxLength={10} />
           </div>
         </div>
 

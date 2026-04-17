@@ -12,7 +12,7 @@ interface WYDPost {
   image_url: string
   is_active: boolean
   created_at: string
-  author: { username: string; display_name: string; avatar_url: string }
+  author: { id: string; username: string; display_name: string; avatar_url: string }
   options: { id: string; label: string; vote_count: number }[]
 }
 
@@ -24,12 +24,15 @@ export default function WWYDPage() {
   const [votedPosts, setVotedPosts] = useState<Set<string>>(new Set())
   const [form, setForm] = useState({ title: '', description: '', budget: '', options: ['', '', ''] })
   const [submitting, setSubmitting] = useState(false)
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
 
   useEffect(() => {
     const fetch = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setCurrentUserId(user?.id || null)
       const { data } = await supabase
         .from('wwyd_posts')
-        .select('*, author:profiles!wwyd_posts_author_id_fkey(username, display_name, avatar_url), options:wwyd_options(*)')
+        .select('*, author:profiles!wwyd_posts_author_id_fkey(id, username, display_name, avatar_url), options:wwyd_options(*)')
         .eq('is_active', true)
         .order('created_at', { ascending: false })
         .limit(20)
@@ -38,6 +41,13 @@ export default function WWYDPage() {
     }
     fetch()
   }, [])
+
+  const handleDeletePost = async (postId: string) => {
+    if (!window.confirm('Delete this question and all votes on it? This cannot be undone.')) return
+    const { error } = await supabase.from('wwyd_posts').delete().eq('id', postId)
+    if (error) { alert('Delete failed: ' + error.message); return }
+    setPosts(posts.filter(p => p.id !== postId))
+  }
 
   const handleVote = async (postId: string, optionId: string) => {
     if (votedPosts.has(postId)) return
@@ -137,10 +147,15 @@ export default function WWYDPage() {
                   <Link href={`/user/${post.author?.username}`} style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0, display: 'block' }}>
                     {post.author?.avatar_url ? <img src={post.author.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#6b7280' }}>{post.author?.username?.charAt(0).toUpperCase()}</div>}
                   </Link>
-                  <div>
+                  <div style={{ flex: 1 }}>
                     <Link href={`/user/${post.author?.username}`} className="font-semibold text-foreground hover:text-purple-light" style={{ fontSize: '14px' }}>{post.author?.display_name || post.author?.username}</Link>
                     <p className="text-muted" style={{ fontSize: '11px' }}>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                   </div>
+                  {currentUserId === post.author?.id && (
+                    <button onClick={() => handleDeletePost(post.id)} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>
+                      🗑 Delete
+                    </button>
+                  )}
                 </div>
 
                 <h3 className="font-bold text-foreground" style={{ fontSize: '1.1rem', marginBottom: '6px' }}>{post.title}</h3>

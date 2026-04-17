@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 export default function ClubActions({ clubId }: { clubId: string }) {
   const supabase = createClient()
   const [isAdmin, setIsAdmin] = useState(false)
+  const [isFounder, setIsFounder] = useState(false)
   const [showAddMember, setShowAddMember] = useState(false)
   const [memberUsername, setMemberUsername] = useState('')
   const [memberRole, setMemberRole] = useState('member')
@@ -26,10 +27,20 @@ export default function ClubActions({ clubId }: { clubId: string }) {
 
       if (data && ['admin', 'founder'].includes(data.role)) {
         setIsAdmin(true)
+        if (data.role === 'founder') setIsFounder(true)
       }
     }
     checkAdmin()
   }, [clubId])
+
+  const handleDeleteClub = async () => {
+    if (!window.confirm('Delete this club? This removes all chapters, members, and references. This cannot be undone.')) return
+    const typed = window.prompt('Type "delete" to confirm:')
+    if (typed?.toLowerCase() !== 'delete') return
+    const { error } = await supabase.from('clubs').delete().eq('id', clubId)
+    if (error) { setMessage('Delete failed: ' + error.message); return }
+    window.location.href = '/clubs'
+  }
 
   const handleAddMember = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -85,13 +96,21 @@ export default function ClubActions({ clubId }: { clubId: string }) {
   if (!isAdmin) return null
 
   return (
-    <div>
+    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
       <button
         onClick={() => setShowAddMember(!showAddMember)}
         className="btn-neon text-xs"
       >
         + Add Member
       </button>
+      {isFounder && (
+        <button
+          onClick={handleDeleteClub}
+          style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+        >
+          🗑 Delete Club
+        </button>
+      )}
 
       {showAddMember && (
         <form onSubmit={handleAddMember} className="mt-4 glass p-4 space-y-3">

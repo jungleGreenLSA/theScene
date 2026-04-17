@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import AddressAutocomplete from '@/components/AddressAutocomplete'
+import type { ParsedAddress } from '@/lib/googleMaps'
 
 export default function CreateClubPage() {
   const supabase = createClient()
@@ -19,7 +21,7 @@ export default function CreateClubPage() {
     facebook_url: '',
   })
 
-  const [locations, setLocations] = useState([{ city: '', state: '', label: '', is_primary: true }])
+  const [locations, setLocations] = useState([{ city: '', state: '', label: '', address: '', zip_code: '', lat: null as number | null, lng: null as number | null, is_primary: true }])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -31,8 +33,22 @@ export default function CreateClubPage() {
     setLocations(updated)
   }
 
+  const applyAddress = (index: number, a: ParsedAddress) => {
+    const updated = [...locations]
+    updated[index] = {
+      ...updated[index],
+      address: a.street || a.formatted,
+      city: a.city || updated[index].city,
+      state: a.state || updated[index].state,
+      zip_code: a.zip,
+      lat: a.lat,
+      lng: a.lng,
+    }
+    setLocations(updated)
+  }
+
   const addLocation = () => {
-    setLocations([...locations, { city: '', state: '', label: '', is_primary: false }])
+    setLocations([...locations, { city: '', state: '', label: '', address: '', zip_code: '', lat: null, lng: null, is_primary: false }])
   }
 
   const removeLocation = (index: number) => {
@@ -71,6 +87,10 @@ export default function CreateClubPage() {
       city: l.city,
       state: l.state.toUpperCase(),
       label: l.label,
+      address: l.address || null,
+      zip_code: l.zip_code || null,
+      lat: l.lat,
+      lng: l.lng,
       is_primary: l.is_primary,
     }))
     if (locs.length > 0) {
@@ -113,13 +133,26 @@ export default function CreateClubPage() {
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '8px' }}>Chapters / Locations *</label>
           <p className="text-muted" style={{ fontSize: '11px', marginBottom: '10px' }}>Clubs can have multiple chapters. Add as many as you need.</p>
           {locations.map((loc, i) => (
-            <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
-              <input value={loc.city} onChange={(e) => updateLocation(i, 'city', e.target.value)} className="input" placeholder="City" style={{ flex: 2 }} required={i === 0} />
-              <input value={loc.state} onChange={(e) => updateLocation(i, 'state', e.target.value)} className="input" placeholder="ST" style={{ flex: 0.7, textTransform: 'uppercase' }} maxLength={2} required={i === 0} />
-              <input value={loc.label} onChange={(e) => updateLocation(i, 'label', e.target.value)} className="input" placeholder="Chapter name (optional)" style={{ flex: 2 }} />
-              {locations.length > 1 && (
-                <button type="button" onClick={() => removeLocation(i)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '16px', padding: '4px' }}>✕</button>
-              )}
+            <div key={i} style={{ padding: '12px', marginBottom: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.3)', border: '1px solid rgba(255,255,255,0.04)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <span style={{ fontSize: '11px', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>Chapter {i + 1}{loc.is_primary && ' · Primary'}</span>
+                {locations.length > 1 && (
+                  <button type="button" onClick={() => removeLocation(i)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '14px' }}>✕ Remove</button>
+                )}
+              </div>
+              <div style={{ marginBottom: '8px' }}>
+                <AddressAutocomplete
+                  placeholder="Start typing address or city..."
+                  types={['geocode']}
+                  onChange={(a) => applyAddress(i, a)}
+                />
+              </div>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                <input value={loc.city} onChange={(e) => updateLocation(i, 'city', e.target.value)} className="input" placeholder="City" style={{ flex: 2 }} required={i === 0} />
+                <input value={loc.state} onChange={(e) => updateLocation(i, 'state', e.target.value)} className="input" placeholder="ST" style={{ flex: 0.7, textTransform: 'uppercase' }} maxLength={2} required={i === 0} />
+                <input value={loc.zip_code} onChange={(e) => updateLocation(i, 'zip_code', e.target.value)} className="input" placeholder="ZIP" style={{ flex: 1 }} maxLength={10} />
+              </div>
+              <input value={loc.label} onChange={(e) => updateLocation(i, 'label', e.target.value)} className="input" placeholder="Chapter name (optional — e.g. &quot;DFW Chapter&quot;)" />
             </div>
           ))}
           <button type="button" onClick={addLocation} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', fontWeight: 600, cursor: 'pointer', padding: '4px 0' }}>
