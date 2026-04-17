@@ -24,12 +24,15 @@ export default function EventOrganizerActions({ eventId, organizerId, eventSlug 
   const handleDelete = async () => {
     const confirmed = window.confirm('Delete this event? This cannot be undone.')
     if (!confirmed) return
-    await supabase.from('events').delete().eq('id', eventId)
+    const { error, count } = await supabase.from('events').delete({ count: 'exact' }).eq('id', eventId)
+    if (error) { alert('Delete failed: ' + error.message); return }
+    if (!count) { alert('Delete was silently blocked. Migration 013 (events DELETE policy) likely has not been applied in Supabase yet.'); return }
     window.location.href = '/events'
   }
 
   const handleClose = async () => {
-    await supabase.from('events').update({ status: 'completed' }).eq('id', eventId)
+    const { error } = await supabase.from('events').update({ status: 'completed' }).eq('id', eventId)
+    if (error) { alert('Failed to close event: ' + error.message); return }
     window.location.reload()
   }
 
