@@ -111,6 +111,9 @@ export default function MyGaragePage() {
                     <Link href={`/user/${username}/${v.slug}`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize: '12px', fontWeight: 600 }}>
                       View
                     </Link>
+                    <Link href={`/garage/${v.id}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '12px', fontWeight: 600 }}>
+                      ✏️ Edit
+                    </Link>
                     <Link href={`/garage/${v.id}/photos`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)', color: '#fb923c', fontSize: '12px', fontWeight: 600 }}>
                       📸 Photos
                     </Link>
