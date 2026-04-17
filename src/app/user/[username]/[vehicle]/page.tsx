@@ -4,6 +4,7 @@ import Link from 'next/link'
 import GuestbookSection from '@/components/GuestbookSection'
 import PropsButton from '@/components/PropsButton'
 import GarageQR from '@/components/GarageQR'
+import BuildMatch from '@/components/BuildMatch'
 
 export async function generateMetadata({ params }: { params: Promise<{ username: string; vehicle: string }> }) {
   const { username, vehicle } = await params
@@ -240,6 +241,9 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
 
       {/* Guestbook */}
       <GuestbookSection vehicleId={vehicle.id} entries={guestbook || []} />
+
+      {/* Build Matches */}
+      <BuildMatch vehicleId={vehicle.id} />
 
       {/* Similar Builds */}
       {similarBuilds && similarBuilds.length > 0 && (

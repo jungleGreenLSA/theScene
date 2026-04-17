@@ -6,6 +6,9 @@ import Link from 'next/link'
 import ActivityFeed from '@/components/ActivityFeed'
 import DailySuggestion from '@/components/DailySuggestion'
 import Announcements from '@/components/Announcements'
+import TrendingBuilds from '@/components/TrendingBuilds'
+import NearbyMembers from '@/components/NearbyMembers'
+import WeeklyDigest from '@/components/WeeklyDigest'
 
 export default function FeedPage() {
   const supabase = createClient()
@@ -52,6 +55,7 @@ export default function FeedPage() {
           </div>
 
           <Announcements />
+          <WeeklyDigest />
           <DailySuggestion />
           <div style={{ marginTop: '16px' }} />
           <ActivityFeed />
@@ -100,6 +104,9 @@ export default function FeedPage() {
               </div>
             )}
           </div>
+
+          <NearbyMembers />
+          <TrendingBuilds />
 
           {/* Quick links */}
           <div className="glass" style={{ padding: '20px' }}>

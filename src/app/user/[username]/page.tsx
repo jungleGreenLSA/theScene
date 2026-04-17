@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import UserActions from '@/components/UserActions'
 import FollowButton from '@/components/FollowButton'
 import FollowLists from '@/components/FollowLists'
+import UserBadges from '@/components/UserBadges'
 
 export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params
@@ -83,6 +84,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
             {/* Followers/Following */}
             <div style={{ marginTop: '12px' }}>
               <FollowLists userId={profile.id} />
+              <UserBadges userId={profile.id} />
             </div>
           </div>
 
