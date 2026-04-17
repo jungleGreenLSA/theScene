@@ -157,8 +157,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             </div>
           </div>
         </div>
-        {/* Organizer actions */}
-        <EventOrganizerActions eventId={event.id} organizerId={event.organizer_id} />
+          {/* Organizer actions */}
+          <EventOrganizerActions eventId={event.id} organizerId={event.organizer_id} />
         </div>
       </div>
 
