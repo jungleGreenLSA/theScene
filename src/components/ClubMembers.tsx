@@ -45,18 +45,26 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
 
     let rows = (memberRows || []) as unknown as Member[]
 
-    // Self-heal: if the club's creator isn't in the members list (earlier
-    // insert may have failed silently), insert them as founder and reload.
-    if (createdBy && !rows.some(r => r.user_id === createdBy)) {
-      await supabase.from('club_members').insert({ club_id: clubId, user_id: createdBy, role: 'founder', added_by: createdBy, status: 'active' })
-      const { data: refetched } = await supabase
-        .from('club_members')
-        .select('id, user_id, role, status, joined_at, user:profiles(username, display_name, avatar_url, location)')
-        .eq('club_id', clubId)
-        .order('role')
-        .order('joined_at')
-      memberRows = refetched
-      rows = (refetched || []) as unknown as Member[]
+    // Self-heal: if the current user IS the club creator and they're not in
+    // the members list (earlier insert failed silently), insert them as founder
+    // and reload. Only the creator can do this — RLS blocks other viewers.
+    if (createdBy && user?.id === createdBy && !rows.some(r => r.user_id === createdBy)) {
+      // Don't specify status — it defaults to 'active' post-migration-015,
+      // NULL before. Explicit 'active' breaks if the column doesn't exist.
+      const { error: healErr } = await supabase.from('club_members').insert({ club_id: clubId, user_id: createdBy, role: 'founder', added_by: createdBy })
+      if (healErr) {
+        console.error('[ClubMembers] Self-heal founder insert failed:', healErr)
+        setMessage(`Could not add you as founder: ${healErr.message}`)
+      } else {
+        const { data: refetched } = await supabase
+          .from('club_members')
+          .select('id, user_id, role, status, joined_at, user:profiles(username, display_name, avatar_url, location)')
+          .eq('club_id', clubId)
+          .order('role')
+          .order('joined_at')
+        memberRows = refetched
+        rows = (refetched || []) as unknown as Member[]
+      }
     }
 
     const active = rows.filter(m => m.status !== 'pending' && m.status !== 'rejected')

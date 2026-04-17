@@ -90,7 +90,7 @@ export default function CreateClubPage() {
       return { ...l, lat: coords?.lat ?? null, lng: coords?.lng ?? null }
     }))
 
-    const locs = withCoords.map(l => ({
+    const fullLocs = withCoords.map(l => ({
       club_id: club.id,
       city: l.city,
       state: l.state.toUpperCase(),
@@ -101,17 +101,33 @@ export default function CreateClubPage() {
       lng: l.lng,
       is_primary: l.is_primary,
     }))
-    if (locs.length > 0) {
-      await supabase.from('club_locations').insert(locs)
+
+    if (fullLocs.length > 0) {
+      const { error: locErr } = await supabase.from('club_locations').insert(fullLocs)
+      if (locErr) {
+        // Migration 013 probably hasn't been applied, so lat/lng/address/zip_code
+        // don't exist. Retry with just the core columns so the club still has
+        // chapters (pins won't drop on the heatmap until migration 013 is applied).
+        const minimalLocs = fullLocs.map(l => ({ club_id: l.club_id, city: l.city, state: l.state, label: l.label, is_primary: l.is_primary }))
+        const { error: retryErr } = await supabase.from('club_locations').insert(minimalLocs)
+        if (retryErr) { setError('Could not save chapter locations: ' + retryErr.message); setLoading(false); return }
+        setError('Chapters saved, but lat/lng columns are missing — apply migration 013 for heatmap pins.')
+      }
     }
 
-    // Add creator as founder
-    await supabase.from('club_members').insert({
+    // Add creator as founder. Don't specify status — it defaults to 'active'
+    // once migration 015 is applied, or to NULL before.
+    const { error: memberErr } = await supabase.from('club_members').insert({
       club_id: club.id,
       user_id: user.id,
       role: 'founder',
       added_by: user.id,
     })
+    if (memberErr) {
+      setError(`Club created, but founder membership insert failed: ${memberErr.message}. You can still view the club — the page will try to self-heal on load.`)
+      setTimeout(() => router.push(`/clubs/${club.slug}`), 3000)
+      return
+    }
 
     router.push(`/clubs/${club.slug}`)
   }

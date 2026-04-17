@@ -53,14 +53,22 @@ export default function SceneHeatmap({ type, title }: Props) {
       let rows: { lat: number | null; lng: number | null; label: string; city: string | null; state: string | null }[] = []
 
       if (type === 'events') {
-        const { data } = await supabase.from('events').select('title, city, state, lat, lng').in('status', ['published', 'active'])
+        const { data, error } = await supabase.from('events').select('title, city, state, lat, lng').in('status', ['published', 'active'])
+        if (error) console.error('[SceneHeatmap] events query error:', error)
         rows = (data || []).map(e => ({ lat: e.lat, lng: e.lng, label: e.title, city: e.city, state: e.state }))
       } else if (type === 'shops') {
-        const { data } = await supabase.from('shops').select('name, city, state, lat, lng')
+        const { data, error } = await supabase.from('shops').select('name, city, state, lat, lng')
+        if (error) console.error('[SceneHeatmap] shops query error:', error)
         rows = (data || []).map(s => ({ lat: s.lat, lng: s.lng, label: s.name, city: s.city, state: s.state }))
       } else {
-        const { data } = await supabase.from('club_locations').select('city, state, lat, lng, clubs(name)')
-        rows = (data || []).map((l: any) => ({ lat: l.lat, lng: l.lng, label: l.clubs?.name || 'Club', city: l.city, state: l.state }))
+        // Try the full query first (includes lat/lng, added by migration 013).
+        let { data, error } = await supabase.from('club_locations').select('city, state, lat, lng, clubs(name)')
+        if (error) {
+          console.warn('[SceneHeatmap] full club_locations query failed, falling back without lat/lng. Did migration 013 apply?', error)
+          const fallback = await supabase.from('club_locations').select('city, state, clubs(name)')
+          data = fallback.data as any
+        }
+        rows = (data || []).map((l: any) => ({ lat: l.lat ?? null, lng: l.lng ?? null, label: l.clubs?.name || 'Club', city: l.city, state: l.state }))
       }
 
       setTotal(rows.length)
