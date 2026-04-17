@@ -248,6 +248,38 @@ a:hover { color: var(--color-neon-light); }
   color: #7a7f8c;
 }
 
+/* Dark-themed native date/time picker — tells the browser to render its
+   calendar popup in dark mode and tints the calendar icon purple. */
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+  color-scheme: dark;
+  cursor: pointer;
+}
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(4) hue-rotate(230deg);
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+input[type="date"]::-webkit-datetime-edit,
+input[type="time"]::-webkit-datetime-edit,
+input[type="datetime-local"]::-webkit-datetime-edit {
+  color: var(--color-foreground);
+}
+input[type="date"]:invalid::-webkit-datetime-edit,
+input[type="time"]:invalid::-webkit-datetime-edit,
+input[type="datetime-local"]:invalid::-webkit-datetime-edit {
+  color: #7a7f8c;
+}
+
 /* Card hover */
 .card-hover {
   transition: all 0.3s;

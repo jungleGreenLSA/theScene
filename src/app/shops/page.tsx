@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import StateHeatmap from '@/components/StateHeatmap'
+import SceneHeatmap from '@/components/SceneHeatmap'
 
 interface Shop {
   id: string
@@ -68,7 +68,7 @@ export default function ShopsPage() {
       </div>
 
       <div style={{ marginBottom: '20px' }}>
-        <StateHeatmap type="shops" title="🔧 Where the Shops Are" />
+        <SceneHeatmap type="shops" title="Where the Shops Are" />
       </div>
 
       {loading ? (

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import StateHeatmap from '@/components/StateHeatmap'
+import SceneHeatmap from '@/components/SceneHeatmap'
 
 interface Club {
   id: string
@@ -72,9 +72,8 @@ export default function ClubsPage() {
         />
       </div>
 
-      {/* Club Heatmap (dynamic, based on user's state) */}
       <div style={{ marginBottom: '20px' }}>
-        <StateHeatmap type="clubs" title="🏁 Where the Clubs Are" />
+        <SceneHeatmap type="clubs" title="Where the Clubs Are" />
       </div>
 
       {/* Results */}
