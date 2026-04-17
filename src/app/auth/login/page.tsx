@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
@@ -14,6 +14,13 @@ export default function LoginPage() {
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
   const [otpSent, setOtpSent] = useState(false)
   const supabase = createClient()
+
+  // Redirect if already logged in
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) window.location.href = '/feed'
+    })
+  }, [])
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()

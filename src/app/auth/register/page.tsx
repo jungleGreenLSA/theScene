@@ -1,10 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
 export default function RegisterPage() {
+  const supabaseCheck = createClient()
+  useEffect(() => {
+    supabaseCheck.auth.getSession().then(({ data: { session } }) => {
+      if (session) window.location.href = '/feed'
+    })
+  }, [])
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
