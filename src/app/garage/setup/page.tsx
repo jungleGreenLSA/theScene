@@ -26,6 +26,7 @@ export default function GarageSetupPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [photoFiles, setPhotoFiles] = useState<File[]>([])
 
   const [form, setForm] = useState({
     year: '',
@@ -75,7 +76,7 @@ export default function GarageSetupPage() {
     const slug = `${form.year}-${form.make}-${form.model}-${form.color}`
       .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
 
-    const { error: insertError } = await supabase.from('vehicles').insert({
+    const { data: newVehicle, error: insertError } = await supabase.from('vehicles').insert({
       owner_id: user.id,
       slug,
       year: form.year ? parseInt(form.year) : null,
@@ -93,12 +94,29 @@ export default function GarageSetupPage() {
       club_affiliation: form.club_affiliation,
       is_public: form.visibility === 'public',
       is_primary: true,
-    })
+    }).select().single()
 
     if (insertError) {
       setError(insertError.message)
       setLoading(false)
     } else {
+      // Upload photos
+      if (photoFiles.length > 0 && newVehicle) {
+        for (let i = 0; i < photoFiles.length; i++) {
+          const file = photoFiles[i]
+          const filename = `vehicles/${user.id}/${newVehicle.id}/${Date.now()}_${i}.${file.name.split('.').pop()}`
+          const { error: uploadErr } = await supabase.storage.from('posts').upload(filename, file)
+          if (!uploadErr) {
+            const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
+            await supabase.from('vehicle_images').insert({ vehicle_id: newVehicle.id, image_url: urlData.publicUrl, sort_order: i })
+            // Set first photo as primary
+            if (i === 0) {
+              await supabase.from('vehicles').update({ primary_image_url: urlData.publicUrl }).eq('id', newVehicle.id)
+            }
+          }
+        }
+      }
+
       if (form.location) {
         await supabase.from('profiles').update({ location: form.location }).eq('id', user.id)
       }
@@ -236,6 +254,27 @@ export default function GarageSetupPage() {
             placeholder="Tell the story of your build..."
             maxLength={2000}
           />
+        </div>
+
+        {/* Photos */}
+        <div className="glass" style={{ padding: '24px' }}>
+          <div style={sectionTitle}><span>📸</span> Photos</div>
+          <p style={hintStyle as React.CSSProperties}>Upload photos of your ride. The first photo will be your primary image.</p>
+          <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '28px', border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', marginTop: '10px' }}>
+            <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => setPhotoFiles(Array.from(e.target.files || []))} style={{ display: 'none' }} />
+            <span style={{ fontSize: '24px' }}>📸</span>
+            <span style={{ fontSize: '14px', color: '#8892a4' }}>Click to select photos (JPEG, PNG, WebP)</span>
+          </label>
+          {photoFiles.length > 0 && (
+            <div style={{ marginTop: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {photoFiles.map((f, i) => (
+                <div key={i} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', fontSize: '12px', color: '#22c55e', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  {i === 0 && <span style={{ fontSize: '10px' }}>⭐</span>}
+                  {f.name.length > 20 ? f.name.slice(0, 20) + '...' : f.name}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Visibility */}

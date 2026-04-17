@@ -237,33 +237,25 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
 
       {/* Similar Builds */}
       {similarBuilds && similarBuilds.length > 0 && (
-        <div className="mt-8">
-          <h2 className="text-lg font-bold text-foreground mb-4">🔍 Similar {vehicle.make} {vehicle.model} Builds</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div style={{ marginTop: '24px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>🔍 Similar {vehicle.make} {vehicle.model} Builds</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '12px' }}>
             {similarBuilds.map((sim) => (
-              <Link
-                key={sim.id}
-                href={`/user/${sim.owner?.username}/${sim.slug}`}
-                className="glass overflow-hidden card-hover group flex"
-              >
-                <div className="w-28 h-28 bg-surface-light flex-shrink-0 overflow-hidden">
+              <Link key={sim.id} href={`/user/${sim.owner?.username}/${sim.slug}`} className="glass card-hover" style={{ display: 'flex', overflow: 'hidden' }}>
+                <div style={{ width: '110px', height: '110px', background: 'rgba(26,26,46,0.5)', flexShrink: 0, overflow: 'hidden' }}>
                   {sim.primary_image_url ? (
-                    <img src={sim.primary_image_url} alt={`${sim.year} ${sim.make} ${sim.model}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={sim.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center"><span className="text-2xl">🚗</span></div>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>🚗</div>
                   )}
                 </div>
-                <div className="p-4 flex-1 min-w-0">
-                  <h3 className="font-bold text-sm text-foreground group-hover:text-purple-light transition-colors truncate">
-                    {sim.year} {sim.make} {sim.model}
-                  </h3>
-                  <p className="text-xs text-muted-light mt-0.5">{sim.color} {sim.horsepower && `• ${sim.horsepower}`}</p>
-                  <p className="text-xs text-muted mt-1">by @{sim.owner?.username}</p>
-                  <div className="flex items-center gap-3 mt-2 text-xs text-muted">
-                    <span>🤙 {sim.props_count || 0}</span>
-                    <span className="text-[10px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded bg-purple/10 text-purple-light">
-                      {sim.build_status?.replace('_', ' ')}
-                    </span>
+                <div style={{ padding: '14px', flex: 1, minWidth: 0 }}>
+                  <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sim.year} {sim.make} {sim.model}</h3>
+                  <p style={{ fontSize: '12px', color: '#8892a4', marginTop: '2px' }}>{sim.color} {sim.horsepower && `· ${sim.horsepower}`}</p>
+                  <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>by @{sim.owner?.username}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
+                    <span style={{ fontSize: '11px', color: '#8892a4' }}>🤙 {sim.props_count || 0}</span>
+                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', color: '#a78bfa' }}>{sim.build_status?.replace('_', ' ')}</span>
                   </div>
                 </div>
               </Link>
