@@ -64,7 +64,7 @@ export default function CreateClubPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { setError('You must be signed in'); setLoading(false); return }
 
-    if (!locations[0].city || !locations[0].state) { setError('At least one location is required'); setLoading(false); return }
+    if (!locations[0].city || !locations[0].state) { setError('Pick a city from the dropdown for the primary chapter'); setLoading(false); return }
 
     const slug = form.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
 
@@ -141,23 +141,25 @@ export default function CreateClubPage() {
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '8px' }}>Chapters / Locations *</label>
           <p className="text-muted" style={{ fontSize: '11px', marginBottom: '10px' }}>Clubs can have multiple chapters. Add as many as you need.</p>
           {locations.map((loc, i) => (
-            <div key={i} style={{ padding: '12px', marginBottom: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.3)', border: '1px solid rgba(255,255,255,0.04)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+            <div key={i} style={{ padding: '14px', marginBottom: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.3)', border: '1px solid rgba(255,255,255,0.04)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <span style={{ fontSize: '11px', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>Chapter {i + 1}{loc.is_primary && ' · Primary'}</span>
                 {locations.length > 1 && (
-                  <button type="button" onClick={() => removeLocation(i)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '14px' }}>✕ Remove</button>
+                  <button type="button" onClick={() => removeLocation(i)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>✕ Remove</button>
                 )}
               </div>
               <div style={{ marginBottom: '8px' }}>
                 <AddressAutocomplete
-                  placeholder="Start typing address or city..."
+                  defaultValue={loc.city && loc.state ? `${loc.city}, ${loc.state}` : ''}
+                  placeholder="Start typing a city — e.g. &quot;Scranton, PA&quot;"
+                  mode="city"
                   onChange={(a) => applyAddress(i, a)}
                 />
-              </div>
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
-                <input value={loc.city} onChange={(e) => updateLocation(i, 'city', e.target.value)} className="input" placeholder="City" style={{ flex: 2 }} required={i === 0} />
-                <input value={loc.state} onChange={(e) => updateLocation(i, 'state', e.target.value)} className="input" placeholder="ST" style={{ flex: 0.7, textTransform: 'uppercase' }} maxLength={2} required={i === 0} />
-                <input value={loc.zip_code} onChange={(e) => updateLocation(i, 'zip_code', e.target.value)} className="input" placeholder="ZIP" style={{ flex: 1 }} maxLength={10} />
+                {loc.city && loc.state && (
+                  <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '6px' }}>
+                    ✓ {loc.city}, {loc.state}{loc.zip_code ? ` ${loc.zip_code}` : ''}
+                  </p>
+                )}
               </div>
               <input value={loc.label} onChange={(e) => updateLocation(i, 'label', e.target.value)} className="input" placeholder="Chapter name (optional — e.g. &quot;DFW Chapter&quot;)" />
             </div>
