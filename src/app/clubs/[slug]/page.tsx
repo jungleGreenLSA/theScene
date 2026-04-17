@@ -4,13 +4,23 @@ import Link from 'next/link'
 import ClubActions from '@/components/ClubActions'
 import ClubCoverEditor from '@/components/ClubCoverEditor'
 import ClubMembers from '@/components/ClubMembers'
+import ShareButton from '@/components/ShareButton'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const supabase = await createClient()
-  const { data: club } = await supabase.from('clubs').select('name').eq('slug', slug).single()
+  const { data: club } = await supabase.from('clubs').select('name, description').eq('slug', slug).single()
   if (!club) return { title: 'Not Found' }
-  return { title: `${club.name} - Car Club` }
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'
+  const ogUrl = `${siteUrl}/api/og/club/${slug}`
+  const title = `${club.name} - Car Club`
+  const description = club.description || `${club.name} on The Scene.`
+  return {
+    title,
+    description,
+    openGraph: { title, description, images: [ogUrl], type: 'website' },
+    twitter: { card: 'summary_large_image', title, description, images: [ogUrl] },
+  }
 }
 
 export default async function ClubPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -67,7 +77,10 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
                 </p>
               )}
             </div>
-            <ClubActions clubId={club.id} />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
+              <ClubActions clubId={club.id} />
+              <ShareButton url={`/clubs/${slug}`} title={club.name} text={`${club.name} on The Scene`} small />
+            </div>
           </div>
 
           {club.description && (

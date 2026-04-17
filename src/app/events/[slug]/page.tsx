@@ -7,13 +7,22 @@ import EventCheckIn from '@/components/EventCheckIn'
 import EventOrganizerActions from '@/components/EventOrganizerActions'
 import EventRSVP from '@/components/EventRSVP'
 import PropsButton from '@/components/PropsButton'
+import ShareButton from '@/components/ShareButton'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const supabase = await createClient()
-  const { data } = await supabase.from('events').select('title').eq('slug', slug).single()
+  const { data } = await supabase.from('events').select('title, city, state, description').eq('slug', slug).single()
   if (!data) return { title: 'Not Found' }
-  return { title: data.title }
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'
+  const ogUrl = `${siteUrl}/api/og/event/${slug}`
+  const description = data.description || `${data.title}${data.city ? ` · ${data.city}, ${data.state}` : ''}`
+  return {
+    title: data.title,
+    description,
+    openGraph: { title: data.title, description, images: [ogUrl], type: 'website' },
+    twitter: { card: 'summary_large_image', title: data.title, description, images: [ogUrl] },
+  }
 }
 
 export default async function EventDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -123,6 +132,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             {event.location_name && <span>📍 {event.location_name}</span>}
             <span>👥 {event.rsvp_count || 0} interested</span>
             <PropsButton targetType="event" targetId={event.id} size="sm" />
+            <ShareButton url={`/events/${slug}`} title={event.title} text={`${event.title} on The Scene`} small />
           </div>
 
           {/* RSVP buttons */}

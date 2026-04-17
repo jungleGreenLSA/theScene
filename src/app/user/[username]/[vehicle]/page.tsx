@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import GuestbookSection from '@/components/GuestbookSection'
 import PropsButton from '@/components/PropsButton'
+import ShareButton from '@/components/ShareButton'
 import GarageQR from '@/components/GarageQR'
 import BuildMatch from '@/components/BuildMatch'
 
@@ -13,12 +14,18 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
   const { data: profile } = await supabase.from('profiles').select('id').eq('username', username).single()
   if (!profile) return { title: 'Not Found' }
 
-  const { data: v } = await supabase.from('vehicles').select('year, make, model, color').eq('owner_id', profile.id).eq('slug', vehicle).single()
+  const { data: v } = await supabase.from('vehicles').select('id, year, make, model, color').eq('owner_id', profile.id).eq('slug', vehicle).single()
   if (!v) return { title: 'Not Found' }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'
+  const ogUrl = `${siteUrl}/api/og/vehicle/${v.id}`
+  const title = `${v.year} ${v.make} ${v.model}${v.color ? ' — ' + v.color : ''}`
+  const description = `Check out this ${v.year} ${v.make} ${v.model} on The Scene.`
   return {
-    title: `${v.year} ${v.make} ${v.model} - ${v.color}`,
-    description: `Check out this ${v.year} ${v.make} ${v.model} in ${v.color} on The Scene.`,
+    title,
+    description,
+    openGraph: { title, description, images: [ogUrl], type: 'website' },
+    twitter: { card: 'summary_large_image', title, description, images: [ogUrl] },
   }
 }
 
@@ -144,6 +151,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <PropsButton targetType="vehicle" targetId={vehicle.id} initialCount={vehicle.props_count || 0} />
+              <ShareButton url={`/user/${username}/${vehicleSlug}`} title={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} text={`Check out this ${vehicle.year} ${vehicle.make} ${vehicle.model} on The Scene`} small />
               <span style={{ fontSize: '13px', color: '#6b7280' }}>👁 {vehicle.view_count || 0} views</span>
               <GarageQR username={username} vehicleSlug={vehicleSlug} vehicleId={vehicle.id} />
             </div>
