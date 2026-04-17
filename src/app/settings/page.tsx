@@ -19,6 +19,7 @@ interface Profile {
   username: string
   display_name: string
   first_name: string
+  last_name: string
   bio: string
   location: string
   is_public: boolean
@@ -43,10 +44,28 @@ export default function SettingsPage() {
 
       setUserEmail(user.email || '')
 
-      const { data: p } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-      const { data: v } = await supabase.from('vehicles').select('id, year, make, model, color, is_public, slug').eq('owner_id', user.id)
+      const { data: p, error: profileError } = await supabase.from('profiles').select('*').eq('id', user.id).single()
 
-      setProfile(p)
+      // If no profile exists (trigger failed), create one
+      if (profileError || !p) {
+        const username = user.user_metadata?.username || user.user_metadata?.full_name?.toLowerCase().replace(/[^a-z0-9]/g, '_') || 'user_' + user.id.slice(0, 8)
+        const fullName = user.user_metadata?.full_name || user.user_metadata?.name || ''
+        const nameParts = fullName.split(' ')
+        await supabase.from('profiles').insert({
+          id: user.id,
+          username: username + '_' + user.id.slice(0, 4),
+          display_name: fullName,
+          avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || '',
+          first_name: user.user_metadata?.first_name || nameParts[0] || '',
+          last_name: user.user_metadata?.last_name || (nameParts.length > 1 ? nameParts.slice(1).join(' ') : ''),
+        })
+        const { data: newP } = await supabase.from('profiles').select('*').eq('id', user.id).single()
+        setProfile(newP)
+      } else {
+        setProfile(p)
+      }
+
+      const { data: v } = await supabase.from('vehicles').select('id, year, make, model, color, is_public, slug').eq('owner_id', user.id)
       setVehicles(v || [])
       setLoading(false)
     }
@@ -191,14 +210,14 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Display Name</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(optional)</span></label>
             <input
               type="text"
-              defaultValue={profile?.display_name || ''}
-              onBlur={(e) => updateProfile('display_name', e.target.value)}
+              defaultValue={profile?.last_name || ''}
+              onBlur={(e) => updateProfile('last_name', e.target.value)}
               className="input"
-              placeholder="Jeff S."
-              maxLength={128}
+              placeholder="Squier"
+              maxLength={64}
             />
           </div>
         </div>

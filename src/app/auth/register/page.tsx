@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [phone, setPhone] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -43,7 +44,7 @@ export default function RegisterPage() {
         email,
         password,
         options: {
-          data: { username: username.toLowerCase(), first_name: firstName, full_name: firstName },
+          data: { username: username.toLowerCase(), first_name: firstName, last_name: lastName, full_name: `${firstName} ${lastName}`.trim() },
           emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback`,
         },
       })
@@ -150,9 +151,15 @@ export default function RegisterPage() {
           </div>
 
           <form onSubmit={handleRegister}>
-            <div style={{ marginBottom: '16px' }}>
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>First Name</label>
-              <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input" placeholder="Jeff" required />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>First Name *</label>
+                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input" placeholder="Jeff" required />
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name</label>
+                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className="input" placeholder="Optional" />
+              </div>
             </div>
 
             <div style={{ marginBottom: '16px' }}>
