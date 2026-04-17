@@ -11,7 +11,7 @@ interface Point {
 }
 
 interface Props {
-  type: 'events' | 'clubs'
+  type: 'events' | 'clubs' | 'shops'
   title: string
 }
 
@@ -63,6 +63,10 @@ export default function StateHeatmap({ type, title }: Props) {
         const q = supabase.from('events').select('title, city, state, lat, lng').in('status', ['published', 'active'])
         const { data } = userState ? await q.eq('state', userState) : await q
         rows = (data || []).map(e => ({ city: e.city, state: e.state, lat: e.lat, lng: e.lng, label: e.title }))
+      } else if (type === 'shops') {
+        const q = supabase.from('shops').select('name, city, state, lat, lng')
+        const { data } = userState ? await q.eq('state', userState) : await q
+        rows = (data || []).map(s => ({ city: s.city, state: s.state, lat: s.lat, lng: s.lng, label: s.name }))
       } else {
         const q = supabase.from('club_locations').select('city, state, lat, lng, clubs(name)')
         const { data } = userState ? await q.eq('state', userState) : await q
@@ -106,7 +110,7 @@ export default function StateHeatmap({ type, title }: Props) {
       })
 
       if (points.length > 0) {
-        const color = type === 'events' ? [249, 115, 22] : [124, 58, 237]
+        const color = type === 'events' ? [249, 115, 22] : type === 'shops' ? [34, 197, 94] : [124, 58, 237]
         heatmap = new window.google.maps.visualization.HeatmapLayer({
           data: points.map(p => new window.google!.maps.LatLng(p.lat, p.lng)),
           radius: 40,
@@ -156,7 +160,7 @@ export default function StateHeatmap({ type, title }: Props) {
     <div className="glass" style={{ padding: '16px', borderRadius: '12px', overflow: 'hidden' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
         <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>
-          {title} {state && <span style={{ color: type === 'events' ? '#fb923c' : '#a78bfa' }}>in {state}</span>}
+          {title} {state && <span style={{ color: type === 'events' ? '#fb923c' : type === 'shops' ? '#22c55e' : '#a78bfa' }}>in {state}</span>}
         </h3>
         <span style={{ fontSize: '11px', color: '#6b7280' }}>
           {loading ? 'Loading...' : `${count} ${count === 1 ? 'spot' : 'spots'}`}

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import ShopTagger from '@/components/ShopTagger'
 
 const BODY_STYLES = ['Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Wagon', 'SUV', 'Truck', 'Van', 'Roadster', 'Other']
 const TRANSMISSIONS = ['Automatic', 'Manual', 'DCT / Dual Clutch', 'CVT', 'Other']
@@ -212,6 +213,12 @@ export default function EditVehiclePage() {
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}><span>📝</span> About This Build</div>
           <textarea name="bio" value={form.bio} onChange={handleChange} className="input" rows={4} maxLength={2000} placeholder="Tell the story of your build..." />
+        </div>
+
+        {/* Shops */}
+        <div className="glass" style={{ padding: '24px' }}>
+          <div style={sectionTitle}><span>🔧</span> Shops That Worked On This Build</div>
+          <ShopTagger vehicleId={vehicleId} />
         </div>
 
         {/* Visibility */}

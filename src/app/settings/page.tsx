@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import AddressAutocomplete from '@/components/AddressAutocomplete'
+import type { ParsedAddress } from '@/lib/googleMaps'
 
 interface Vehicle {
   id: string
@@ -250,14 +252,17 @@ export default function SettingsPage() {
         </div>
 
         <div style={{ marginBottom: '16px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Location</label>
-          <input
-            type="text"
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
+            Location <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(city autocompletes — your state powers the heatmaps)</span>
+          </label>
+          <AddressAutocomplete
             defaultValue={profile?.location || ''}
-            onBlur={(e) => updateProfile('location', e.target.value)}
-            className="input"
-            placeholder="City, State"
-            maxLength={128}
+            placeholder="Start typing a city — e.g. &quot;Omaha, NE&quot;"
+            types={['(cities)']}
+            onChange={(a: ParsedAddress) => {
+              const value = [a.city, a.state].filter(Boolean).join(', ')
+              if (value) updateProfile('location', value)
+            }}
           />
         </div>
 

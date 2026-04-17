@@ -54,6 +54,12 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
     .eq('vehicle_id', vehicle.id)
     .order('sort_order')
 
+  // Get tagged shops
+  const { data: taggedShops } = await supabase
+    .from('vehicle_shops')
+    .select('id, shop:shops(id, slug, name, city, state, logo_url)')
+    .eq('vehicle_id', vehicle.id)
+
   // Get guestbook
   const { data: guestbook } = await supabase
     .from('guestbook_entries')
@@ -224,6 +230,26 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
                   ))}
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tagged Shops */}
+      {taggedShops && taggedShops.length > 0 && (
+        <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>🔧 Shops Tagged</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+            {taggedShops.map((t: any) => (
+              t.shop && (
+                <Link key={t.id} href={`/shops/${t.shop.slug}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', borderRadius: '8px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
+                  {t.shop.logo_url && <img src={t.shop.logo_url} alt="" style={{ width: '28px', height: '28px', borderRadius: '4px', objectFit: 'cover' }} />}
+                  <div>
+                    <p style={{ fontSize: '13px', fontWeight: 600, color: '#22c55e' }}>{t.shop.name}</p>
+                    {t.shop.city && <p style={{ fontSize: '11px', color: '#6b7280' }}>{t.shop.city}, {t.shop.state}</p>}
+                  </div>
+                </Link>
+              )
             ))}
           </div>
         </div>

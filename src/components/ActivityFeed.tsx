@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import { stateFullName } from '@/lib/googleMaps'
 
 interface Activity {
   id: string
@@ -40,12 +41,15 @@ function renderActivity(a: Activity) {
   switch (a.action) {
     case 'joined': {
       const v = a.primary_vehicle
-      const cityOnly = (m.location || '').split(',')[0].trim()
+      const parts = (m.location || '').split(',').map(s => s.trim()).filter(Boolean)
+      const city = parts[0] || ''
+      const stateFull = stateFullName(parts[1])
+      const locationText = city && stateFull ? `${city}, ${stateFull}` : city
       return (
         <div>
           <p className="text-foreground" style={{ fontSize: '14px' }}>
             <Link href={`/user/${username}`} className="font-semibold hover:text-purple-light">{name}</Link>
-            {cityOnly ? ` from ${cityOnly}` : ''} joined The Scene
+            {locationText ? ` from ${locationText}` : ''} joined The Scene
           </p>
           {v && (
             <Link href={`/user/${username}/${v.slug}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px', padding: '8px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)', maxWidth: '340px' }}>
