@@ -58,17 +58,21 @@ export default function Navbar() {
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-[#0c0c14]/97 border-b border-border' : 'bg-[#0c0c14]/70 backdrop-blur-xl'
-    }`}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }} className="h-14 flex items-center justify-between">
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+      transition: 'all 0.3s',
+      background: scrolled ? 'rgba(12,12,20,0.97)' : 'rgba(12,12,20,0.7)',
+      backdropFilter: scrolled ? 'none' : 'blur(16px)',
+      borderBottom: scrolled ? '1px solid var(--color-border)' : 'none',
+    }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Logo text */}
         <Link href="/" style={{ flexShrink: 0, fontSize: '16px', fontWeight: 700, letterSpacing: '1.5px', color: '#e2e4e9' }}>
           THE<span style={{ color: '#a78bfa' }}>SCENE</span>
         </Link>
 
         {/* Desktop Nav + Right side grouped */}
-        <div className="hidden lg:flex items-center gap-1" style={{ marginLeft: 'auto' }}>
+        <div className="nav-desktop">
           {NAV_LINKS.filter(link => !link.membersOnly || user).map(link => (
             <Link
               key={link.href}
@@ -109,16 +113,16 @@ export default function Navbar() {
         </div>
 
         {/* Mobile toggle */}
-        <button className="lg:hidden flex flex-col gap-1 p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
-          <span className={`block w-5 h-0.5 bg-foreground transition-all ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-          <span className={`block w-5 h-0.5 bg-foreground transition-all ${menuOpen ? 'opacity-0' : ''}`} />
-          <span className={`block w-5 h-0.5 bg-foreground transition-all ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+        <button className="nav-mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+          <span style={{ transform: menuOpen ? 'rotate(45deg) translateY(6px)' : 'none' }} />
+          <span style={{ opacity: menuOpen ? 0 : 1 }} />
+          <span style={{ transform: menuOpen ? 'rotate(-45deg) translateY(-6px)' : 'none' }} />
         </button>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-[#0c0c14]/97 border-t border-border" style={{ padding: '12px 24px 16px' }}>
+        <div className="nav-mobile-menu" style={{ background: 'rgba(12,12,20,0.97)', borderTop: '1px solid var(--color-border)', padding: '12px 24px 16px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
             {[...NAV_LINKS,
               { href: '/runs', label: 'Crew Runs', membersOnly: true },
