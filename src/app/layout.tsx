@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import OnboardingWizard from "@/components/OnboardingWizard";
+import MobileTabBar from "@/components/MobileTabBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,9 +56,10 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} dark`}>
       <body className="antialiased">
         <Navbar />
-        <main className="min-h-screen" style={{ paddingTop: '56px' }}>
+        <main className="min-h-screen site-main">
           {children}
         </main>
+        <MobileTabBar />
         <OnboardingWizard />
         <Footer />
       </body>
