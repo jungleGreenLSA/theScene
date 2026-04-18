@@ -98,12 +98,13 @@ export default function CreateEventPage() {
     if (flyerFile) {
       const allowed = ['image/jpeg', 'image/png', 'image/webp']
       if (!allowed.includes(flyerFile.type)) { setError('Flyer must be JPEG, PNG, or WebP'); setLoading(false); return }
-      if (flyerFile.size > 5 * 1024 * 1024) { setError('Flyer must be under 5MB'); setLoading(false); return }
+      if (flyerFile.size > 15 * 1024 * 1024) { setError('Flyer must be under 15MB'); setLoading(false); return }
 
-      const filename = `${user.id}/${Date.now()}_flyer.${flyerFile.name.split('.').pop()}`
-      const { error: uploadError } = await supabase.storage.from('events').upload(filename, await compressImage(flyerFile))
-      if (uploadError) { setError('Flyer upload failed'); setLoading(false); return }
-      const { data: urlData } = supabase.storage.from('events').getPublicUrl(filename)
+      const compressed = await compressImage(flyerFile)
+      const filename = `events/${user.id}/${Date.now()}_flyer.${compressed.name.split('.').pop()}`
+      const { error: uploadError } = await supabase.storage.from('posts').upload(filename, compressed)
+      if (uploadError) { setError('Flyer upload failed: ' + uploadError.message); setLoading(false); return }
+      const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
       flyerUrl = urlData.publicUrl
     }
 

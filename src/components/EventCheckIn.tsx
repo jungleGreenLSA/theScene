@@ -50,9 +50,11 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
 
     let imageUrl = ''
     if (file) {
-      const filename = `checkins/${user.id}/${Date.now()}.${file.name.split('.').pop()}`
-      await supabase.storage.from('events').upload(filename, await compressImage(file))
-      const { data } = supabase.storage.from('events').getPublicUrl(filename)
+      const compressed = await compressImage(file)
+      const filename = `event_checkins/${user.id}/${Date.now()}.${compressed.name.split('.').pop()}`
+      const { error: upErr } = await supabase.storage.from('posts').upload(filename, compressed)
+      if (upErr) { alert('Check-in photo upload failed: ' + upErr.message); setLoading(false); return }
+      const { data } = supabase.storage.from('posts').getPublicUrl(filename)
       imageUrl = data.publicUrl
     }
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { compressImage } from '@/lib/imageUpload'
 
 interface Vehicle {
   id: string
@@ -63,10 +64,11 @@ export default function EventPhotoUpload({ eventId, eventTitle }: { eventId: str
     }
 
     // Upload to storage
-    const filename = `${user.id}/${Date.now()}_${file.name}`
+    const compressed = await compressImage(file)
+    const filename = `event_photos/${user.id}/${Date.now()}_${compressed.name}`
     const { error: uploadError } = await supabase.storage
-      .from('events')
-      .upload(filename, file)
+      .from('posts')
+      .upload(filename, compressed)
 
     if (uploadError) {
       setMessage('Upload failed: ' + uploadError.message)
@@ -74,7 +76,7 @@ export default function EventPhotoUpload({ eventId, eventTitle }: { eventId: str
       return
     }
 
-    const { data: urlData } = supabase.storage.from('events').getPublicUrl(filename)
+    const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
 
     // Create the photo post
     const { error: insertError } = await supabase.from('event_photo_posts').insert({
