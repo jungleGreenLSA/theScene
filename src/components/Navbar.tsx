@@ -18,9 +18,8 @@ const PRIMARY_LINKS = [
   { href: '/wwyd', label: 'WWYD', membersOnly: true },
 ]
 
-// Rest live in a "More" dropdown
+// Rest live in a "More" dropdown. Shops lives inside Market now.
 const MORE_LINKS = [
-  { href: '/shops', label: 'Shops' },
   { href: '/challenges', label: 'Challenges' },
   { href: '/leaderboard', label: 'Leaderboard' },
 ]

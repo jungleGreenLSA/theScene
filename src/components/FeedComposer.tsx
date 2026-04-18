@@ -55,10 +55,10 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="Working on your build? Post a photo, drop a #hashtag..."
+        placeholder="Say it in 120 characters. Post a photo, drop a #hashtag..."
         className="input"
-        rows={3}
-        maxLength={600}
+        rows={2}
+        maxLength={120}
         style={{ resize: 'none', marginBottom: '10px' }}
       />
       {hashtags.length > 0 && (
@@ -81,7 +81,9 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
           <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </label>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '11px', color: '#6b7280' }}>{content.length}/600</span>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: content.length > 100 ? (content.length > 115 ? '#ef4444' : '#fb923c') : '#6b7280' }}>
+            {120 - content.length}
+          </span>
           <button type="submit" disabled={posting || (!content.trim() && !file)} className="btn-primary" style={{ fontSize: '12px', padding: '8px 18px', opacity: (posting || (!content.trim() && !file)) ? 0.4 : 1 }}>
             {posting ? 'Posting...' : 'Post'}
           </button>
