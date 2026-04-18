@@ -97,6 +97,16 @@ export async function GET(_req: Request, { params }: { params: Promise<{ type: s
         )}
       </div>
     ),
-    { width: 1200, height: 630 }
+    {
+      width: 1200,
+      height: 630,
+      headers: {
+        // Browser: 1h. CDN (Cloudflare): 24h. Serve stale for 24h while
+        // revalidating. OG cards for a given ID don't change often, and
+        // generation is CPU-heavy — this keeps the VPS calm when a link
+        // gets shared in iMessage/Discord/Twitter.
+        'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400',
+      },
+    }
   )
 }
