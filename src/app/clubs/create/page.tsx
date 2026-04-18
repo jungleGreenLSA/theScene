@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
 import { geocodeCityState, type ParsedAddress } from '@/lib/mapbox'
+import { compressImage } from '@/lib/imageUpload'
 
 export default function CreateClubPage() {
   const supabase = createClient()
@@ -20,6 +21,9 @@ export default function CreateClubPage() {
     instagram_handle: '',
     facebook_url: '',
   })
+
+  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [coverFile, setCoverFile] = useState<File | null>(null)
 
   const [locations, setLocations] = useState([{ city: '', state: '', label: '', address: '', zip_code: '', lat: null as number | null, lng: null as number | null, is_primary: true }])
 
@@ -81,6 +85,39 @@ export default function CreateClubPage() {
 
     if (clubError) { setError(clubError.message); setLoading(false); return }
 
+    // Insert the founder row FIRST so subsequent RLS checks (which
+    // expect the creator to be a founder) pass even on schemas that
+    // haven't had migration 021 applied yet.
+    const { error: memberErr } = await supabase.from('club_members').insert({
+      club_id: club.id,
+      user_id: user.id,
+      role: 'founder',
+      added_by: user.id,
+    })
+    if (memberErr) {
+      setError(`Club created, but founder membership insert failed: ${memberErr.message}`)
+      setLoading(false)
+      return
+    }
+
+    // Upload optional logo + cover
+    const uploadImage = async (file: File, kind: 'logo' | 'cover'): Promise<string | null> => {
+      const compressed = await compressImage(file)
+      const ext = compressed.name.split('.').pop()?.toLowerCase() || 'jpg'
+      const filename = `clubs/${club.id}/${kind}_${Date.now()}.${ext}`
+      const { error: upErr } = await supabase.storage.from('posts').upload(filename, compressed, { upsert: true })
+      if (upErr) return null
+      const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
+      return urlData.publicUrl
+    }
+
+    const updates: { logo_url?: string; cover_image_url?: string } = {}
+    if (logoFile) { const u = await uploadImage(logoFile, 'logo'); if (u) updates.logo_url = u }
+    if (coverFile) { const u = await uploadImage(coverFile, 'cover'); if (u) updates.cover_image_url = u }
+    if (Object.keys(updates).length) {
+      await supabase.from('clubs').update(updates).eq('id', club.id)
+    }
+
     // Backfill lat/lng from city+state for any chapter where the user
     // didn't click an autocomplete suggestion.
     const filtered = locations.filter(l => l.city && l.state)
@@ -105,28 +142,11 @@ export default function CreateClubPage() {
     if (fullLocs.length > 0) {
       const { error: locErr } = await supabase.from('club_locations').insert(fullLocs)
       if (locErr) {
-        // Migration 013 probably hasn't been applied, so lat/lng/address/zip_code
-        // don't exist. Retry with just the core columns so the club still has
-        // chapters (pins won't drop on the heatmap until migration 013 is applied).
         const minimalLocs = fullLocs.map(l => ({ club_id: l.club_id, city: l.city, state: l.state, label: l.label, is_primary: l.is_primary }))
         const { error: retryErr } = await supabase.from('club_locations').insert(minimalLocs)
         if (retryErr) { setError('Could not save chapter locations: ' + retryErr.message); setLoading(false); return }
         setError('Chapters saved, but lat/lng columns are missing — apply migration 013 for heatmap pins.')
       }
-    }
-
-    // Add creator as founder. Don't specify status — it defaults to 'active'
-    // once migration 015 is applied, or to NULL before.
-    const { error: memberErr } = await supabase.from('club_members').insert({
-      club_id: club.id,
-      user_id: user.id,
-      role: 'founder',
-      added_by: user.id,
-    })
-    if (memberErr) {
-      setError(`Club created, but founder membership insert failed: ${memberErr.message}. You can still view the club — the page will try to self-heal on load.`)
-      setTimeout(() => router.push(`/clubs/${club.slug}`), 3000)
-      return
     }
 
     router.push(`/clubs/${club.slug}`)
@@ -150,6 +170,28 @@ export default function CreateClubPage() {
         <div style={{ marginBottom: '16px' }}>
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Description</label>
           <textarea name="description" value={form.description} onChange={handleChange} className="input" rows={3} placeholder="What's your club about?" />
+        </div>
+
+        {/* Logo + Banner */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>🎯 Logo (optional)</label>
+            <label style={{ display: 'block', padding: '14px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.12)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.4)' }}>
+              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
+              <span style={{ fontSize: '12px', color: logoFile ? '#22c55e' : '#8892a4' }}>
+                {logoFile ? `✓ ${logoFile.name}` : 'Tap to upload'}
+              </span>
+            </label>
+          </div>
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>📷 Banner (optional)</label>
+            <label style={{ display: 'block', padding: '14px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.12)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.4)' }}>
+              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setCoverFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
+              <span style={{ fontSize: '12px', color: coverFile ? '#22c55e' : '#8892a4' }}>
+                {coverFile ? `✓ ${coverFile.name}` : 'Tap to upload'}
+              </span>
+            </label>
+          </div>
         </div>
 
         {/* Locations */}
