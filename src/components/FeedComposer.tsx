@@ -79,7 +79,7 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
       {error && <p style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{error}</p>}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
         <label style={{ cursor: 'pointer', fontSize: '12px', fontWeight: 600, color: '#a78bfa', padding: '6px 12px', borderRadius: '6px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.25)' }}>
-          📷 Photo
+          Add Photo
           <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </label>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

@@ -35,7 +35,7 @@ function FeedPageContent() {
     const fetchSidebar = async () => {
       const { data: members } = await supabase
         .from('profiles')
-        .select('username, display_name, first_name, avatar_url, location, is_online, created_at')
+        .select('username, display_name, first_name, avatar_url, location, created_at')
         .eq('is_public', true)
         .order('created_at', { ascending: false })
         .limit(8)
@@ -102,9 +102,6 @@ function FeedPageContent() {
                           </div>
                         )}
                       </div>
-                      {m.is_online && (
-                        <div style={{ position: 'absolute', bottom: -1, right: -1, width: '10px', height: '10px', borderRadius: '50%', background: '#22c55e', border: '2px solid #0c0c14' }} />
-                      )}
                     </div>
                     <div style={{ minWidth: 0 }}>
                       <p className="text-foreground" style={{ fontSize: '12px', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

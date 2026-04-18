@@ -33,6 +33,7 @@ const MentionTextarea = forwardRef<HTMLTextAreaElement, Props>(function MentionT
   const [matches, setMatches] = useState<Profile[]>([])
   const [activeIdx, setActiveIdx] = useState(0)
   const [mentionRange, setMentionRange] = useState<{ start: number; end: number; q: string } | null>(null)
+  const [searching, setSearching] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Look for an active "@partial" immediately preceding the caret.
@@ -47,14 +48,27 @@ const MentionTextarea = forwardRef<HTMLTextAreaElement, Props>(function MentionT
   }
 
   const searchProfiles = async (q: string) => {
-    if (!q) { setMatches([]); return }
-    const { data } = await supabase
-      .from('profiles')
-      .select('id, username, display_name, avatar_url')
-      .ilike('username', `${q}%`)
-      .limit(6)
-    setMatches((data || []) as Profile[])
-    setActiveIdx(0)
+    setSearching(true)
+    try {
+      // No query yet — show recent/first batch so the dropdown isn't empty
+      // as soon as the user types `@`.
+      let query = supabase.from('profiles').select('id, username, display_name, avatar_url').limit(8)
+      if (q) {
+        // Match either username or display_name so "@Jeff" finds jeff_squier_xxxx.
+        query = query.or(`username.ilike.${q}%,display_name.ilike.${q}%`)
+      } else {
+        query = query.order('last_active_at', { ascending: false, nullsFirst: false })
+      }
+      const { data, error } = await query
+      if (error) console.error('[MentionTextarea] profile search failed:', error)
+      setMatches((data || []) as Profile[])
+    } catch (err) {
+      console.error('[MentionTextarea] profile search threw:', err)
+      setMatches([])
+    } finally {
+      setSearching(false)
+      setActiveIdx(0)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -65,9 +79,12 @@ const MentionTextarea = forwardRef<HTMLTextAreaElement, Props>(function MentionT
     setMentionRange(range)
     if (debounceRef.current) clearTimeout(debounceRef.current)
     if (range) {
-      debounceRef.current = setTimeout(() => searchProfiles(range.q), 180)
+      // Debounce *only* when there's a query; an empty @ fires immediately.
+      const delay = range.q ? 180 : 0
+      debounceRef.current = setTimeout(() => searchProfiles(range.q), delay)
     } else {
       setMatches([])
+      setSearching(false)
     }
   }
 
@@ -115,12 +132,18 @@ const MentionTextarea = forwardRef<HTMLTextAreaElement, Props>(function MentionT
         className={className}
         style={style}
       />
-      {matches.length > 0 && mentionRange && (
+      {mentionRange && (matches.length > 0 || searching || mentionRange.q.length > 0) && (
         <div style={{
           position: 'absolute', zIndex: 20, left: 0, right: 0, top: '100%', marginTop: '4px',
           background: '#12121e', border: '1px solid rgba(124,58,237,0.35)', borderRadius: '8px',
           boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden',
         }}>
+          {searching && matches.length === 0 && (
+            <div style={{ padding: '10px 12px', fontSize: '12px', color: '#8892a4' }}>Searching…</div>
+          )}
+          {!searching && matches.length === 0 && mentionRange.q.length > 0 && (
+            <div style={{ padding: '10px 12px', fontSize: '12px', color: '#8892a4' }}>No users matching &ldquo;@{mentionRange.q}&rdquo;</div>
+          )}
           {matches.map((m, i) => (
             <button
               key={m.id}

@@ -37,7 +37,7 @@ export default function ListingDetailPage() {
       if (user) setCurrentUser(user.id)
 
       const { data: l } = await supabase.from('listings')
-        .select('*, seller:profiles!listings_seller_id_fkey(username, display_name, avatar_url, location, is_online)')
+        .select('*, seller:profiles!listings_seller_id_fkey(username, display_name, avatar_url, location)')
         .eq('id', listingId).single()
       setListing(l)
 
@@ -168,9 +168,7 @@ export default function ListingDetailPage() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <Link href={`/user/${listing.seller?.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(26,26,46,0.5)', backgroundImage: listing.seller?.avatar_url ? `url(${listing.seller.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
-              {listing.seller?.is_online && <div style={{ position: 'absolute', bottom: 0, right: 0, width: '10px', height: '10px', borderRadius: '50%', background: '#22c55e', border: '2px solid #12121e' }} />}
-            </div>
+            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(26,26,46,0.5)', backgroundImage: listing.seller?.avatar_url ? `url(${listing.seller.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
             <div>
               <p style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>{listing.seller?.display_name || listing.seller?.username}</p>
               <p style={{ fontSize: '12px', color: '#6b7280' }}>{listing.seller?.location || 'Location N/A'}</p>

@@ -56,9 +56,6 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
                 </div>
               )}
             </div>
-            {profile.is_online && (
-              <div style={{ position: 'absolute', bottom: 4, right: 4, width: '18px', height: '18px', borderRadius: '50%', background: '#22c55e', border: '3px solid #12121e', boxShadow: '0 0 8px rgba(34,197,94,0.5)' }} />
-            )}
           </div>
 
           <div>
@@ -69,7 +66,6 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
               )}
             </div>
             <p className="text-purple-light" style={{ fontSize: '14px' }}>@{profile.username}</p>
-            {profile.is_online && <p style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600, marginTop: '4px' }}>● Active now</p>}
           </div>
 
           {profile.location && (

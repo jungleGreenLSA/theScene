@@ -9,7 +9,6 @@ interface FollowUser {
   username: string
   display_name: string
   avatar_url: string
-  is_online: boolean
   location: string
 }
 
@@ -35,7 +34,7 @@ export default function FollowLists({ userId }: { userId: string }) {
     if (tab === 'followers') { setTab(null); return }
     const { data } = await supabase
       .from('follows')
-      .select('follower:profiles!follows_follower_id_fkey(id, username, display_name, avatar_url, is_online, location)')
+      .select('follower:profiles!follows_follower_id_fkey(id, username, display_name, avatar_url, location)')
       .eq('following_id', userId)
       .limit(50)
     setFollowers((data || []).map((d: any) => d.follower).filter(Boolean))
@@ -46,7 +45,7 @@ export default function FollowLists({ userId }: { userId: string }) {
     if (tab === 'following') { setTab(null); return }
     const { data } = await supabase
       .from('follows')
-      .select('following:profiles!follows_following_id_fkey(id, username, display_name, avatar_url, is_online, location)')
+      .select('following:profiles!follows_following_id_fkey(id, username, display_name, avatar_url, location)')
       .eq('follower_id', userId)
       .limit(50)
     setFollowing((data || []).map((d: any) => d.following).filter(Boolean))
@@ -91,9 +90,6 @@ export default function FollowLists({ userId }: { userId: string }) {
                         </div>
                       )}
                     </div>
-                    {u.is_online && (
-                      <div style={{ position: 'absolute', bottom: -1, right: -1, width: '10px', height: '10px', borderRadius: '50%', background: '#22c55e', border: '2px solid #0c0c14' }} />
-                    )}
                   </div>
                   <div>
                     <p className="text-foreground" style={{ fontSize: '13px', fontWeight: 600 }}>{u.display_name || u.username}</p>

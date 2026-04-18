@@ -14,7 +14,7 @@ interface Activity {
   target_id: string
   metadata: Record<string, string>
   actor_id: string
-  actor: { username: string; display_name: string; avatar_url: string; is_online: boolean; location: string } | null
+  actor: { username: string; display_name: string; avatar_url: string; location: string } | null
   primary_vehicle?: { year: number; make: string; model: string; color: string; slug: string; image_url: string | null } | null
 }
 
@@ -27,7 +27,7 @@ interface Post {
   image_url: string | null
   hashtags: string[]
   love_count: number
-  author: { username: string; display_name: string; avatar_url: string; is_online: boolean } | null
+  author: { username: string; display_name: string; avatar_url: string } | null
 }
 
 type Row = Activity | Post
@@ -185,7 +185,7 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
       // Feed posts
       let postQ = supabase
         .from('feed_posts')
-        .select('id, author_id, content, image_url, hashtags, love_count, created_at, author:profiles!author_id(username, display_name, avatar_url, is_online)')
+        .select('id, author_id, content, image_url, hashtags, love_count, created_at, author:profiles!author_id(username, display_name, avatar_url)')
         .order('created_at', { ascending: false })
         .limit(30)
       if (filterTag) postQ = postQ.contains('hashtags', [filterTag.toLowerCase()])
@@ -200,7 +200,7 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
         : (async () => {
             let q = supabase
               .from('activity_feed')
-              .select('id, action, target_type, target_id, metadata, actor_id, created_at, actor:profiles!activity_feed_actor_id_fkey(username, display_name, avatar_url, is_online, location)')
+              .select('id, action, target_type, target_id, metadata, actor_id, created_at, actor:profiles!activity_feed_actor_id_fkey(username, display_name, avatar_url, location)')
               .eq('is_public', true)
               .order('created_at', { ascending: false })
               .limit(30)
@@ -264,18 +264,6 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
     return () => clearInterval(interval)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, refreshKey, filterTag])
-
-  // Keep user active ping
-  useEffect(() => {
-    const ping = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) await supabase.from('profiles').update({ last_active_at: new Date().toISOString(), is_online: true }).eq('id', user.id)
-    }
-    ping()
-    const i = setInterval(ping, 60000)
-    return () => clearInterval(i)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const toggleLove = async (post: Post) => {
     const { data: { user } } = await supabase.auth.getUser()
@@ -376,7 +364,6 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
                       <span style={{ fontSize: '14px', color: '#6b7280' }}>{r.author?.username?.charAt(0).toUpperCase()}</span>
                     )}
                   </div>
-                  {r.author?.is_online && <div style={{ position: 'absolute', bottom: 0, right: 0, width: '12px', height: '12px', borderRadius: '50%', background: '#22c55e', border: '2px solid #0c0c14' }} />}
                 </Link>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <Link href={`/user/${r.author?.username}`} style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>
@@ -424,7 +411,6 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
                   <span style={{ fontSize: '14px', color: '#6b7280' }}>{a.actor?.username?.charAt(0).toUpperCase() || '?'}</span>
                 )}
               </div>
-              {a.actor?.is_online && <div style={{ position: 'absolute', bottom: 0, right: 0, width: '12px', height: '12px', borderRadius: '50%', background: '#22c55e', border: '2px solid #0c0c14' }} />}
             </Link>
             <div style={{ flex: 1, minWidth: 0 }}>
               {renderActivity(a)}
