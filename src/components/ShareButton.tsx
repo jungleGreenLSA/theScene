@@ -40,7 +40,7 @@ export default function ShareButton({ url, title, text, label = 'Share', small =
       onClick={share}
       style={{ padding, borderRadius: '6px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
     >
-      {copied ? 'Link copied' : fail ? 'Copy failed' : label}
+      {copied ? '✓ Link copied' : fail ? 'Copy failed' : `🔗 ${label}`}
     </button>
   )
 }

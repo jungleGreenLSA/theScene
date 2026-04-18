@@ -9,11 +9,14 @@ import Announcements from '@/components/Announcements'
 import TrendingBuilds from '@/components/TrendingBuilds'
 import NearbyMembers from '@/components/NearbyMembers'
 import WeeklyDigest from '@/components/WeeklyDigest'
+import FeedComposer from '@/components/FeedComposer'
+import FeedPosts from '@/components/FeedPosts'
 
 export default function FeedPage() {
   const supabase = createClient()
   const [latestMembers, setLatestMembers] = useState<any[]>([])
   const [onlineCount, setOnlineCount] = useState(0)
+  const [postsRefresh, setPostsRefresh] = useState(0)
 
   useEffect(() => {
     const fetchSidebar = async () => {
@@ -64,11 +67,14 @@ export default function FeedPage() {
           <WeeklyDigest />
           <DailySuggestion />
           <div style={{ marginTop: '16px' }} />
+          <FeedComposer onPosted={() => setPostsRefresh(n => n + 1)} />
+          <FeedPosts refreshKey={postsRefresh} />
           <ActivityFeed />
         </div>
 
-        {/* Sidebar */}
-        <div className="feed-sidebar" style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '16px', alignSelf: 'flex-start', position: 'sticky', top: '72px' }}>
+        {/* Sidebar — aligns with the main column top on desktop,
+            hidden on mobile via the feed-sidebar media query above. */}
+        <div className="feed-sidebar" style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Latest rides */}
           <div className="glass" style={{ padding: '20px' }}>
             <h3 className="font-bold text-foreground" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '14px' }}>

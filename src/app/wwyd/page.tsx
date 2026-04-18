@@ -133,11 +133,18 @@ export default function WWYDPage() {
             {imageFile && <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '4px' }}>{imageFile.name}</p>}
           </div>
           <div style={{ marginBottom: '16px' }}>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(2–4 choices)</span></label>
             {form.options.map((opt, i) => (
-              <input key={i} value={opt} onChange={(e) => { const o = [...form.options]; o[i] = e.target.value; setForm({ ...form, options: o }) }} className="input" placeholder={`Option ${i + 1}`} style={{ marginBottom: '6px' }} required={i < 2} />
+              <div key={i} style={{ display: 'flex', gap: '6px', marginBottom: '6px' }}>
+                <input value={opt} onChange={(e) => { const o = [...form.options]; o[i] = e.target.value; setForm({ ...form, options: o }) }} className="input" placeholder={`Option ${i + 1}`} style={{ flex: 1 }} required={i < 2} />
+                {form.options.length > 2 && (
+                  <button type="button" onClick={() => setForm({ ...form, options: form.options.filter((_, idx) => idx !== i) })} style={{ padding: '0 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
+                )}
+              </div>
             ))}
-            <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', cursor: 'pointer' }}>+ Add option</button>
+            {form.options.length < 4 && (
+              <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', cursor: 'pointer' }}>+ Add option ({4 - form.options.length} more)</button>
+            )}
           </div>
           <button type="submit" disabled={submitting} className="btn-neon" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px' }}>
             {submitting ? 'Posting...' : 'Post Question'}

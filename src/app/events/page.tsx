@@ -30,6 +30,8 @@ export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [loading, setLoading] = useState(true)
   const [locationFilter, setLocationFilter] = useState('')
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
 
   const [nearbyState, setNearbyState] = useState<string | null>(null)
 
@@ -53,12 +55,19 @@ export default function EventsPage() {
     fetchEvents()
   }, [])
 
-  const filteredEvents = locationFilter
-    ? events.filter(e =>
-        e.location_name?.toLowerCase().includes(locationFilter.toLowerCase()) ||
-        e.location_address?.toLowerCase().includes(locationFilter.toLowerCase())
-      )
-    : events
+  const filteredEvents = events.filter(e => {
+    if (locationFilter) {
+      const hay = `${e.location_name || ''} ${e.location_address || ''}`.toLowerCase()
+      if (!hay.includes(locationFilter.toLowerCase())) return false
+    }
+    if (dateFrom && new Date(e.event_date) < new Date(dateFrom)) return false
+    if (dateTo) {
+      const end = new Date(dateTo)
+      end.setHours(23, 59, 59, 999)
+      if (new Date(e.event_date) > end) return false
+    }
+    return true
+  })
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
@@ -73,8 +82,8 @@ export default function EventsPage() {
         <Link href="/events/create" className="btn-primary text-xs">Create Event</Link>
       </div>
 
-      {/* Search */}
-      <div className="glass" style={{ padding: '20px', marginBottom: '20px' }}>
+      {/* Search + date range */}
+      <div className="glass" style={{ padding: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <input
           type="text"
           value={locationFilter}
@@ -83,6 +92,15 @@ export default function EventsPage() {
           className="input"
           style={{ width: '100%' }}
         />
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#6b7280' }}>Date range</span>
+          <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="input" style={{ flex: '1 1 140px', maxWidth: '200px' }} />
+          <span style={{ fontSize: '12px', color: '#6b7280' }}>to</span>
+          <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="input" style={{ flex: '1 1 140px', maxWidth: '200px' }} />
+          {(dateFrom || dateTo) && (
+            <button onClick={() => { setDateFrom(''); setDateTo('') }} style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
+          )}
+        </div>
       </div>
 
       <div style={{ marginBottom: '20px' }}>
