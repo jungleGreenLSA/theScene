@@ -129,7 +129,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
         {membership === 'pending' ? (
           <>
-            <button disabled style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', color: '#fb923c', fontSize: '12px', fontWeight: 600, cursor: 'default' }}>Pending Approval</button>
+            <button disabled style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.2)', color: '#90caf9', fontSize: '12px', fontWeight: 600, cursor: 'default' }}>Pending Approval</button>
             <button onClick={handleCancelRequest} style={{ fontSize: '11px', color: '#555555', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}>Cancel request</button>
           </>
         ) : (
@@ -149,7 +149,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
         <button
           onClick={() => setShowAddMember(!showAddMember)}
-          style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(232,120,23,0.15)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316', fontSize: '12px', fontWeight: 600, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px' }}
+          style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: '#5fa8dd', fontSize: '12px', fontWeight: 600, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px' }}
         >
           {showAddMember ? 'Close' : '+ Add Member'}
         </button>

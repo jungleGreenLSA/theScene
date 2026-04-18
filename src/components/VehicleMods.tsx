@@ -104,7 +104,7 @@ export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
       {CATEGORY_GROUPS.map(group => (
         <div key={group.section}>
-          <h3 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#f97316', marginBottom: '10px' }}>
+          <h3 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#5fa8dd', marginBottom: '10px' }}>
             {group.section}
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -118,7 +118,7 @@ export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
                       <p style={{ fontSize: '11px', color: '#555555' }}>{cat.hint}</p>
                     </div>
                     {openCategory !== cat.key && (
-                      <button type="button" onClick={() => openAdd(cat.key)} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(232,120,23,0.15)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316', fontSize: '11px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>+ Add</button>
+                      <button type="button" onClick={() => openAdd(cat.key)} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: '#5fa8dd', fontSize: '11px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>+ Add</button>
                     )}
                   </div>
 
@@ -129,7 +129,7 @@ export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
                             <div style={{ minWidth: 0, flex: 1 }}>
                               <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{m.item}</p>
-                              {m.brand && <p style={{ fontSize: '11px', color: '#f97316', marginTop: '2px' }}>{m.brand}</p>}
+                              {m.brand && <p style={{ fontSize: '11px', color: '#5fa8dd', marginTop: '2px' }}>{m.brand}</p>}
                               {m.notes && <p style={{ fontSize: '12px', color: '#666666', marginTop: '4px', whiteSpace: 'pre-wrap' }}>{m.notes}</p>}
                             </div>
                             <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
@@ -143,7 +143,7 @@ export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
                   )}
 
                   {openCategory === cat.key && (
-                    <div style={{ marginTop: items.length > 0 ? '10px' : '12px', padding: '12px', borderRadius: '6px', background: 'rgba(232,120,23,0.05)', border: '1px solid rgba(232,120,23,0.2)' }}>
+                    <div style={{ marginTop: items.length > 0 ? '10px' : '12px', padding: '12px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.05)', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         <input value={draft.item} onChange={(e) => setDraft({ ...draft, item: e.target.value })} className="input" placeholder={`Part / mod (e.g. "Kooks Long Tube Headers")`} maxLength={200} autoFocus />
                         <input value={draft.brand} onChange={(e) => setDraft({ ...draft, brand: e.target.value })} className="input" placeholder="Brand (optional)" maxLength={100} />

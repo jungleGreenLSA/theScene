@@ -33,7 +33,7 @@ export default function BuildMatch({ vehicleId }: { vehicleId: string }) {
   if (matches.length === 0) return null
 
   return (
-    <div className="glass" style={{ padding: '20px', marginTop: '20px', border: '1px solid rgba(249,115,22,0.15)' }}>
+    <div className="glass" style={{ padding: '20px', marginTop: '20px', border: '1px solid rgba(95, 168, 221, 0.15)' }}>
       <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
         Build Matches
         <span style={{ fontSize: '11px', color: '#555555', fontWeight: 400 }}>Members with similar mods</span>
@@ -57,7 +57,7 @@ export default function BuildMatch({ vehicleId }: { vehicleId: string }) {
                 </p>
               )}
             </div>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: '#fb923c', flexShrink: 0 }}>{m.common_mods}</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: '#90caf9', flexShrink: 0 }}>{m.common_mods}</span>
           </Link>
         ))}
       </div>

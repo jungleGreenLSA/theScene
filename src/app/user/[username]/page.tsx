@@ -47,7 +47,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
       <div className="glass" style={{ padding: '24px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '12px' }}>
           <div style={{ position: 'relative' }}>
-            <div style={{ width: '96px', height: '96px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', border: '2px solid rgba(232,120,23,0.3)' }}>
+            <div style={{ width: '96px', height: '96px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', border: '2px solid rgba(44, 121, 196, 0.3)' }}>
               {profile.avatar_url ? (
                 <img src={profile.avatar_url} alt={profile.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
@@ -62,7 +62,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', justifyContent: 'center' }}>
               <h1 className="text-2xl font-bold text-foreground">{profile.display_name || profile.username}</h1>
               {profile.subscription_tier === 'premium' && (
-                <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.2)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316' }}>Premium</span>
+                <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.2)', border: '1px solid rgba(44, 121, 196, 0.3)', color: '#5fa8dd' }}>Premium</span>
               )}
             </div>
             <p className="text-purple-light" style={{ fontSize: '14px' }}>@{profile.username}</p>
@@ -146,7 +146,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
                   <h3 className="font-bold text-foreground group-hover:text-purple-light transition-colors" style={{ fontSize: '1rem' }}>
                     {vehicle.year} {vehicle.make} {vehicle.model}
                   </h3>
-                  <span className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.1)', border: '1px solid rgba(232,120,23,0.2)' }}>
+                  <span className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
                     {vehicle.build_status?.replace('_', ' ')}
                   </span>
                 </div>

@@ -80,7 +80,7 @@ export default function CreateListingPage() {
           <p style={{ fontSize: '14px', color: '#666666', marginBottom: '24px', lineHeight: 1.6 }}>
             Listing items for sale is a premium feature. Anyone can browse and interact with listings, but posting requires a premium membership.
           </p>
-          <Link href="/pricing" style={{ padding: '12px 28px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '14px', fontWeight: 700 }}>Upgrade to Premium - $4.99/mo</Link>
+          <Link href="/pricing" style={{ padding: '12px 28px', borderRadius: '8px', background: '#5fa8dd', color: '#0c0c14', fontSize: '14px', fontWeight: 700 }}>Upgrade to Premium - $4.99/mo</Link>
         </div>
       </div>
     )
@@ -91,7 +91,7 @@ export default function CreateListingPage() {
       <Link href="/marketplace" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Marketplace</Link>
 
       <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
-        List an <span style={{ color: '#fb923c' }}>Item</span>
+        List an <span style={{ color: '#90caf9' }}>Item</span>
       </h1>
       <p style={{ fontSize: '14px', color: '#666666', marginBottom: '28px' }}>All offers and questions are public for transparency</p>
 
@@ -140,7 +140,7 @@ export default function CreateListingPage() {
 
         <button type="submit" disabled={loading} style={{
           width: '100%', padding: '16px', borderRadius: '12px',
-          background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
+          background: '#5fa8dd', border: '1px solid #90caf9', color: '#0c0c14',
           fontSize: '15px', fontWeight: 700, cursor: 'pointer', opacity: loading ? 0.5 : 1,
         }}>
           {loading ? 'Posting...' : 'Post Listing'}

@@ -117,14 +117,14 @@ export default function MemberHeatmap() {
                 onMouseLeave={() => setTooltip(null)}
                 style={{ cursor: 'pointer' }}
               >
-                <circle cx={spot.x} cy={spot.y} r={glowRadius} fill={`rgba(232,120,23,${0.08 + spot.intensity * 0.12})`}>
+                <circle cx={spot.x} cy={spot.y} r={glowRadius} fill={`rgba(44,121,196,${0.08 + spot.intensity * 0.14})`}>
                   <animate attributeName="r" values={`${glowRadius * 0.85};${glowRadius * 1.15};${glowRadius * 0.85}`} dur={`${3 + Math.random() * 2}s`} repeatCount="indefinite" />
                   <animate attributeName="opacity" values="0.6;1;0.6" dur={`${3 + Math.random() * 2}s`} repeatCount="indefinite" />
                 </circle>
-                <circle cx={spot.x} cy={spot.y} r={radius * 1.4} fill={`rgba(249,115,22,${0.25 + spot.intensity * 0.25})`}>
+                <circle cx={spot.x} cy={spot.y} r={radius * 1.4} fill={`rgba(95,168,221,${0.25 + spot.intensity * 0.3})`}>
                   <animate attributeName="r" values={`${radius * 1.25};${radius * 1.6};${radius * 1.25}`} dur={`${2 + Math.random() * 2}s`} repeatCount="indefinite" />
                 </circle>
-                <circle cx={spot.x} cy={spot.y} r={radius * 0.45} fill={`rgba(232,120,23,${0.85 + spot.intensity * 0.15})`} stroke="#b45c09" strokeWidth="0.5" />
+                <circle cx={spot.x} cy={spot.y} r={radius * 0.45} fill={`rgba(44,121,196,${0.85 + spot.intensity * 0.15})`} stroke="#174261" strokeWidth="0.5" />
                 <circle cx={spot.x} cy={spot.y} r={radius * 0.16} fill="#fff" />
               </g>
             )
@@ -134,7 +134,7 @@ export default function MemberHeatmap() {
             <g pointerEvents="none">
               <rect x={tooltip.x - 80} y={tooltip.y - 48} width="160" height="34" rx="3" fill="#fff" stroke="#888" strokeWidth="1" />
               <text x={tooltip.x} y={tooltip.y - 34} textAnchor="middle" fill="#222" fontSize="11" fontWeight="700">{tooltip.label}</text>
-              <text x={tooltip.x} y={tooltip.y - 21} textAnchor="middle" fill="#e87817" fontSize="10" fontWeight="600">
+              <text x={tooltip.x} y={tooltip.y - 21} textAnchor="middle" fill="#2c79c4" fontSize="10" fontWeight="600">
                 {tooltip.count} member{tooltip.count !== 1 ? 's' : ''}
               </text>
             </g>
@@ -148,15 +148,15 @@ export default function MemberHeatmap() {
         gap: '20px', flexWrap: 'wrap',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(232,120,23,0.45)' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(44, 121, 196, 0.45)' }} />
           <span style={{ fontSize: '11px', color: '#555' }}>Few members</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'rgba(232,120,23,0.75)' }} />
+          <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'rgba(44, 121, 196, 0.75)' }} />
           <span style={{ fontSize: '11px', color: '#555' }}>Many members</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: 'rgba(232,120,23,0.95)', boxShadow: '0 0 6px rgba(232,120,23,0.5)' }} />
+          <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: 'rgba(44, 121, 196, 0.95)', boxShadow: '0 0 6px rgba(44, 121, 196, 0.5)' }} />
           <span style={{ fontSize: '11px', color: '#555' }}>Hot spot</span>
         </div>
       </div>

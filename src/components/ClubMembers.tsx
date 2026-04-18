@@ -137,8 +137,8 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
 
       {/* Pending requests — admins/founders only */}
       {canManage && pending.length > 0 && (
-        <div className="glass" style={{ padding: '24px', marginBottom: '20px', border: '1px solid rgba(249,115,22,0.25)' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#fb923c', marginBottom: '14px' }}>Pending Requests ({pending.length})</h2>
+        <div className="glass" style={{ padding: '24px', marginBottom: '20px', border: '1px solid rgba(95, 168, 221, 0.25)' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#90caf9', marginBottom: '14px' }}>Pending Requests ({pending.length})</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {pending.map(m => (
               <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #e4e4e4' }}>
@@ -183,7 +183,7 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
                       <Link href={`/user/${m.user?.username}`} style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>
                         {m.user?.display_name || m.user?.username}
                       </Link>
-                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.1)', color: '#f97316', border: '1px solid rgba(232,120,23,0.2)' }}>
+                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', color: '#5fa8dd', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
                         {ROLE_BADGES[m.role] || m.role}
                       </span>
                     </div>

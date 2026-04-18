@@ -164,7 +164,7 @@ export default function CreateEventPage() {
         <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
           <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Event limit reached</h2>
           <p style={{ fontSize: '14px', color: '#666666', marginBottom: '20px' }}>Free members can create up to {maxEvents} events. Upgrade for more.</p>
-          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Upgrade to Premium</Link>
+          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: '#5fa8dd', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Upgrade to Premium</Link>
         </div>
       ) : (
       <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px' }}>
@@ -257,9 +257,9 @@ export default function CreateEventPage() {
                 onClick={() => toggleCategory(cat)}
                 style={{
                   padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', border: 'none', transition: 'all 0.2s',
-                  background: form.categories.includes(cat) ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
-                  color: form.categories.includes(cat) ? '#f97316' : '#555555',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(232,120,23,0.3)' : '1px solid #e4e4e4',
+                  background: form.categories.includes(cat) ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
+                  color: form.categories.includes(cat) ? '#5fa8dd' : '#555555',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4',
                 }}
               >
                 {cat}

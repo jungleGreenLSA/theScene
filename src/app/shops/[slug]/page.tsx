@@ -32,7 +32,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
           {shop.cover_image_url ? (
             <img src={shop.cover_image_url} alt={shop.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }} />
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(95, 168, 221, 0.08))' }} />
           )}
         </div>
         <div style={{ padding: '24px' }}>
@@ -63,9 +63,9 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
           )}
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid #e4e4e4', flexWrap: 'wrap' }}>
-            {shop.website && <a href={shop.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#f97316' }}>Website</a>}
-            {shop.instagram_handle && <a href={`https://instagram.com/${shop.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#f97316' }}>@{shop.instagram_handle}</a>}
-            {shop.phone && <a href={`tel:${shop.phone}`} style={{ fontSize: '13px', color: '#f97316' }}>{shop.phone}</a>}
+            {shop.website && <a href={shop.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#5fa8dd' }}>Website</a>}
+            {shop.instagram_handle && <a href={`https://instagram.com/${shop.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#5fa8dd' }}>@{shop.instagram_handle}</a>}
+            {shop.phone && <a href={`tel:${shop.phone}`} style={{ fontSize: '13px', color: '#5fa8dd' }}>{shop.phone}</a>}
           </div>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
                   </div>
                   <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{v.year} {v.make} {v.model}</p>
                   {v.color && <p style={{ fontSize: '11px', color: '#555555' }}>{v.color}</p>}
-                  <p style={{ fontSize: '11px', color: '#f97316', marginTop: '4px' }}>by {v.owner.display_name || v.owner.username}</p>
+                  <p style={{ fontSize: '11px', color: '#5fa8dd', marginTop: '4px' }}>by {v.owner.display_name || v.owner.username}</p>
                   {t.note && <p style={{ fontSize: '11px', color: '#555555', marginTop: '6px', fontStyle: 'italic' }}>&ldquo;{t.note}&rdquo;</p>}
                 </Link>
               )

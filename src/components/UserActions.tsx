@@ -157,7 +157,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               background: 'none',
               border: 'none',
               borderRadius: '6px',
-              color: '#fb923c',
+              color: '#90caf9',
               fontSize: '13px',
               fontWeight: 600,
               textAlign: 'left',
@@ -222,7 +222,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
             <button
               onClick={handleReport}
               disabled={loading || !reportReason}
-              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: reportReason ? '#e87817' : 'rgba(232,120,23,0.3)', border: 'none', color: 'white', fontSize: '12px', fontWeight: 600, cursor: reportReason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1 }}
+              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: reportReason ? '#2c79c4' : 'rgba(44, 121, 196, 0.3)', border: 'none', color: 'white', fontSize: '12px', fontWeight: 600, cursor: reportReason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1 }}
             >
               {loading ? 'Sending...' : 'Submit Report'}
             </button>
@@ -238,7 +238,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           left: '50%',
           transform: 'translateX(-50%)',
           background: '#f0f0f0',
-          border: '1px solid rgba(232,120,23,0.3)',
+          border: '1px solid rgba(44, 121, 196, 0.3)',
           borderRadius: '10px',
           padding: '14px 24px',
           zIndex: 1000,

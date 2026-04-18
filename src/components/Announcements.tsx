@@ -14,8 +14,8 @@ interface Announcement {
 }
 
 const CATEGORY_STYLES: Record<string, { color: string; bg: string; border: string; label: string }> = {
-  update: { color: '#f97316', bg: 'rgba(232,120,23,0.08)', border: 'rgba(232,120,23,0.2)', label: 'Update' },
-  feature: { color: '#fb923c', bg: 'rgba(249,115,22,0.08)', border: 'rgba(249,115,22,0.2)', label: 'New Feature' },
+  update: { color: '#5fa8dd', bg: 'rgba(44, 121, 196, 0.08)', border: 'rgba(44, 121, 196, 0.2)', label: 'Update' },
+  feature: { color: '#90caf9', bg: 'rgba(95, 168, 221, 0.08)', border: 'rgba(95, 168, 221, 0.2)', label: 'New Feature' },
   maintenance: { color: '#3b82f6', bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.2)', label: 'Maintenance' },
   outage: { color: '#ef4444', bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.2)', label: 'Outage' },
   news: { color: '#22c55e', bg: 'rgba(34,197,94,0.08)', border: 'rgba(34,197,94,0.2)', label: 'News' },
@@ -60,7 +60,7 @@ export default function Announcements() {
   }
 
   return (
-    <div className="glass" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(232,120,23,0.15)' }}>
+    <div className="glass" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(44, 121, 196, 0.15)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
         <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a', letterSpacing: '0.5px' }}>News & Updates</h3>
       </div>
@@ -89,7 +89,7 @@ export default function Announcements() {
                   {style.label}
                 </span>
                 {a.is_pinned && (
-                  <span style={{ fontSize: '10px', color: '#fb923c', fontWeight: 600 }}>Pinned</span>
+                  <span style={{ fontSize: '10px', color: '#90caf9', fontWeight: 600 }}>Pinned</span>
                 )}
                 <span style={{ fontSize: '11px', color: '#555555', marginLeft: 'auto' }}>{timeAgo(a.created_at)}</span>
               </div>

@@ -66,7 +66,7 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
       {hashtags.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
           {hashtags.map(tag => (
-            <span key={tag} style={{ fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '4px', background: 'rgba(232,120,23,0.12)', border: '1px solid rgba(232,120,23,0.25)', color: '#f97316' }}>#{tag}</span>
+            <span key={tag} style={{ fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.12)', border: '1px solid rgba(44, 121, 196, 0.25)', color: '#5fa8dd' }}>#{tag}</span>
           ))}
         </div>
       )}
@@ -78,12 +78,12 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
       )}
       {error && <p style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{error}</p>}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-        <label style={{ cursor: 'pointer', fontSize: '12px', fontWeight: 600, color: '#f97316', padding: '6px 12px', borderRadius: '6px', background: 'rgba(232,120,23,0.1)', border: '1px solid rgba(232,120,23,0.25)' }}>
+        <label style={{ cursor: 'pointer', fontSize: '12px', fontWeight: 600, color: '#5fa8dd', padding: '6px 12px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.25)' }}>
           Add Photo
           <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </label>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: content.length > 100 ? (content.length > 115 ? '#ef4444' : '#fb923c') : '#555555' }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: content.length > 100 ? (content.length > 115 ? '#ef4444' : '#90caf9') : '#555555' }}>
             {120 - content.length}
           </span>
           <button type="submit" disabled={posting || (!content.trim() && !file)} className="btn-primary" style={{ fontSize: '12px', padding: '8px 18px', opacity: (posting || (!content.trim() && !file)) ? 0.4 : 1 }}>

@@ -84,7 +84,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           {event.cover_image_url ? (
             <img src={event.cover_image_url} alt={event.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(232,120,23,0.15), rgba(249,115,22,0.1))' }} />
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(44, 121, 196, 0.15), rgba(95, 168, 221, 0.1))' }} />
           )}
 
           {/* Status badge */}
@@ -92,15 +92,15 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             {isCompleted ? (
               <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: '#ffffff', color: '#666666', border: '1px solid #e4e4e4' }}>Completed</span>
             ) : isActive || isToday ? (
-              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(249,115,22,0.9)', color: '#0c0c14' }}>Live Now</span>
+              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(95, 168, 221, 0.9)', color: '#0c0c14' }}>Live Now</span>
             ) : (
-              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(232,120,23,0.8)', color: 'white' }}>Upcoming</span>
+              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(44, 121, 196, 0.8)', color: 'white' }}>Upcoming</span>
             )}
           </div>
 
           {/* Date badge */}
           <div style={{ position: 'absolute', bottom: '14px', left: '14px', background: '#ffffff', border: '1px solid #e4e4e4', borderRadius: '10px', padding: '10px 16px', textAlign: 'center' }}>
-            <div style={{ fontSize: '10px', color: '#fb923c', fontWeight: 700, textTransform: 'uppercase' }}>
+            <div style={{ fontSize: '10px', color: '#90caf9', fontWeight: 700, textTransform: 'uppercase' }}>
               {eventDate.toLocaleDateString('en-US', { month: 'short' })}
             </div>
             <div style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', lineHeight: 1 }}>{eventDate.getDate()}</div>
@@ -113,8 +113,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
           {/* Countdown */}
           {isUpcoming && diff > 0 && (
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', marginBottom: '14px' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: '#fb923c' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.2)', marginBottom: '14px' }}>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: '#90caf9' }}>
                 {daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? 's' : ''} ${hoursLeft}h` : `${hoursLeft} hours`} until showtime
               </span>
             </div>
@@ -144,7 +144,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             <p style={{ fontSize: '14px', color: '#666666', marginBottom: '8px' }}>
               {event.location_address}
               {event.map_url && (
-                <a href={event.map_url} target="_blank" rel="noopener" style={{ marginLeft: '8px', color: '#f97316' }}>View Map &rarr;</a>
+                <a href={event.map_url} target="_blank" rel="noopener" style={{ marginLeft: '8px', color: '#5fa8dd' }}>View Map &rarr;</a>
               )}
             </p>
           )}
@@ -182,7 +182,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
       {event.categories && event.categories.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
           {event.categories.map((cat: string) => (
-            <span key={cat} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, padding: '5px 14px', borderRadius: '20px', background: 'rgba(232,120,23,0.1)', color: '#f97316', border: '1px solid rgba(232,120,23,0.2)' }}>
+            <span key={cat} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, padding: '5px 14px', borderRadius: '20px', background: 'rgba(44, 121, 196, 0.1)', color: '#5fa8dd', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
               {cat}
             </span>
           ))}

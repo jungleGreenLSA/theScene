@@ -55,7 +55,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
           {(vehicle.primary_image_url || (images && images.length > 0)) ? (
             <img src={vehicle.primary_image_url || images?.[0]?.image_url} alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : null}
-          <span style={{ position: 'absolute', top: '12px', right: '12px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '5px 14px', borderRadius: '20px', background: '#ffffff', color: '#fb923c', border: '1px solid rgba(249,115,22,0.3)' }}>
+          <span style={{ position: 'absolute', top: '12px', right: '12px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '5px 14px', borderRadius: '20px', background: '#ffffff', color: '#90caf9', border: '1px solid rgba(95, 168, 221, 0.3)' }}>
             {vehicle.build_status?.replace('_', ' ')}
           </span>
         </div>
@@ -64,7 +64,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
           <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', marginBottom: '4px' }}>
             {vehicle.year} {vehicle.make} {vehicle.model}
           </h1>
-          <p style={{ fontSize: '18px', color: '#f97316' }}>{vehicle.color}</p>
+          <p style={{ fontSize: '18px', color: '#5fa8dd' }}>{vehicle.color}</p>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', fontSize: '14px', color: '#666666' }}>
             <span>{vehicle.props_count || 0} props</span>
@@ -101,7 +101,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 140px), 1fr))', gap: '10px' }}>
             {specItems.map(s => (
               <div key={s.label} style={{ padding: '12px', background: '#f0f0f0', borderRadius: '8px' }}>
-                <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#f97316', fontWeight: 600 }}>{s.label}</p>
+                <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#5fa8dd', fontWeight: 600 }}>{s.label}</p>
                 <p style={{ fontSize: '14px', fontWeight: 500, color: '#1a1a1a', marginTop: '2px' }}>{s.value}</p>
               </div>
             ))}
@@ -130,7 +130,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {mods.map((mod, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: '#555555' }}>
-                <span style={{ color: '#f97316', marginTop: '2px' }}>•</span>
+                <span style={{ color: '#5fa8dd', marginTop: '2px' }}>•</span>
                 <span>{mod.brand && <strong style={{ color: '#1a1a1a' }}>{mod.brand}</strong>} {mod.item}</span>
               </div>
             ))}
@@ -139,22 +139,22 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
       )}
 
       {/* CTA */}
-      <div className="glass" style={{ padding: '32px', textAlign: 'center', border: '1px solid rgba(232,120,23,0.2)' }}>
+      <div className="glass" style={{ padding: '32px', textAlign: 'center', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
         <Image src="/images/logo.png" alt="The Scene" width={48} height={48} style={{ margin: '0 auto 16px', borderRadius: '50%' }} />
         <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
-          Want to show off <span style={{ color: '#fb923c' }}>your</span> build?
+          Want to show off <span style={{ color: '#90caf9' }}>your</span> build?
         </h2>
         <p style={{ fontSize: '14px', color: '#666666', marginBottom: '20px', lineHeight: 1.6 }}>
           The Scene is the car community, reimagined. Build your garage, connect with enthusiasts, and discover events near you.
         </p>
-        <Link href="/pricing" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: '8px', background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14', fontSize: '14px', fontWeight: 700 }}>
+        <Link href="/pricing" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: '8px', background: '#5fa8dd', border: '1px solid #90caf9', color: '#0c0c14', fontSize: '14px', fontWeight: 700 }}>
           Join The Scene -- It&apos;s Free
         </Link>
       </div>
 
       {/* Footer */}
       <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e4e4e4' }}>
-        <p style={{ fontSize: '11px', color: '#555555' }}>Powered by <span style={{ color: '#f97316' }}>The Scene</span> · thescene.fyi</p>
+        <p style={{ fontSize: '11px', color: '#555555' }}>Powered by <span style={{ color: '#5fa8dd' }}>The Scene</span> · thescene.fyi</p>
       </div>
     </div>
   )

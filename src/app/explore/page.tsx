@@ -144,7 +144,7 @@ export default function ExplorePage() {
       <div className="text-center" style={{ marginBottom: '24px' }}>
         <h1 className="text-3xl font-bold">Explore <span className="text-purple-light">The Scene</span></h1>
         <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>
-          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: '#f97316' }}>{nearbyState}</span></> : ' across the country'}
+          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: '#5fa8dd' }}>{nearbyState}</span></> : ' across the country'}
         </p>
       </div>
 
@@ -185,15 +185,15 @@ export default function ExplorePage() {
                   onClick={() => setRadius(opt.miles)}
                   style={{
                     padding: '6px 12px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600,
-                    background: radius === opt.miles ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
-                    color: radius === opt.miles ? '#f97316' : '#666666',
+                    background: radius === opt.miles ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
+                    color: radius === opt.miles ? '#5fa8dd' : '#666666',
                   }}
                 >
                   {opt.label}
                 </button>
               ))}
             </div>
-            <span style={{ fontSize: '12px', color: '#666666' }}>of <span style={{ color: '#f97316', fontWeight: 600 }}>{locationText}</span></span>
+            <span style={{ fontSize: '12px', color: '#666666' }}>of <span style={{ color: '#5fa8dd', fontWeight: 600 }}>{locationText}</span></span>
             <button type="button" onClick={clearCity} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#555555', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
           </div>
         )}
@@ -240,7 +240,7 @@ export default function ExplorePage() {
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 ) : null}
-                <span className="text-purple-light" style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '4px 8px', borderRadius: '4px', background: '#ffffff', border: '1px solid rgba(232,120,23,0.3)' }}>
+                <span className="text-purple-light" style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '4px 8px', borderRadius: '4px', background: '#ffffff', border: '1px solid rgba(44, 121, 196, 0.3)' }}>
                   {vehicle.build_status?.replace('_', ' ')}
                 </span>
               </div>

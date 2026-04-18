@@ -21,7 +21,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: `${data.year} ${data.make} ${data.model}`,
       subhead: `${data.color ? data.color + ' · ' : ''}by ${owner?.display_name || owner?.username || 'a Scene member'}`,
       tag: 'BUILD',
-      accent: '#f97316',
+      accent: '#5fa8dd',
       image: data.primary_image_url,
     }
   }
@@ -33,7 +33,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: data.title,
       subhead: `${when}${data.city ? ` · ${data.city}, ${data.state}` : ''}`,
       tag: 'CAR SHOW',
-      accent: '#fb923c',
+      accent: '#90caf9',
       image: data.cover_image_url,
     }
   }
@@ -56,7 +56,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: data.name,
       subhead: data.description || 'A car club on The Scene',
       tag: 'CLUB',
-      accent: '#f97316',
+      accent: '#5fa8dd',
       image: data.cover_image_url,
     }
   }
@@ -79,7 +79,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ type: s
             <span style={{ fontSize: 28, color: '#555555' }}>{data.subhead}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 4, color: '#1a1a1a' }}>THE<span style={{ color: '#f97316' }}>SCENE</span></span>
+            <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 4, color: '#1a1a1a' }}>THE<span style={{ color: '#5fa8dd' }}>SCENE</span></span>
             <span style={{ fontSize: 20, color: '#555555' }}>· thescene.fyi</span>
           </div>
         </div>

@@ -63,10 +63,10 @@ function renderPostContent(text: string | null) {
     if (start > last) out.push(text.slice(last, start))
     const tok = m[0]
     if (tok.startsWith('#')) {
-      out.push(<Link key={i++} href={`/feed?tag=${tok.slice(1).toLowerCase()}`} style={{ color: '#e87817', fontWeight: 700 }}>#{tok.slice(1)}</Link>)
+      out.push(<Link key={i++} href={`/feed?tag=${tok.slice(1).toLowerCase()}`} style={{ color: '#2c79c4', fontWeight: 700 }}>#{tok.slice(1)}</Link>)
     } else {
       const uname = tok.slice(1)
-      out.push(<Link key={i++} href={`/user/${uname}`} style={{ color: '#e87817', fontWeight: 700 }}>@{uname}</Link>)
+      out.push(<Link key={i++} href={`/user/${uname}`} style={{ color: '#2c79c4', fontWeight: 700 }}>@{uname}</Link>)
     }
     last = start + tok.length
   }
@@ -97,7 +97,7 @@ function renderActivity(a: Activity) {
                 {v.image_url && <img src={v.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
               </div>
               <div style={{ minWidth: 0 }}>
-                <p style={{ fontSize: '13px', color: '#e87817', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.year} {v.make} {v.model}</p>
+                <p style={{ fontSize: '13px', color: '#2c79c4', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.year} {v.make} {v.model}</p>
                 {v.color && <p style={{ fontSize: '11px', color: '#555' }}>{v.color}</p>}
               </div>
             </Link>
@@ -109,7 +109,7 @@ function renderActivity(a: Activity) {
       return (
         <p>
           <Link href={`/user/${username}`} style={{ fontWeight: 700, color: '#1a1a1a' }}>{name}</Link>
-          {' added their '}<span style={{ color: '#e87817', fontWeight: 700 }}>{m.year} {m.make} {m.model}</span>
+          {' added their '}<span style={{ color: '#2c79c4', fontWeight: 700 }}>{m.year} {m.make} {m.model}</span>
           {m.color && <span style={{ color: '#555' }}> in {m.color}</span>}
         </p>
       )
@@ -118,7 +118,7 @@ function renderActivity(a: Activity) {
         <div>
           <p style={{ marginBottom: m.image_url ? '10px' : 0 }}>
             <Link href={`/user/${username}`} style={{ fontWeight: 700, color: '#1a1a1a' }}>{name}</Link>
-            {' added a photo of their '}<span style={{ color: '#e87817', fontWeight: 700 }}>{m.year} {m.make} {m.model}</span>
+            {' added a photo of their '}<span style={{ color: '#2c79c4', fontWeight: 700 }}>{m.year} {m.make} {m.model}</span>
           </p>
           {m.image_url && (
             <div style={{ overflow: 'hidden', maxHeight: '320px', background: '#e4e4e4', border: '1px solid #888' }}>
@@ -131,7 +131,7 @@ function renderActivity(a: Activity) {
       return (
         <p>
           <Link href={`/user/${username}`} style={{ fontWeight: 700, color: '#1a1a1a' }}>{name}</Link>
-          {' updated their '}<span style={{ color: '#e87817', fontWeight: 700 }}>{m.year} {m.make} {m.model}</span>
+          {' updated their '}<span style={{ color: '#2c79c4', fontWeight: 700 }}>{m.year} {m.make} {m.model}</span>
         </p>
       )
     case 'followed_user':
@@ -139,7 +139,7 @@ function renderActivity(a: Activity) {
         <p>
           <Link href={`/user/${username}`} style={{ fontWeight: 700, color: '#1a1a1a' }}>{name}</Link>
           {' started following '}
-          <Link href={`/user/${m.following_username}`} style={{ fontWeight: 700, color: '#e87817' }}>@{m.following_username}</Link>
+          <Link href={`/user/${m.following_username}`} style={{ fontWeight: 700, color: '#2c79c4' }}>@{m.following_username}</Link>
         </p>
       )
     case 'created_event':
@@ -380,10 +380,10 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
 
   const toggle = !filterTag && (
     <div style={{ display: 'inline-flex', background: '#ebebeb', border: '1px solid #c4c4c4', padding: '3px', marginBottom: '12px' }}>
-      <button onClick={() => setMode('following')} style={{ padding: '5px 14px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 700, background: mode === 'following' ? '#e87817' : 'transparent', color: mode === 'following' ? '#fff' : '#333' }}>
+      <button onClick={() => setMode('following')} style={{ padding: '5px 14px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 700, background: mode === 'following' ? '#2c79c4' : 'transparent', color: mode === 'following' ? '#fff' : '#333' }}>
         Following {mode === 'following' && followingCount > 0 && `(${followingCount})`}
       </button>
-      <button onClick={() => setMode('all')} style={{ padding: '5px 14px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 700, background: mode === 'all' ? '#e87817' : 'transparent', color: mode === 'all' ? '#fff' : '#333' }}>
+      <button onClick={() => setMode('all')} style={{ padding: '5px 14px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 700, background: mode === 'all' ? '#2c79c4' : 'transparent', color: mode === 'all' ? '#fff' : '#333' }}>
         All
       </button>
     </div>
@@ -422,7 +422,7 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
       {toggle}
       {filterTag && (
         <div className="section-block" style={{ padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-          <p style={{ fontSize: '13px', color: '#1a1a1a' }}>Showing posts tagged <span style={{ color: '#e87817', fontWeight: 700 }}>#{filterTag}</span></p>
+          <p style={{ fontSize: '13px', color: '#1a1a1a' }}>Showing posts tagged <span style={{ color: '#2c79c4', fontWeight: 700 }}>#{filterTag}</span></p>
           <Link href="/feed" style={{ fontSize: '12px', color: '#1c58b8', fontWeight: 600 }}>Clear filter</Link>
         </div>
       )}

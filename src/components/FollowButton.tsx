@@ -52,7 +52,7 @@ export default function FollowButton({ targetUserId, targetUsername }: { targetU
         padding: '8px 20px', borderRadius: '8px', fontSize: '12px', fontWeight: 600,
         textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer', border: 'none',
         transition: 'all 0.2s', opacity: loading ? 0.5 : 1,
-        background: isFollowing ? '#f5f5f5' : '#e87817',
+        background: isFollowing ? '#f5f5f5' : '#2c79c4',
         color: isFollowing ? '#555555' : 'white',
         outline: isFollowing ? '1px solid #e4e4e4' : 'none',
       }}

@@ -30,7 +30,7 @@ export default function AvatarUpload({ userId, currentUrl, onUpdate }: { userId:
 
   return (
     <label style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}>
-      <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', border: '2px solid rgba(232,120,23,0.3)' }}>
+      <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', border: '2px solid rgba(44, 121, 196, 0.3)' }}>
         {currentUrl ? (
           <img src={currentUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
@@ -39,7 +39,7 @@ export default function AvatarUpload({ userId, currentUrl, onUpdate }: { userId:
       </div>
       <div style={{
         position: 'absolute', bottom: -2, right: -2, width: '24px', height: '24px', borderRadius: '50%',
-        background: '#e87817', border: '2px solid #0c0c14', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: '#2c79c4', border: '2px solid #0c0c14', display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: '10px', color: 'white',
       }}>
         {uploading ? '...' : '+'}

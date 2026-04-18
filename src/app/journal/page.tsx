@@ -214,17 +214,17 @@ export default function JournalPage() {
       ) : (
         <div style={{ position: 'relative', paddingLeft: '32px' }}>
           {/* Timeline line */}
-          <div style={{ position: 'absolute', left: '11px', top: 0, bottom: 0, width: '2px', background: 'rgba(232,120,23,0.2)' }} />
+          <div style={{ position: 'absolute', left: '11px', top: 0, bottom: 0, width: '2px', background: 'rgba(44, 121, 196, 0.2)' }} />
 
           {entries.map((entry, i) => (
             <div key={entry.id} style={{ position: 'relative', marginBottom: '20px' }}>
               {/* Timeline dot */}
-              <div style={{ position: 'absolute', left: '-27px', top: '20px', width: '14px', height: '14px', borderRadius: '50%', background: '#e87817', border: '3px solid #0c0c14', zIndex: 1 }} />
+              <div style={{ position: 'absolute', left: '-27px', top: '20px', width: '14px', height: '14px', borderRadius: '50%', background: '#2c79c4', border: '3px solid #0c0c14', zIndex: 1 }} />
 
               <div className="glass card-hover" style={{ padding: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.12)', color: '#f97316' }}>{MILESTONE_LABELS[entry.milestone_type] || 'NOTE'}</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.12)', color: '#5fa8dd' }}>{MILESTONE_LABELS[entry.milestone_type] || 'NOTE'}</span>
                     <h3 className="font-bold text-foreground" style={{ fontSize: '15px' }}>{entry.title}</h3>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

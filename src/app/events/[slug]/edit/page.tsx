@@ -129,7 +129,7 @@ export default function EditEventPage() {
       <Link href={`/events/${slug}`} style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Event</Link>
 
       <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '28px' }}>
-        Edit <span style={{ color: '#fb923c' }}>Event</span>
+        Edit <span style={{ color: '#90caf9' }}>Event</span>
       </h1>
 
       {message && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e' }}>{message}</div>}
@@ -161,7 +161,7 @@ export default function EditEventPage() {
               }))}
             />
             {form.city && form.state && (
-              <p style={{ fontSize: '11px', color: form.lat && form.lng ? '#22c55e' : '#fb923c', marginTop: '6px' }}>
+              <p style={{ fontSize: '11px', color: form.lat && form.lng ? '#22c55e' : '#90caf9', marginTop: '6px' }}>
                 {form.city}, {form.state}{form.lat && form.lng ? ' · geocoded ✓' : ' · geocoding on save'}
               </p>
             )}
@@ -175,9 +175,9 @@ export default function EditEventPage() {
               {CATEGORIES.map(cat => (
                 <button key={cat} type="button" onClick={() => toggleCategory(cat)} style={{
                   padding: '5px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: form.categories.includes(cat) ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
-                  color: form.categories.includes(cat) ? '#f97316' : '#555555',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(232,120,23,0.3)' : '1px solid #e4e4e4',
+                  background: form.categories.includes(cat) ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
+                  color: form.categories.includes(cat) ? '#5fa8dd' : '#555555',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4',
                 }}>{cat}</button>
               ))}
             </div>
@@ -191,7 +191,7 @@ export default function EditEventPage() {
 
           <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
             <input value={cochairUsername} onChange={(e) => setCochairUsername(e.target.value)} className="input" placeholder="Enter username" maxLength={64} style={{ flex: 1 }} />
-            <button type="button" onClick={handleAddCochair} style={{ padding: '10px 16px', borderRadius: '8px', background: '#e87817', border: '1px solid #f97316', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Add</button>
+            <button type="button" onClick={handleAddCochair} style={{ padding: '10px 16px', borderRadius: '8px', background: '#2c79c4', border: '1px solid #5fa8dd', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Add</button>
           </div>
 
           {cochairs.length > 0 && (
@@ -208,7 +208,7 @@ export default function EditEventPage() {
 
         <button type="submit" disabled={saving} style={{
           width: '100%', padding: '16px', borderRadius: '12px',
-          background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
+          background: '#5fa8dd', border: '1px solid #90caf9', color: '#0c0c14',
           fontSize: '15px', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.5 : 1,
         }}>
           {saving ? 'Saving...' : 'Save Changes'}

@@ -156,8 +156,8 @@ export default function AnalyticsPage() {
         <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Traffic Sources (Last 30 Days)</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {[
-            { label: 'Explore', count: stats.explore, color: '#f97316' },
-            { label: 'Search', count: stats.search, color: '#fb923c' },
+            { label: 'Explore', count: stats.explore, color: '#5fa8dd' },
+            { label: 'Search', count: stats.search, color: '#90caf9' },
             { label: 'Direct Link', count: stats.direct, color: '#22c55e' },
             { label: 'QR Code', count: stats.qr, color: '#3b82f6' },
             { label: 'Feed', count: stats.feed, color: '#ec4899' },

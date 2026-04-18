@@ -150,7 +150,7 @@ export default function GarageSetupPage() {
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
-          Build Your <span style={{ color: '#fb923c' }}>Garage</span>
+          Build Your <span style={{ color: '#90caf9' }}>Garage</span>
         </h1>
         <p style={{ fontSize: '14px', color: '#666666' }}>Add your ride to The Scene</p>
       </div>
@@ -233,10 +233,10 @@ export default function GarageSetupPage() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: '8px',
                   padding: '10px 14px', borderRadius: '20px', cursor: 'pointer', transition: 'all 0.2s',
-                  background: form.build_status === status.value ? 'rgba(232,120,23,0.15)' : '#f0f0f0',
-                  border: form.build_status === status.value ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
+                  background: form.build_status === status.value ? 'rgba(44, 121, 196, 0.15)' : '#f0f0f0',
+                  border: form.build_status === status.value ? '1px solid rgba(44, 121, 196, 0.4)' : '1px solid #e4e4e4',
                   fontSize: '12px', fontWeight: 600,
-                  color: form.build_status === status.value ? '#f97316' : '#666666',
+                  color: form.build_status === status.value ? '#5fa8dd' : '#666666',
                 }}
               >
                 <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
@@ -319,24 +319,24 @@ export default function GarageSetupPage() {
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px',
               borderRadius: '12px', cursor: 'pointer',
-              background: form.visibility === 'public' ? 'rgba(232,120,23,0.1)' : '#f0f0f0',
-              border: form.visibility === 'public' ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
+              background: form.visibility === 'public' ? 'rgba(44, 121, 196, 0.1)' : '#f0f0f0',
+              border: form.visibility === 'public' ? '1px solid rgba(44, 121, 196, 0.4)' : '1px solid #e4e4e4',
             }}>
               <input type="radio" name="visibility" value="public" checked={form.visibility === 'public'} onChange={handleChange} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? '#f97316' : '#666666', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? '#5fa8dd' : '#666666', display: 'block' }}>Public</span>
                 <span style={{ fontSize: '10px', color: '#555555' }}>Visible to everyone</span>
               </div>
             </label>
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px',
               borderRadius: '12px', cursor: 'pointer',
-              background: form.visibility === 'private' ? 'rgba(232,120,23,0.1)' : '#f0f0f0',
-              border: form.visibility === 'private' ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
+              background: form.visibility === 'private' ? 'rgba(44, 121, 196, 0.1)' : '#f0f0f0',
+              border: form.visibility === 'private' ? '1px solid rgba(44, 121, 196, 0.4)' : '1px solid #e4e4e4',
             }}>
               <input type="radio" name="visibility" value="private" checked={form.visibility === 'private'} onChange={handleChange} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? '#f97316' : '#666666', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? '#5fa8dd' : '#666666', display: 'block' }}>Private</span>
                 <span style={{ fontSize: '10px', color: '#555555' }}>Link only</span>
               </div>
             </label>
@@ -355,7 +355,7 @@ export default function GarageSetupPage() {
           style={{
             gridColumn: '1 / -1',
             width: '100%', padding: '16px', borderRadius: '12px',
-            background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
+            background: '#5fa8dd', border: '1px solid #90caf9', color: '#0c0c14',
             fontSize: '15px', fontWeight: 700, cursor: 'pointer',
             opacity: loading ? 0.5 : 1, transition: 'all 0.2s',
           }}

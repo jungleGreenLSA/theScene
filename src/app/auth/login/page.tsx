@@ -123,14 +123,14 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => { setAuthMethod('email'); setOtpSent(false); setError('') }}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(232,120,23,0.2)' : '#f0f0f0', color: authMethod === 'email' ? '#f97316' : '#555555' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0', color: authMethod === 'email' ? '#5fa8dd' : '#555555' }}
             >
               Email
             </button>
             <button
               type="button"
               onClick={() => { setAuthMethod('phone'); setError('') }}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(232,120,23,0.2)' : '#f0f0f0', color: authMethod === 'phone' ? '#f97316' : '#555555' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0', color: authMethod === 'phone' ? '#5fa8dd' : '#555555' }}
             >
               Phone
             </button>
@@ -151,7 +151,7 @@ export default function LoginPage() {
                   if (error) setError(error.message)
                   else setError('')
                   alert(error ? error.message : 'Password reset link sent to ' + email)
-                }} style={{ background: 'none', border: 'none', color: '#f97316', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
+                }} style={{ background: 'none', border: 'none', color: '#5fa8dd', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
                   Forgot password?
                 </button>
               </div>

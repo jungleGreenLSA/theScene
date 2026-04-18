@@ -99,10 +99,10 @@ export default function MarketplacePage() {
       onClick={() => setTab(key)}
       style={{
         padding: '10px 18px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-        background: tab === key ? 'rgba(249,115,22,0.15)' : '#f0f0f0',
-        color: tab === key ? '#fb923c' : '#555555',
+        background: tab === key ? 'rgba(95, 168, 221, 0.15)' : '#f0f0f0',
+        color: tab === key ? '#90caf9' : '#555555',
         fontWeight: 700, fontSize: '13px',
-        outline: tab === key ? '1px solid rgba(249,115,22,0.35)' : '1px solid #e4e4e4',
+        outline: tab === key ? '1px solid rgba(95, 168, 221, 0.35)' : '1px solid #e4e4e4',
         display: 'flex', alignItems: 'center', gap: '8px',
       }}
     >
@@ -115,14 +115,14 @@ export default function MarketplacePage() {
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>Market<span style={{ color: '#fb923c' }}>place</span></h1>
+          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>Market<span style={{ color: '#90caf9' }}>place</span></h1>
           <p style={{ fontSize: '14px', color: '#666666', marginTop: '4px' }}>
-            Buy and sell vehicles & parts, or find the shops working on builds{nearbyState && <> · filtered to <span style={{ color: '#fb923c' }}>{nearbyState}</span></>}
+            Buy and sell vehicles & parts, or find the shops working on builds{nearbyState && <> · filtered to <span style={{ color: '#90caf9' }}>{nearbyState}</span></>}
           </p>
         </div>
         <Link
           href={tab === 'items' ? '/marketplace/create' : '/shops/create'}
-          style={{ padding: '10px 20px', borderRadius: '8px', background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}
+          style={{ padding: '10px 20px', borderRadius: '8px', background: '#5fa8dd', border: '1px solid #90caf9', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}
         >
           + {tab === 'items' ? 'List Item' : 'Add Shop'}
         </Link>
@@ -161,7 +161,7 @@ export default function MarketplacePage() {
           <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
             <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>No listings yet</h2>
             <p style={{ fontSize: '14px', color: '#666666', marginBottom: '20px' }}>Be the first to list something for sale!</p>
-            <Link href="/marketplace/create" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>List an Item</Link>
+            <Link href="/marketplace/create" style={{ padding: '10px 24px', borderRadius: '8px', background: '#5fa8dd', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>List an Item</Link>
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
@@ -171,7 +171,7 @@ export default function MarketplacePage() {
                   {l.images && l.images.length > 0 ? (
                     <img src={l.images[0].image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
-                  <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: '#ffffff', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: l.listing_type === 'vehicle' ? '#f97316' : '#fb923c' }}>
+                  <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: '#ffffff', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: l.listing_type === 'vehicle' ? '#5fa8dd' : '#90caf9' }}>
                     {l.listing_type}
                   </span>
                   {l.is_obo && (
@@ -199,7 +199,7 @@ export default function MarketplacePage() {
           <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
             <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>No shops yet</h2>
             <p style={{ fontSize: '14px', color: '#666666', marginBottom: '20px' }}>Be the first to add a shop to The Scene.</p>
-            <Link href="/shops/create" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Add a Shop</Link>
+            <Link href="/shops/create" style={{ padding: '10px 24px', borderRadius: '8px', background: '#5fa8dd', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Add a Shop</Link>
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
@@ -209,7 +209,7 @@ export default function MarketplacePage() {
                   {shop.cover_image_url ? (
                     <img src={shop.cover_image_url} alt={shop.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }} />
+                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(95, 168, 221, 0.08))' }} />
                   )}
                   {shop.logo_url && (
                     <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid #e4e4e4' }}>

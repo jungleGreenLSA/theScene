@@ -89,7 +89,7 @@ export default function ShopsPage() {
                 {shop.cover_image_url ? (
                   <img src={shop.cover_image_url} alt={shop.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }} />
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(95, 168, 221, 0.08))' }} />
                 )}
                 {shop.logo_url && (
                   <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid #e4e4e4' }}>

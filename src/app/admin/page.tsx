@@ -264,9 +264,9 @@ export default function AdminDashboard() {
             onClick={() => setActiveTab(t.id)}
             style={{
               padding: '8px 18px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
-              background: activeTab === t.id ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
-              color: activeTab === t.id ? '#f97316' : '#555555',
-              outline: activeTab === t.id ? '1px solid rgba(232,120,23,0.3)' : '1px solid #e4e4e4',
+              background: activeTab === t.id ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
+              color: activeTab === t.id ? '#5fa8dd' : '#555555',
+              outline: activeTab === t.id ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4',
             }}
           >
             {t.label}
@@ -330,8 +330,8 @@ export default function AdminDashboard() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.1)', border: '1px solid rgba(232,120,23,0.2)', color: '#f97316' }}>{a.category}</span>
-                        {a.is_pinned && <span style={{ fontSize: '10px', color: '#fb923c', fontWeight: 600 }}>Pinned</span>}
+                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.2)', color: '#5fa8dd' }}>{a.category}</span>
+                        {a.is_pinned && <span style={{ fontSize: '10px', color: '#90caf9', fontWeight: 600 }}>Pinned</span>}
                         {!a.is_published && <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: 600 }}>Draft</span>}
                         <span style={{ fontSize: '11px', color: '#555555' }}>{new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                       </div>
@@ -357,9 +357,9 @@ export default function AdminDashboard() {
           {/* Key metrics */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px', marginBottom: '24px' }}>
             {[
-              { label: 'Total Members', value: stats.totalUsers, color: '#f97316' },
+              { label: 'Total Members', value: stats.totalUsers, color: '#5fa8dd' },
               { label: 'Online Now', value: stats.onlineNow, color: '#22c55e' },
-              { label: 'Premium', value: stats.premiumUsers, color: '#fb923c' },
+              { label: 'Premium', value: stats.premiumUsers, color: '#90caf9' },
               { label: 'Vehicles', value: stats.totalVehicles, color: '#3b82f6' },
               { label: 'Events', value: stats.totalEvents, color: '#ec4899' },
               { label: 'Clubs', value: stats.totalClubs, color: '#14b8a6' },
@@ -436,7 +436,7 @@ export default function AdminDashboard() {
                     </td>
                     <td style={{ padding: '10px 12px', color: '#555555' }}>{u.location || '--'}</td>
                     <td style={{ padding: '10px 12px' }}>
-                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: u.subscription_tier === 'premium' ? 'rgba(249,115,22,0.15)' : '#f5f5f5', color: u.subscription_tier === 'premium' ? '#fb923c' : '#555555' }}>
+                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: u.subscription_tier === 'premium' ? 'rgba(95, 168, 221, 0.15)' : '#f5f5f5', color: u.subscription_tier === 'premium' ? '#90caf9' : '#555555' }}>
                         {u.subscription_tier || 'free'}
                       </span>
                     </td>
@@ -474,7 +474,7 @@ export default function AdminDashboard() {
                         <span className="text-purple-light font-bold" style={{ fontSize: '13px' }}>{c.count}</span>
                       </div>
                       <div style={{ height: '5px', background: '#f5f5f5', borderRadius: '3px', overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${pct}%`, background: i < 3 ? '#f97316' : '#4a5568', borderRadius: '3px', transition: 'width 0.5s ease' }} />
+                        <div style={{ height: '100%', width: `${pct}%`, background: i < 3 ? '#5fa8dd' : '#4a5568', borderRadius: '3px', transition: 'width 0.5s ease' }} />
                       </div>
                     </div>
                   </div>
@@ -562,13 +562,13 @@ export default function AdminDashboard() {
       {activeTab === 'revenue' && stats && (
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '16px', marginBottom: '24px' }}>
-            <div className="glass" style={{ padding: '24px', textAlign: 'center', border: '1px solid rgba(249,115,22,0.2)' }}>
-              <span style={{ fontSize: '11px', color: '#fb923c', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Monthly Revenue</span>
+            <div className="glass" style={{ padding: '24px', textAlign: 'center', border: '1px solid rgba(95, 168, 221, 0.2)' }}>
+              <span style={{ fontSize: '11px', color: '#90caf9', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Monthly Revenue</span>
               <div className="text-neon-light font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>${monthlyRevenue}</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>{stats.premiumUsers} premium x $6.99</div>
             </div>
             <div className="glass" style={{ padding: '24px', textAlign: 'center' }}>
-              <span style={{ fontSize: '11px', color: '#f97316', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Annual Projection</span>
+              <span style={{ fontSize: '11px', color: '#5fa8dd', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Annual Projection</span>
               <div className="text-purple-light font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>${annualProjection}</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>at current rate</div>
             </div>
@@ -601,7 +601,7 @@ export default function AdminDashboard() {
                       <span className="text-muted" style={{ fontSize: '12px' }}>{m.annual}</span>
                     </div>
                     <div style={{ height: '6px', background: '#f5f5f5', borderRadius: '3px', overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${pct}%`, background: hit ? '#22c55e' : '#e87817', borderRadius: '3px', transition: 'width 0.5s ease' }} />
+                      <div style={{ height: '100%', width: `${pct}%`, background: hit ? '#22c55e' : '#2c79c4', borderRadius: '3px', transition: 'width 0.5s ease' }} />
                     </div>
                   </div>
                 )

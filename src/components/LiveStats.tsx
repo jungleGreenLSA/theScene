@@ -40,7 +40,7 @@ export default function LiveStats() {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px' }}>
       {items.map((stat) => (
         <div key={stat.label} className="glass card-hover" style={{ padding: '28px 16px', textAlign: 'center' }}>
-          <div style={{ fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 700, color: '#f97316' }}>{stat.value.toLocaleString()}</div>
+          <div style={{ fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 700, color: '#5fa8dd' }}>{stat.value.toLocaleString()}</div>
           <div style={{ fontSize: '11px', color: '#555555', textTransform: 'uppercase', letterSpacing: '1.5px', marginTop: '8px' }}>{stat.label}</div>
         </div>
       ))}

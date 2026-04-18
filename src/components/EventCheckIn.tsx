@@ -119,7 +119,7 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
                   <p style={{ fontSize: '13px', color: '#1a1a1a' }}>
                     <Link href={`/user/${c.user?.username}`} style={{ fontWeight: 600, color: '#1a1a1a' }}>{c.user?.display_name || c.user?.username}</Link>
                     {' checked in'}
-                    {c.vehicle && <span style={{ color: '#f97316' }}> with their {c.vehicle.year} {c.vehicle.make} {c.vehicle.model}</span>}
+                    {c.vehicle && <span style={{ color: '#5fa8dd' }}> with their {c.vehicle.year} {c.vehicle.make} {c.vehicle.model}</span>}
                   </p>
                   <p style={{ fontSize: '11px', color: '#555555' }}>
                     {new Date(c.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}

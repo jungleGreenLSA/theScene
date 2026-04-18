@@ -42,9 +42,9 @@ export default function LeaderboardPage() {
         {[2024, 2025, 2026].map(y => (
           <button key={y} onClick={() => setYear(y)} style={{
             padding: '8px 20px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
-            background: year === y ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
-            color: year === y ? '#f97316' : '#555555',
-            outline: year === y ? '1px solid rgba(232,120,23,0.3)' : '1px solid #e4e4e4',
+            background: year === y ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
+            color: year === y ? '#5fa8dd' : '#555555',
+            outline: year === y ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4',
           }}>{y}</button>
         ))}
       </div>
@@ -75,7 +75,7 @@ export default function LeaderboardPage() {
               </div>
 
               {/* Avatar */}
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0, border: i < 3 ? '2px solid rgba(232,120,23,0.4)' : 'none' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0, border: i < 3 ? '2px solid rgba(44, 121, 196, 0.4)' : 'none' }}>
                 {l.avatar_url ? (
                   <img src={l.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (

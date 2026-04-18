@@ -190,10 +190,10 @@ export default function ActivityPage() {
       onClick={() => setActiveTab(key)}
       style={{
         padding: '10px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-        background: activeTab === key ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
-        color: activeTab === key ? '#f97316' : '#555555',
+        background: activeTab === key ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
+        color: activeTab === key ? '#5fa8dd' : '#555555',
         fontWeight: 600, fontSize: '13px',
-        outline: activeTab === key ? '2px solid #e87817' : '1px solid #e4e4e4',
+        outline: activeTab === key ? '2px solid #2c79c4' : '1px solid #e4e4e4',
         display: 'flex', alignItems: 'center', gap: '8px',
       }}
     >
@@ -250,7 +250,7 @@ export default function ActivityPage() {
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/marketplace/${l.id}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{l.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  <span style={{ color: '#fb923c', fontWeight: 600 }}>${l.price}</span>
+                  <span style={{ color: '#90caf9', fontWeight: 600 }}>${l.price}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.listing_type}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.status}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {fmtDate(l.created_at)}</span>
@@ -348,7 +348,7 @@ export default function ActivityPage() {
                   <span className="text-muted" style={{ fontSize: '13px' }}>Post removed</span>
                 )}
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  You voted: <span style={{ color: '#f97316', fontWeight: 600 }}>{v.option?.label || '—'}</span>
+                  You voted: <span style={{ color: '#5fa8dd', fontWeight: 600 }}>{v.option?.label || '—'}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {fmtDate(v.created_at)}</span>
                 </p>
               </div>

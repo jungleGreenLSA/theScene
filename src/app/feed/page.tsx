@@ -129,12 +129,12 @@ function FeedPageContent() {
               <Link href="/explore" style={{ fontSize: '13px', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>Explore Builds</Link>
               <Link href="/events" style={{ fontSize: '13px', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>Events</Link>
               <Link href="/clubs" style={{ fontSize: '13px', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>Clubs</Link>
-              <Link href="/garage/setup" style={{ fontSize: '13px', color: '#fb923c', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
+              <Link href="/garage/setup" style={{ fontSize: '13px', color: '#90caf9', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
             </div>
           </div>
 
           {/* CTA */}
-          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(232,120,23,0.2)' }}>
+          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
             <p className="text-foreground font-semibold" style={{ fontSize: '14px', marginBottom: '8px' }}>Unlock More with Premium</p>
             <p className="text-muted" style={{ fontSize: '12px', marginBottom: '12px' }}>Unlimited garage, analytics, and more.</p>
             <Link href="/pricing" className="btn-primary" style={{ fontSize: '11px', padding: '8px 16px', width: '100%', justifyContent: 'center', display: 'flex' }}>

@@ -28,7 +28,7 @@ export function avatarColorForUsername(username: string | null): string {
   if (!username) return '#888'
   let hash = 0
   for (let i = 0; i < username.length; i++) hash = (hash * 31 + username.charCodeAt(i)) | 0
-  const palette = ['#e87817', '#1c58b8', '#158a3a', '#b31e8f', '#b37c00', '#0e7d8e', '#7c3aed']
+  const palette = ['#2c79c4', '#1c58b8', '#158a3a', '#b31e8f', '#b37c00', '#0e7d8e', '#7c3aed']
   return palette[Math.abs(hash) % palette.length]
 }
 

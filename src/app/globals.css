@@ -23,23 +23,23 @@
   --color-header-bar-light: #555555;
   --color-subhead: #2a2a2a;
 
-  /* Purple kept around the logo only — everything else is orange now.
-     Utility classes like .text-purple-light now resolve to orange too,
-     so existing pages flip without per-file edits. */
-  --color-purple: #e87817;
-  --color-purple-light: #e87817;
-  --color-purple-bright: #f97316;
-  --color-purple-glow: rgba(232, 120, 23, 0.15);
-  --color-purple-dim: rgba(232, 120, 23, 0.06);
+  /* Brand tokens — sky-blue family. All legacy .text-purple-light /
+     .text-neon-light / .glow-* utilities resolve here so pages flip
+     palette without per-file edits. */
+  --color-purple: #2c79c4;
+  --color-purple-light: #2c79c4;
+  --color-purple-bright: #5fa8dd;
+  --color-purple-glow: rgba(44, 121, 196, 0.18);
+  --color-purple-dim: rgba(44, 121, 196, 0.08);
 
-  --color-neon: #e87817;
-  --color-neon-light: #f97316;
-  --color-neon-bright: #ffb703;
-  --color-neon-glow: rgba(232, 120, 23, 0.22);
-  --color-neon-dim: rgba(232, 120, 23, 0.08);
+  --color-neon: #2c79c4;
+  --color-neon-light: #5fa8dd;
+  --color-neon-bright: #4fc3f7;
+  --color-neon-glow: rgba(44, 121, 196, 0.22);
+  --color-neon-dim: rgba(44, 121, 196, 0.08);
 
   --color-link: #1c58b8;
-  --color-link-hover: #e87817;
+  --color-link-hover: #2c79c4;
 
   --color-success: #158a3a;
   --color-danger: #c02b2b;
@@ -140,16 +140,16 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: #e4e4e4; }
 ::-webkit-scrollbar-thumb { background: #a0a0a0; border-radius: 2px; border: 2px solid #e4e4e4; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-neon); }
+::-webkit-scrollbar-thumb:hover { background: #2c79c4; }
 
 /* ============================================
    SECTION BLOCKS — the core CarDomain pattern
    ============================================ */
 
-/* Thin orange rule used as an "accent divider" */
+/* Thin sky-blue rule used as an "accent divider" */
 .accent-rule {
   height: 3px;
-  background: linear-gradient(90deg, var(--color-neon) 0%, var(--color-neon-light) 50%, var(--color-neon-bright) 100%);
+  background: linear-gradient(90deg, #1d4d7a 0%, #2c79c4 50%, #4fc3f7 100%);
   width: 100%;
 }
 
@@ -171,11 +171,12 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
   justify-content: space-between;
   gap: 12px;
   padding: 8px 14px;
-  background: linear-gradient(180deg, #4a4a4a 0%, #333333 100%);
+  background: linear-gradient(180deg, #3b74a6 0%, #1d4d7a 100%);
   color: #fff;
   font-weight: 700;
   font-size: 13px;
   letter-spacing: 0.3px;
+  border-bottom: 2px solid #4fc3f7;
 }
 .section-head h2, .section-head h3 {
   font-size: 13px;
@@ -190,7 +191,7 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
   margin-left: 6px;
 }
 .section-head a {
-  color: var(--color-neon-bright);
+  color: #bbdefb;
   font-size: 12px;
   font-weight: 700;
 }
@@ -245,7 +246,7 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
   display: block;
   transition: border-color 0.15s, transform 0.15s;
 }
-.photo-cell:hover { border-color: var(--color-neon); transform: translateY(-1px); }
+.photo-cell:hover { border-color: #2c79c4; transform: translateY(-1px); }
 .photo-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .photo-cell .photo-caption {
   position: absolute;
@@ -297,16 +298,15 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
    BUTTONS
    ============================================ */
 
-/* Primary CTA — now shares the orange family with .btn-neon so that
-   legacy pages using .btn-primary get the new brand look automatically. */
+/* Primary CTA — sky-blue gradient to match the brand. */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  background: linear-gradient(180deg, #f5a23a 0%, #e87817 100%);
+  background: linear-gradient(180deg, #5fa8dd 0%, #2c79c4 100%);
   color: #fff;
-  border: 1px solid #b45c09;
+  border: 1px solid #1d4d7a;
   border-radius: 3px;
   font-weight: 700;
   font-size: 12px;
@@ -318,21 +318,21 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 1px 1px rgba(0,0,0,0.15);
 }
 .btn-primary:hover {
-  background: linear-gradient(180deg, #ffb959 0%, #f4871a 100%);
+  background: linear-gradient(180deg, #78baeb 0%, #3f8ad1 100%);
   color: #fff;
   text-decoration: none;
 }
 .btn-primary:active { transform: translateY(1px); }
 
-/* Neon CTA — orange (main CTA; "Go", "Join Now", "Build Garage") */
+/* Neon CTA — alias to the same sky-blue family so legacy callers match. */
 .btn-neon {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  background: linear-gradient(180deg, #f5a23a 0%, #e87817 100%);
+  background: linear-gradient(180deg, #5fa8dd 0%, #2c79c4 100%);
   color: #fff;
-  border: 1px solid #b45c09;
+  border: 1px solid #1d4d7a;
   border-radius: 3px;
   font-weight: 700;
   font-size: 12px;
@@ -344,7 +344,7 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 1px 1px rgba(0,0,0,0.15);
 }
 .btn-neon:hover {
-  background: linear-gradient(180deg, #ffb959 0%, #f4871a 100%);
+  background: linear-gradient(180deg, #78baeb 0%, #3f8ad1 100%);
   color: #fff;
   text-decoration: none;
 }
@@ -371,8 +371,8 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
 }
 .btn-outline:hover {
   background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
-  border-color: var(--color-neon);
-  color: var(--color-neon);
+  border-color: #2c79c4;
+  color: #2c79c4;
   text-decoration: none;
 }
 .btn-outline:active { transform: translateY(1px); }
@@ -448,8 +448,8 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
 }
 .input:focus {
-  border-color: var(--color-neon);
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05), 0 0 0 2px rgba(232,120,23,0.18);
+  border-color: #2c79c4;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05), 0 0 0 2px rgba(44,121,196,0.22);
 }
 .input::placeholder { color: #9a9a9a; }
 
@@ -467,7 +467,7 @@ input[type="datetime-local"] {
 
 .card-hover { transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s; }
 .card-hover:hover {
-  border-color: var(--color-neon);
+  border-color: #2c79c4;
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
@@ -537,7 +537,7 @@ input[type="datetime-local"] {
 }
 
 .forum-table thead th {
-  background: linear-gradient(180deg, #4a4a4a 0%, #2e2e2e 100%);
+  background: linear-gradient(180deg, #3b74a6 0%, #1d4d7a 100%);
   color: #fff;
   text-align: left;
   padding: 7px 10px;
@@ -545,14 +545,14 @@ input[type="datetime-local"] {
   font-weight: 700;
   letter-spacing: 0.4px;
   text-transform: uppercase;
-  border-right: 1px solid #1a1a1a;
-  border-bottom: 2px solid #e87817;
+  border-right: 1px solid #0d3556;
+  border-bottom: 2px solid #4fc3f7;
 }
 .forum-table thead th:last-child { border-right: none; }
 
 .forum-table tbody tr { border-top: 1px solid #d4d4d4; }
 .forum-table tbody tr:nth-child(even) { background: #f5f5f5; }
-.forum-table tbody tr:hover { background: #fff3e6; }
+.forum-table tbody tr:hover { background: #eaf4fb; }
 
 .forum-table tbody td {
   padding: 10px 10px;
@@ -569,7 +569,7 @@ input[type="datetime-local"] {
   margin-bottom: 2px;
 }
 .forum-cell-title a { color: #1a1a1a; }
-.forum-cell-title a:hover { color: var(--color-neon); text-decoration: underline; }
+.forum-cell-title a:hover { color: #2c79c4; text-decoration: underline; }
 
 .forum-cell-desc {
   font-size: 11px;
@@ -584,7 +584,7 @@ input[type="datetime-local"] {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  background: #e87817;
+  background: #2c79c4;
   color: #fff;
   border-radius: 2px;
   vertical-align: middle;
@@ -634,11 +634,11 @@ input[type="datetime-local"] {
 .forum-post-meta .forum-post-username {
   font-size: 14px;
   font-weight: 700;
-  color: var(--color-neon);
+  color: #2c79c4;
   display: block;
   margin-bottom: 4px;
 }
-.forum-post-meta .forum-post-username:hover { color: var(--color-neon-light); }
+.forum-post-meta .forum-post-username:hover { color: #1d4d7a; }
 .forum-post-meta .forum-post-rank {
   font-size: 10px;
   text-transform: uppercase;
@@ -690,7 +690,7 @@ input[type="datetime-local"] {
 .forum-post-body .forum-post-content p { margin-bottom: 10px; }
 .forum-post-body .forum-post-content blockquote {
   background: #f5f5f5;
-  border-left: 3px solid var(--color-neon);
+  border-left: 3px solid #2c79c4;
   padding: 8px 12px;
   margin: 10px 0;
   font-size: 13px;
@@ -739,9 +739,9 @@ input[type="datetime-local"] {
   color: #1a1a1a;
 }
 .forum-pagination .current {
-  background: var(--color-neon);
+  background: #2c79c4;
   color: #fff;
-  border-color: #b45c09;
+  border-color: #1d4d7a;
   font-weight: 700;
 }
 

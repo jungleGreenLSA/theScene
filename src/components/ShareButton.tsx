@@ -38,7 +38,7 @@ export default function ShareButton({ url, title, text, label = 'Share', small =
   return (
     <button
       onClick={share}
-      style={{ padding, borderRadius: '6px', background: 'rgba(232,120,23,0.1)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316', fontSize, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
+      style={{ padding, borderRadius: '6px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.3)', color: '#5fa8dd', fontSize, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
     >
       {copied ? '✓ Link copied' : fail ? 'Copy failed' : `🔗 ${label}`}
     </button>

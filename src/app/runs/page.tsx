@@ -70,12 +70,12 @@ export default function RunsPage() {
             const d = new Date(run.run_date)
             return (
               <div key={run.id} className="glass overflow-hidden card-hover">
-                <div style={{ height: '140px', background: 'linear-gradient(135deg, rgba(232,120,23,0.1), rgba(249,115,22,0.1))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                <div style={{ height: '140px', background: 'linear-gradient(135deg, rgba(44, 121, 196, 0.1), rgba(95, 168, 221, 0.1))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                   {run.cover_image_url ? (
                     <img src={run.cover_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
                   <div style={{ position: 'absolute', top: '10px', left: '10px', background: '#ffffff', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
-                    <div style={{ fontSize: '10px', color: '#fb923c', fontWeight: 700, textTransform: 'uppercase' }}>{d.toLocaleDateString('en-US', { month: 'short' })}</div>
+                    <div style={{ fontSize: '10px', color: '#90caf9', fontWeight: 700, textTransform: 'uppercase' }}>{d.toLocaleDateString('en-US', { month: 'short' })}</div>
                     <div style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', lineHeight: 1 }}>{d.getDate()}</div>
                   </div>
                 </div>

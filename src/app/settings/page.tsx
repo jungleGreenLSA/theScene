@@ -180,7 +180,7 @@ export default function SettingsPage() {
           <label style={{ cursor: 'pointer', position: 'relative' }}>
             <div style={{
               width: '72px', height: '72px', borderRadius: '50%', flexShrink: 0,
-              border: '2px solid rgba(232,120,23,0.3)',
+              border: '2px solid rgba(44, 121, 196, 0.3)',
               backgroundImage: profile?.avatar_url ? `url(${profile.avatar_url})` : 'none',
               backgroundSize: 'cover', backgroundPosition: 'center',
               backgroundColor: '#e4e4e4',
@@ -188,7 +188,7 @@ export default function SettingsPage() {
             }}>
               {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: '#555555', letterSpacing: '1px' }}>ADD</span>}
             </div>
-            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#e87817', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'white' }}>+</div>
+            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#2c79c4', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'white' }}>+</div>
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={async (e) => {
               const file = e.target.files?.[0]
               if (!file || !profile) return
@@ -360,7 +360,7 @@ export default function SettingsPage() {
         </div>
 
         <div style={{ textAlign: 'right', marginTop: '8px' }}>
-          <button onClick={() => { setMessage('Profile saved!'); setTimeout(() => setMessage(''), 3000) }} style={{ padding: '10px 24px', borderRadius: '8px', background: '#e87817', border: '1px solid #f97316', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={() => { setMessage('Profile saved!'); setTimeout(() => setMessage(''), 3000) }} style={{ padding: '10px 24px', borderRadius: '8px', background: '#2c79c4', border: '1px solid #5fa8dd', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
             Save Changes
           </button>
         </div>
@@ -384,7 +384,7 @@ export default function SettingsPage() {
                 }}
                 style={{
                   width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
-                  background: on ? '#e87817' : '#d4d4d4',
+                  background: on ? '#2c79c4' : '#d4d4d4',
                   position: 'relative', transition: 'background 0.2s',
                   flexShrink: 0, marginLeft: '16px',
                 }}
@@ -402,7 +402,7 @@ export default function SettingsPage() {
           <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
             <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '4px' }}>Only Show Me What&apos;s Nearby</h2>
             <p className="text-muted-light text-sm" style={{ marginBottom: '8px' }}>
-              Scope listings to within <span style={{ color: '#f97316', fontWeight: 600 }}>100 miles</span> of your city{userState ? ` (${userState})` : ''}. Crosses state lines — being in Sanger TX still catches Oklahoma if it&apos;s close enough.
+              Scope listings to within <span style={{ color: '#5fa8dd', fontWeight: 600 }}>100 miles</span> of your city{userState ? ` (${userState})` : ''}. Crosses state lines — being in Sanger TX still catches Oklahoma if it&apos;s close enough.
               {!userState && ' Set your Location above to enable these.'}
             </p>
             <div style={{ opacity: userState ? 1 : 0.5, pointerEvents: userState ? 'auto' : 'none' }}>
@@ -426,10 +426,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: profile?.is_public ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
-              color: profile?.is_public ? '#f97316' : '#555555',
+              background: profile?.is_public ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
+              color: profile?.is_public ? '#5fa8dd' : '#555555',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: profile?.is_public ? '2px solid #e87817' : '1px solid #e4e4e4',
+              outline: profile?.is_public ? '2px solid #2c79c4' : '1px solid #e4e4e4',
             }}
           >
             Public
@@ -439,10 +439,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: !profile?.is_public ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
-              color: !profile?.is_public ? '#f97316' : '#555555',
+              background: !profile?.is_public ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
+              color: !profile?.is_public ? '#5fa8dd' : '#555555',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: !profile?.is_public ? '2px solid #e87817' : '1px solid #e4e4e4',
+              outline: !profile?.is_public ? '2px solid #2c79c4' : '1px solid #e4e4e4',
             }}
           >
             Private
@@ -585,7 +585,7 @@ export default function SettingsPage() {
           Delete My Account
         </button>
         <p style={{ fontSize: '11px', color: '#555555', marginTop: '8px' }}>
-          Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" style={{ color: '#f97316' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
+          Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" style={{ color: '#5fa8dd' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
         </p>
       </div>
     </div>

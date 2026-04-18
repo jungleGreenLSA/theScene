@@ -150,14 +150,14 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setAuthMethod('email')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(232,120,23,0.2)' : '#f0f0f0', color: authMethod === 'email' ? '#f97316' : '#555555' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0', color: authMethod === 'email' ? '#5fa8dd' : '#555555' }}
             >
               Email
             </button>
             <button
               type="button"
               onClick={() => setAuthMethod('phone')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(232,120,23,0.2)' : '#f0f0f0', color: authMethod === 'phone' ? '#f97316' : '#555555' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0', color: authMethod === 'phone' ? '#5fa8dd' : '#555555' }}
             >
               Phone
             </button>

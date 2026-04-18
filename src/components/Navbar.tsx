@@ -85,12 +85,12 @@ export default function Navbar() {
     padding: '10px 16px',
     fontSize: '13px',
     fontWeight: 700,
-    color: active ? '#fff' : '#d4d4d4',
+    color: active ? '#fff' : '#dbeaf6',
     background: active
-      ? 'linear-gradient(180deg, #e87817 0%, #c46209 100%)'
+      ? 'linear-gradient(180deg, #4fc3f7 0%, #2c79c4 100%)'
       : 'transparent',
-    borderRight: '1px solid #1a1a1a',
-    borderLeft: '1px solid #4a4a4a',
+    borderRight: '1px solid #0d3556',
+    borderLeft: '1px solid #4a8cbe',
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     transition: 'background 0.1s, color 0.1s',
@@ -101,18 +101,18 @@ export default function Navbar() {
     padding: '8px 14px',
     fontSize: '12px',
     fontWeight: 600,
-    color: active ? '#e87817' : '#222',
-    background: active ? '#fff3e6' : 'transparent',
+    color: active ? '#2c79c4' : '#222',
+    background: active ? '#eaf4fb' : 'transparent',
     textDecoration: 'none',
     transition: 'background 0.1s',
   })
 
   return (
     <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
-      {/* Top row — dark bar with logo + tabs + auth */}
+      {/* Top row — sky-blue bar with logo + tabs + auth */}
       <div style={{
-        background: 'linear-gradient(180deg, #3a3a3a 0%, #222222 100%)',
-        borderBottom: '1px solid #111',
+        background: 'linear-gradient(180deg, #3b74a6 0%, #1d4d7a 100%)',
+        borderBottom: '1px solid #0d3556',
         height: '44px',
       }}>
         <div style={{
@@ -208,8 +208,8 @@ export default function Navbar() {
                   title="Profile menu"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: '6px',
-                    padding: '3px 8px 3px 3px', background: 'rgba(255,255,255,0.08)',
-                    border: '1px solid #555', borderRadius: '3px', cursor: 'pointer',
+                    padding: '3px 8px 3px 3px', background: 'rgba(255,255,255,0.12)',
+                    border: '1px solid #4a8cbe', borderRadius: '3px', cursor: 'pointer',
                   }}
                 >
                   <span style={{
@@ -256,8 +256,8 @@ export default function Navbar() {
               <div style={{ display: 'flex', gap: '6px' }}>
                 <Link href="/auth/login" style={{
                   padding: '5px 12px', fontSize: '12px', fontWeight: 700,
-                  color: '#fff', background: 'rgba(255,255,255,0.08)',
-                  border: '1px solid #555', borderRadius: '3px', textDecoration: 'none',
+                  color: '#fff', background: 'rgba(255,255,255,0.12)',
+                  border: '1px solid #4a8cbe', borderRadius: '3px', textDecoration: 'none',
                 }}>
                   Sign In
                 </Link>
@@ -323,8 +323,8 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: '12px',
-                  padding: '8px', background: '#fff3e6',
-                  border: '1px solid #e87817', borderRadius: '2px',
+                  padding: '8px', background: '#eaf4fb',
+                  border: '1px solid #2c79c4', borderRadius: '2px',
                   color: '#222',
                 }}
               >
@@ -359,8 +359,8 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 style={{
                   display: 'block', padding: '12px 10px', fontSize: '14px', fontWeight: 600,
-                  color: isActive(link.href) ? '#e87817' : '#222',
-                  background: isActive(link.href) ? '#fff3e6' : 'transparent',
+                  color: isActive(link.href) ? '#2c79c4' : '#222',
+                  background: isActive(link.href) ? '#eaf4fb' : 'transparent',
                   borderBottom: '1px solid #e4e4e4',
                 }}
               >
@@ -378,8 +378,8 @@ export default function Navbar() {
                     onClick={() => setMenuOpen(false)}
                     style={{
                       display: 'block', padding: '12px 10px', fontSize: '14px', fontWeight: 600,
-                      color: isActive(l.href) ? '#e87817' : '#222',
-                      background: isActive(l.href) ? '#fff3e6' : 'transparent',
+                      color: isActive(l.href) ? '#2c79c4' : '#222',
+                      background: isActive(l.href) ? '#eaf4fb' : 'transparent',
                       borderBottom: '1px solid #e4e4e4',
                     }}
                   >
@@ -395,8 +395,8 @@ export default function Navbar() {
                     onClick={() => setMenuOpen(false)}
                     style={{
                       display: 'block', padding: '12px 10px', fontSize: '14px', fontWeight: 600,
-                      color: isActive(l.href) ? '#e87817' : '#222',
-                      background: isActive(l.href) ? '#fff3e6' : 'transparent',
+                      color: isActive(l.href) ? '#2c79c4' : '#222',
+                      background: isActive(l.href) ? '#eaf4fb' : 'transparent',
                       borderBottom: '1px solid #e4e4e4',
                     }}
                   >
