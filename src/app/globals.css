@@ -42,6 +42,8 @@
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  max-width: 100vw;
 }
 
 body {
@@ -49,8 +51,15 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100vw;
+  min-height: 100vh;
 }
+
+/* Any element that ends up wider than the screen is quietly clipped
+   instead of creating a horizontal scroll bar that shifts the whole
+   page sideways on mobile. */
+img, video, canvas, svg, iframe { max-width: 100%; }
 
 /* Subtle background texture */
 body::before {
