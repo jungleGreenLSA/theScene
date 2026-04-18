@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import AddressAutocomplete from '@/components/AddressAutocomplete'
+import { geocodeCityState } from '@/lib/mapbox'
 
 const CATEGORIES = ['Car Show', 'Car Meet', 'Track Day', 'Cruise', 'Swap Meet', 'Drag Race', 'Autocross', 'Dyno Day', 'Charity Event']
 
@@ -24,6 +26,7 @@ export default function EditEventPage() {
   const [form, setForm] = useState({
     title: '', description: '', event_date: '', event_time: '',
     location_name: '', location_address: '', city: '', state: '',
+    lat: null as number | null, lng: null as number | null,
     admission_info: '', categories: [] as string[],
   })
 
@@ -39,6 +42,7 @@ export default function EditEventPage() {
         event_time: d.toTimeString().slice(0, 5),
         location_name: event.location_name || '', location_address: event.location_address || '',
         city: event.city || '', state: event.state || '',
+        lat: event.lat ?? null, lng: event.lng ?? null,
         admission_info: event.admission_info || '',
         categories: event.categories || [],
       })
@@ -66,17 +70,30 @@ export default function EditEventPage() {
     setError('')
     const eventDate = new Date(`${form.event_date}T${form.event_time || '12:00'}`)
 
+    // Backfill lat/lng from city+state if the user typed a city without picking
+    // from the autocomplete (preserves existing coords if already set).
+    let { lat, lng } = form
+    if ((lat == null || lng == null) && form.city && form.state) {
+      const coords = await geocodeCityState(form.city, form.state)
+      if (coords) { lat = coords.lat; lng = coords.lng }
+    }
+
     const { error: updateErr } = await supabase.from('events').update({
       title: form.title, description: form.description,
       event_date: eventDate.toISOString(),
       location_name: form.location_name, location_address: form.location_address,
       city: form.city, state: form.state,
+      lat, lng,
       admission_info: form.admission_info, categories: form.categories,
       updated_at: new Date().toISOString(),
     }).eq('id', eventId)
 
     if (updateErr) setError(updateErr.message)
-    else { setMessage('Event updated!'); setTimeout(() => setMessage(''), 3000) }
+    else {
+      setForm(f => ({ ...f, lat, lng }))
+      setMessage('Event updated!')
+      setTimeout(() => setMessage(''), 3000)
+    }
     setSaving(false)
   }
 
@@ -129,11 +146,27 @@ export default function EditEventPage() {
             <div><label style={labelStyle}>Time</label><input type="time" name="event_time" value={form.event_time} onChange={handleChange} className="input" /></div>
           </div>
           <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Venue</label><input name="location_name" value={form.location_name} onChange={handleChange} className="input" maxLength={128} /></div>
-          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Address</label><input name="location_address" value={form.location_address} onChange={handleChange} className="input" maxLength={128} /></div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
-            <div><label style={labelStyle}>City</label><input name="city" value={form.city} onChange={handleChange} className="input" required maxLength={64} /></div>
-            <div><label style={labelStyle}>State</label><input name="state" value={form.state} onChange={handleChange} className="input" required maxLength={2} style={{ textTransform: 'uppercase' }} /></div>
+          <div style={{ marginBottom: '12px' }}>
+            <label style={labelStyle}>City / State — pick from dropdown to drop a pin on the heatmap</label>
+            <AddressAutocomplete
+              defaultValue={form.city && form.state ? `${form.city}, ${form.state}` : ''}
+              placeholder="Start typing a city..."
+              mode="city"
+              onChange={(a) => setForm(f => ({
+                ...f,
+                city: a.city || f.city,
+                state: (a.state || f.state).toUpperCase(),
+                lat: a.lat ?? f.lat,
+                lng: a.lng ?? f.lng,
+              }))}
+            />
+            {form.city && form.state && (
+              <p style={{ fontSize: '11px', color: form.lat && form.lng ? '#22c55e' : '#fb923c', marginTop: '6px' }}>
+                {form.city}, {form.state}{form.lat && form.lng ? ' · geocoded ✓' : ' · geocoding on save'}
+              </p>
+            )}
           </div>
+          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Address (optional)</label><input name="location_address" value={form.location_address} onChange={handleChange} className="input" maxLength={128} /></div>
           <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Description</label><textarea name="description" value={form.description} onChange={handleChange} className="input" rows={4} maxLength={2000} /></div>
           <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Admission</label><input name="admission_info" value={form.admission_info} onChange={handleChange} className="input" maxLength={128} /></div>
           <div>

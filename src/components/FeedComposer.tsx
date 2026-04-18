@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { compressImage } from '@/lib/imageUpload'
+import MentionTextarea from '@/components/MentionTextarea'
 
 const HASHTAG_RE = /#([a-zA-Z0-9_]+)/g
 
@@ -52,15 +53,16 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
 
   return (
     <form onSubmit={submit} className="glass" style={{ padding: '16px', marginBottom: '16px' }}>
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Say it in 120 characters. Post a photo, drop a #hashtag..."
-        className="input"
-        rows={2}
-        maxLength={120}
-        style={{ resize: 'none', marginBottom: '10px' }}
-      />
+      <div style={{ marginBottom: '10px' }}>
+        <MentionTextarea
+          value={content}
+          onChange={setContent}
+          placeholder="Say it in 120 chars. #hashtag, @mention, photo..."
+          rows={2}
+          maxLength={120}
+          style={{ resize: 'none' }}
+        />
+      </div>
       {hashtags.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
           {hashtags.map(tag => (

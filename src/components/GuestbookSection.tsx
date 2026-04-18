@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import MentionTextarea from '@/components/MentionTextarea'
 
 // Renders @mentions as links to /user/[username].
 function renderMentions(text: string): (string | React.ReactElement)[] {
@@ -107,15 +108,16 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
 
       {/* Entry form */}
       <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
-        <textarea
-          value={newEntry}
-          onChange={(e) => setNewEntry(e.target.value)}
-          className="input"
-          rows={2}
-          placeholder="Leave a quick note — tag someone with @username"
-          maxLength={120}
-          style={{ marginBottom: '8px', resize: 'none' }}
-        />
+        <div style={{ marginBottom: '8px' }}>
+          <MentionTextarea
+            value={newEntry}
+            onChange={setNewEntry}
+            rows={2}
+            placeholder="Leave a quick note — tag someone with @username"
+            maxLength={120}
+            style={{ resize: 'none' }}
+          />
+        </div>
         {error && (
           <p style={{ fontSize: '13px', color: '#ef4444', marginBottom: '8px' }}>{error}</p>
         )}

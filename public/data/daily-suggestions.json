@@ -1,142 +1,242 @@
 [
   {
     "id": 1,
-    "title": "What's the one mod you'd undo?",
-    "description": "If you could take back one modification you've done to your car, what would it be and why? Sometimes the best lessons come from the mods that didn't work out.",
-    "category": "discussion",
-    "emoji": "🔧"
+    "title": "Monday Motor Monday",
+    "description": "Kick off the week with a shot of what's under your hood. Clean, built, stock — doesn't matter. Post the engine that gets you to Friday.",
+    "category": "photo",
+    "emoji": "🔧",
+    "hashtag": "MondayMotor"
   },
   {
     "id": 2,
-    "title": "Show us your engine bay!",
-    "description": "Clean or dirty, stock or built -- post a photo of what's under the hood. Bonus props for the cleanest engine bays.",
-    "category": "photo",
-    "emoji": "📸"
+    "title": "Tuner Tuesday",
+    "description": "Got a tune? Post a dyno sheet, a screen grab of your latest map, or the story of the shop that nailed it.",
+    "category": "tech",
+    "emoji": "📈",
+    "hashtag": "TunerTuesday"
   },
   {
     "id": 3,
-    "title": "What's your daily driver vs. your show car?",
-    "description": "Some of us have both. Show us what you drive to work and what comes out on weekends.",
-    "category": "discussion",
-    "emoji": "🚗"
+    "title": "Wheel Wednesday",
+    "description": "Rolling shots only. Post your wheel setup — spec, offset, tire. Bonus props for fitment pics.",
+    "category": "photo",
+    "emoji": "🛞",
+    "hashtag": "WheelWednesday"
   },
   {
     "id": 4,
-    "title": "Best mod under $500?",
-    "description": "What's the single best bang-for-the-buck modification you've done? Help the community find affordable wins.",
-    "category": "discussion",
-    "emoji": "💰"
+    "title": "Throwback Thursday",
+    "description": "First car vs. current build. Post them side by side. Show how far you've come.",
+    "category": "throwback",
+    "emoji": "⏪",
+    "hashtag": "ThrowbackThursday"
   },
   {
     "id": 5,
-    "title": "Throwback time! First car vs. current car.",
-    "description": "Post a photo of your first car next to your current build. Show us how far you've come.",
-    "category": "throwback",
-    "emoji": "⏪"
+    "title": "Feature Friday",
+    "description": "Shout out a member whose build you respect. Tag them with @ and tell everyone why.",
+    "category": "community",
+    "emoji": "⭐",
+    "hashtag": "FeatureFriday"
   },
   {
     "id": 6,
-    "title": "What's your dream build?",
-    "description": "Unlimited budget, no rules. What car would you build and what would you do to it? Dream big.",
-    "category": "discussion",
-    "emoji": "💭"
+    "title": "Show Day Saturday",
+    "description": "Heading to a show today? Post the flyer, tag the event, and drop a pin in Events so others can roll with you.",
+    "category": "event",
+    "emoji": "🏁",
+    "hashtag": "ShowDaySaturday"
   },
   {
     "id": 7,
-    "title": "Favorite exhaust note?",
-    "description": "Upload a sound clip or just tell us -- what's the best exhaust sound you've ever heard? V8 rumble? Turbo flutter? Flat-six scream?",
-    "category": "audio",
-    "emoji": "🔊"
+    "title": "Sunday Cruise",
+    "description": "Weekend drive shot — roads, backroads, coffee stops. Where'd you take it today?",
+    "category": "photo",
+    "emoji": "🛣️",
+    "hashtag": "SundayCruise"
   },
   {
     "id": 8,
-    "title": "Car show ready? Show your detail game.",
-    "description": "Post your best detail job. Paint correction, ceramic coat, fresh wax -- let's see that shine.",
-    "category": "photo",
-    "emoji": "✨"
+    "title": "What mod would you undo?",
+    "description": "If you could take back one modification — what is it and why? Save someone else the mistake.",
+    "category": "discussion",
+    "emoji": "🛠️",
+    "hashtag": "ModRegret"
   },
   {
     "id": 9,
-    "title": "What are you working on this weekend?",
-    "description": "Installing parts? Going to a meet? Just cruising? Share your weekend plans with The Scene.",
+    "title": "Best $500 mod",
+    "description": "What's the single best bang-for-buck upgrade you've done? Help the community find affordable wins.",
     "category": "discussion",
-    "emoji": "🛠️"
+    "emoji": "💰",
+    "hashtag": "BudgetWin"
   },
   {
     "id": 10,
-    "title": "Interior shots only!",
-    "description": "Show us the inside. Custom steering wheel? Aftermarket seats? Roll cage? Clean stock interior? Let's see it.",
+    "title": "Daily Driver vs. Show Car",
+    "description": "Some of us run two. Post what you drive to work and what comes out on weekends.",
     "category": "photo",
-    "emoji": "🪑"
+    "emoji": "🚗",
+    "hashtag": "DailyVsShow"
   },
   {
     "id": 11,
-    "title": "What car turned you into an enthusiast?",
-    "description": "Every car person has that one car that started it all. What was yours? Share the story.",
+    "title": "Dream Build",
+    "description": "Unlimited budget, no rules. What would you build? Paint the picture.",
     "category": "discussion",
-    "emoji": "❤️"
+    "emoji": "💭",
+    "hashtag": "DreamBuild"
   },
   {
     "id": 12,
-    "title": "Wheel Wednesday!",
-    "description": "Show off your wheel setup. Brand, size, offset, tire specs. The community wants to know.",
+    "title": "Garage Tour",
+    "description": "Show us where the work happens. Tool wall, lift, shop fridge — whatever makes your garage yours.",
     "category": "photo",
-    "emoji": "🛞"
+    "emoji": "🏠",
+    "hashtag": "GarageTour"
   },
   {
     "id": 13,
-    "title": "What's the most underrated car platform?",
-    "description": "What car doesn't get enough love? Make your case for the most slept-on platform in the game.",
+    "title": "First Mod, Best Mod?",
+    "description": "What was the very first thing you changed on your car? Did it hold up?",
     "category": "discussion",
-    "emoji": "🤔"
+    "emoji": "🥇",
+    "hashtag": "FirstMod"
   },
   {
     "id": 14,
-    "title": "Night photo challenge!",
-    "description": "Post your best night photo. Parking garages, city lights, neon signs -- dark backgrounds make cars pop.",
-    "category": "photo",
-    "emoji": "🌙"
+    "title": "Shop Shoutout",
+    "description": "Call out a shop that does right by you. Tag them on your build page and drop a photo here.",
+    "category": "community",
+    "emoji": "🔨",
+    "hashtag": "ShopLove"
   },
   {
     "id": 15,
-    "title": "Before and after: biggest transformation",
-    "description": "Post a before and after of your build. The bigger the change, the better. Show the journey.",
-    "category": "throwback",
-    "emoji": "🔄"
+    "title": "Low-Light Lineup",
+    "description": "Parking lot meets, garage glow, sunset pulls — post your best after-dark shot.",
+    "category": "photo",
+    "emoji": "🌙",
+    "hashtag": "LowLight"
   },
   {
     "id": 16,
-    "title": "What's your next mod?",
-    "description": "What's next on the list? Saving up for something big? Planning a small upgrade? Share your plans.",
+    "title": "What's the sound?",
+    "description": "Describe your exhaust note in three words. Bonus if you drop a video.",
     "category": "discussion",
-    "emoji": "📋"
+    "emoji": "🎵",
+    "hashtag": "ExhaustNote"
   },
   {
     "id": 17,
-    "title": "Favorite driving road near you?",
-    "description": "Every car person has a favorite road. Where's yours? Mountain twisties? Highway pulls? Back roads?",
+    "title": "Road Trip Route",
+    "description": "Favorite road you've ever driven? Name it, tell us the miles, and what it takes to enjoy it.",
     "category": "discussion",
-    "emoji": "🛣️"
+    "emoji": "🗺️",
+    "hashtag": "BestRoad"
   },
   {
     "id": 18,
-    "title": "Show your garage / workspace!",
-    "description": "Not your car garage on The Scene -- your actual garage. Where the work happens. Tools, lifts, and all.",
+    "title": "Before & After",
+    "description": "Post a shot of your car the day you bought it next to how it sits now.",
     "category": "photo",
-    "emoji": "🏠"
+    "emoji": "↔️",
+    "hashtag": "BeforeAfter"
   },
   {
     "id": 19,
-    "title": "What's your car's name?",
-    "description": "Does your car have a name? Most of us name our builds. What's yours and how did you pick it?",
-    "category": "discussion",
-    "emoji": "🏷️"
+    "title": "The One That Got Away",
+    "description": "What car have you sold that you still think about? Post a photo and the reason it haunts you.",
+    "category": "throwback",
+    "emoji": "😢",
+    "hashtag": "OneThatGotAway"
   },
   {
     "id": 20,
-    "title": "Dyno day! Post your numbers.",
-    "description": "If you've hit the dyno, share your sheet. WHP, WTQ, tuner, fuel type. The community loves numbers.",
-    "category": "dyno",
-    "emoji": "📊"
+    "title": "Interior Detail",
+    "description": "Shifter, gauges, steering wheel — post the best detail shot of your cabin.",
+    "category": "photo",
+    "emoji": "🪑",
+    "hashtag": "InteriorShot"
+  },
+  {
+    "id": 21,
+    "title": "Build Status Check",
+    "description": "Where is your project today? One photo, one update. Honest progress posts welcome.",
+    "category": "community",
+    "emoji": "🔄",
+    "hashtag": "BuildStatus"
+  },
+  {
+    "id": 22,
+    "title": "Rattle Can Roulette",
+    "description": "Post a bad wrap, a bad respray, or a mod that looked better in the box. We've all done it.",
+    "category": "discussion",
+    "emoji": "🤦",
+    "hashtag": "ModFail"
+  },
+  {
+    "id": 23,
+    "title": "Parts Bin Tax",
+    "description": "Show the box of leftover parts every car guy has. Tell us what's in there.",
+    "category": "photo",
+    "emoji": "📦",
+    "hashtag": "PartsBin"
+  },
+  {
+    "id": 24,
+    "title": "Badge Collection",
+    "description": "Emblems, badges, stickers, plates — post your favorite car detail that isn't the whole car.",
+    "category": "photo",
+    "emoji": "🏷️",
+    "hashtag": "BadgeShot"
+  },
+  {
+    "id": 25,
+    "title": "Name Your Car",
+    "description": "Every build gets a name eventually. What do you call yours and why?",
+    "category": "discussion",
+    "emoji": "📛",
+    "hashtag": "NameYourCar"
+  },
+  {
+    "id": 26,
+    "title": "Crew Shot",
+    "description": "Roll with a club or crew? Post a group photo — tag everyone in it so the props go around.",
+    "category": "community",
+    "emoji": "👥",
+    "hashtag": "CrewShot"
+  },
+  {
+    "id": 27,
+    "title": "What's on your wrench?",
+    "description": "What are you working on this week? Install photos, teardown shots, random fabrication — show the process.",
+    "category": "community",
+    "emoji": "🔩",
+    "hashtag": "WrenchTime"
+  },
+  {
+    "id": 28,
+    "title": "Track Day Memory",
+    "description": "Best lap, best corner, best 180-degree moment. Post a shot from a track day and tell the story.",
+    "category": "throwback",
+    "emoji": "🏎️",
+    "hashtag": "TrackMemory"
+  },
+  {
+    "id": 29,
+    "title": "Parts I'm Chasing",
+    "description": "What's the one part you've been hunting for your build? Maybe someone here can hook you up.",
+    "category": "community",
+    "emoji": "🔎",
+    "hashtag": "PartsChase"
+  },
+  {
+    "id": 30,
+    "title": "Stance or Function?",
+    "description": "Pick one. Defend it with a photo. Bring the receipts.",
+    "category": "discussion",
+    "emoji": "⚔️",
+    "hashtag": "StanceOrFunction"
   }
 ]

@@ -158,15 +158,23 @@ export default function SceneHeatmap({ type, title }: Props) {
             <circle cx={dot.x} cy={dot.y} r={1.5} fill="rgba(255,255,255,0.85)" />
           </g>
         ))}
-        {tooltip && (
-          <g pointerEvents="none">
-            <rect x={tooltip.x - 70} y={tooltip.y - 42} width="140" height="30" rx="6" fill="rgba(12,12,20,0.92)" stroke={`rgba(${cfg.color},0.35)`} strokeWidth="1" />
-            <text x={tooltip.x} y={tooltip.y - 28} textAnchor="middle" fill={`rgb(${cfg.color})`} fontSize="9" fontWeight="700">{tooltip.label}</text>
-            <text x={tooltip.x} y={tooltip.y - 17} textAnchor="middle" fill="#9ca3af" fontSize="8">
-              {tooltip.count} {tooltip.count === 1 ? cfg.label.slice(0, -1) : cfg.label}
-            </text>
-          </g>
-        )}
+        {tooltip && (() => {
+          // Keep the tooltip inside the viewBox horizontally — shift if near edges.
+          const W = 260, H = 56
+          const rawX = tooltip.x - W / 2
+          const boxX = Math.max(8, Math.min(SVG_W - W - 8, rawX))
+          const boxY = tooltip.y - H - 14
+          const textX = boxX + W / 2
+          return (
+            <g pointerEvents="none">
+              <rect x={boxX} y={boxY} width={W} height={H} rx="8" fill="rgba(12,12,20,0.96)" stroke={`rgba(${cfg.color},0.45)`} strokeWidth="1.5" />
+              <text x={textX} y={boxY + 22} textAnchor="middle" fill={`rgb(${cfg.color})`} fontSize="18" fontWeight="700">{tooltip.label}</text>
+              <text x={textX} y={boxY + 42} textAnchor="middle" fill="#cbd5e1" fontSize="14">
+                {tooltip.count} {tooltip.count === 1 ? cfg.label.slice(0, -1) : cfg.label}
+              </text>
+            </g>
+          )
+        })()}
       </svg>
       {missing > 0 && (
         <p style={{ fontSize: '10px', color: '#6b7280', marginTop: '8px', textAlign: 'center' }}>
