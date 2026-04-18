@@ -109,18 +109,19 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
       )}
 
       {currentUserId && (
-        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: comments.length > 0 ? '14px' : 0, borderTop: comments.length > 0 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', paddingTop: comments.length > 0 ? '16px' : '4px', marginTop: comments.length > 0 ? '2px' : 0, borderTop: comments.length > 0 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
           <textarea
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             placeholder="Share your thoughts on this event..."
             className="input"
-            rows={3}
-            maxLength={2000}
+            rows={2}
+            maxLength={500}
+            style={{ resize: 'vertical', minHeight: '60px' }}
           />
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '11px', color: '#6b7280' }}>{draft.length}/2000</span>
-            <button type="submit" disabled={submitting || !draft.trim()} className="btn-primary" style={{ fontSize: '12px', padding: '8px 18px', opacity: (submitting || !draft.trim()) ? 0.5 : 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 600, color: draft.length > 450 ? '#fb923c' : '#6b7280' }}>{500 - draft.length}</span>
+            <button type="submit" disabled={submitting || !draft.trim()} className="btn-primary" style={{ fontSize: '12px', padding: '8px 20px', opacity: (submitting || !draft.trim()) ? 0.5 : 1 }}>
               {submitting ? 'Posting...' : 'Post Comment'}
             </button>
           </div>

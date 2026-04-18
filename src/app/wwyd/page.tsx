@@ -39,6 +39,17 @@ export default function WWYDPage() {
         .order('created_at', { ascending: false })
         .limit(20)
       setPosts((data || []) as unknown as WYDPost[])
+
+      // Hydrate which posts this user has already voted on so we lock them
+      if (user && data && data.length > 0) {
+        const { data: myVotes } = await supabase
+          .from('wwyd_votes')
+          .select('post_id')
+          .eq('voter_id', user.id)
+          .in('post_id', data.map(p => p.id))
+        if (myVotes) setVotedPosts(new Set(myVotes.map(v => v.post_id)))
+      }
+
       setLoading(false)
     }
     fetch()
@@ -56,14 +67,24 @@ export default function WWYDPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { window.location.href = '/auth/login'; return }
 
-    await supabase.from('wwyd_votes').insert({ post_id: postId, option_id: optionId, voter_id: user.id })
-    await supabase.from('wwyd_options').update({ vote_count: (posts.find(p => p.id === postId)?.options.find(o => o.id === optionId)?.vote_count || 0) + 1 }).eq('id', optionId)
-
-    setVotedPosts(new Set([...votedPosts, postId]))
-    setPosts(posts.map(p => {
+    // Optimistic: lock the post + bump the option count locally before the DB call.
+    // Trigger (migration 023) keeps vote_count in sync server-side.
+    setVotedPosts(prev => new Set([...prev, postId]))
+    setPosts(prev => prev.map(p => {
       if (p.id !== postId) return p
       return { ...p, options: p.options.map(o => o.id === optionId ? { ...o, vote_count: o.vote_count + 1 } : o) }
     }))
+
+    const { error } = await supabase.from('wwyd_votes').insert({ post_id: postId, option_id: optionId, voter_id: user.id })
+    if (error) {
+      // Rollback
+      setVotedPosts(prev => { const s = new Set(prev); s.delete(postId); return s })
+      setPosts(prev => prev.map(p => {
+        if (p.id !== postId) return p
+        return { ...p, options: p.options.map(o => o.id === optionId ? { ...o, vote_count: Math.max(0, o.vote_count - 1) } : o) }
+      }))
+      alert('Vote failed: ' + error.message)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

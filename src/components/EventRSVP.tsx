@@ -18,7 +18,7 @@ export default function EventRSVP({ eventId }: { eventId: string }) {
     const check = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
-      const { data } = await supabase.from('event_rsvps').select('status').eq('event_id', eventId).eq('user_id', user.id).single()
+      const { data } = await supabase.from('event_rsvps').select('status').eq('event_id', eventId).eq('user_id', user.id).maybeSingle()
       if (data) setCurrentStatus(data.status)
     }
     check()
@@ -27,20 +27,29 @@ export default function EventRSVP({ eventId }: { eventId: string }) {
   const handleRSVP = async (status: string) => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { window.location.href = '/auth/login'; return }
+
+    const prev = currentStatus
+    const nextStatus = prev === status ? null : status
+    // Optimistic: paint the button first, rollback on error.
+    setCurrentStatus(nextStatus)
     setLoading(true)
 
-    if (currentStatus === status) {
-      // Remove RSVP
-      await supabase.from('event_rsvps').delete().eq('event_id', eventId).eq('user_id', user.id)
-      setCurrentStatus(null)
-    } else if (currentStatus) {
-      // Update RSVP
-      await supabase.from('event_rsvps').update({ status }).eq('event_id', eventId).eq('user_id', user.id)
-      setCurrentStatus(status)
+    let err = null
+    if (prev === status) {
+      const r = await supabase.from('event_rsvps').delete().eq('event_id', eventId).eq('user_id', user.id)
+      err = r.error
+    } else if (prev) {
+      const r = await supabase.from('event_rsvps').update({ status }).eq('event_id', eventId).eq('user_id', user.id)
+      err = r.error
     } else {
-      // New RSVP
-      await supabase.from('event_rsvps').insert({ event_id: eventId, user_id: user.id, status })
-      setCurrentStatus(status)
+      const r = await supabase.from('event_rsvps').insert({ event_id: eventId, user_id: user.id, status })
+      err = r.error
+    }
+
+    if (err) {
+      console.error('[EventRSVP] Save failed:', err)
+      setCurrentStatus(prev)
+      alert('RSVP failed: ' + err.message)
     }
     setLoading(false)
   }

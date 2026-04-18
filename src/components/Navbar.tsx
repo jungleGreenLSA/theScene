@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 import GlobalSearch from '@/components/GlobalSearch'
+import NotificationBell from '@/components/NotificationBell'
 
 // Primary nav — what shows directly in the bar. Keep it tight.
 const PRIMARY_LINKS = [
@@ -157,6 +158,9 @@ export default function Navbar() {
               )}
             </div>
           )}
+
+          {/* Notifications bell */}
+          {user && <NotificationBell />}
 
           {/* Profile avatar / auth buttons */}
           {user ? (
