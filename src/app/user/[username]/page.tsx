@@ -5,7 +5,6 @@ import UserActions from '@/components/UserActions'
 import FollowButton from '@/components/FollowButton'
 import FollowLists from '@/components/FollowLists'
 import UserBadges from '@/components/UserBadges'
-import UserCoverEditor from '@/components/UserCoverEditor'
 
 export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params
@@ -41,18 +40,6 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      {/* Cover image */}
-      <div className="glass" style={{ overflow: 'hidden', marginBottom: '24px' }}>
-        <div style={{ height: '180px', position: 'relative', background: 'rgba(26,26,46,0.5)' }}>
-          {profile.cover_image_url ? (
-            <img src={profile.cover_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          ) : (
-            <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(249,115,22,0.1))' }} />
-          )}
-          <UserCoverEditor userId={profile.id} currentCoverUrl={profile.cover_image_url} />
-        </div>
-      </div>
-
       <div className="profile-grid">
         <div className="profile-grid-sidebar">
 
