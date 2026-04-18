@@ -2,18 +2,20 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import ActivityFeed from '@/components/ActivityFeed'
 import DailySuggestion from '@/components/DailySuggestion'
 import Announcements from '@/components/Announcements'
 import TrendingBuilds from '@/components/TrendingBuilds'
 import NearbyMembers from '@/components/NearbyMembers'
 import WeeklyDigest from '@/components/WeeklyDigest'
 import FeedComposer from '@/components/FeedComposer'
-import FeedPosts from '@/components/FeedPosts'
+import Timeline from '@/components/Timeline'
 
 export default function FeedPage() {
   const supabase = createClient()
+  const searchParams = useSearchParams()
+  const tagFilter = searchParams.get('tag')
   const [latestMembers, setLatestMembers] = useState<any[]>([])
   const [onlineCount, setOnlineCount] = useState(0)
   const [postsRefresh, setPostsRefresh] = useState(0)
@@ -67,9 +69,8 @@ export default function FeedPage() {
           <WeeklyDigest />
           <DailySuggestion />
           <div style={{ marginTop: '16px' }} />
-          <FeedComposer onPosted={() => setPostsRefresh(n => n + 1)} />
-          <FeedPosts refreshKey={postsRefresh} />
-          <ActivityFeed />
+          {!tagFilter && <FeedComposer onPosted={() => setPostsRefresh(n => n + 1)} />}
+          <Timeline refreshKey={postsRefresh} filterTag={tagFilter} />
         </div>
 
         {/* Sidebar — aligns with the main column top on desktop,

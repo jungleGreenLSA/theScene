@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ShopTagger from '@/components/ShopTagger'
+import VehicleMods from '@/components/VehicleMods'
 
 const BODY_STYLES = ['Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Wagon', 'SUV', 'Truck', 'Van', 'Roadster', 'Other']
 const TRANSMISSIONS = ['Automatic', 'Manual', 'DCT / Dual Clutch', 'CVT', 'Other']
@@ -213,6 +214,13 @@ export default function EditVehiclePage() {
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>About This Build</div>
           <textarea name="bio" value={form.bio} onChange={handleChange} className="input" rows={4} maxLength={2000} placeholder="Tell the story of your build..." />
+        </div>
+
+        {/* Modifications */}
+        <div className="glass" style={{ padding: '24px' }}>
+          <div style={sectionTitle}>Modifications</div>
+          <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px' }}>List what you&apos;ve done to your build. Categorized so visitors can scan quickly.</p>
+          <VehicleMods vehicleId={vehicleId} />
         </div>
 
         {/* Shops */}
