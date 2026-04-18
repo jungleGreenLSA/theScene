@@ -29,12 +29,10 @@ function FeedPageContent() {
   const searchParams = useSearchParams()
   const tagFilter = searchParams.get('tag')
   const [latestMembers, setLatestMembers] = useState<any[]>([])
-  const [onlineCount, setOnlineCount] = useState(0)
   const [postsRefresh, setPostsRefresh] = useState(0)
 
   useEffect(() => {
     const fetchSidebar = async () => {
-      // Latest members
       const { data: members } = await supabase
         .from('profiles')
         .select('username, display_name, first_name, avatar_url, location, is_online, created_at')
@@ -43,14 +41,6 @@ function FeedPageContent() {
         .limit(8)
 
       setLatestMembers(members || [])
-
-      // Online count
-      const { count } = await supabase
-        .from('profiles')
-        .select('id', { count: 'exact', head: true })
-        .eq('is_online', true)
-
-      setOnlineCount(count || 0)
     }
     fetchSidebar()
   }, [])
@@ -72,7 +62,6 @@ function FeedPageContent() {
               <h1 className="text-3xl font-bold">Feed</h1>
               <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>
                 What&apos;s happening on The Scene
-                {onlineCount > 0 && <span className="text-success" style={{ marginLeft: '8px' }}>● {onlineCount} online now</span>}
               </p>
             </div>
           </div>
