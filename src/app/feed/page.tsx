@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -12,7 +12,19 @@ import WeeklyDigest from '@/components/WeeklyDigest'
 import FeedComposer from '@/components/FeedComposer'
 import Timeline from '@/components/Timeline'
 
+// Wrap the actual page in a Suspense boundary so Next can statically
+// prerender /feed without the useSearchParams() hook blowing up the
+// build (Next 16 requires any client-side search-param reader to live
+// under Suspense — the CSR bailout).
 export default function FeedPage() {
+  return (
+    <Suspense fallback={<div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px', color: '#6b7280' }}>Loading feed...</div>}>
+      <FeedPageContent />
+    </Suspense>
+  )
+}
+
+function FeedPageContent() {
   const supabase = createClient()
   const searchParams = useSearchParams()
   const tagFilter = searchParams.get('tag')
