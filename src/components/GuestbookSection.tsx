@@ -4,6 +4,22 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
+// Renders @mentions as links to /user/[username].
+function renderMentions(text: string): (string | React.ReactElement)[] {
+  const out: (string | React.ReactElement)[] = []
+  const re = /@([a-zA-Z0-9_]{3,30})/g
+  let last = 0
+  let i = 0
+  for (const m of text.matchAll(re)) {
+    const start = m.index ?? 0
+    if (start > last) out.push(text.slice(last, start))
+    out.push(<Link key={i++} href={`/user/${m[1]}`} style={{ color: '#a78bfa', fontWeight: 600 }}>@{m[1]}</Link>)
+    last = start + m[0].length
+  }
+  if (last < text.length) out.push(text.slice(last))
+  return out
+}
+
 // Basic profanity filter
 const BLOCKED_WORDS = [
   'fuck', 'shit', 'ass', 'bitch', 'damn', 'dick', 'pussy', 'cunt', 'nigger', 'faggot',
@@ -46,12 +62,12 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
     if (!newEntry.trim()) return
 
     if (containsBlockedContent(newEntry)) {
-      setError('Your message contains content that is not allowed. Please keep it car-related and respectful.')
+      setError('Your message contains content that is not allowed. Keep it car-related and respectful.')
       return
     }
 
-    if (newEntry.length > 500) {
-      setError('Guestbook entries must be under 500 characters.')
+    if (newEntry.length > 120) {
+      setError('Guestbook entries must be under 120 characters.')
       return
     }
 
@@ -95,16 +111,16 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
           value={newEntry}
           onChange={(e) => setNewEntry(e.target.value)}
           className="input"
-          rows={3}
-          placeholder="Leave a message... (keep it car-related and respectful)"
-          maxLength={500}
-          style={{ marginBottom: '8px' }}
+          rows={2}
+          placeholder="Leave a quick note — tag someone with @username"
+          maxLength={120}
+          style={{ marginBottom: '8px', resize: 'none' }}
         />
         {error && (
           <p style={{ fontSize: '13px', color: '#ef4444', marginBottom: '8px' }}>{error}</p>
         )}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: '12px', color: '#6b7280' }}>{newEntry.length}/500</span>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: newEntry.length > 100 ? (newEntry.length > 115 ? '#ef4444' : '#fb923c') : '#6b7280' }}>{120 - newEntry.length}</span>
           <button type="submit" disabled={loading || !newEntry.trim()} style={{
             padding: '8px 20px', borderRadius: '8px', background: '#7c3aed', border: '1px solid #a78bfa',
             color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
@@ -136,7 +152,7 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
                     {new Date(entry.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   </span>
                 </div>
-                <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '4px' }}>{entry.content}</p>
+                <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '4px', whiteSpace: 'pre-wrap' }}>{renderMentions(entry.content)}</p>
               </div>
             </div>
           ))}

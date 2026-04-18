@@ -69,7 +69,7 @@ export default function PropsButton({ targetType, targetId, initialCount = 0, si
         opacity: busy ? 0.6 : 1,
       }}
     >
-      <span>{count} Props</span>
+      <span>👍 {count} Props</span>
     </button>
   )
 }

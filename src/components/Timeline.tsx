@@ -41,22 +41,25 @@ function timeAgo(date: string) {
   return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
 
-const HASHTAG_RE = /#([a-zA-Z0-9_]+)/g
+// Renders #hashtags and @mentions as purple links inline in post content.
+const TOKEN_RE = /(#[a-zA-Z0-9_]+|@[a-zA-Z0-9_]{3,30})/g
 function renderPostContent(text: string | null) {
   if (!text) return null
   const out: (string | React.ReactElement)[] = []
   let last = 0
   let i = 0
-  for (const m of text.matchAll(HASHTAG_RE)) {
+  for (const m of text.matchAll(TOKEN_RE)) {
     const start = m.index ?? 0
     if (start > last) out.push(text.slice(last, start))
-    const tag = m[1].toLowerCase()
-    out.push(
-      <Link key={i++} href={`/feed?tag=${tag}`} style={{ color: '#a78bfa', fontWeight: 600 }}>
-        #{m[1]}
-      </Link>
-    )
-    last = start + m[0].length
+    const tok = m[0]
+    if (tok.startsWith('#')) {
+      const tag = tok.slice(1).toLowerCase()
+      out.push(<Link key={i++} href={`/feed?tag=${tag}`} style={{ color: '#a78bfa', fontWeight: 600 }}>#{tok.slice(1)}</Link>)
+    } else {
+      const uname = tok.slice(1)
+      out.push(<Link key={i++} href={`/user/${uname}`} style={{ color: '#a78bfa', fontWeight: 600 }}>@{uname}</Link>)
+    }
+    last = start + tok.length
   }
   if (last < text.length) out.push(text.slice(last))
   return out
@@ -162,6 +165,8 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
   const [followingCount, setFollowingCount] = useState(0)
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [loved, setLoved] = useState<Set<string>>(new Set())
+  const [heartedActivities, setHeartedActivities] = useState<Set<string>>(new Set())
+  const [activityHeartCounts, setActivityHeartCounts] = useState<Record<string, number>>({})
 
   useEffect(() => {
     const load = async () => {
@@ -233,6 +238,24 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
         setLoved(new Set((myLoves || []).map(l => l.post_id as string)))
       }
 
+      // Heart reactions on activity rows (shared feed_reactions table)
+      if (activities.length > 0) {
+        const activityIds = activities.map(a => a.id)
+        const { data: reactions } = await supabase
+          .from('feed_reactions')
+          .select('activity_id, user_id')
+          .in('activity_id', activityIds)
+          .eq('reaction', 'heart')
+        const counts: Record<string, number> = {}
+        const mine = new Set<string>()
+        ;(reactions || []).forEach((r: any) => {
+          counts[r.activity_id] = (counts[r.activity_id] || 0) + 1
+          if (user && r.user_id === user.id) mine.add(r.activity_id)
+        })
+        setActivityHeartCounts(counts)
+        setHeartedActivities(mine)
+      }
+
       setLoading(false)
     }
     load()
@@ -266,6 +289,21 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
       await supabase.from('feed_post_loves').insert({ post_id: post.id, user_id: user.id })
       setLoved(s => new Set(s).add(post.id))
       setRows(rs => rs.map(r => r.kind === 'post' && r.id === post.id ? { ...r, love_count: r.love_count + 1 } : r))
+    }
+  }
+
+  const toggleActivityHeart = async (activityId: string) => {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { window.location.href = '/auth/login'; return }
+    const wasHearted = heartedActivities.has(activityId)
+    if (wasHearted) {
+      await supabase.from('feed_reactions').delete().eq('activity_id', activityId).eq('user_id', user.id).eq('reaction', 'heart')
+      setHeartedActivities(s => { const n = new Set(s); n.delete(activityId); return n })
+      setActivityHeartCounts(c => ({ ...c, [activityId]: Math.max(0, (c[activityId] || 1) - 1) }))
+    } else {
+      await supabase.from('feed_reactions').insert({ activity_id: activityId, user_id: user.id, reaction: 'heart' })
+      setHeartedActivities(s => new Set(s).add(activityId))
+      setActivityHeartCounts(c => ({ ...c, [activityId]: (c[activityId] || 0) + 1 }))
     }
   }
 
@@ -390,7 +428,15 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
             </Link>
             <div style={{ flex: 1, minWidth: 0 }}>
               {renderActivity(a)}
-              <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '8px' }}>{timeAgo(a.created_at)}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginTop: '8px' }}>
+                <button
+                  onClick={() => toggleActivityHeart(a.id)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', padding: 0, fontSize: '12px', fontWeight: 600, color: heartedActivities.has(a.id) ? '#ef4444' : '#8892a4' }}
+                >
+                  {heartedActivities.has(a.id) ? '❤️' : '🤍'} <span>{activityHeartCounts[a.id] || 0}</span>
+                </button>
+                <span style={{ fontSize: '11px', color: '#6b7280' }}>{timeAgo(a.created_at)}</span>
+              </div>
             </div>
           </div>
         )
