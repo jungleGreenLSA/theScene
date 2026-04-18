@@ -314,14 +314,14 @@ export default function SettingsPage() {
           <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
             <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '4px' }}>Only Show Me What&apos;s Nearby</h2>
             <p className="text-muted-light text-sm" style={{ marginBottom: '8px' }}>
-              Scope listings to your state{userState ? ` (${userState})` : ''}.
+              Scope listings to within <span style={{ color: '#a78bfa', fontWeight: 600 }}>100 miles</span> of your city{userState ? ` (${userState})` : ''}. Crosses state lines — being in Sanger TX still catches Oklahoma if it&apos;s close enough.
               {!userState && ' Set your Location above to enable these.'}
             </p>
             <div style={{ opacity: userState ? 1 : 0.5, pointerEvents: userState ? 'auto' : 'none' }}>
-              {toggleRow('filter_events_nearby', 'Events only near me', 'Hides car shows outside your state on /events')}
-              {toggleRow('filter_clubs_nearby', 'Clubs only near me', 'Hides clubs with no chapter in your state on /clubs')}
-              {toggleRow('filter_people_nearby', 'People only near me', 'Filters the Explore page to members in your state')}
-              {toggleRow('filter_marketplace_nearby', 'Marketplace only near me', 'Hides listings from sellers outside your state')}
+              {toggleRow('filter_events_nearby', 'Events only near me', 'Only shows events within 100 mi of your city on /events')}
+              {toggleRow('filter_clubs_nearby', 'Clubs only near me', 'Only shows clubs with a chapter within 100 mi of you')}
+              {toggleRow('filter_people_nearby', 'People only near me', 'Filters Explore to members within 100 mi of you')}
+              {toggleRow('filter_marketplace_nearby', 'Marketplace only near me', 'Only shows listings/shops within 100 mi of your city')}
             </div>
           </div>
         )

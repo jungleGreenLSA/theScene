@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { getNearbyPrefs } from '@/lib/nearbyFilter'
+import { getNearbyPrefs, filterByRadius, distanceMiles as libDistance } from '@/lib/nearbyFilter'
 import { geocodeCityState } from '@/lib/mapbox'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
 
@@ -110,12 +110,12 @@ export default function ExplorePage() {
     // "Only show people near me" toggle from settings (no-op if city search is active)
     if (!searchCoords) {
       const prefs = await getNearbyPrefs(supabase)
-      if (prefs.filterPeople && prefs.state) {
-        results = results.filter(v => {
+      if (prefs.filterPeople && prefs.userCoords) {
+        results = await filterByRadius(results, prefs, v => {
           const parts = (v.owner?.location || '').split(',').map(s => s.trim())
-          return (parts[1] || '').toUpperCase().slice(0, 2) === prefs.state
+          return { city: parts[0] || null, state: parts[1] || null }
         })
-        setNearbyState(prefs.state)
+        setNearbyState(`${prefs.radius} mi of ${prefs.state}`)
       } else {
         setNearbyState(null)
       }

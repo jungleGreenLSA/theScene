@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { getNearbyPrefs } from '@/lib/nearbyFilter'
+import { getNearbyPrefs, filterByRadius } from '@/lib/nearbyFilter'
 
 interface Listing {
   id: string
@@ -51,26 +51,31 @@ export default function MarketplacePage() {
       const prefs = await getNearbyPrefs(supabase)
 
       // Listings
-      let lq = supabase
+      const lq = supabase
         .from('listings')
         .select('*, seller:profiles!listings_seller_id_fkey(username, display_name, avatar_url, location), images:listing_images(image_url), comments:listing_comments(id)')
         .eq('status', 'active')
         .order('created_at', { ascending: false })
-        .limit(30)
-      if (prefs.filterMarketplace && prefs.state) {
-        lq = lq.eq('state', prefs.state)
-        setNearbyState(prefs.state)
-      }
+        .limit(60)
 
       // Shops
       const sq = supabase
         .from('shops')
-        .select('id, slug, name, description, city, state, specialties, logo_url, cover_image_url, vehicle_shops(id)')
+        .select('id, slug, name, description, city, state, specialties, logo_url, cover_image_url, lat, lng, vehicle_shops(id)')
         .order('name')
 
       const [lRes, sRes] = await Promise.all([lq, sq])
-      setListings((lRes.data || []) as unknown as Listing[])
-      setShops(((sRes.data || []) as any[]).map(s => ({ ...s, tag_count: s.vehicle_shops?.length || 0 })))
+      let listingsData = (lRes.data || []) as unknown as Listing[]
+      let shopsData = ((sRes.data || []) as any[]).map(s => ({ ...s, tag_count: s.vehicle_shops?.length || 0 }))
+
+      if (prefs.filterMarketplace && prefs.userCoords) {
+        listingsData = await filterByRadius(listingsData, prefs, l => ({ city: l.city ?? null, state: l.state ?? null }))
+        shopsData = await filterByRadius(shopsData, prefs, s => ({ lat: s.lat ?? null, lng: s.lng ?? null, city: s.city, state: s.state }))
+        setNearbyState(`${prefs.radius} mi of ${prefs.state}`)
+      }
+
+      setListings(listingsData)
+      setShops(shopsData)
       setLoading(false)
     }
     fetch()

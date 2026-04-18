@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import SceneHeatmap from '@/components/SceneHeatmap'
-import { getNearbyPrefs } from '@/lib/nearbyFilter'
+import { getNearbyPrefs, filterByRadius } from '@/lib/nearbyFilter'
 
 interface Club {
   id: string
@@ -32,14 +32,22 @@ export default function ClubsPage() {
     const prefs = await getNearbyPrefs(supabase)
     const { data } = await supabase
       .from('clubs')
-      .select(`*, locations:club_locations(city, state, label), members:club_members(id)`)
+      .select(`*, locations:club_locations(city, state, label, lat, lng), members:club_members(id)`)
       .eq('is_public', true)
       .order('name')
 
     let mapped = (data || []).map((c: any) => ({ ...c, member_count: c.members?.length || 0 }))
-    if (prefs.filterClubs && prefs.state) {
-      mapped = mapped.filter((c: any) => c.locations?.some((l: any) => (l.state || '').toUpperCase() === prefs.state))
-      setNearbyState(prefs.state)
+    if (prefs.filterClubs && prefs.userCoords) {
+      // Keep a club if ANY of its chapter locations falls inside the radius.
+      const filtered: typeof mapped = []
+      for (const c of mapped) {
+        const chapters = (c.locations || []) as any[]
+        if (chapters.length === 0) continue
+        const near = await filterByRadius(chapters, prefs, l => ({ lat: l.lat ?? null, lng: l.lng ?? null, city: l.city, state: l.state }))
+        if (near.length > 0) filtered.push(c)
+      }
+      mapped = filtered
+      setNearbyState(`${prefs.radius} mi of ${prefs.state}`)
     }
     setClubs(mapped)
     setLoading(false)

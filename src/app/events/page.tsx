@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import SceneHeatmap from '@/components/SceneHeatmap'
-import { getNearbyPrefs } from '@/lib/nearbyFilter'
+import { getNearbyPrefs, filterByRadius } from '@/lib/nearbyFilter'
 
 interface Event {
   id: string
@@ -38,18 +38,19 @@ export default function EventsPage() {
   useEffect(() => {
     const fetchEvents = async () => {
       const prefs = await getNearbyPrefs(supabase)
-      let q = supabase
+      const q = supabase
         .from('events')
         .select(`*, organizer:profiles(username, display_name, avatar_url)`)
         .in('status', ['published', 'active'])
         .order('event_date', { ascending: true })
-        .limit(30)
-      if (prefs.filterEvents && prefs.state) {
-        q = q.eq('state', prefs.state)
-        setNearbyState(prefs.state)
-      }
+        .limit(60)
       const { data } = await q
-      setEvents((data || []) as Event[])
+      let results = (data || []) as (Event & { city?: string; state?: string; lat?: number | null; lng?: number | null })[]
+      if (prefs.filterEvents && prefs.userCoords) {
+        results = await filterByRadius(results, prefs, e => ({ lat: e.lat ?? null, lng: e.lng ?? null, city: e.city ?? null, state: e.state ?? null }))
+        setNearbyState(`${prefs.radius} mi of ${prefs.state}`)
+      }
+      setEvents(results as Event[])
       setLoading(false)
     }
     fetchEvents()
