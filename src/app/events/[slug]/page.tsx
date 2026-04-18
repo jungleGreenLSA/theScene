@@ -84,7 +84,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           {event.cover_image_url ? (
             <img src={event.cover_image_url} alt={event.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(249,115,22,0.1))' }} />
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(232,120,23,0.15), rgba(249,115,22,0.1))' }} />
           )}
 
           {/* Status badge */}
@@ -94,7 +94,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             ) : isActive || isToday ? (
               <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(249,115,22,0.9)', color: '#0c0c14' }}>Live Now</span>
             ) : (
-              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(124,58,237,0.8)', color: 'white' }}>Upcoming</span>
+              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(232,120,23,0.8)', color: 'white' }}>Upcoming</span>
             )}
           </div>
 
@@ -144,7 +144,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '8px' }}>
               {event.location_address}
               {event.map_url && (
-                <a href={event.map_url} target="_blank" rel="noopener" style={{ marginLeft: '8px', color: '#a78bfa' }}>View Map &rarr;</a>
+                <a href={event.map_url} target="_blank" rel="noopener" style={{ marginLeft: '8px', color: '#f97316' }}>View Map &rarr;</a>
               )}
             </p>
           )}
@@ -182,7 +182,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
       {event.categories && event.categories.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
           {event.categories.map((cat: string) => (
-            <span key={cat} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, padding: '5px 14px', borderRadius: '20px', background: 'rgba(124,58,237,0.1)', color: '#a78bfa', border: '1px solid rgba(124,58,237,0.2)' }}>
+            <span key={cat} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, padding: '5px 14px', borderRadius: '20px', background: 'rgba(232,120,23,0.1)', color: '#f97316', border: '1px solid rgba(232,120,23,0.2)' }}>
               {cat}
             </span>
           ))}

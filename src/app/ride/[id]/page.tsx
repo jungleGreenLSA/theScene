@@ -64,7 +64,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
           <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9', marginBottom: '4px' }}>
             {vehicle.year} {vehicle.make} {vehicle.model}
           </h1>
-          <p style={{ fontSize: '18px', color: '#a78bfa' }}>{vehicle.color}</p>
+          <p style={{ fontSize: '18px', color: '#f97316' }}>{vehicle.color}</p>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', fontSize: '14px', color: '#8892a4' }}>
             <span>{vehicle.props_count || 0} props</span>
@@ -101,7 +101,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 140px), 1fr))', gap: '10px' }}>
             {specItems.map(s => (
               <div key={s.label} style={{ padding: '12px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px' }}>
-                <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#a78bfa', fontWeight: 600 }}>{s.label}</p>
+                <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#f97316', fontWeight: 600 }}>{s.label}</p>
                 <p style={{ fontSize: '14px', fontWeight: 500, color: '#e2e4e9', marginTop: '2px' }}>{s.value}</p>
               </div>
             ))}
@@ -130,7 +130,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {mods.map((mod, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: '#9ca3af' }}>
-                <span style={{ color: '#a78bfa', marginTop: '2px' }}>•</span>
+                <span style={{ color: '#f97316', marginTop: '2px' }}>•</span>
                 <span>{mod.brand && <strong style={{ color: '#e2e4e9' }}>{mod.brand}</strong>} {mod.item}</span>
               </div>
             ))}
@@ -139,7 +139,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
       )}
 
       {/* CTA */}
-      <div className="glass" style={{ padding: '32px', textAlign: 'center', border: '1px solid rgba(124,58,237,0.2)' }}>
+      <div className="glass" style={{ padding: '32px', textAlign: 'center', border: '1px solid rgba(232,120,23,0.2)' }}>
         <Image src="/images/logo.png" alt="The Scene" width={48} height={48} style={{ margin: '0 auto 16px', borderRadius: '50%' }} />
         <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
           Want to show off <span style={{ color: '#fb923c' }}>your</span> build?
@@ -154,7 +154,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
 
       {/* Footer */}
       <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-        <p style={{ fontSize: '11px', color: '#6b7280' }}>Powered by <span style={{ color: '#a78bfa' }}>The Scene</span> · thescene.fyi</p>
+        <p style={{ fontSize: '11px', color: '#6b7280' }}>Powered by <span style={{ color: '#f97316' }}>The Scene</span> · thescene.fyi</p>
       </div>
     </div>
   )

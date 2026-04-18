@@ -39,7 +39,7 @@ export default function EventOrganizerActions({ eventId, organizerId, eventSlug 
   return (
     <div style={{ display: 'flex', gap: '8px', marginTop: '14px', flexWrap: 'wrap' }}>
       {eventSlug && (
-        <Link href={`/events/${eventSlug}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize: '12px', fontWeight: 600 }}>
+        <Link href={`/events/${eventSlug}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(232,120,23,0.15)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316', fontSize: '12px', fontWeight: 600 }}>
           Edit Event
         </Link>
       )}

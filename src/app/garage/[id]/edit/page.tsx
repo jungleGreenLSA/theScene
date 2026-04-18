@@ -199,9 +199,9 @@ export default function EditVehiclePage() {
             {BUILD_STATUSES.map((status) => (
               <label key={status.value} style={{
                 display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', borderRadius: '20px', cursor: 'pointer',
-                background: form.build_status === status.value ? 'rgba(124,58,237,0.15)' : 'rgba(18,18,30,0.5)',
-                border: form.build_status === status.value ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
-                fontSize: '12px', fontWeight: 600, color: form.build_status === status.value ? '#a78bfa' : '#8892a4',
+                background: form.build_status === status.value ? 'rgba(232,120,23,0.15)' : 'rgba(18,18,30,0.5)',
+                border: form.build_status === status.value ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
+                fontSize: '12px', fontWeight: 600, color: form.build_status === status.value ? '#f97316' : '#8892a4',
               }}>
                 <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
                 {status.label}
@@ -235,23 +235,23 @@ export default function EditVehiclePage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', borderRadius: '12px', cursor: 'pointer',
-              background: form.is_public ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
-              border: form.is_public ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
+              background: form.is_public ? 'rgba(232,120,23,0.1)' : 'rgba(18,18,30,0.5)',
+              border: form.is_public ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
             }}>
               <input type="radio" name="is_public" value="true" checked={form.is_public === true} onChange={() => setForm({ ...form, is_public: true })} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.is_public ? '#a78bfa' : '#8892a4', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.is_public ? '#f97316' : '#8892a4', display: 'block' }}>Public</span>
                 <span style={{ fontSize: '10px', color: '#6b7280' }}>Visible to everyone</span>
               </div>
             </label>
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', borderRadius: '12px', cursor: 'pointer',
-              background: !form.is_public ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
-              border: !form.is_public ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
+              background: !form.is_public ? 'rgba(232,120,23,0.1)' : 'rgba(18,18,30,0.5)',
+              border: !form.is_public ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
             }}>
               <input type="radio" name="is_public" value="false" checked={form.is_public === false} onChange={() => setForm({ ...form, is_public: false })} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: !form.is_public ? '#a78bfa' : '#8892a4', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: !form.is_public ? '#f97316' : '#8892a4', display: 'block' }}>Private</span>
                 <span style={{ fontSize: '10px', color: '#6b7280' }}>Link only</span>
               </div>
             </label>
@@ -273,7 +273,7 @@ export default function EditVehiclePage() {
           </button>
           <Link href={`/garage/${vehicleId}/photos`} style={{
             padding: '16px 24px', borderRadius: '12px',
-            background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa',
+            background: 'rgba(232,120,23,0.15)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316',
             fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             Photos

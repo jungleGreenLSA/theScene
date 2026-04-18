@@ -63,9 +63,9 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
           )}
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.06)', flexWrap: 'wrap' }}>
-            {shop.website && <a href={shop.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>Website</a>}
-            {shop.instagram_handle && <a href={`https://instagram.com/${shop.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>@{shop.instagram_handle}</a>}
-            {shop.phone && <a href={`tel:${shop.phone}`} style={{ fontSize: '13px', color: '#a78bfa' }}>{shop.phone}</a>}
+            {shop.website && <a href={shop.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#f97316' }}>Website</a>}
+            {shop.instagram_handle && <a href={`https://instagram.com/${shop.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#f97316' }}>@{shop.instagram_handle}</a>}
+            {shop.phone && <a href={`tel:${shop.phone}`} style={{ fontSize: '13px', color: '#f97316' }}>{shop.phone}</a>}
           </div>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
                   </div>
                   <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{v.year} {v.make} {v.model}</p>
                   {v.color && <p style={{ fontSize: '11px', color: '#6b7280' }}>{v.color}</p>}
-                  <p style={{ fontSize: '11px', color: '#a78bfa', marginTop: '4px' }}>by {v.owner.display_name || v.owner.username}</p>
+                  <p style={{ fontSize: '11px', color: '#f97316', marginTop: '4px' }}>by {v.owner.display_name || v.owner.username}</p>
                   {t.note && <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '6px', fontStyle: 'italic' }}>&ldquo;{t.note}&rdquo;</p>}
                 </Link>
               )

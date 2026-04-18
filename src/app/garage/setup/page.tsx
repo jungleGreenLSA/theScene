@@ -233,10 +233,10 @@ export default function GarageSetupPage() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: '8px',
                   padding: '10px 14px', borderRadius: '20px', cursor: 'pointer', transition: 'all 0.2s',
-                  background: form.build_status === status.value ? 'rgba(124,58,237,0.15)' : 'rgba(18,18,30,0.5)',
-                  border: form.build_status === status.value ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.build_status === status.value ? 'rgba(232,120,23,0.15)' : 'rgba(18,18,30,0.5)',
+                  border: form.build_status === status.value ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
                   fontSize: '12px', fontWeight: 600,
-                  color: form.build_status === status.value ? '#a78bfa' : '#8892a4',
+                  color: form.build_status === status.value ? '#f97316' : '#8892a4',
                 }}
               >
                 <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
@@ -319,24 +319,24 @@ export default function GarageSetupPage() {
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px',
               borderRadius: '12px', cursor: 'pointer',
-              background: form.visibility === 'public' ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
-              border: form.visibility === 'public' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
+              background: form.visibility === 'public' ? 'rgba(232,120,23,0.1)' : 'rgba(18,18,30,0.5)',
+              border: form.visibility === 'public' ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
             }}>
               <input type="radio" name="visibility" value="public" checked={form.visibility === 'public'} onChange={handleChange} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? '#a78bfa' : '#8892a4', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? '#f97316' : '#8892a4', display: 'block' }}>Public</span>
                 <span style={{ fontSize: '10px', color: '#6b7280' }}>Visible to everyone</span>
               </div>
             </label>
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px',
               borderRadius: '12px', cursor: 'pointer',
-              background: form.visibility === 'private' ? 'rgba(124,58,237,0.1)' : 'rgba(18,18,30,0.5)',
-              border: form.visibility === 'private' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
+              background: form.visibility === 'private' ? 'rgba(232,120,23,0.1)' : 'rgba(18,18,30,0.5)',
+              border: form.visibility === 'private' ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
             }}>
               <input type="radio" name="visibility" value="private" checked={form.visibility === 'private'} onChange={handleChange} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? '#a78bfa' : '#8892a4', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? '#f97316' : '#8892a4', display: 'block' }}>Private</span>
                 <span style={{ fontSize: '10px', color: '#6b7280' }}>Link only</span>
               </div>
             </label>

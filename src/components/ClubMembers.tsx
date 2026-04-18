@@ -183,7 +183,7 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
                       <Link href={`/user/${m.user?.username}`} style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>
                         {m.user?.display_name || m.user?.username}
                       </Link>
-                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', color: '#a78bfa', border: '1px solid rgba(124,58,237,0.2)' }}>
+                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.1)', color: '#f97316', border: '1px solid rgba(232,120,23,0.2)' }}>
                         {ROLE_BADGES[m.role] || m.role}
                       </span>
                     </div>

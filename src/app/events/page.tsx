@@ -140,7 +140,7 @@ export default function EventsPage() {
                   {event.cover_image_url ? (
                     <img src={event.cover_image_url} alt={event.title} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))' }} />
+                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(232,120,23,0.1), rgba(249,115,22,0.1))' }} />
                   )}
                   {/* Date badge */}
                   <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(12,12,20,0.9)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
@@ -169,7 +169,7 @@ export default function EventsPage() {
                   {event.categories && event.categories.length > 0 && (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '10px' }}>
                       {event.categories.slice(0, 3).map((cat: string) => (
-                        <span key={cat} className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)' }}>
+                        <span key={cat} className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.1)', border: '1px solid rgba(232,120,23,0.2)' }}>
                           {cat}
                         </span>
                       ))}

@@ -58,7 +58,7 @@ export default function ChallengesPage() {
             const entryCount = c.entries?.length || 0
             return (
               <div key={c.id} className="glass overflow-hidden">
-                <div style={{ height: '180px', background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(249,115,22,0.1))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                <div style={{ height: '180px', background: 'linear-gradient(135deg, rgba(232,120,23,0.15), rgba(249,115,22,0.1))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                   {c.cover_image_url ? (
                     <img src={c.cover_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
@@ -74,7 +74,7 @@ export default function ChallengesPage() {
                       <h2 className="font-bold text-foreground" style={{ fontSize: '1.3rem', marginBottom: '6px' }}>{c.title}</h2>
                       <p className="text-muted-light" style={{ fontSize: '14px', lineHeight: 1.6, maxWidth: '600px' }}>{c.description}</p>
                       {c.category && (
-                        <span style={{ display: 'inline-block', marginTop: '8px', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', color: '#a78bfa' }}>{c.category}</span>
+                        <span style={{ display: 'inline-block', marginTop: '8px', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '4px', background: 'rgba(232,120,23,0.1)', border: '1px solid rgba(232,120,23,0.2)', color: '#f97316' }}>{c.category}</span>
                       )}
                     </div>
                     <div style={{ textAlign: 'right' }}>

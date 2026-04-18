@@ -17,8 +17,8 @@ export default function SupportWidget() {
           width: '48px',
           height: '48px',
           borderRadius: '50%',
-          background: '#7c3aed',
-          border: '1px solid #a78bfa',
+          background: '#e87817',
+          border: '1px solid #f97316',
           color: 'white',
           fontSize: '20px',
           cursor: 'pointer',
@@ -26,7 +26,7 @@ export default function SupportWidget() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 0 20px rgba(124,58,237,0.3)',
+          boxShadow: '0 0 20px rgba(232,120,23,0.3)',
           transition: 'all 0.2s',
         }}
         aria-label="Support"

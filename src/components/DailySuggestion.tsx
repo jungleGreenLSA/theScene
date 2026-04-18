@@ -72,8 +72,8 @@ export default function DailySuggestion() {
                 title="Copy hashtag"
                 style={{
                   padding: '4px 10px', borderRadius: '4px',
-                  background: 'rgba(124,58,237,0.12)', border: '1px solid rgba(124,58,237,0.3)',
-                  color: '#a78bfa', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
+                  background: 'rgba(232,120,23,0.12)', border: '1px solid rgba(232,120,23,0.3)',
+                  color: '#f97316', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
                 }}
               >
                 #{suggestion.hashtag}

@@ -175,9 +175,9 @@ export default function EditEventPage() {
               {CATEGORIES.map(cat => (
                 <button key={cat} type="button" onClick={() => toggleCategory(cat)} style={{
                   padding: '5px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: form.categories.includes(cat) ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-                  color: form.categories.includes(cat) ? '#a78bfa' : '#6b7280',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.categories.includes(cat) ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)',
+                  color: form.categories.includes(cat) ? '#f97316' : '#6b7280',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(232,120,23,0.3)' : '1px solid rgba(255,255,255,0.06)',
                 }}>{cat}</button>
               ))}
             </div>
@@ -191,7 +191,7 @@ export default function EditEventPage() {
 
           <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
             <input value={cochairUsername} onChange={(e) => setCochairUsername(e.target.value)} className="input" placeholder="Enter username" maxLength={64} style={{ flex: 1 }} />
-            <button type="button" onClick={handleAddCochair} style={{ padding: '10px 16px', borderRadius: '8px', background: '#7c3aed', border: '1px solid #a78bfa', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Add</button>
+            <button type="button" onClick={handleAddCochair} style={{ padding: '10px 16px', borderRadius: '8px', background: '#e87817', border: '1px solid #f97316', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Add</button>
           </div>
 
           {cochairs.length > 0 && (

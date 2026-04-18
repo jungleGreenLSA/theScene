@@ -14,7 +14,7 @@ interface Announcement {
 }
 
 const CATEGORY_STYLES: Record<string, { color: string; bg: string; border: string; label: string }> = {
-  update: { color: '#a78bfa', bg: 'rgba(124,58,237,0.08)', border: 'rgba(124,58,237,0.2)', label: 'Update' },
+  update: { color: '#f97316', bg: 'rgba(232,120,23,0.08)', border: 'rgba(232,120,23,0.2)', label: 'Update' },
   feature: { color: '#fb923c', bg: 'rgba(249,115,22,0.08)', border: 'rgba(249,115,22,0.2)', label: 'New Feature' },
   maintenance: { color: '#3b82f6', bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.2)', label: 'Maintenance' },
   outage: { color: '#ef4444', bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.2)', label: 'Outage' },
@@ -60,7 +60,7 @@ export default function Announcements() {
   }
 
   return (
-    <div className="glass" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(124,58,237,0.15)' }}>
+    <div className="glass" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(232,120,23,0.15)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
         <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9', letterSpacing: '0.5px' }}>News & Updates</h3>
       </div>

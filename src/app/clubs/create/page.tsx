@@ -177,11 +177,11 @@ export default function CreateClubPage() {
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '8px' }}>Banner & Logo <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(optional — you can add them later)</span></label>
           <div style={{ position: 'relative', borderRadius: '10px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
             {/* Banner area */}
-            <label style={{ display: 'block', height: '160px', position: 'relative', cursor: 'pointer', background: coverFile ? 'transparent' : 'linear-gradient(135deg, rgba(124,58,237,0.2), rgba(249,115,22,0.12))' }}>
+            <label style={{ display: 'block', height: '160px', position: 'relative', cursor: 'pointer', background: coverFile ? 'transparent' : 'linear-gradient(135deg, rgba(232,120,23,0.2), rgba(249,115,22,0.12))' }}>
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setCoverFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
               {coverFile && <img src={URL.createObjectURL(coverFile)} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}
               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: coverFile ? 'rgba(0,0,0,0.35)' : 'transparent' }}>
-                <span style={{ padding: '10px 22px', borderRadius: '8px', background: 'rgba(124,58,237,0.9)', border: '1px solid rgba(167,139,250,0.5)', color: 'white', fontSize: '13px', fontWeight: 700, boxShadow: '0 4px 16px rgba(0,0,0,0.4)' }}>
+                <span style={{ padding: '10px 22px', borderRadius: '8px', background: 'rgba(232,120,23,0.9)', border: '1px solid rgba(249,115,22,0.5)', color: 'white', fontSize: '13px', fontWeight: 700, boxShadow: '0 4px 16px rgba(0,0,0,0.4)' }}>
                   {coverFile ? 'Change Banner' : 'Upload Banner Image'}
                 </span>
               </div>
@@ -189,7 +189,7 @@ export default function CreateClubPage() {
 
             {/* Logo overlay + name row */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px', background: 'rgba(18,18,30,0.6)' }}>
-              <label style={{ position: 'relative', width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '2px solid rgba(124,58,237,0.4)', cursor: 'pointer', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '-40px' }}>
+              <label style={{ position: 'relative', width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '2px solid rgba(232,120,23,0.4)', cursor: 'pointer', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '-40px' }}>
                 <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
                 {logoFile ? (
                   <img src={URL.createObjectURL(logoFile)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -238,7 +238,7 @@ export default function CreateClubPage() {
               <input value={loc.label} onChange={(e) => updateLocation(i, 'label', e.target.value)} className="input" placeholder="Chapter name (optional — e.g. &quot;DFW Chapter&quot;)" />
             </div>
           ))}
-          <button type="button" onClick={addLocation} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', fontWeight: 600, cursor: 'pointer', padding: '4px 0' }}>
+          <button type="button" onClick={addLocation} style={{ background: 'none', border: 'none', color: '#f97316', fontSize: '13px', fontWeight: 600, cursor: 'pointer', padding: '4px 0' }}>
             + Add another location
           </button>
         </div>

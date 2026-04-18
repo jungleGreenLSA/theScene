@@ -42,11 +42,11 @@ export default function MobileTabBar() {
             <Link key={t.href} href={t.href} style={{
               flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px',
               textDecoration: 'none',
-              color: active ? '#a78bfa' : '#6b7280',
+              color: active ? '#f97316' : '#6b7280',
               transition: 'color 0.15s',
               position: 'relative',
             }}>
-              {active && <span style={{ position: 'absolute', top: 0, left: '30%', right: '30%', height: '2px', background: '#a78bfa', borderRadius: '0 0 2px 2px' }} />}
+              {active && <span style={{ position: 'absolute', top: 0, left: '30%', right: '30%', height: '2px', background: '#f97316', borderRadius: '0 0 2px 2px' }} />}
               <span style={{ fontSize: '12px', fontWeight: 600 }}>{t.label}</span>
             </Link>
           )

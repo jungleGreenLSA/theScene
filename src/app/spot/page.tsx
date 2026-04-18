@@ -182,7 +182,7 @@ export default function SpotPage() {
                 {s.description && <p className="text-foreground" style={{ fontSize: '14px', marginBottom: '8px' }}>{s.description}</p>}
                 <p className="text-muted-light" style={{ fontSize: '12px' }}>{s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
                 {s.instagram_handle && (
-                  <a href={`https://instagram.com/${s.instagram_handle}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '6px', fontSize: '12px', color: '#a78bfa' }}>
+                  <a href={`https://instagram.com/${s.instagram_handle}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '6px', fontSize: '12px', color: '#f97316' }}>
                     @{s.instagram_handle} on IG
                   </a>
                 )}

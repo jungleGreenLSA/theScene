@@ -143,7 +143,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
               <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9' }}>
                 {vehicle.year} {vehicle.make} {vehicle.model}
               </h1>
-              <p style={{ fontSize: '16px', color: '#a78bfa', marginTop: '4px' }}>{vehicle.color}</p>
+              <p style={{ fontSize: '16px', color: '#f97316', marginTop: '4px' }}>{vehicle.color}</p>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <PropsButton targetType="vehicle" targetId={vehicle.id} initialCount={vehicle.props_count || 0} />
@@ -183,7 +183,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
             { label: 'Mileage', value: vehicle.mileage },
           ].filter(s => s.value).map((spec) => (
             <div key={spec.label} style={{ padding: '12px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px' }}>
-              <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#a78bfa', fontWeight: 600 }}>{spec.label}</p>
+              <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#f97316', fontWeight: 600 }}>{spec.label}</p>
               <p style={{ fontSize: '14px', fontWeight: 500, color: '#e2e4e9', marginTop: '2px' }}>{spec.value}</p>
             </div>
           ))}
@@ -225,7 +225,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {items?.map((mod) => (
                     <div key={mod.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: '#9ca3af' }}>
-                      <span style={{ color: '#a78bfa', marginTop: '2px' }}>•</span>
+                      <span style={{ color: '#f97316', marginTop: '2px' }}>•</span>
                       <span>
                         {mod.brand && <strong style={{ color: '#e2e4e9' }}>{mod.brand}</strong>} {mod.item}
                         {mod.notes && <span style={{ color: '#6b7280', marginLeft: '4px' }}>— {mod.notes}</span>}
@@ -283,7 +283,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
                   <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>by @{sim.owner?.username}</p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
                     <span style={{ fontSize: '11px', color: '#8892a4' }}>{sim.props_count || 0} Props</span>
-                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', color: '#a78bfa' }}>{sim.build_status?.replace('_', ' ')}</span>
+                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.1)', color: '#f97316' }}>{sim.build_status?.replace('_', ' ')}</span>
                   </div>
                 </div>
               </Link>

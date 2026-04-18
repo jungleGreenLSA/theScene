@@ -97,7 +97,7 @@ export default function NotificationsPage() {
               style={{
                 display: 'flex', gap: '12px', alignItems: 'flex-start',
                 padding: '14px', borderRadius: '8px',
-                background: n.is_read ? 'transparent' : 'rgba(124,58,237,0.05)',
+                background: n.is_read ? 'transparent' : 'rgba(232,120,23,0.05)',
                 borderBottom: '1px solid rgba(255,255,255,0.04)',
               }}
             >

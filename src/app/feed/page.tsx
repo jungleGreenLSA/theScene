@@ -134,7 +134,7 @@ function FeedPageContent() {
           </div>
 
           {/* CTA */}
-          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(124,58,237,0.2)' }}>
+          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(232,120,23,0.2)' }}>
             <p className="text-foreground font-semibold" style={{ fontSize: '14px', marginBottom: '8px' }}>Unlock More with Premium</p>
             <p className="text-muted" style={{ fontSize: '12px', marginBottom: '12px' }}>Unlimited garage, analytics, and more.</p>
             <Link href="/pricing" className="btn-primary" style={{ fontSize: '11px', padding: '8px 16px', width: '100%', justifyContent: 'center', display: 'flex' }}>

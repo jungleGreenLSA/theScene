@@ -171,7 +171,7 @@ export default function MarketplacePage() {
                   {l.images && l.images.length > 0 ? (
                     <img src={l.images[0].image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
-                  <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: 'rgba(12,12,20,0.85)', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: l.listing_type === 'vehicle' ? '#a78bfa' : '#fb923c' }}>
+                  <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: 'rgba(12,12,20,0.85)', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: l.listing_type === 'vehicle' ? '#f97316' : '#fb923c' }}>
                     {l.listing_type}
                   </span>
                   {l.is_obo && (

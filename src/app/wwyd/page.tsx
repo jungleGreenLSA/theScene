@@ -164,7 +164,7 @@ export default function WWYDPage() {
               </div>
             ))}
             {form.options.length < 4 && (
-              <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', cursor: 'pointer' }}>+ Add option ({4 - form.options.length} more)</button>
+              <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: '#f97316', fontSize: '13px', cursor: 'pointer' }}>+ Add option ({4 - form.options.length} more)</button>
             )}
           </div>
           <button type="submit" disabled={submitting} className="btn-neon" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px' }}>
@@ -226,7 +226,7 @@ export default function WWYDPage() {
                           overflow: 'hidden', transition: 'all 0.2s',
                         }}
                       >
-                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${pct}%`, background: 'rgba(124,58,237,0.15)', transition: 'width 0.5s ease', borderRadius: '8px' }} />
+                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${pct}%`, background: 'rgba(232,120,23,0.15)', transition: 'width 0.5s ease', borderRadius: '8px' }} />
                         <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <span className="text-foreground" style={{ fontSize: '14px', fontWeight: 500 }}>{opt.label}</span>
                           <span className="text-muted-light" style={{ fontSize: '12px', fontWeight: 600 }}>{opt.vote_count} vote{opt.vote_count !== 1 ? 's' : ''} {totalVotes > 0 && `(${Math.round(pct)}%)`}</span>

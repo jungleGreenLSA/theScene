@@ -69,7 +69,7 @@ export default function ClubsPage() {
         <div>
           <h1 className="text-3xl font-bold">Car <span className="text-purple-light">Clubs</span></h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>
-            Find your crew. Join your local scene.{nearbyState && <> · filtered to <span style={{ color: '#a78bfa' }}>{nearbyState}</span></>}
+            Find your crew. Join your local scene.{nearbyState && <> · filtered to <span style={{ color: '#f97316' }}>{nearbyState}</span></>}
           </p>
         </div>
         <Link href="/clubs/create" className="btn-primary text-xs">Start a Club</Link>
@@ -120,7 +120,7 @@ export default function ClubsPage() {
                 {club.cover_image_url ? (
                   <img src={club.cover_image_url} alt={club.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))' }} />
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(232,120,23,0.1), rgba(249,115,22,0.1))' }} />
                 )}
                 {club.logo_url && (
                   <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(255,255,255,0.06)' }}>
@@ -135,7 +135,7 @@ export default function ClubsPage() {
                 {club.locations && club.locations.length > 0 && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
                     {club.locations.slice(0, 3).map((loc, i) => (
-                      <span key={i} className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)' }}>
+                      <span key={i} className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.1)', border: '1px solid rgba(232,120,23,0.2)' }}>
                         {loc.city}, {loc.state}
                       </span>
                     ))}

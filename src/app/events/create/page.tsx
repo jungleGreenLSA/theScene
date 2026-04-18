@@ -257,9 +257,9 @@ export default function CreateEventPage() {
                 onClick={() => toggleCategory(cat)}
                 style={{
                   padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', border: 'none', transition: 'all 0.2s',
-                  background: form.categories.includes(cat) ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-                  color: form.categories.includes(cat) ? '#a78bfa' : '#6b7280',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.categories.includes(cat) ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)',
+                  color: form.categories.includes(cat) ? '#f97316' : '#6b7280',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(232,120,23,0.3)' : '1px solid rgba(255,255,255,0.06)',
                 }}
               >
                 {cat}

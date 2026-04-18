@@ -128,7 +128,7 @@ export default function ListingDetailPage() {
       {isClosed && (
         <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', marginBottom: '16px', fontSize: '13px', color: '#ef4444', fontWeight: 600, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span>Listing closed</span>
-          {isSeller && <button onClick={handleRelistListing} style={{ background: '#7c3aed', border: 'none', color: 'white', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Re-list</button>}
+          {isSeller && <button onClick={handleRelistListing} style={{ background: '#e87817', border: 'none', color: 'white', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Re-list</button>}
         </div>
       )}
 
@@ -141,7 +141,7 @@ export default function ListingDetailPage() {
           {images.length > 1 && (
             <div style={{ display: 'flex', gap: '6px', padding: '10px' }}>
               {images.map((img: any, i: number) => (
-                <button key={i} onClick={() => setMainImage(i)} style={{ width: '60px', height: '60px', borderRadius: '6px', overflow: 'hidden', border: mainImage === i ? '2px solid #a78bfa' : '2px solid transparent', cursor: 'pointer', padding: 0, background: 'rgba(26,26,46,0.5)' }}>
+                <button key={i} onClick={() => setMainImage(i)} style={{ width: '60px', height: '60px', borderRadius: '6px', overflow: 'hidden', border: mainImage === i ? '2px solid #f97316' : '2px solid transparent', cursor: 'pointer', padding: 0, background: 'rgba(26,26,46,0.5)' }}>
                   <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </button>
               ))}
@@ -153,7 +153,7 @@ export default function ListingDetailPage() {
       {/* Listing info */}
       <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '4px', background: listing.listing_type === 'vehicle' ? 'rgba(124,58,237,0.1)' : 'rgba(249,115,22,0.1)', color: listing.listing_type === 'vehicle' ? '#a78bfa' : '#fb923c', border: `1px solid ${listing.listing_type === 'vehicle' ? 'rgba(124,58,237,0.2)' : 'rgba(249,115,22,0.2)'}` }}>
+          <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '4px', background: listing.listing_type === 'vehicle' ? 'rgba(232,120,23,0.1)' : 'rgba(249,115,22,0.1)', color: listing.listing_type === 'vehicle' ? '#f97316' : '#fb923c', border: `1px solid ${listing.listing_type === 'vehicle' ? 'rgba(232,120,23,0.2)' : 'rgba(249,115,22,0.2)'}` }}>
             {listing.listing_type}
           </span>
           {listing.is_obo && <span style={{ fontSize: '10px', fontWeight: 700, padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.2)' }}>OBO</span>}
@@ -193,7 +193,7 @@ export default function ListingDetailPage() {
         {isActive && currentUser && (
           <div style={{ marginBottom: '20px', padding: '16px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
             <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: !isOffer ? 'rgba(124,58,237,0.15)' : 'rgba(18,18,30,0.5)', color: !isOffer ? '#a78bfa' : '#6b7280', border: !isOffer ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: !isOffer ? 'rgba(232,120,23,0.15)' : 'rgba(18,18,30,0.5)', color: !isOffer ? '#f97316' : '#6b7280', border: !isOffer ? '1px solid rgba(232,120,23,0.3)' : '1px solid rgba(255,255,255,0.06)' }}>
                 <input type="radio" checked={!isOffer} onChange={() => setIsOffer(false)} style={{ display: 'none' }} />
                 Question
               </label>
@@ -209,7 +209,7 @@ export default function ListingDetailPage() {
             )}
             <div style={{ display: 'flex', gap: '8px' }}>
               <input value={commentText} onChange={(e) => setCommentText(e.target.value)} className="input" placeholder={isOffer ? 'Add a note with your offer (optional)...' : 'Ask the seller a question...'} maxLength={500} style={{ flex: 1 }} onKeyDown={(e) => { if (e.key === 'Enter') handleComment() }} />
-              <button onClick={handleComment} disabled={posting || (!commentText.trim() && !offerAmount)} style={{ padding: '10px 20px', borderRadius: '8px', background: isOffer ? '#22c55e' : '#7c3aed', border: 'none', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', opacity: posting ? 0.5 : 1, whiteSpace: 'nowrap' }}>
+              <button onClick={handleComment} disabled={posting || (!commentText.trim() && !offerAmount)} style={{ padding: '10px 20px', borderRadius: '8px', background: isOffer ? '#22c55e' : '#e87817', border: 'none', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', opacity: posting ? 0.5 : 1, whiteSpace: 'nowrap' }}>
                 {isOffer ? 'Submit Offer' : 'Post'}
               </button>
             </div>

@@ -60,7 +60,7 @@ export default function MyGaragePage() {
             + Add Vehicle
           </Link>
         ) : (
-          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize: '12px', fontWeight: 600 }}>
+          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: 'rgba(232,120,23,0.15)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316', fontSize: '12px', fontWeight: 600 }}>
             Upgrade for more
           </Link>
         )}
@@ -92,9 +92,9 @@ export default function MyGaragePage() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                     <div>
                       <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#e2e4e9' }}>{v.year} {v.make} {v.model}</h3>
-                      <p style={{ fontSize: '14px', color: '#a78bfa', marginTop: '2px' }}>{v.color}</p>
+                      <p style={{ fontSize: '14px', color: '#f97316', marginTop: '2px' }}>{v.color}</p>
                     </div>
-                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '4px 10px', borderRadius: '20px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', color: '#a78bfa' }}>
+                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '4px 10px', borderRadius: '20px', background: 'rgba(232,120,23,0.1)', border: '1px solid rgba(232,120,23,0.2)', color: '#f97316' }}>
                       {v.build_status?.replace('_', ' ')}
                     </span>
                   </div>
@@ -105,7 +105,7 @@ export default function MyGaragePage() {
                   </div>
 
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    <Link href={`/user/${username}/${v.slug}`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize: '12px', fontWeight: 600 }}>
+                    <Link href={`/user/${username}/${v.slug}`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(232,120,23,0.15)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316', fontSize: '12px', fontWeight: 600 }}>
                       View
                     </Link>
                     <Link href={`/garage/${v.id}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '12px', fontWeight: 600 }}>

@@ -113,24 +113,24 @@ export default function LoginPage() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+            <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }} />
             <span className="text-xs text-muted uppercase tracking-wider">or</span>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+            <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }} />
           </div>
 
           {/* Auth method toggle */}
-          <div style={{ display: 'flex', marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ display: 'flex', marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--color-border)' }}>
             <button
               type="button"
               onClick={() => { setAuthMethod('email'); setOtpSent(false); setError('') }}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'email' ? '#a78bfa' : '#6b7280' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'email' ? '#f97316' : '#6b7280' }}
             >
               Email
             </button>
             <button
               type="button"
               onClick={() => { setAuthMethod('phone'); setError('') }}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'phone' ? '#a78bfa' : '#6b7280' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'phone' ? '#f97316' : '#6b7280' }}
             >
               Phone
             </button>
@@ -151,13 +151,13 @@ export default function LoginPage() {
                   if (error) setError(error.message)
                   else setError('')
                   alert(error ? error.message : 'Password reset link sent to ' + email)
-                }} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
+                }} style={{ background: 'none', border: 'none', color: '#f97316', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
                   Forgot password?
                 </button>
               </div>
 
               {error && (
-                <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>{error}</div>
+                <div className="text-sm" style={{ background: '#fce9e9', border: '1px solid #c02b2b', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#7a1818' }}>{error}</div>
               )}
 
               <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
@@ -173,7 +173,7 @@ export default function LoginPage() {
               </div>
 
               {error && (
-                <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>{error}</div>
+                <div className="text-sm" style={{ background: '#fce9e9', border: '1px solid #c02b2b', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#7a1818' }}>{error}</div>
               )}
 
               <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
@@ -189,7 +189,7 @@ export default function LoginPage() {
               </div>
 
               {error && (
-                <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>{error}</div>
+                <div className="text-sm" style={{ background: '#fce9e9', border: '1px solid #c02b2b', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#7a1818' }}>{error}</div>
               )}
 
               <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
