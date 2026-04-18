@@ -201,7 +201,7 @@ export default function RegisterPage() {
             )}
 
             <button type="submit" disabled={loading} className="btn-neon" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
-              {loading ? 'Creating account...' : 'Create My Garage'}
+              {loading ? 'Creating account...' : 'Create Account'}
             </button>
           </form>
 

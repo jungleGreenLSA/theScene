@@ -170,7 +170,7 @@ export default function OnboardingWizard() {
               {hasVehicle ? 'You\'re all set!' : 'Add your first ride'}
             </h2>
             <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '18px' }}>
-              {hasVehicle ? 'Welcome to The Scene. Start exploring.' : 'You can add more vehicles and mods later from My Garage.'}
+              {hasVehicle ? 'Welcome to The Scene. Start exploring.' : 'You can add more vehicles and mods later from your Garage.'}
             </p>
             {!hasVehicle && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

@@ -1,35 +1,55 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 import GlobalSearch from '@/components/GlobalSearch'
 
-const NAV_LINKS = [
-  { href: '/explore', label: 'Explore', membersOnly: true },
-  { href: '/garage', label: 'My Garage', membersOnly: true },
+// Primary nav — what shows directly in the bar. Keep it tight.
+const PRIMARY_LINKS = [
   { href: '/feed', label: 'Feed', membersOnly: false },
+  { href: '/garage', label: 'Garage', membersOnly: true },
+  { href: '/explore', label: 'Explore', membersOnly: true },
   { href: '/events', label: 'Events', membersOnly: true },
   { href: '/clubs', label: 'Clubs', membersOnly: true },
-  { href: '/marketplace', label: 'Market', membersOnly: true },
-  { href: '/shops', label: 'Shops', membersOnly: true },
-  { href: '/spot', label: 'Spot', membersOnly: true },
-  { href: '/wwyd', label: 'WWYD', membersOnly: true },
+]
+
+// Rest live in a "More" dropdown
+const MORE_LINKS = [
+  { href: '/marketplace', label: '🏪 Market' },
+  { href: '/shops', label: '🔧 Shops' },
+  { href: '/spot', label: '📸 Spot' },
+  { href: '/wwyd', label: '🤔 WWYD' },
+  { href: '/runs', label: '🏁 Crew Runs' },
+  { href: '/challenges', label: '🎯 Challenges' },
+  { href: '/leaderboard', label: '🏆 Leaderboard' },
+]
+
+// Profile dropdown
+const PROFILE_LINKS = [
+  { href: '/activity', label: '📋 My Activity' },
+  { href: '/analytics', label: '📊 Analytics' },
+  { href: '/journal', label: '📓 Build Journal' },
+  { href: '/collections', label: '⭐ Collections' },
+  { href: '/settings', label: '⚙️ Settings' },
 ]
 
 export default function Navbar() {
   const [user, setUser] = useState<User | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [moreOpen, setMoreOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const pathname = usePathname()
   const supabase = createClient()
+  const moreRef = useRef<HTMLDivElement>(null)
+  const profileRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const loadUser = async () => {
-      // Use getSession first (reads from local storage, faster)
       const { data: { session } } = await supabase.auth.getSession()
       if (session?.user) {
         setUser(session.user)
@@ -51,12 +71,44 @@ export default function Navbar() {
     return () => { subscription.unsubscribe(); window.removeEventListener('scroll', handleScroll) }
   }, [])
 
+  // Close dropdowns on click-outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false)
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) setProfileOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     window.location.href = '/'
   }
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
+  const moreActive = MORE_LINKS.some(l => isActive(l.href))
+
+  const navLinkStyle = (href: string): React.CSSProperties => ({
+    padding: '6px 12px',
+    borderRadius: '6px',
+    fontSize: '13px',
+    fontWeight: 600,
+    transition: 'all 0.2s',
+    color: isActive(href) ? '#a78bfa' : '#9ca3af',
+    background: isActive(href) ? 'rgba(124,58,237,0.1)' : 'transparent',
+    whiteSpace: 'nowrap',
+  })
+
+  const dropdownLinkStyle = (href: string): React.CSSProperties => ({
+    display: 'block',
+    padding: '10px 14px',
+    fontSize: '13px',
+    fontWeight: 600,
+    color: isActive(href) ? '#a78bfa' : '#d1d5db',
+    background: isActive(href) ? 'rgba(124,58,237,0.1)' : 'transparent',
+    transition: 'background 0.15s',
+  })
 
   return (
     <nav style={{
@@ -66,62 +118,80 @@ export default function Navbar() {
       backdropFilter: scrolled ? 'none' : 'blur(16px)',
       borderBottom: scrolled ? '1px solid var(--color-border)' : 'none',
     }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        {/* Logo text */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', height: '56px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+        {/* Logo */}
         <Link href="/" style={{ flexShrink: 0, fontSize: '16px', fontWeight: 700, letterSpacing: '1.5px', color: '#e2e4e9' }}>
           THE<span style={{ color: '#a78bfa' }}>SCENE</span>
         </Link>
 
-        {/* Global search — desktop only */}
+        {/* Search (desktop only, fills available space) */}
         {user && (
-          <div className="nav-desktop" style={{ margin: 0, flex: 'none', width: '320px' }}>
+          <div className="nav-desktop" style={{ margin: 0, flex: 1, maxWidth: '260px' }}>
             <GlobalSearch />
           </div>
         )}
 
-        {/* Desktop Nav + Right side grouped */}
-        <div className="nav-desktop">
-          {NAV_LINKS.filter(link => !link.membersOnly || user).map(link => (
-            <Link
-              key={link.href}
-              href={link.href}
-              style={{
-                padding: '6px 14px',
-                borderRadius: '6px',
-                fontSize: '13px',
-                fontWeight: 600,
-                transition: 'all 0.2s',
-                color: isActive(link.href) ? '#a78bfa' : '#8892a4',
-                background: isActive(link.href) ? 'rgba(124,58,237,0.1)' : 'transparent',
-              }}
-            >
-              {link.label}
-            </Link>
+        {/* Desktop nav */}
+        <div className="nav-desktop" style={{ marginLeft: 'auto', gap: '2px' }}>
+          {PRIMARY_LINKS.filter(link => !link.membersOnly || user).map(link => (
+            <Link key={link.href} href={link.href} style={navLinkStyle(link.href)}>{link.label}</Link>
           ))}
-          <div style={{ width: '1px', height: '20px', background: 'rgba(255,255,255,0.08)', margin: '0 8px' }} />
-          {user ? (
-            <>
-              <Link href="/analytics" style={{ fontSize: '13px', fontWeight: 600, color: isActive('/analytics') ? '#a78bfa' : '#8892a4', padding: '6px 10px' }}>Analytics</Link>
-              <Link href="/settings" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 12px 4px 4px', borderRadius: '20px', background: isActive('/settings') ? 'rgba(124,58,237,0.1)' : 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', transition: 'all 0.2s' }}>
-                <div style={{ width: '26px', height: '26px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', flexShrink: 0, backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {!avatarUrl && <span style={{ fontSize: '10px', color: '#6b7280' }}>👤</span>}
-                </div>
-                <span style={{ fontSize: '12px', fontWeight: 600, color: '#9ca3af' }}>My Profile</span>
-              </Link>
-              <button onClick={handleSignOut} title="Sign Out" style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#8892a4', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', transition: 'all 0.2s' }}>
-                🚪
+
+          {/* More dropdown — only for logged-in users */}
+          {user && (
+            <div ref={moreRef} style={{ position: 'relative' }}>
+              <button
+                onClick={() => setMoreOpen(!moreOpen)}
+                style={{
+                  ...navLinkStyle('/__more'),
+                  background: moreActive ? 'rgba(124,58,237,0.1)' : (moreOpen ? 'rgba(255,255,255,0.04)' : 'transparent'),
+                  color: moreActive ? '#a78bfa' : '#9ca3af',
+                  border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px',
+                }}
+              >
+                More <span style={{ fontSize: '9px', opacity: 0.7 }}>▾</span>
               </button>
-            </>
+              {moreOpen && (
+                <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '6px', minWidth: '180px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+                  {MORE_LINKS.map(l => (
+                    <Link key={l.href} href={l.href} onClick={() => setMoreOpen(false)} style={dropdownLinkStyle(l.href)}>{l.label}</Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Profile avatar / auth buttons */}
+          {user ? (
+            <div ref={profileRef} style={{ position: 'relative', marginLeft: '4px' }}>
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                title="Profile menu"
+                style={{ width: '34px', height: '34px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '1px solid rgba(124,58,237,0.3)', cursor: 'pointer', padding: 0, backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                {!avatarUrl && <span style={{ fontSize: '14px', color: '#9ca3af' }}>👤</span>}
+              </button>
+              {profileOpen && (
+                <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '6px', minWidth: '200px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+                  {PROFILE_LINKS.map(l => (
+                    <Link key={l.href} href={l.href} onClick={() => setProfileOpen(false)} style={dropdownLinkStyle(l.href)}>{l.label}</Link>
+                  ))}
+                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <button onClick={handleSignOut} style={{ width: '100%', textAlign: 'left', padding: '10px 14px', fontSize: '13px', fontWeight: 600, color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer' }}>🚪 Sign Out</button>
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
-            <>
+            <div style={{ display: 'flex', gap: '8px', marginLeft: '8px' }}>
               <Link href="/auth/login" style={{ padding: '7px 16px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af' }}>Sign In</Link>
               <Link href="/pricing" style={{ padding: '7px 16px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, background: '#7c3aed', border: '1px solid #a78bfa', color: 'white' }}>Join</Link>
-            </>
+            </div>
           )}
         </div>
 
-        {/* Mobile toggle */}
-        <button className="nav-mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+        {/* Mobile hamburger */}
+        <button className="nav-mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" style={{ marginLeft: 'auto' }}>
           <span style={{ transform: menuOpen ? 'rotate(45deg) translateY(6px)' : 'none' }} />
           <span style={{ opacity: menuOpen ? 0 : 1 }} />
           <span style={{ transform: menuOpen ? 'rotate(-45deg) translateY(-6px)' : 'none' }} />
@@ -132,29 +202,29 @@ export default function Navbar() {
       {menuOpen && (
         <div className="nav-mobile-menu" style={{ background: 'rgba(12,12,20,0.97)', borderTop: '1px solid var(--color-border)', padding: '12px 24px 16px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            {[...NAV_LINKS,
-              { href: '/runs', label: 'Crew Runs', membersOnly: true },
-              { href: '/challenges', label: 'Challenges', membersOnly: true },
-              { href: '/leaderboard', label: 'Leaderboard', membersOnly: true },
-            ].filter(link => !link.membersOnly || user).map(link => (
+            {PRIMARY_LINKS.filter(link => !link.membersOnly || user).map(link => (
               <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
                 style={{ padding: '10px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: 500, color: isActive(link.href) ? '#a78bfa' : '#9ca3af', background: isActive(link.href) ? 'rgba(124,58,237,0.1)' : 'transparent' }}>
                 {link.label}
               </Link>
             ))}
+            {user && MORE_LINKS.map(l => (
+              <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
+                style={{ padding: '10px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: 500, color: isActive(l.href) ? '#a78bfa' : '#9ca3af', background: isActive(l.href) ? 'rgba(124,58,237,0.1)' : 'transparent' }}>
+                {l.label}
+              </Link>
+            ))}
+
             <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', marginTop: '6px', paddingTop: '8px' }}>
               {user ? (
                 <>
-                  <Link href="/analytics" onClick={() => setMenuOpen(false)} style={{ padding: '10px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: 500, color: '#a78bfa', display: 'block' }}>Analytics</Link>
-                  <Link href="/journal" onClick={() => setMenuOpen(false)} style={{ padding: '10px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: 500, color: '#a78bfa', display: 'block' }}>Build Journal</Link>
-                  <Link href="/collections" onClick={() => setMenuOpen(false)} style={{ padding: '10px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: 500, color: '#a78bfa', display: 'block' }}>Collections</Link>
-                  <Link href="/settings" onClick={() => setMenuOpen(false)} style={{ padding: '10px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: 500, color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(26,26,46,0.8)', backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      {!avatarUrl && <span style={{ fontSize: '8px', color: '#6b7280' }}>👤</span>}
-                    </div>
-                    My Profile
-                  </Link>
-                  <button onClick={handleSignOut} style={{ marginTop: '8px', width: '100%', padding: '10px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#6b7280', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>Sign Out</button>
+                  {PROFILE_LINKS.map(l => (
+                    <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
+                      style={{ padding: '10px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: 500, color: '#d1d5db', display: 'block' }}>
+                      {l.label}
+                    </Link>
+                  ))}
+                  <button onClick={handleSignOut} style={{ marginTop: '8px', width: '100%', padding: '10px', borderRadius: '6px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>🚪 Sign Out</button>
                 </>
               ) : (
                 <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>

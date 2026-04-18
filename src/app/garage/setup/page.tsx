@@ -339,7 +339,7 @@ export default function GarageSetupPage() {
             opacity: loading ? 0.5 : 1, transition: 'all 0.2s',
           }}
         >
-          {loading ? 'Creating your garage...' : '🏁 Create My Garage'}
+          {loading ? 'Creating your garage...' : '🏁 Create Garage'}
         </button>
       </form>
     </div>

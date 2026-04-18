@@ -113,7 +113,7 @@ export default function EditVehiclePage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/garage" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to My Garage</Link>
+      <Link href="/garage" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
 
       <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
         Edit <span style={{ color: '#fb923c' }}>{form.year} {form.make} {form.model}</span>
