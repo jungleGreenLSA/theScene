@@ -199,19 +199,6 @@ export default function ExplorePage() {
         )}
       </form>
 
-      {/* AI Search Teaser */}
-      <div className="glass" style={{ padding: '14px 20px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '14px', border: '1px solid rgba(249,115,22,0.15)' }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <p className="text-foreground font-semibold" style={{ fontSize: '13px', lineHeight: 1.3 }}>AI Search Coming Soon</p>
-          <p className="text-muted-light" style={{ fontSize: '11px', lineHeight: 1.4 }}>
-            &quot;Find me all red Corvettes within 50 miles of 75201&quot; -- natural language search is on our roadmap.
-          </p>
-        </div>
-        <span className="text-neon-light font-bold" style={{ fontSize: '10px', letterSpacing: '1px', textTransform: 'uppercase', padding: '4px 10px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: '4px', flexShrink: 0 }}>
-          Soon
-        </span>
-      </div>
-
       {/* Results count */}
       {!loading && (
         <p className="text-muted" style={{ fontSize: '13px', marginBottom: '16px' }}>{vehicles.length} build{vehicles.length !== 1 ? 's' : ''} found</p>
