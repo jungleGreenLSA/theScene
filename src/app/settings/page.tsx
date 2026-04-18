@@ -37,6 +37,7 @@ interface Profile {
   tiktok_url: string | null
   twitch_url: string | null
   website_url: string | null
+  forum_signature: string | null
 }
 
 // Keep this list in sync with migration 024's sanitize_social_url().
@@ -295,6 +296,23 @@ export default function SettingsPage() {
               const value = [a.city, a.state].filter(Boolean).join(', ')
               if (value) updateProfile('location', value)
             }}
+          />
+        </div>
+
+        {/* Forum signature — rendered at the bottom of each forum post. */}
+        <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e4e4e4' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 700, marginBottom: '10px', color: '#1a1a1a' }}>Forum Signature</h3>
+          <p style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '10px' }}>
+            Appears under every forum post. Up to 200 characters. Good for your ride, Instagram handle, or a tagline.
+          </p>
+          <textarea
+            defaultValue={profile?.forum_signature || ''}
+            onBlur={(e) => updateProfile('forum_signature', e.target.value.trim() || null)}
+            className="input"
+            rows={3}
+            maxLength={200}
+            placeholder={`2010 Chevy SS — cold air + cam\nIG: @yourhandle`}
+            style={{ fontFamily: 'inherit', fontSize: '13px', lineHeight: 1.5 }}
           />
         </div>
 
