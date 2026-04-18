@@ -66,6 +66,14 @@ export default function RegisterPage() {
     }
   }
 
+  function RedirectToHome() {
+    useEffect(() => {
+      const t = setTimeout(() => { window.location.href = 'https://thescene.fyi' }, 2500)
+      return () => clearTimeout(t)
+    }, [])
+    return null
+  }
+
   const handleOAuth = async (provider: 'google' | 'discord') => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
@@ -77,23 +85,22 @@ export default function RegisterPage() {
     if (error) setError(error.message)
   }
 
+  // A tiny toast appears and the page redirects to the homepage — no
+  // full-screen "Check Your Email" interstitial.
   if (success) {
     return (
-      <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
-        <div className="glass text-center" style={{ padding: '48px 40px', maxWidth: '440px', width: '100%' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>{authMethod === 'phone' ? '📱' : '📧'}</span>
-          <h2 className="text-2xl font-bold" style={{ marginBottom: '12px' }}>
-            {authMethod === 'phone' ? 'Check Your Phone' : 'Check Your Email'}
-          </h2>
-          <p className="text-muted-light" style={{ marginBottom: '24px', fontSize: '0.9rem', lineHeight: '1.6' }}>
-            {authMethod === 'phone'
-              ? `We sent a verification code to ${phone}. Enter it to complete signup.`
-              : `We sent a verification link to ${email}. Click the link to activate your account.`
-            }
-          </p>
-          <Link href="/auth/login" className="btn-outline">Back to Sign In</Link>
+      <>
+        <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
+          <div className="glass" style={{ padding: '20px 24px', maxWidth: '380px', width: '100%', display: 'flex', alignItems: 'center', gap: '14px', borderColor: 'rgba(34,197,94,0.25)' }}>
+            <span style={{ fontSize: '28px', flexShrink: 0 }}>📧</span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>Check your email!</p>
+              <p style={{ fontSize: '12px', color: '#8892a4', marginTop: '2px' }}>Verification link sent to {email}. Redirecting home...</p>
+            </div>
+          </div>
         </div>
-      </div>
+        <RedirectToHome />
+      </>
     )
   }
 
