@@ -139,10 +139,10 @@ const MentionTextarea = forwardRef<HTMLTextAreaElement, Props>(function MentionT
           boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden',
         }}>
           {searching && matches.length === 0 && (
-            <div style={{ padding: '10px 12px', fontSize: '12px', color: '#8892a4' }}>Searching…</div>
+            <div style={{ padding: '10px 12px', fontSize: '12px', color: '#666666' }}>Searching…</div>
           )}
           {!searching && matches.length === 0 && mentionRange.q.length > 0 && (
-            <div style={{ padding: '10px 12px', fontSize: '12px', color: '#8892a4' }}>No users matching &ldquo;@{mentionRange.q}&rdquo;</div>
+            <div style={{ padding: '10px 12px', fontSize: '12px', color: '#666666' }}>No users matching &ldquo;@{mentionRange.q}&rdquo;</div>
           )}
           {matches.map((m, i) => (
             <button
@@ -156,12 +156,12 @@ const MentionTextarea = forwardRef<HTMLTextAreaElement, Props>(function MentionT
                 background: i === activeIdx ? 'rgba(232,120,23,0.15)' : 'transparent',
               }}
             >
-              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', backgroundImage: m.avatar_url ? `url(${m.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {!m.avatar_url && <span style={{ fontSize: '11px', color: '#6b7280' }}>{m.username.charAt(0).toUpperCase()}</span>}
+              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', backgroundImage: m.avatar_url ? `url(${m.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {!m.avatar_url && <span style={{ fontSize: '11px', color: '#555555' }}>{m.username.charAt(0).toUpperCase()}</span>}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>@{m.username}</p>
-                {m.display_name && <p style={{ fontSize: '11px', color: '#8892a4' }}>{m.display_name}</p>}
+                <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>@{m.username}</p>
+                {m.display_name && <p style={{ fontSize: '11px', color: '#666666' }}>{m.display_name}</p>}
               </div>
             </button>
           ))}

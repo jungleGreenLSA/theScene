@@ -29,7 +29,7 @@ export default function LeaderboardPage() {
     fetch()
   }, [year])
 
-  const rankColors = ['#fbbf24', '#d1d5db', '#d97706']
+  const rankColors = ['#fbbf24', '#333333', '#d97706']
 
   return (
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
@@ -42,9 +42,9 @@ export default function LeaderboardPage() {
         {[2024, 2025, 2026].map(y => (
           <button key={y} onClick={() => setYear(y)} style={{
             padding: '8px 20px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
-            background: year === y ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)',
-            color: year === y ? '#f97316' : '#6b7280',
-            outline: year === y ? '1px solid rgba(232,120,23,0.3)' : '1px solid rgba(255,255,255,0.06)',
+            background: year === y ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+            color: year === y ? '#f97316' : '#555555',
+            outline: year === y ? '1px solid rgba(232,120,23,0.3)' : '1px solid #e4e4e4',
           }}>{y}</button>
         ))}
       </div>
@@ -63,7 +63,7 @@ export default function LeaderboardPage() {
           {leaders.map((l, i) => (
             <Link key={l.user_id} href={`/user/${l.username}`} style={{
               display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 20px',
-              borderBottom: i < leaders.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+              borderBottom: i < leaders.length - 1 ? '1px solid #f5f5f5' : 'none',
               transition: 'background 0.2s',
             }}
               onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
@@ -71,15 +71,15 @@ export default function LeaderboardPage() {
             >
               {/* Rank */}
               <div style={{ width: '32px', textAlign: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: i < 3 ? '18px' : '16px', fontWeight: 700, color: i < 3 ? rankColors[i] : '#6b7280' }}>{i + 1}</span>
+                <span style={{ fontSize: i < 3 ? '18px' : '16px', fontWeight: 700, color: i < 3 ? rankColors[i] : '#555555' }}>{i + 1}</span>
               </div>
 
               {/* Avatar */}
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0, border: i < 3 ? '2px solid rgba(232,120,23,0.4)' : 'none' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0, border: i < 3 ? '2px solid rgba(232,120,23,0.4)' : 'none' }}>
                 {l.avatar_url ? (
                   <img src={l.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: '#6b7280' }}>{l.username?.charAt(0).toUpperCase()}</div>
+                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: '#555555' }}>{l.username?.charAt(0).toUpperCase()}</div>
                 )}
               </div>
 

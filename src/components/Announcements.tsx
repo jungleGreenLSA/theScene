@@ -62,7 +62,7 @@ export default function Announcements() {
   return (
     <div className="glass" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(232,120,23,0.15)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9', letterSpacing: '0.5px' }}>News & Updates</h3>
+        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a', letterSpacing: '0.5px' }}>News & Updates</h3>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -91,14 +91,14 @@ export default function Announcements() {
                 {a.is_pinned && (
                   <span style={{ fontSize: '10px', color: '#fb923c', fontWeight: 600 }}>Pinned</span>
                 )}
-                <span style={{ fontSize: '11px', color: '#6b7280', marginLeft: 'auto' }}>{timeAgo(a.created_at)}</span>
+                <span style={{ fontSize: '11px', color: '#555555', marginLeft: 'auto' }}>{timeAgo(a.created_at)}</span>
               </div>
 
               {/* Title */}
-              <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', marginBottom: '6px' }}>{a.title}</h4>
+              <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a', marginBottom: '6px' }}>{a.title}</h4>
 
               {/* Content */}
-              <p style={{ fontSize: '13px', color: '#9ca3af', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+              <p style={{ fontSize: '13px', color: '#555555', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
                 {isLong && !isExpanded ? a.content.slice(0, 200) + '...' : a.content}
               </p>
 
@@ -112,7 +112,7 @@ export default function Announcements() {
               )}
 
               {/* Author */}
-              <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '8px' }}>
+              <p style={{ fontSize: '11px', color: '#555555', marginTop: '8px' }}>
                 Posted by {a.author?.display_name || a.author?.username || 'Admin'}
               </p>
             </div>

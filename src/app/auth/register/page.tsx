@@ -93,8 +93,8 @@ export default function RegisterPage() {
         <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
           <div className="glass" style={{ padding: '20px 24px', maxWidth: '380px', width: '100%', display: 'flex', alignItems: 'center', gap: '14px', borderColor: 'rgba(34,197,94,0.25)' }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>Check your email!</p>
-              <p style={{ fontSize: '12px', color: '#8892a4', marginTop: '2px' }}>Verification link sent to {email}. Redirecting home...</p>
+              <p style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a' }}>Check your email!</p>
+              <p style={{ fontSize: '12px', color: '#666666', marginTop: '2px' }}>Verification link sent to {email}. Redirecting home...</p>
             </div>
           </div>
         </div>
@@ -150,14 +150,14 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setAuthMethod('email')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'email' ? '#f97316' : '#6b7280' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(232,120,23,0.2)' : '#f0f0f0', color: authMethod === 'email' ? '#f97316' : '#555555' }}
             >
               Email
             </button>
             <button
               type="button"
               onClick={() => setAuthMethod('phone')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'phone' ? '#f97316' : '#6b7280' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(232,120,23,0.2)' : '#f0f0f0', color: authMethod === 'phone' ? '#f97316' : '#555555' }}
             >
               Phone
             </button>

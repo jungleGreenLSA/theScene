@@ -123,13 +123,13 @@ export default function OnboardingWizard() {
       <div className="glass" style={{ width: '100%', maxWidth: '480px', padding: '28px', position: 'relative' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: stepColor }}>Step {step} of 3</span>
-          <button onClick={skip} style={{ background: 'none', border: 'none', color: '#6b7280', fontSize: '12px', cursor: 'pointer' }}>Skip for now</button>
+          <button onClick={skip} style={{ background: 'none', border: 'none', color: '#555555', fontSize: '12px', cursor: 'pointer' }}>Skip for now</button>
         </div>
 
         {step === 1 && (
           <>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Where are you based?</h2>
-            <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '18px' }}>So we can show you nearby events, clubs, and shops.</p>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Where are you based?</h2>
+            <p style={{ fontSize: '13px', color: '#666666', marginBottom: '18px' }}>So we can show you nearby events, clubs, and shops.</p>
             <AddressAutocomplete
               defaultValue={location}
               placeholder="Start typing your city..."
@@ -145,11 +145,11 @@ export default function OnboardingWizard() {
 
         {step === 2 && (
           <>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Add a profile photo</h2>
-            <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '18px' }}>Optional — you can always add one later from Settings.</p>
-            <label style={{ display: 'block', padding: '32px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.15)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.5)' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Add a profile photo</h2>
+            <p style={{ fontSize: '13px', color: '#666666', marginBottom: '18px' }}>Optional — you can always add one later from Settings.</p>
+            <label style={{ display: 'block', padding: '32px', borderRadius: '8px', border: '2px dashed #bdbdbd', textAlign: 'center', cursor: 'pointer', background: '#f0f0f0' }}>
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
-              <span style={{ fontSize: '13px', color: avatarFile ? '#22c55e' : '#8892a4' }}>
+              <span style={{ fontSize: '13px', color: avatarFile ? '#22c55e' : '#666666' }}>
                 {avatarFile ? avatarFile.name : 'Tap to upload'}
               </span>
             </label>
@@ -165,10 +165,10 @@ export default function OnboardingWizard() {
 
         {step === 3 && (
           <>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
               {hasVehicle ? 'You\'re all set!' : 'Add your first ride'}
             </h2>
-            <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '18px' }}>
+            <p style={{ fontSize: '13px', color: '#666666', marginBottom: '18px' }}>
               {hasVehicle ? 'Welcome to The Scene. Start exploring.' : 'You can add more vehicles and mods later from your Garage.'}
             </p>
             {!hasVehicle && (
@@ -179,9 +179,9 @@ export default function OnboardingWizard() {
                   <input placeholder="Model" value={vehicle.model} onChange={(e) => setVehicle({ ...vehicle, model: e.target.value })} className="input" style={{ flex: 1 }} />
                 </div>
                 <input placeholder="Color (optional)" value={vehicle.color} onChange={(e) => setVehicle({ ...vehicle, color: e.target.value })} className="input" />
-                <label style={{ display: 'block', padding: '16px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.1)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.4)' }}>
+                <label style={{ display: 'block', padding: '16px', borderRadius: '8px', border: '2px dashed #d4d4d4', textAlign: 'center', cursor: 'pointer', background: '#f0f0f0' }}>
                   <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setVehicleFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
-                  <span style={{ fontSize: '12px', color: vehicleFile ? '#22c55e' : '#8892a4' }}>
+                  <span style={{ fontSize: '12px', color: vehicleFile ? '#22c55e' : '#666666' }}>
                     {vehicleFile ? vehicleFile.name : 'Cover photo (optional)'}
                   </span>
                 </label>

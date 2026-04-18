@@ -55,22 +55,22 @@ export default function ClaimSightingButton({ sightingId, spotterId, alreadyClai
       {open && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }} onClick={() => setOpen(false)}>
           <div className="glass" style={{ width: '100%', maxWidth: '420px', padding: '24px' }} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#e2e4e9', marginBottom: '6px' }}>Is this one of your rides?</h3>
-            <p style={{ fontSize: '12px', color: '#8892a4', marginBottom: '16px' }}>Pick the vehicle in this sighting. Only you (as the owner) can claim it.</p>
+            <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', marginBottom: '6px' }}>Is this one of your rides?</h3>
+            <p style={{ fontSize: '12px', color: '#666666', marginBottom: '16px' }}>Pick the vehicle in this sighting. Only you (as the owner) can claim it.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
               {vehicles.map(v => (
                 <button
                   key={v.id}
                   disabled={busy}
                   onClick={() => claim(v.id)}
-                  style={{ padding: '12px 14px', borderRadius: '8px', background: 'rgba(18,18,30,0.6)', border: '1px solid rgba(255,255,255,0.08)', color: '#e2e4e9', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
+                  style={{ padding: '12px 14px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #d4d4d4', color: '#1a1a1a', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
                 >
                   {v.year} {v.make} {v.model}{v.color ? ` · ${v.color}` : ''}
                 </button>
               ))}
             </div>
             {message && <p style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{message}</p>}
-            <button onClick={() => setOpen(false)} style={{ width: '100%', padding: '10px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#8892a4', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
+            <button onClick={() => setOpen(false)} style={{ width: '100%', padding: '10px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#666666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
           </div>
         </div>
       )}

@@ -33,7 +33,7 @@ export default function NotificationBell() {
         position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         width: '34px', height: '34px', borderRadius: '8px',
         background: 'transparent', border: 'none', cursor: 'pointer',
-        color: unread > 0 ? '#fb923c' : '#9ca3af',
+        color: unread > 0 ? '#fb923c' : '#555555',
         fontSize: '18px',
       }}
     >

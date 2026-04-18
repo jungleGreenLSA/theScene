@@ -34,6 +34,33 @@ interface Profile {
   filter_events_nearby: boolean
   filter_people_nearby: boolean
   filter_marketplace_nearby: boolean
+  tiktok_url: string | null
+  twitch_url: string | null
+  website_url: string | null
+}
+
+// Keep this list in sync with migration 024's sanitize_social_url().
+// We block it client-side too so we can show a friendly message instead
+// of silently nulling the field on save.
+const BLOCKED_LINK_HOSTS = [
+  'beacons.ai',
+  'linktr.ee',
+  'linktree.com',
+  'bio.link',
+  'lnk.bio',
+  'about.me',
+  'snipfeed.co',
+  'allmylinks.com',
+  'carrd.co',
+  'komi.io',
+  'stan.store',
+  'koji.to',
+]
+
+function isBlockedLink(url: string): boolean {
+  if (!url) return false
+  const lower = url.toLowerCase()
+  return BLOCKED_LINK_HOSTS.some(h => lower.includes(h))
 }
 
 const USERNAME_COOLDOWN_DAYS = 60
@@ -103,11 +130,11 @@ export default function SettingsPage() {
     setTimeout(() => setMessage(''), 3000)
   }
 
-  const updateProfile = async (field: string, value: string) => {
+  const updateProfile = async (field: string, value: string | null) => {
     if (!profile) return
     setSaving(true)
     await supabase.from('profiles').update({ [field]: value }).eq('id', profile.id)
-    setProfile({ ...profile, [field]: value })
+    setProfile({ ...profile, [field]: value } as Profile)
     setMessage('Profile updated.')
     setSaving(false)
     setTimeout(() => setMessage(''), 3000)
@@ -155,10 +182,10 @@ export default function SettingsPage() {
               border: '2px solid rgba(232,120,23,0.3)',
               backgroundImage: profile?.avatar_url ? `url(${profile.avatar_url})` : 'none',
               backgroundSize: 'cover', backgroundPosition: 'center',
-              backgroundColor: 'rgba(26,26,46,0.5)',
+              backgroundColor: '#e4e4e4',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px' }}>ADD</span>}
+              {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: '#555555', letterSpacing: '1px' }}>ADD</span>}
             </div>
             <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#e87817', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'white' }}>+</div>
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={async (e) => {
@@ -231,7 +258,7 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(optional)</span></label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(optional)</span></label>
             <input
               type="text"
               defaultValue={profile?.last_name || ''}
@@ -258,7 +285,7 @@ export default function SettingsPage() {
 
         <div style={{ marginBottom: '16px' }}>
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-            Location <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(city autocompletes — your state powers the heatmaps)</span>
+            Location <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(city autocompletes — your state powers the heatmaps)</span>
           </label>
           <AddressAutocomplete
             defaultValue={profile?.location || ''}
@@ -269,6 +296,49 @@ export default function SettingsPage() {
               if (value) updateProfile('location', value)
             }}
           />
+        </div>
+
+        {/* Social Links — TikTok / Twitch / Website. We reject any URL
+            pointing to a link-in-bio aggregator so the platform stays
+            focused on enthusiast content, not paid promo funnels. */}
+        <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e4e4e4' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 700, marginBottom: '10px', color: '#1a1a1a' }}>Social Links</h3>
+          <p style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '14px' }}>
+            Share where you post. Aggregator links (linktree, beacons, bio.link, etc.) are not allowed.
+          </p>
+
+          {(['tiktok_url', 'twitch_url', 'website_url'] as const).map((field) => {
+            const labelMap = { tiktok_url: 'TikTok', twitch_url: 'Twitch', website_url: 'Personal Website' }
+            const placeholderMap = {
+              tiktok_url: 'https://tiktok.com/@yourhandle',
+              twitch_url: 'https://twitch.tv/yourhandle',
+              website_url: 'https://yourdomain.com',
+            }
+            return (
+              <div key={field} style={{ marginBottom: '10px' }}>
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '4px' }}>
+                  {labelMap[field]}
+                </label>
+                <input
+                  type="url"
+                  defaultValue={profile?.[field] || ''}
+                  onBlur={(e) => {
+                    const val = e.target.value.trim()
+                    if (val && isBlockedLink(val)) {
+                      setMessage(`${labelMap[field]}: link-in-bio aggregators are not allowed.`)
+                      setTimeout(() => setMessage(''), 4000)
+                      e.target.value = profile?.[field] || ''
+                      return
+                    }
+                    updateProfile(field, val || null)
+                  }}
+                  className="input"
+                  placeholder={placeholderMap[field]}
+                  maxLength={256}
+                />
+              </div>
+            )
+          })}
         </div>
 
         <div style={{ textAlign: 'right', marginTop: '8px' }}>
@@ -284,10 +354,10 @@ export default function SettingsPage() {
         const toggleRow = (key: 'filter_clubs_nearby' | 'filter_events_nearby' | 'filter_people_nearby' | 'filter_marketplace_nearby', label: string, desc: string) => {
           const on = !!profile[key]
           return (
-            <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid #f5f5f5' }}>
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{label}</p>
-                <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>{desc}</p>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{label}</p>
+                <p style={{ fontSize: '11px', color: '#555555', marginTop: '2px' }}>{desc}</p>
               </div>
               <button
                 onClick={async () => {
@@ -296,7 +366,7 @@ export default function SettingsPage() {
                 }}
                 style={{
                   width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
-                  background: on ? '#e87817' : 'rgba(255,255,255,0.08)',
+                  background: on ? '#e87817' : '#d4d4d4',
                   position: 'relative', transition: 'background 0.2s',
                   flexShrink: 0, marginLeft: '16px',
                 }}
@@ -338,10 +408,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: profile?.is_public ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)',
-              color: profile?.is_public ? '#f97316' : '#6b7280',
+              background: profile?.is_public ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+              color: profile?.is_public ? '#f97316' : '#555555',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: profile?.is_public ? '2px solid #e87817' : '1px solid rgba(255,255,255,0.06)',
+              outline: profile?.is_public ? '2px solid #e87817' : '1px solid #e4e4e4',
             }}
           >
             Public
@@ -351,10 +421,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: !profile?.is_public ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)',
-              color: !profile?.is_public ? '#f97316' : '#6b7280',
+              background: !profile?.is_public ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+              color: !profile?.is_public ? '#f97316' : '#555555',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: !profile?.is_public ? '2px solid #e87817' : '1px solid rgba(255,255,255,0.06)',
+              outline: !profile?.is_public ? '2px solid #e87817' : '1px solid #e4e4e4',
             }}
           >
             Private
@@ -370,7 +440,7 @@ export default function SettingsPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {vehicles.map((v) => (
-              <div key={v.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <div key={v.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #e4e4e4' }}>
                 <div>
                   <span className="text-foreground font-semibold" style={{ fontSize: '0.9rem' }}>{v.year} {v.make} {v.model}</span>
                   <span className="text-muted-light" style={{ fontSize: '0.8rem', marginLeft: '8px' }}>{v.color}</span>
@@ -411,10 +481,10 @@ export default function SettingsPage() {
           return (
             <div style={{ marginBottom: '20px' }}>
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-                Username {!canChange && <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(locked for {daysLeft} more day{daysLeft !== 1 ? 's' : ''})</span>}
+                Username {!canChange && <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(locked for {daysLeft} more day{daysLeft !== 1 ? 's' : ''})</span>}
               </label>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <span style={{ display: 'flex', alignItems: 'center', padding: '0 12px', color: '#6b7280', fontSize: '13px' }}>@</span>
+                <span style={{ display: 'flex', alignItems: 'center', padding: '0 12px', color: '#555555', fontSize: '13px' }}>@</span>
                 <input
                   type="text"
                   defaultValue={profile.username}
@@ -473,7 +543,7 @@ export default function SettingsPage() {
             else setMessage('Password reset link sent to ' + user.email)
             setTimeout(() => setMessage(''), 5000)
           }}
-          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', textAlign: 'left' }}
+          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: '#f5f5f5', border: '1px solid #d4d4d4', color: '#555555', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', textAlign: 'left' }}
         >
           Reset Password
         </button>
@@ -496,7 +566,7 @@ export default function SettingsPage() {
         >
           Delete My Account
         </button>
-        <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '8px' }}>
+        <p style={{ fontSize: '11px', color: '#555555', marginTop: '8px' }}>
           Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" style={{ color: '#f97316' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
         </p>
       </div>

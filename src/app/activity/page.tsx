@@ -190,15 +190,15 @@ export default function ActivityPage() {
       onClick={() => setActiveTab(key)}
       style={{
         padding: '10px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-        background: activeTab === key ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)',
-        color: activeTab === key ? '#f97316' : '#9ca3af',
+        background: activeTab === key ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+        color: activeTab === key ? '#f97316' : '#555555',
         fontWeight: 600, fontSize: '13px',
-        outline: activeTab === key ? '2px solid #e87817' : '1px solid rgba(255,255,255,0.06)',
+        outline: activeTab === key ? '2px solid #e87817' : '1px solid #e4e4e4',
         display: 'flex', alignItems: 'center', gap: '8px',
       }}
     >
       {label}
-      <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.08)', padding: '2px 8px', borderRadius: '10px' }}>{count}</span>
+      <span style={{ fontSize: '11px', background: '#d4d4d4', padding: '2px 8px', borderRadius: '10px' }}>{count}</span>
     </button>
   )
 
@@ -362,7 +362,7 @@ export default function ActivityPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '14px' }}>
           {sightings.length === 0 ? <div style={{ gridColumn: '1/-1' }}>{emptyState("You haven't posted any sightings yet.")}</div> : sightings.map(s => (
             <div key={s.id} className="glass overflow-hidden">
-              <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+              <div style={{ aspectRatio: '2 / 1', background: '#e4e4e4', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img
                   src={s.image_url}
                   alt=""
@@ -374,7 +374,7 @@ export default function ActivityPage() {
                     if (parent && !parent.querySelector('.img-fallback')) {
                       const fb = document.createElement('div')
                       fb.className = 'img-fallback'
-                      fb.style.cssText = 'color:#6b7280;font-size:36px'
+                      fb.style.cssText = 'color:#555555;font-size:36px'
                       fb.textContent = ''
                       parent.appendChild(fb)
                     }
@@ -384,7 +384,7 @@ export default function ActivityPage() {
               <div style={{ padding: '14px' }}>
                 {s.description && <p className="text-foreground" style={{ fontSize: '13px', marginBottom: '6px' }}>{s.description}</p>}
                 <p className="text-muted-light" style={{ fontSize: '11px' }}>{s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #e4e4e4' }}>
                   <span className="text-muted" style={{ fontSize: '11px' }}>{fmtDate(s.created_at)}</span>
                   {deleteBtn(() => removeSighting(s.id))}
                 </div>

@@ -74,14 +74,14 @@ export default function RunsPage() {
                   {run.cover_image_url ? (
                     <img src={run.cover_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(12,12,20,0.9)', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: '#ffffff', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
                     <div style={{ fontSize: '10px', color: '#fb923c', fontWeight: 700, textTransform: 'uppercase' }}>{d.toLocaleDateString('en-US', { month: 'short' })}</div>
-                    <div style={{ fontSize: '20px', fontWeight: 700, color: '#e2e4e9', lineHeight: 1 }}>{d.getDate()}</div>
+                    <div style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', lineHeight: 1 }}>{d.getDate()}</div>
                   </div>
                 </div>
                 <div style={{ padding: '16px' }}>
                   <h3 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '8px' }}>{run.title}</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '12px', color: '#9ca3af' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '12px', color: '#555555' }}>
                     <span>Start: {run.start_location || `${run.start_city}, ${run.start_state}`}</span>
                     {(run.end_location || run.end_city) && (
                       <span>End: {run.end_location || `${run.end_city}, ${run.end_state}`}</span>
@@ -89,7 +89,7 @@ export default function RunsPage() {
                     {run.estimated_distance && <span>Distance: {run.estimated_distance}</span>}
                     {run.estimated_duration && <span>Duration: {run.estimated_duration}</span>}
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid #e4e4e4' }}>
                     <span className="text-muted" style={{ fontSize: '12px' }}>{run.rsvp_count}{run.max_participants ? `/${run.max_participants}` : ''} going</span>
                     <Link href={`/user/${run.organizer?.username}`} className="text-muted" style={{ fontSize: '11px' }}>by @{run.organizer?.username}</Link>
                   </div>

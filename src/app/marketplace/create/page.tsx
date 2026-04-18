@@ -76,8 +76,8 @@ export default function CreateListingPage() {
     return (
       <div style={{ maxWidth: '500px', margin: '0 auto', padding: '80px 32px', textAlign: 'center' }}>
         <div className="glass" style={{ padding: '48px 32px' }}>
-          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Premium Feature</h1>
-          <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '24px', lineHeight: 1.6 }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Premium Feature</h1>
+          <p style={{ fontSize: '14px', color: '#666666', marginBottom: '24px', lineHeight: 1.6 }}>
             Listing items for sale is a premium feature. Anyone can browse and interact with listings, but posting requires a premium membership.
           </p>
           <Link href="/pricing" style={{ padding: '12px 28px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '14px', fontWeight: 700 }}>Upgrade to Premium - $4.99/mo</Link>
@@ -88,28 +88,28 @@ export default function CreateListingPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/marketplace" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Marketplace</Link>
+      <Link href="/marketplace" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Marketplace</Link>
 
-      <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
+      <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
         List an <span style={{ color: '#fb923c' }}>Item</span>
       </h1>
-      <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '28px' }}>All offers and questions are public for transparency</p>
+      <p style={{ fontSize: '14px', color: '#666666', marginBottom: '28px' }}>All offers and questions are public for transparency</p>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div className="glass" style={{ padding: '24px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }}>Type *</label>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }}>Type *</label>
               <select value={form.listing_type} onChange={(e) => setForm({ ...form, listing_type: e.target.value })} className="input">
                 <option value="vehicle">Vehicle for Sale</option>
                 <option value="parts">Parts for Sale</option>
               </select>
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }}>Price * ($)</label>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }}>Price * ($)</label>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <input type="number" step="0.01" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} className="input" placeholder="0.00" required style={{ flex: 1 }} />
-                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', color: '#8892a4', whiteSpace: 'nowrap' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', color: '#666666', whiteSpace: 'nowrap' }}>
                   <input type="checkbox" checked={form.is_obo} onChange={(e) => setForm({ ...form, is_obo: e.target.checked })} />
                   OBO
                 </label>
@@ -118,19 +118,19 @@ export default function CreateListingPage() {
           </div>
 
           <div style={{ marginBottom: '14px' }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }}>Title *</label>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }}>Title *</label>
             <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input" placeholder={form.listing_type === 'vehicle' ? '2015 Chevrolet SS - Jungle Green' : 'Kooks Long Tube Headers for LS3'} required maxLength={128} />
           </div>
 
           <div style={{ marginBottom: '14px' }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }}>Description</label>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }}>Description</label>
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" rows={4} placeholder="Describe what you're selling, condition, reason for selling..." maxLength={2000} />
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }}>Photos (max {maxPhotos})</label>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }}>Photos (max {maxPhotos})</label>
             <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => setFiles(Array.from(e.target.files || []).slice(0, maxPhotos))} className="input" style={{ fontSize: '13px' }} />
-            <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>{files.length} of {maxPhotos} photos selected</p>
+            <p style={{ fontSize: '11px', color: '#555555', marginTop: '4px' }}>{files.length} of {maxPhotos} photos selected</p>
           </div>
         </div>
 

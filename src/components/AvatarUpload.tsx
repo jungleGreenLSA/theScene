@@ -30,11 +30,11 @@ export default function AvatarUpload({ userId, currentUrl, onUpdate }: { userId:
 
   return (
     <label style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}>
-      <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(232,120,23,0.3)' }}>
+      <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', border: '2px solid rgba(232,120,23,0.3)' }}>
         {currentUrl ? (
           <img src={currentUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px' }}>ADD PHOTO</div>
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#555555', letterSpacing: '1px' }}>ADD PHOTO</div>
         )}
       </div>
       <div style={{

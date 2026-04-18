@@ -83,26 +83,26 @@ export default function GlobalSearch() {
         onChange={(e) => { setQuery(e.target.value); setOpen(true) }}
         onFocus={() => setOpen(true)}
         placeholder="Search builds, clubs, events, shops..."
-        style={{ width: '100%', padding: '7px 12px', borderRadius: '6px', background: 'rgba(18,18,30,0.6)', border: '1px solid rgba(255,255,255,0.08)', color: '#e2e4e9', fontSize: '12px', outline: 'none' }}
+        style={{ width: '100%', padding: '7px 12px', borderRadius: '6px', background: '#f0f0f0', border: '1px solid #d4d4d4', color: '#1a1a1a', fontSize: '12px', outline: 'none' }}
       />
       {open && query.trim().length >= 2 && (
-        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '6px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', zIndex: 60, maxHeight: '360px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '6px', background: '#12121e', border: '1px solid #d4d4d4', borderRadius: '8px', overflow: 'hidden', zIndex: 60, maxHeight: '360px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
           {loading && hits.length === 0 && (
-            <div style={{ padding: '14px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>Searching…</div>
+            <div style={{ padding: '14px', fontSize: '12px', color: '#555555', textAlign: 'center' }}>Searching…</div>
           )}
           {!loading && hits.length === 0 && (
-            <div style={{ padding: '14px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>No matches.</div>
+            <div style={{ padding: '14px', fontSize: '12px', color: '#555555', textAlign: 'center' }}>No matches.</div>
           )}
           {hits.map((h, i) => (
             <button
               key={i}
               onClick={() => pick(h)}
-              style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '10px 12px', background: 'none', border: 'none', borderBottom: i < hits.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: 'pointer', textAlign: 'left' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '10px 12px', background: 'none', border: 'none', borderBottom: i < hits.length - 1 ? '1px solid #f5f5f5' : 'none', cursor: 'pointer', textAlign: 'left' }}
             >
-              <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', color: '#6b7280', flexShrink: 0, width: '40px' }}>{KIND_LABELS[h.kind]}</span>
+              <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', color: '#555555', flexShrink: 0, width: '40px' }}>{KIND_LABELS[h.kind]}</span>
               <div style={{ minWidth: 0 }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.title}</p>
-                {h.subtitle && <p style={{ fontSize: '11px', color: '#6b7280' }}>{h.subtitle}</p>}
+                <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.title}</p>
+                {h.subtitle && <p style={{ fontSize: '11px', color: '#555555' }}>{h.subtitle}</p>}
               </div>
             </button>
           ))}

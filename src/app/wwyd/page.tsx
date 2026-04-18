@@ -154,7 +154,7 @@ export default function WWYDPage() {
             {imageFile && <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '4px' }}>{imageFile.name}</p>}
           </div>
           <div style={{ marginBottom: '16px' }}>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(2–4 choices)</span></label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(2–4 choices)</span></label>
             {form.options.map((opt, i) => (
               <div key={i} style={{ display: 'flex', gap: '6px', marginBottom: '6px' }}>
                 <input value={opt} onChange={(e) => { const o = [...form.options]; o[i] = e.target.value; setForm({ ...form, options: o }) }} className="input" placeholder={`Option ${i + 1}`} style={{ flex: 1 }} required={i < 2} />
@@ -190,8 +190,8 @@ export default function WWYDPage() {
             return (
               <div key={post.id} className="glass" style={{ padding: '24px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-                  <Link href={`/user/${post.author?.username}`} style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0, display: 'block' }}>
-                    {post.author?.avatar_url ? <img src={post.author.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#6b7280' }}>{post.author?.username?.charAt(0).toUpperCase()}</div>}
+                  <Link href={`/user/${post.author?.username}`} style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0, display: 'block' }}>
+                    {post.author?.avatar_url ? <img src={post.author.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#555555' }}>{post.author?.username?.charAt(0).toUpperCase()}</div>}
                   </Link>
                   <div style={{ flex: 1 }}>
                     <Link href={`/user/${post.author?.username}`} className="font-semibold text-foreground hover:text-purple-light" style={{ fontSize: '14px' }}>{post.author?.display_name || post.author?.username}</Link>
@@ -204,7 +204,7 @@ export default function WWYDPage() {
 
                 <h3 className="font-bold text-foreground" style={{ fontSize: '1.1rem', marginBottom: '6px' }}>{post.title}</h3>
                 {post.image_url && (
-                  <div style={{ borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', maxHeight: '360px', background: 'rgba(26,26,46,0.5)' }}>
+                  <div style={{ borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', maxHeight: '360px', background: '#e4e4e4' }}>
                     <img src={post.image_url} alt="" style={{ width: '100%', maxHeight: '360px', objectFit: 'cover' }} />
                   </div>
                 )}
@@ -222,7 +222,7 @@ export default function WWYDPage() {
                         style={{
                           position: 'relative', width: '100%', textAlign: 'left', padding: '12px 16px',
                           borderRadius: '8px', border: 'none', cursor: hasVoted ? 'default' : 'pointer',
-                          background: 'rgba(18,18,30,0.5)', outline: '1px solid rgba(255,255,255,0.06)',
+                          background: '#f0f0f0', outline: '1px solid #e4e4e4',
                           overflow: 'hidden', transition: 'all 0.2s',
                         }}
                       >

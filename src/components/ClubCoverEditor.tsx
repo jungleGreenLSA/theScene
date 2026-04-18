@@ -68,19 +68,19 @@ export default function ClubCoverEditor({ clubId, currentCoverUrl, currentLogoUr
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} disabled={uploading !== null}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, 'cover') }} />
           </label>
-          <p style={{ fontSize: '11px', color: '#9ca3af' }}>JPEG, PNG, or WebP · up to 5 MB</p>
+          <p style={{ fontSize: '11px', color: '#555555' }}>JPEG, PNG, or WebP · up to 5 MB</p>
         </div>
       )}
 
       {/* Compact top-left controls when the cover already exists */}
       {!noCover && (
         <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '8px', zIndex: 2 }}>
-          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: 'rgba(12,12,20,0.92)', border: '1px solid rgba(249,115,22,0.4)', color: '#e2e4e9', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(8px)', opacity: uploading === 'cover' ? 0.6 : 1 }}>
+          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: '#ffffff', border: '1px solid rgba(249,115,22,0.4)', color: '#1a1a1a', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(8px)', opacity: uploading === 'cover' ? 0.6 : 1 }}>
             Change Banner
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} disabled={uploading !== null}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, 'cover') }} />
           </label>
-          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: 'rgba(12,12,20,0.92)', border: '1px solid rgba(249,115,22,0.4)', color: '#e2e4e9', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(8px)', opacity: uploading === 'logo' ? 0.6 : 1 }}>
+          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: '#ffffff', border: '1px solid rgba(249,115,22,0.4)', color: '#1a1a1a', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(8px)', opacity: uploading === 'logo' ? 0.6 : 1 }}>
             {noLogo ? 'Add Logo' : 'Change Logo'}
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} disabled={uploading !== null}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, 'logo') }} />

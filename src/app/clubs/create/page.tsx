@@ -174,8 +174,8 @@ export default function CreateClubPage() {
 
         {/* Banner + Logo — prominent, WYSIWYG preview of how the club header will look */}
         <div style={{ marginBottom: '20px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '8px' }}>Banner & Logo <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(optional — you can add them later)</span></label>
-          <div style={{ position: 'relative', borderRadius: '10px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '8px' }}>Banner & Logo <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(optional — you can add them later)</span></label>
+          <div style={{ position: 'relative', borderRadius: '10px', overflow: 'hidden', border: '1px solid #d4d4d4' }}>
             {/* Banner area */}
             <label style={{ display: 'block', height: '160px', position: 'relative', cursor: 'pointer', background: coverFile ? 'transparent' : 'linear-gradient(135deg, rgba(232,120,23,0.2), rgba(249,115,22,0.12))' }}>
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setCoverFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
@@ -188,26 +188,26 @@ export default function CreateClubPage() {
             </label>
 
             {/* Logo overlay + name row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px', background: 'rgba(18,18,30,0.6)' }}>
-              <label style={{ position: 'relative', width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '2px solid rgba(232,120,23,0.4)', cursor: 'pointer', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '-40px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px', background: '#f0f0f0' }}>
+              <label style={{ position: 'relative', width: '56px', height: '56px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', border: '2px solid rgba(232,120,23,0.4)', cursor: 'pointer', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '-40px' }}>
                 <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
                 {logoFile ? (
                   <img src={URL.createObjectURL(logoFile)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <span style={{ fontSize: '10px', fontWeight: 700, color: '#9ca3af', letterSpacing: '1px' }}>LOGO</span>
+                  <span style={{ fontSize: '10px', fontWeight: 700, color: '#555555', letterSpacing: '1px' }}>LOGO</span>
                 )}
               </label>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '15px', fontWeight: 700, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <p style={{ fontSize: '15px', fontWeight: 700, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {form.name || 'Your Club Name'}
                 </p>
-                <p style={{ fontSize: '11px', color: '#6b7280' }}>
+                <p style={{ fontSize: '11px', color: '#555555' }}>
                   {logoFile ? 'Logo selected' : 'Tap the circle to add a logo'}
                 </p>
               </div>
             </div>
           </div>
-          <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '6px' }}>JPEG, PNG, or WebP · recommended: 1600×600 banner, square logo</p>
+          <p style={{ fontSize: '11px', color: '#555555', marginTop: '6px' }}>JPEG, PNG, or WebP · recommended: 1600×600 banner, square logo</p>
         </div>
 
         {/* Locations */}
@@ -215,9 +215,9 @@ export default function CreateClubPage() {
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '8px' }}>Chapters / Locations *</label>
           <p className="text-muted" style={{ fontSize: '11px', marginBottom: '10px' }}>Clubs can have multiple chapters. Add as many as you need.</p>
           {locations.map((loc, i) => (
-            <div key={i} style={{ padding: '14px', marginBottom: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.3)', border: '1px solid rgba(255,255,255,0.04)' }}>
+            <div key={i} style={{ padding: '14px', marginBottom: '10px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #f5f5f5' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <span style={{ fontSize: '11px', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>Chapter {i + 1}{loc.is_primary && ' · Primary'}</span>
+                <span style={{ fontSize: '11px', color: '#555555', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>Chapter {i + 1}{loc.is_primary && ' · Primary'}</span>
                 {locations.length > 1 && (
                   <button type="button" onClick={() => removeLocation(i)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Remove</button>
                 )}

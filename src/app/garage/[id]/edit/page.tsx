@@ -20,8 +20,8 @@ const BUILD_STATUSES = [
 ]
 const YEARS = Array.from({ length: new Date().getFullYear() - 1919 }, (_, i) => new Date().getFullYear() + 1 - i)
 
-const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }
-const sectionTitle = { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }
+const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }
+const sectionTitle = { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }
 
 export default function EditVehiclePage() {
   const supabase = createClient()
@@ -110,16 +110,16 @@ export default function EditVehiclePage() {
     router.push('/garage')
   }
 
-  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading...</div>
+  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Loading...</div>
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/garage" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
+      <Link href="/garage" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
 
-      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
+      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
         Edit <span style={{ color: '#fb923c' }}>{form.year} {form.make} {form.model}</span>
       </h1>
-      <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '28px' }}>Update your vehicle details</p>
+      <p style={{ fontSize: '14px', color: '#666666', marginBottom: '28px' }}>Update your vehicle details</p>
 
       {message && (
         <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e' }}>{message}</div>
@@ -199,9 +199,9 @@ export default function EditVehiclePage() {
             {BUILD_STATUSES.map((status) => (
               <label key={status.value} style={{
                 display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', borderRadius: '20px', cursor: 'pointer',
-                background: form.build_status === status.value ? 'rgba(232,120,23,0.15)' : 'rgba(18,18,30,0.5)',
-                border: form.build_status === status.value ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
-                fontSize: '12px', fontWeight: 600, color: form.build_status === status.value ? '#f97316' : '#8892a4',
+                background: form.build_status === status.value ? 'rgba(232,120,23,0.15)' : '#f0f0f0',
+                border: form.build_status === status.value ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
+                fontSize: '12px', fontWeight: 600, color: form.build_status === status.value ? '#f97316' : '#666666',
               }}>
                 <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
                 {status.label}
@@ -219,7 +219,7 @@ export default function EditVehiclePage() {
         {/* Modifications — full width for its categorized sub-layout */}
         <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
           <div style={sectionTitle}>Modifications</div>
-          <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px' }}>List what you&apos;ve done to your build. Categorized so visitors can scan quickly.</p>
+          <p style={{ fontSize: '12px', color: '#555555', marginBottom: '16px' }}>List what you&apos;ve done to your build. Categorized so visitors can scan quickly.</p>
           <VehicleMods vehicleId={vehicleId} />
         </div>
 
@@ -235,24 +235,24 @@ export default function EditVehiclePage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', borderRadius: '12px', cursor: 'pointer',
-              background: form.is_public ? 'rgba(232,120,23,0.1)' : 'rgba(18,18,30,0.5)',
-              border: form.is_public ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
+              background: form.is_public ? 'rgba(232,120,23,0.1)' : '#f0f0f0',
+              border: form.is_public ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
             }}>
               <input type="radio" name="is_public" value="true" checked={form.is_public === true} onChange={() => setForm({ ...form, is_public: true })} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.is_public ? '#f97316' : '#8892a4', display: 'block' }}>Public</span>
-                <span style={{ fontSize: '10px', color: '#6b7280' }}>Visible to everyone</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.is_public ? '#f97316' : '#666666', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '10px', color: '#555555' }}>Visible to everyone</span>
               </div>
             </label>
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', borderRadius: '12px', cursor: 'pointer',
-              background: !form.is_public ? 'rgba(232,120,23,0.1)' : 'rgba(18,18,30,0.5)',
-              border: !form.is_public ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
+              background: !form.is_public ? 'rgba(232,120,23,0.1)' : '#f0f0f0',
+              border: !form.is_public ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
             }}>
               <input type="radio" name="is_public" value="false" checked={form.is_public === false} onChange={() => setForm({ ...form, is_public: false })} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: !form.is_public ? '#f97316' : '#8892a4', display: 'block' }}>Private</span>
-                <span style={{ fontSize: '10px', color: '#6b7280' }}>Link only</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: !form.is_public ? '#f97316' : '#666666', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '10px', color: '#555555' }}>Link only</span>
               </div>
             </label>
           </div>

@@ -52,9 +52,9 @@ export default function FollowButton({ targetUserId, targetUsername }: { targetU
         padding: '8px 20px', borderRadius: '8px', fontSize: '12px', fontWeight: 600,
         textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer', border: 'none',
         transition: 'all 0.2s', opacity: loading ? 0.5 : 1,
-        background: isFollowing ? 'rgba(255,255,255,0.04)' : '#e87817',
-        color: isFollowing ? '#9ca3af' : 'white',
-        outline: isFollowing ? '1px solid rgba(255,255,255,0.06)' : 'none',
+        background: isFollowing ? '#f5f5f5' : '#e87817',
+        color: isFollowing ? '#555555' : 'white',
+        outline: isFollowing ? '1px solid #e4e4e4' : 'none',
       }}
     >
       {isFollowing ? 'Following' : 'Follow'}

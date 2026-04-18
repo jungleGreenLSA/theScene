@@ -87,9 +87,10 @@ export default function MemberHeatmap() {
 
       <div style={{
         background: '#fafafa',
-        border: '1px solid var(--color-border)',
+        border: '2px solid #3a3a3a',
         borderRadius: '2px',
         padding: '8px',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
       }}>
         <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} style={{ width: '100%', height: 'auto', maxHeight: '420px' }}>
           <path

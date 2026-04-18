@@ -31,8 +31,8 @@ export default function MobileTabBar() {
   return (
     <nav className="mobile-tab-bar" style={{
       position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40,
-      background: 'rgba(12,12,20,0.98)', backdropFilter: 'blur(16px)',
-      borderTop: '1px solid rgba(255,255,255,0.08)',
+      background: '#ffffff', backdropFilter: 'blur(16px)',
+      borderTop: '1px solid #d4d4d4',
       paddingBottom: 'env(safe-area-inset-bottom, 0px)',
     }}>
       <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-around', height: '56px' }}>
@@ -42,7 +42,7 @@ export default function MobileTabBar() {
             <Link key={t.href} href={t.href} style={{
               flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px',
               textDecoration: 'none',
-              color: active ? '#f97316' : '#6b7280',
+              color: active ? '#f97316' : '#555555',
               transition: 'color 0.15s',
               position: 'relative',
             }}>

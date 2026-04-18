@@ -129,7 +129,7 @@ export default function SpotPage() {
           </div>
           <input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" placeholder="What did you spot? (e.g. Jungle Green Chevy SS, heavily modified)" style={{ marginBottom: '12px' }} />
           <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '12px' }}>
-            <span style={{ padding: '0 10px', color: '#6b7280', fontSize: '13px' }}>@</span>
+            <span style={{ padding: '0 10px', color: '#555555', fontSize: '13px' }}>@</span>
             <input
               value={form.instagram_handle}
               onChange={(e) => setForm({ ...form, instagram_handle: e.target.value.replace(/^@/, '').trim() })}
@@ -159,7 +159,7 @@ export default function SpotPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {sightings.map((s) => (
             <div key={s.id} className="glass overflow-hidden card-hover">
-              <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+              <div style={{ aspectRatio: '2 / 1', background: '#e4e4e4', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img
                   src={s.image_url}
                   alt=""
@@ -171,7 +171,7 @@ export default function SpotPage() {
                     if (parent && !parent.querySelector('.img-fallback')) {
                       const fb = document.createElement('div')
                       fb.className = 'img-fallback'
-                      fb.style.cssText = 'color:#6b7280;font-size:36px'
+                      fb.style.cssText = 'color:#555555;font-size:36px'
                       fb.textContent = ''
                       parent.appendChild(fb)
                     }
@@ -186,7 +186,7 @@ export default function SpotPage() {
                     @{s.instagram_handle} on IG
                   </a>
                 )}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #e4e4e4' }}>
                   <PropsButton targetType="sighting" targetId={s.id} initialCount={s.props_count || 0} size="sm" />
                   <Link href={`/user/${s.spotter?.username}`} className="text-muted" style={{ fontSize: '12px' }}>by @{s.spotter?.username}</Link>
                 </div>

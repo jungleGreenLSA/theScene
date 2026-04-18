@@ -95,11 +95,11 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
       <button
         onClick={() => setOpen(!open)}
         style={{
-          background: 'rgba(18,18,30,0.5)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          background: '#f0f0f0',
+          border: '1px solid #e4e4e4',
           borderRadius: '8px',
           padding: '8px 12px',
-          color: '#6b7280',
+          color: '#555555',
           fontSize: '16px',
           cursor: 'pointer',
           lineHeight: 1,
@@ -117,9 +117,9 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           right: 0,
           marginTop: '8px',
           width: '220px',
-          background: 'rgba(18,18,30,0.95)',
+          background: '#f0f0f0',
           backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid #e4e4e4',
           borderRadius: '10px',
           padding: '6px',
           zIndex: 50,
@@ -143,7 +143,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               alignItems: 'center',
               gap: '10px',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f5f5')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
           >
             {isBlocked ? 'Unblock' : 'Block'} @{targetUsername}
@@ -166,7 +166,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               alignItems: 'center',
               gap: '10px',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f5f5')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
           >
             Report @{targetUsername}
@@ -182,9 +182,9 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           right: 0,
           marginTop: '8px',
           width: '300px',
-          background: 'rgba(18,18,30,0.95)',
+          background: '#f0f0f0',
           backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid #e4e4e4',
           borderRadius: '10px',
           padding: '20px',
           zIndex: 50,
@@ -215,7 +215,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           <div style={{ display: 'flex', gap: '8px' }}>
             <button
               onClick={() => { setShowReport(false); setReportReason('') }}
-              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#9ca3af', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#555555', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
             >
               Cancel
             </button>
@@ -237,7 +237,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           bottom: '80px',
           left: '50%',
           transform: 'translateX(-50%)',
-          background: 'rgba(18,18,30,0.95)',
+          background: '#f0f0f0',
           border: '1px solid rgba(232,120,23,0.3)',
           borderRadius: '10px',
           padding: '14px 24px',

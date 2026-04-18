@@ -51,7 +51,7 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
       {/* Club Header */}
       <div className="glass glow-purple" style={{ overflow: 'hidden', marginBottom: '24px' }}>
-        <div style={{ height: '220px', background: 'rgba(26,26,46,0.5)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ height: '220px', background: '#e4e4e4', position: 'relative', overflow: 'hidden' }}>
           {club.cover_image_url ? (
             <img src={club.cover_image_url} alt={club.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
@@ -63,14 +63,14 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
         <div style={{ padding: '24px' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px' }}>
             {club.logo_url && (
-              <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(232,120,23,0.3)', flexShrink: 0, marginTop: '-48px', position: 'relative', zIndex: 1 }}>
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', border: '2px solid rgba(232,120,23,0.3)', flexShrink: 0, marginTop: '-48px', position: 'relative', zIndex: 1 }}>
                 <img src={club.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}
             <div style={{ flex: 1 }}>
-              <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9' }}>{club.name}</h1>
+              <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>{club.name}</h1>
               {founder && (
-                <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>
+                <p style={{ fontSize: '14px', color: '#666666', marginTop: '4px' }}>
                   Founded by <Link href={`/user/${founder.username}`} style={{ color: '#f97316' }}>{founder.display_name || founder.username}</Link>
                 </p>
               )}
@@ -82,7 +82,7 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
           </div>
 
           {club.description && (
-            <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '14px', lineHeight: 1.7 }}>{club.description}</p>
+            <p style={{ fontSize: '14px', color: '#555555', marginTop: '14px', lineHeight: 1.7 }}>{club.description}</p>
           )}
 
           {/* Social Links */}
@@ -97,13 +97,13 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
       {/* Locations / Chapters */}
       {locations && locations.length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Chapters &amp; Locations</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }}>Chapters &amp; Locations</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '10px' }}>
             {locations.map((loc) => (
-              <div key={loc.id} style={{ padding: '14px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <p style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>{loc.city}, {loc.state}</p>
+              <div key={loc.id} style={{ padding: '14px', background: '#f0f0f0', borderRadius: '8px', border: '1px solid #e4e4e4' }}>
+                <p style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>{loc.city}, {loc.state}</p>
                 {loc.label && <p style={{ fontSize: '12px', color: '#f97316', marginTop: '2px' }}>{loc.label}</p>}
-                {loc.zip_code && <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>ZIP: {loc.zip_code}</p>}
+                {loc.zip_code && <p style={{ fontSize: '12px', color: '#555555', marginTop: '2px' }}>ZIP: {loc.zip_code}</p>}
                 {loc.is_primary && <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', color: '#fb923c', fontWeight: 700, display: 'block', marginTop: '4px' }}>Primary Chapter</span>}
               </div>
             ))}

@@ -78,13 +78,13 @@ export default function PricingPage() {
 
       {/* Billing toggle */}
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
-        <div style={{ display: 'flex', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ display: 'flex', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e4e4e4' }}>
           <button
             onClick={() => setBillingCycle('monthly')}
             style={{
               padding: '10px 24px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
-              background: billingCycle === 'monthly' ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)',
-              color: billingCycle === 'monthly' ? '#f97316' : '#6b7280',
+              background: billingCycle === 'monthly' ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+              color: billingCycle === 'monthly' ? '#f97316' : '#555555',
             }}
           >
             Monthly
@@ -93,8 +93,8 @@ export default function PricingPage() {
             onClick={() => setBillingCycle('yearly')}
             style={{
               padding: '10px 24px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
-              background: billingCycle === 'yearly' ? 'rgba(232,120,23,0.2)' : 'rgba(18,18,30,0.5)',
-              color: billingCycle === 'yearly' ? '#f97316' : '#6b7280',
+              background: billingCycle === 'yearly' ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+              color: billingCycle === 'yearly' ? '#f97316' : '#555555',
             }}
           >
             Yearly
@@ -108,7 +108,7 @@ export default function PricingPage() {
         {/* FREE */}
         <div className="glass" style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column' }}>
           <div style={{ marginBottom: '24px' }}>
-            <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', color: '#9ca3af' }}>Free</span>
+            <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', color: '#555555' }}>Free</span>
             <div style={{ marginTop: '8px' }}>
               <span className="text-foreground font-bold" style={{ fontSize: '3rem', lineHeight: 1 }}>$0</span>
               <span className="text-muted" style={{ fontSize: '14px', marginLeft: '4px' }}>forever</span>
@@ -122,7 +122,7 @@ export default function PricingPage() {
 
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
             {FREE_FEATURES.map((f) => (
-              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#9ca3af' }}>
+              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#555555' }}>
                 <span style={{ color: '#22c55e', flexShrink: 0 }}>•</span>
                 {f}
               </li>
@@ -155,16 +155,16 @@ export default function PricingPage() {
 
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
             {FREE_FEATURES.map((f) => (
-              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#9ca3af' }}>
+              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#555555' }}>
                 <span style={{ color: '#22c55e', flexShrink: 0 }}>•</span>
                 {f}
               </li>
             ))}
-            <li style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px', marginTop: '4px' }}>
+            <li style={{ borderTop: '1px solid #e4e4e4', paddingTop: '12px', marginTop: '4px' }}>
               <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#f97316' }}>Plus Premium:</span>
             </li>
             {PREMIUM_FEATURES.slice(0, 6).map((f) => (
-              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#e2e4e9', fontWeight: 500 }}>
+              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#1a1a1a', fontWeight: 500 }}>
                 <span style={{ color: '#f97316', flexShrink: 0 }}>•</span>
                 {f}
               </li>
@@ -180,7 +180,7 @@ export default function PricingPage() {
               </li>
             )}
             {showPremiumDetails && PREMIUM_FEATURES.slice(6).map((f) => (
-              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#e2e4e9', fontWeight: 500 }}>
+              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#1a1a1a', fontWeight: 500 }}>
                 <span style={{ color: '#f97316', flexShrink: 0 }}>•</span>
                 {f}
               </li>
@@ -215,7 +215,7 @@ export default function PricingPage() {
           { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, and Apple Pay / Google Pay through our secure payment provider (Stripe).' },
           { q: 'Is my payment information secure?', a: 'Yes. We never see or store your card details. All payments are processed securely by Stripe.' },
         ].map((faq) => (
-          <div key={faq.q} style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div key={faq.q} style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #e4e4e4' }}>
             <p className="font-semibold text-foreground" style={{ fontSize: '14px', marginBottom: '6px' }}>{faq.q}</p>
             <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.6 }}>{faq.a}</p>
           </div>

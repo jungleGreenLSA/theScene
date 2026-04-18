@@ -94,12 +94,12 @@ export default function EventsPage() {
           style={{ width: '100%' }}
         />
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#6b7280' }}>Date range</span>
+          <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#555555' }}>Date range</span>
           <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="input" style={{ flex: '1 1 140px', maxWidth: '200px' }} />
-          <span style={{ fontSize: '12px', color: '#6b7280' }}>to</span>
+          <span style={{ fontSize: '12px', color: '#555555' }}>to</span>
           <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="input" style={{ flex: '1 1 140px', maxWidth: '200px' }} />
           {(dateFrom || dateTo) && (
-            <button onClick={() => { setDateFrom(''); setDateTo('') }} style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
+            <button onClick={() => { setDateFrom(''); setDateTo('') }} style={{ padding: '8px 14px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #d4d4d4', color: '#555555', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
           )}
         </div>
       </div>
@@ -113,10 +113,10 @@ export default function EventsPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {[1,2,3].map(i => (
             <div key={i} className="glass overflow-hidden animate-pulse">
-              <div style={{ height: '160px', background: 'rgba(26,26,46,0.5)' }} />
+              <div style={{ height: '160px', background: '#e4e4e4' }} />
               <div style={{ padding: '16px' }}>
-                <div style={{ height: '14px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
-                <div style={{ height: '12px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '50%' }} />
+                <div style={{ height: '14px', background: '#e4e4e4', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
+                <div style={{ height: '12px', background: '#e4e4e4', borderRadius: '4px', width: '50%' }} />
               </div>
             </div>
           ))}
@@ -136,14 +136,14 @@ export default function EventsPage() {
 
             return (
               <Link key={event.id} href={`/events/${event.slug}`} className="glass overflow-hidden card-hover group">
-                <div style={{ height: '160px', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+                <div style={{ height: '160px', position: 'relative', overflow: 'hidden', background: '#e4e4e4' }}>
                   {event.cover_image_url ? (
                     <img src={event.cover_image_url} alt={event.title} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
                     <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(232,120,23,0.1), rgba(249,115,22,0.1))' }} />
                   )}
                   {/* Date badge */}
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(12,12,20,0.9)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: '#ffffff', border: '1px solid #e4e4e4', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
                     <div className="text-neon-light font-bold" style={{ fontSize: '10px', textTransform: 'uppercase' }}>{month}</div>
                     <div className="text-foreground font-bold" style={{ fontSize: '20px', lineHeight: 1 }}>{day}</div>
                   </div>

@@ -25,10 +25,10 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
 
   return (
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/shops" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Shops</Link>
+      <Link href="/shops" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Shops</Link>
 
       <div className="glass" style={{ overflow: 'hidden', marginBottom: '24px' }}>
-        <div style={{ height: '220px', background: 'rgba(26,26,46,0.5)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ height: '220px', background: '#e4e4e4', position: 'relative', overflow: 'hidden' }}>
           {shop.cover_image_url ? (
             <img src={shop.cover_image_url} alt={shop.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
@@ -43,15 +43,15 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
               </div>
             )}
             <div style={{ flex: 1, minWidth: 0 }}>
-              <h1 style={{ fontSize: '26px', fontWeight: 700, color: '#e2e4e9' }}>{shop.name}</h1>
+              <h1 style={{ fontSize: '26px', fontWeight: 700, color: '#1a1a1a' }}>{shop.name}</h1>
               {shop.city && shop.state && (
-                <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>{[shop.address, shop.city, shop.state, shop.zip_code].filter(Boolean).join(', ')}</p>
+                <p style={{ fontSize: '14px', color: '#666666', marginTop: '4px' }}>{[shop.address, shop.city, shop.state, shop.zip_code].filter(Boolean).join(', ')}</p>
               )}
             </div>
           </div>
 
           {shop.description && (
-            <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '16px', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{shop.description}</p>
+            <p style={{ fontSize: '14px', color: '#555555', marginTop: '16px', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{shop.description}</p>
           )}
 
           {shop.specialties && shop.specialties.length > 0 && (
@@ -62,7 +62,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
             </div>
           )}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.06)', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid #e4e4e4', flexWrap: 'wrap' }}>
             {shop.website && <a href={shop.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#f97316' }}>Website</a>}
             {shop.instagram_handle && <a href={`https://instagram.com/${shop.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#f97316' }}>@{shop.instagram_handle}</a>}
             {shop.phone && <a href={`tel:${shop.phone}`} style={{ fontSize: '13px', color: '#f97316' }}>{shop.phone}</a>}
@@ -71,25 +71,25 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
       </div>
 
       <div className="glass" style={{ padding: '24px' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Builds tagged here ({tags?.length || 0})</h2>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }}>Builds tagged here ({tags?.length || 0})</h2>
         {!tags || tags.length === 0 ? (
-          <p style={{ fontSize: '13px', color: '#8892a4' }}>No builds tagged yet. Members can tag this shop from their garage.</p>
+          <p style={{ fontSize: '13px', color: '#666666' }}>No builds tagged yet. Members can tag this shop from their garage.</p>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '12px' }}>
             {tags.map((t: any) => {
               const v = t.vehicle
               if (!v?.owner) return null
               return (
-                <Link key={t.id} href={`/user/${v.owner.username}/${v.slug}`} style={{ display: 'block', padding: '12px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div style={{ aspectRatio: '2 / 1', borderRadius: '6px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', marginBottom: '10px' }}>
+                <Link key={t.id} href={`/user/${v.owner.username}/${v.slug}`} style={{ display: 'block', padding: '12px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #e4e4e4' }}>
+                  <div style={{ aspectRatio: '2 / 1', borderRadius: '6px', overflow: 'hidden', background: '#e4e4e4', marginBottom: '10px' }}>
                     {v.primary_image_url ? (
                       <img src={v.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : null}
                   </div>
-                  <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{v.year} {v.make} {v.model}</p>
-                  {v.color && <p style={{ fontSize: '11px', color: '#6b7280' }}>{v.color}</p>}
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{v.year} {v.make} {v.model}</p>
+                  {v.color && <p style={{ fontSize: '11px', color: '#555555' }}>{v.color}</p>}
                   <p style={{ fontSize: '11px', color: '#f97316', marginTop: '4px' }}>by {v.owner.display_name || v.owner.username}</p>
-                  {t.note && <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '6px', fontStyle: 'italic' }}>&ldquo;{t.note}&rdquo;</p>}
+                  {t.note && <p style={{ fontSize: '11px', color: '#555555', marginTop: '6px', fontStyle: 'italic' }}>&ldquo;{t.note}&rdquo;</p>}
                 </Link>
               )
             })}

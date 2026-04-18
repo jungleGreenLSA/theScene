@@ -20,9 +20,9 @@ const BUILD_STATUSES = [
   { value: 'project', label: 'Project' },
 ]
 
-const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }
-const sectionTitle = { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }
-const hintStyle = { fontSize: '11px', color: '#6b7280', marginTop: '4px' }
+const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }
+const sectionTitle = { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }
+const hintStyle = { fontSize: '11px', color: '#555555', marginTop: '4px' }
 
 export default function GarageSetupPage() {
   const supabase = createClient()
@@ -149,10 +149,10 @@ export default function GarageSetupPage() {
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
+        <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
           Build Your <span style={{ color: '#fb923c' }}>Garage</span>
         </h1>
-        <p style={{ fontSize: '14px', color: '#8892a4' }}>Add your ride to The Scene</p>
+        <p style={{ fontSize: '14px', color: '#666666' }}>Add your ride to The Scene</p>
       </div>
 
       <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: '20px' }}>
@@ -233,10 +233,10 @@ export default function GarageSetupPage() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: '8px',
                   padding: '10px 14px', borderRadius: '20px', cursor: 'pointer', transition: 'all 0.2s',
-                  background: form.build_status === status.value ? 'rgba(232,120,23,0.15)' : 'rgba(18,18,30,0.5)',
-                  border: form.build_status === status.value ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.build_status === status.value ? 'rgba(232,120,23,0.15)' : '#f0f0f0',
+                  border: form.build_status === status.value ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
                   fontSize: '12px', fontWeight: 600,
-                  color: form.build_status === status.value ? '#f97316' : '#8892a4',
+                  color: form.build_status === status.value ? '#f97316' : '#666666',
                 }}
               >
                 <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
@@ -287,7 +287,7 @@ export default function GarageSetupPage() {
         {/* Modifications */}
         <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
           <div style={sectionTitle}>Modifications</div>
-          <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px' }}>Optional — list what you&apos;ve done to your build. You can add more later from the edit page.</p>
+          <p style={{ fontSize: '12px', color: '#555555', marginBottom: '16px' }}>Optional — list what you&apos;ve done to your build. You can add more later from the edit page.</p>
           <VehicleModsDraft mods={draftMods} onChange={setDraftMods} />
         </div>
 
@@ -295,9 +295,9 @@ export default function GarageSetupPage() {
         <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
           <div style={sectionTitle}>Photos</div>
           <p style={hintStyle as React.CSSProperties}>Upload photos of your ride. The first photo will be your primary image.</p>
-          <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '28px', border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', marginTop: '10px' }}>
+          <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '28px', border: '2px dashed #d4d4d4', borderRadius: '8px', cursor: 'pointer', marginTop: '10px' }}>
             <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => setPhotoFiles(Array.from(e.target.files || []))} style={{ display: 'none' }} />
-            <span style={{ fontSize: '14px', color: '#8892a4' }}>Click to select photos (JPEG, PNG, WebP)</span>
+            <span style={{ fontSize: '14px', color: '#666666' }}>Click to select photos (JPEG, PNG, WebP)</span>
           </label>
           {photoFiles.length > 0 && (
             <div style={{ marginTop: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -314,30 +314,30 @@ export default function GarageSetupPage() {
         {/* Visibility */}
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Visibility</div>
-          <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '12px' }}>You can change this anytime in settings.</p>
+          <p style={{ fontSize: '13px', color: '#666666', marginBottom: '12px' }}>You can change this anytime in settings.</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px',
               borderRadius: '12px', cursor: 'pointer',
-              background: form.visibility === 'public' ? 'rgba(232,120,23,0.1)' : 'rgba(18,18,30,0.5)',
-              border: form.visibility === 'public' ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
+              background: form.visibility === 'public' ? 'rgba(232,120,23,0.1)' : '#f0f0f0',
+              border: form.visibility === 'public' ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
             }}>
               <input type="radio" name="visibility" value="public" checked={form.visibility === 'public'} onChange={handleChange} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? '#f97316' : '#8892a4', display: 'block' }}>Public</span>
-                <span style={{ fontSize: '10px', color: '#6b7280' }}>Visible to everyone</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? '#f97316' : '#666666', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '10px', color: '#555555' }}>Visible to everyone</span>
               </div>
             </label>
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px',
               borderRadius: '12px', cursor: 'pointer',
-              background: form.visibility === 'private' ? 'rgba(232,120,23,0.1)' : 'rgba(18,18,30,0.5)',
-              border: form.visibility === 'private' ? '1px solid rgba(232,120,23,0.4)' : '1px solid rgba(255,255,255,0.06)',
+              background: form.visibility === 'private' ? 'rgba(232,120,23,0.1)' : '#f0f0f0',
+              border: form.visibility === 'private' ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
             }}>
               <input type="radio" name="visibility" value="private" checked={form.visibility === 'private'} onChange={handleChange} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? '#f97316' : '#8892a4', display: 'block' }}>Private</span>
-                <span style={{ fontSize: '10px', color: '#6b7280' }}>Link only</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? '#f97316' : '#666666', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '10px', color: '#555555' }}>Link only</span>
               </div>
             </label>
           </div>

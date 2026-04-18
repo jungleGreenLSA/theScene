@@ -101,8 +101,8 @@ export default function ListingDetailPage() {
     window.location.reload()
   }
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading...</div>
-  if (!listing) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Listing not found</div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Loading...</div>
+  if (!listing) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Listing not found</div>
 
   const isSeller = currentUser === listing.seller_id
   const isActive = listing.status === 'active'
@@ -112,7 +112,7 @@ export default function ListingDetailPage() {
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/marketplace" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Marketplace</Link>
+      <Link href="/marketplace" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Marketplace</Link>
 
       {/* Status banner */}
       {isPending && (
@@ -135,13 +135,13 @@ export default function ListingDetailPage() {
       {/* Images */}
       {images.length > 0 && (
         <div className="glass" style={{ overflow: 'hidden', marginBottom: '20px' }}>
-          <div style={{ height: '350px', background: 'rgba(26,26,46,0.5)' }}>
+          <div style={{ height: '350px', background: '#e4e4e4' }}>
             <img src={images[mainImage]?.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', background: '#0c0c14' }} />
           </div>
           {images.length > 1 && (
             <div style={{ display: 'flex', gap: '6px', padding: '10px' }}>
               {images.map((img: any, i: number) => (
-                <button key={i} onClick={() => setMainImage(i)} style={{ width: '60px', height: '60px', borderRadius: '6px', overflow: 'hidden', border: mainImage === i ? '2px solid #f97316' : '2px solid transparent', cursor: 'pointer', padding: 0, background: 'rgba(26,26,46,0.5)' }}>
+                <button key={i} onClick={() => setMainImage(i)} style={{ width: '60px', height: '60px', borderRadius: '6px', overflow: 'hidden', border: mainImage === i ? '2px solid #f97316' : '2px solid transparent', cursor: 'pointer', padding: 0, background: '#e4e4e4' }}>
                   <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </button>
               ))}
@@ -159,19 +159,19 @@ export default function ListingDetailPage() {
           {listing.is_obo && <span style={{ fontSize: '10px', fontWeight: 700, padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.2)' }}>OBO</span>}
         </div>
 
-        <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>{listing.title}</h1>
-        <p style={{ fontSize: '32px', fontWeight: 700, color: '#22c55e', marginBottom: '16px' }}>${parseFloat(listing.price).toLocaleString()}{listing.is_obo && <span style={{ fontSize: '14px', color: '#8892a4', marginLeft: '8px' }}>or best offer</span>}</p>
+        <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>{listing.title}</h1>
+        <p style={{ fontSize: '32px', fontWeight: 700, color: '#22c55e', marginBottom: '16px' }}>${parseFloat(listing.price).toLocaleString()}{listing.is_obo && <span style={{ fontSize: '14px', color: '#666666', marginLeft: '8px' }}>or best offer</span>}</p>
 
         {listing.description && (
-          <p style={{ fontSize: '14px', color: '#9ca3af', lineHeight: 1.7, marginBottom: '16px', whiteSpace: 'pre-wrap' }}>{listing.description}</p>
+          <p style={{ fontSize: '14px', color: '#555555', lineHeight: 1.7, marginBottom: '16px', whiteSpace: 'pre-wrap' }}>{listing.description}</p>
         )}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '16px', borderTop: '1px solid #e4e4e4' }}>
           <Link href={`/user/${listing.seller?.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(26,26,46,0.5)', backgroundImage: listing.seller?.avatar_url ? `url(${listing.seller.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#e4e4e4', backgroundImage: listing.seller?.avatar_url ? `url(${listing.seller.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
             <div>
-              <p style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>{listing.seller?.display_name || listing.seller?.username}</p>
-              <p style={{ fontSize: '12px', color: '#6b7280' }}>{listing.seller?.location || 'Location N/A'}</p>
+              <p style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>{listing.seller?.display_name || listing.seller?.username}</p>
+              <p style={{ fontSize: '12px', color: '#555555' }}>{listing.seller?.location || 'Location N/A'}</p>
             </div>
           </Link>
         </div>
@@ -187,17 +187,17 @@ export default function ListingDetailPage() {
 
       {/* Public comments / offers */}
       <div className="glass" style={{ padding: '24px' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>Public Offers & Questions</h2>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '16px' }}>Public Offers & Questions</h2>
 
         {/* Comment input */}
         {isActive && currentUser && (
-          <div style={{ marginBottom: '20px', padding: '16px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ marginBottom: '20px', padding: '16px', background: '#f0f0f0', borderRadius: '8px', border: '1px solid #e4e4e4' }}>
             <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: !isOffer ? 'rgba(232,120,23,0.15)' : 'rgba(18,18,30,0.5)', color: !isOffer ? '#f97316' : '#6b7280', border: !isOffer ? '1px solid rgba(232,120,23,0.3)' : '1px solid rgba(255,255,255,0.06)' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: !isOffer ? 'rgba(232,120,23,0.15)' : '#f0f0f0', color: !isOffer ? '#f97316' : '#555555', border: !isOffer ? '1px solid rgba(232,120,23,0.3)' : '1px solid #e4e4e4' }}>
                 <input type="radio" checked={!isOffer} onChange={() => setIsOffer(false)} style={{ display: 'none' }} />
                 Question
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: isOffer ? 'rgba(34,197,94,0.15)' : 'rgba(18,18,30,0.5)', color: isOffer ? '#22c55e' : '#6b7280', border: isOffer ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(255,255,255,0.06)' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: isOffer ? 'rgba(34,197,94,0.15)' : '#f0f0f0', color: isOffer ? '#22c55e' : '#555555', border: isOffer ? '1px solid rgba(34,197,94,0.3)' : '1px solid #e4e4e4' }}>
                 <input type="radio" checked={isOffer} onChange={() => setIsOffer(true)} style={{ display: 'none' }} />
                 Make Offer
               </label>
@@ -218,15 +218,15 @@ export default function ListingDetailPage() {
 
         {/* Comments list */}
         {comments.length === 0 ? (
-          <p style={{ fontSize: '13px', color: '#6b7280', textAlign: 'center', padding: '16px' }}>No offers or questions yet. Be the first!</p>
+          <p style={{ fontSize: '13px', color: '#555555', textAlign: 'center', padding: '16px' }}>No offers or questions yet. Be the first!</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {comments.map(c => (
-              <div key={c.id} style={{ padding: '14px', borderRadius: '8px', background: c.is_offer ? 'rgba(34,197,94,0.05)' : 'rgba(18,18,30,0.3)', border: `1px solid ${c.is_offer ? 'rgba(34,197,94,0.15)' : 'rgba(255,255,255,0.04)'}` }}>
+              <div key={c.id} style={{ padding: '14px', borderRadius: '8px', background: c.is_offer ? 'rgba(34,197,94,0.05)' : '#f0f0f0', border: `1px solid ${c.is_offer ? 'rgba(34,197,94,0.15)' : '#f5f5f5'}` }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <Link href={`/user/${c.author?.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(26,26,46,0.5)', backgroundImage: c.author?.avatar_url ? `url(${c.author.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
-                    <span style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{c.author?.display_name || c.author?.username}</span>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#e4e4e4', backgroundImage: c.author?.avatar_url ? `url(${c.author.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+                    <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{c.author?.display_name || c.author?.username}</span>
                   </Link>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {c.is_offer && c.offer_amount && (
@@ -237,12 +237,12 @@ export default function ListingDetailPage() {
                     {c.is_offer && c.offer_status === 'accepted' && (
                       <span style={{ fontSize: '10px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.2)', color: '#22c55e' }}>ACCEPTED</span>
                     )}
-                    <span style={{ fontSize: '11px', color: '#6b7280' }}>
+                    <span style={{ fontSize: '11px', color: '#555555' }}>
                       {new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </span>
                   </div>
                 </div>
-                {c.content && <p style={{ fontSize: '14px', color: '#9ca3af', lineHeight: 1.5 }}>{c.content}</p>}
+                {c.content && <p style={{ fontSize: '14px', color: '#555555', lineHeight: 1.5 }}>{c.content}</p>}
 
                 {/* Accept offer button (seller only) */}
                 {isSeller && c.is_offer && c.offer_status === 'pending' && isActive && (

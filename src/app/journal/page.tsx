@@ -238,7 +238,7 @@ export default function JournalPage() {
                 </div>
                 {entry.content && <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.6 }}>{entry.content}</p>}
                 {entry.image_url && (
-                  <div style={{ marginTop: '12px', borderRadius: '8px', overflow: 'hidden', maxHeight: '250px', background: 'rgba(26,26,46,0.5)' }}>
+                  <div style={{ marginTop: '12px', borderRadius: '8px', overflow: 'hidden', maxHeight: '250px', background: '#e4e4e4' }}>
                     <img src={entry.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: '250px' }} />
                   </div>
                 )}

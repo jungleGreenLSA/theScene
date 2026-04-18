@@ -63,7 +63,7 @@ export default function PropsButton({ targetType, targetId, initialCount = 0, si
         display: 'flex', alignItems: 'center', gap: '6px',
         padding: '0', background: 'none', border: 'none',
         fontSize, fontWeight: 600, cursor: busy ? 'default' : 'pointer',
-        color: propped ? '#fb923c' : '#8892a4',
+        color: propped ? '#fb923c' : '#666666',
         transition: 'all 0.2s',
         transform: animating ? 'scale(1.15)' : 'scale(1)',
         opacity: busy ? 0.6 : 1,

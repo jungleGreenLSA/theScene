@@ -85,14 +85,14 @@ export default function ShopsPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {filtered.map((shop) => (
             <Link key={shop.id} href={`/shops/${shop.slug}`} className="glass overflow-hidden card-hover group">
-              <div style={{ height: '120px', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+              <div style={{ height: '120px', position: 'relative', overflow: 'hidden', background: '#e4e4e4' }}>
                 {shop.cover_image_url ? (
                   <img src={shop.cover_image_url} alt={shop.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
                   <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }} />
                 )}
                 {shop.logo_url && (
-                  <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid #e4e4e4' }}>
                     <img src={shop.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                 )}
@@ -109,7 +109,7 @@ export default function ShopsPage() {
                     ))}
                   </div>
                 )}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid #e4e4e4' }}>
                   <span className="text-muted" style={{ fontSize: '12px' }}>{shop.tag_count} {shop.tag_count === 1 ? 'build' : 'builds'}</span>
                 </div>
               </div>

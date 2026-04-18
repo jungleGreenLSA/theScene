@@ -103,19 +103,19 @@ export default function VehiclePhotosPage() {
     setTimeout(() => setMessage(''), 3000)
   }
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading...</div>
-  if (!vehicle) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Vehicle not found</div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Loading...</div>
+  if (!vehicle) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Vehicle not found</div>
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/garage" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
+      <Link href="/garage" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9' }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a' }}>
             Photos: {vehicle.year} {vehicle.make} {vehicle.model}
           </h1>
-          <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>{images.length} photo{images.length !== 1 ? 's' : ''}</p>
+          <p style={{ fontSize: '14px', color: '#666666', marginTop: '4px' }}>{images.length} photo{images.length !== 1 ? 's' : ''}</p>
         </div>
       </div>
 
@@ -127,21 +127,21 @@ export default function VehiclePhotosPage() {
 
       {/* Upload */}
       <div className="glass" style={{ padding: '20px', marginBottom: '20px' }}>
-        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '24px', border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', transition: 'border-color 0.2s' }}>
+        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '24px', border: '2px dashed #d4d4d4', borderRadius: '8px', cursor: 'pointer', transition: 'border-color 0.2s' }}>
           <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleUpload} style={{ display: 'none' }} disabled={uploading} />
-          <span style={{ fontSize: '14px', color: '#8892a4' }}>{uploading ? 'Uploading...' : 'Click to upload photos (JPEG, PNG, WebP, max 5MB each)'}</span>
+          <span style={{ fontSize: '14px', color: '#666666' }}>{uploading ? 'Uploading...' : 'Click to upload photos (JPEG, PNG, WebP, max 5MB each)'}</span>
         </label>
       </div>
 
       {/* Gallery */}
       {images.length === 0 ? (
         <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
-          <p style={{ color: '#8892a4' }}>No photos yet. Upload some above!</p>
+          <p style={{ color: '#666666' }}>No photos yet. Upload some above!</p>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '12px' }}>
           {images.map(img => (
-            <div key={img.id} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '2 / 1' }}>
+            <div key={img.id} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: '#e4e4e4', aspectRatio: '2 / 1' }}>
               <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               {vehicle.primary_image_url === img.image_url && (
                 <span style={{ position: 'absolute', top: '6px', left: '6px', fontSize: '10px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.9)', color: 'white', fontWeight: 600 }}>Primary</span>

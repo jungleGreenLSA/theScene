@@ -43,9 +43,9 @@ export default function SupportWidget() {
             left: '24px',
             width: '320px',
             borderRadius: '12px',
-            background: 'rgba(18,18,30,0.95)',
+            background: '#f0f0f0',
             backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid #e4e4e4',
             padding: '24px',
             zIndex: 999,
             boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
@@ -63,7 +63,7 @@ export default function SupportWidget() {
             </a>
           </p>
 
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
+          <div style={{ borderTop: '1px solid #e4e4e4', paddingTop: '12px' }}>
             <p className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>Or reach us directly:</p>
             <a
               href="mailto:support@thescene.fyi"

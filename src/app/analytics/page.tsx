@@ -169,7 +169,7 @@ export default function AnalyticsPage() {
                   <span className="text-muted-light" style={{ fontSize: '13px' }}>{source.label}</span>
                   <span className="text-foreground font-semibold" style={{ fontSize: '13px' }}>{source.count} ({Math.round(pct)}%)</span>
                 </div>
-                <div style={{ height: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '3px', overflow: 'hidden' }}>
+                <div style={{ height: '6px', background: '#f5f5f5', borderRadius: '3px', overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: `${pct}%`, background: source.color, borderRadius: '3px', transition: 'width 0.5s ease' }} />
                 </div>
               </div>
@@ -190,11 +190,11 @@ export default function AnalyticsPage() {
                 onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
                 onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
               >
-                <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0 }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0 }}>
                   {v.avatar_url ? (
                     <img src={v.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', color: '#6b7280' }}>{v.username?.charAt(0).toUpperCase()}</div>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', color: '#555555' }}>{v.username?.charAt(0).toUpperCase()}</div>
                   )}
                 </div>
                 <div style={{ flex: 1 }}>

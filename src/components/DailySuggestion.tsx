@@ -60,7 +60,7 @@ export default function DailySuggestion() {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#fb923c' }}>Community Prompt</span>
-            <span style={{ fontSize: '10px', color: '#6b7280' }}>New every day</span>
+            <span style={{ fontSize: '10px', color: '#555555' }}>New every day</span>
           </div>
           <h3 className="font-bold text-foreground" style={{ fontSize: '15px', marginBottom: '4px' }}>{suggestion.title}</h3>
           <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.5, marginBottom: suggestion.hashtag ? '10px' : 0 }}>{suggestion.description}</p>
@@ -80,7 +80,7 @@ export default function DailySuggestion() {
               </button>
               <Link
                 href={`/feed?tag=${encodeURIComponent(suggestion.hashtag.toLowerCase())}`}
-                style={{ fontSize: '11px', color: '#8892a4', textDecoration: 'underline' }}
+                style={{ fontSize: '11px', color: '#666666', textDecoration: 'underline' }}
               >
                 See posts →
               </Link>

@@ -104,7 +104,7 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
 
   return (
     <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>Guestbook</h2>
+      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '16px' }}>Guestbook</h2>
 
       {/* Entry form */}
       <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
@@ -122,7 +122,7 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
           <p style={{ fontSize: '13px', color: '#ef4444', marginBottom: '8px' }}>{error}</p>
         )}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: '12px', fontWeight: 600, color: newEntry.length > 100 ? (newEntry.length > 115 ? '#ef4444' : '#fb923c') : '#6b7280' }}>{120 - newEntry.length}</span>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: newEntry.length > 100 ? (newEntry.length > 115 ? '#ef4444' : '#fb923c') : '#555555' }}>{120 - newEntry.length}</span>
           <button type="submit" disabled={loading || !newEntry.trim()} style={{
             padding: '8px 20px', borderRadius: '8px', background: '#e87817', border: '1px solid #f97316',
             color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
@@ -135,26 +135,26 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
 
       {/* Entries */}
       {entries.length === 0 ? (
-        <p style={{ fontSize: '13px', color: '#8892a4', textAlign: 'center', padding: '16px' }}>No guestbook entries yet. Be the first!</p>
+        <p style={{ fontSize: '13px', color: '#666666', textAlign: 'center', padding: '16px' }}>No guestbook entries yet. Be the first!</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {entries.map((entry) => (
-            <div key={entry.id} style={{ display: 'flex', gap: '12px', paddingBottom: '14px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div key={entry.id} style={{ display: 'flex', gap: '12px', paddingBottom: '14px', borderBottom: '1px solid #e4e4e4' }}>
               <Link href={`/user/${entry.author?.username}`} style={{ flexShrink: 0 }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', backgroundImage: entry.author?.avatar_url ? `url(${entry.author.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {!entry.author?.avatar_url && <span style={{ fontSize: '11px', color: '#6b7280' }}>{entry.author?.username?.charAt(0).toUpperCase() || '?'}</span>}
+                <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', backgroundImage: entry.author?.avatar_url ? `url(${entry.author.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {!entry.author?.avatar_url && <span style={{ fontSize: '11px', color: '#555555' }}>{entry.author?.username?.charAt(0).toUpperCase() || '?'}</span>}
                 </div>
               </Link>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Link href={`/user/${entry.author?.username}`} style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>
+                  <Link href={`/user/${entry.author?.username}`} style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>
                     {entry.author?.display_name || entry.author?.username}
                   </Link>
-                  <span style={{ fontSize: '11px', color: '#6b7280' }}>
+                  <span style={{ fontSize: '11px', color: '#555555' }}>
                     {new Date(entry.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   </span>
                 </div>
-                <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '4px', whiteSpace: 'pre-wrap' }}>{renderMentions(entry.content)}</p>
+                <p style={{ fontSize: '14px', color: '#555555', marginTop: '4px', whiteSpace: 'pre-wrap' }}>{renderMentions(entry.content)}</p>
               </div>
             </div>
           ))}

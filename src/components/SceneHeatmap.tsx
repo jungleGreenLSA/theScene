@@ -126,8 +126,8 @@ export default function SceneHeatmap({ type, title }: Props) {
   return (
     <div className="glass" style={{ padding: '16px', overflow: 'hidden', borderRadius: '12px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>{title}</h3>
-        <span style={{ fontSize: '11px', color: '#6b7280' }}>
+        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a' }}>{title}</h3>
+        <span style={{ fontSize: '11px', color: '#555555' }}>
           {total} {total === 1 ? cfg.label.slice(0, -1) : cfg.label}
         </span>
       </div>
@@ -140,7 +140,7 @@ export default function SceneHeatmap({ type, title }: Props) {
           strokeLinejoin="round"
         />
         {dots.length === 0 && total === 0 && (
-          <text x="480" y="300" textAnchor="middle" fill="#6b7280" fontSize="14">
+          <text x="480" y="300" textAnchor="middle" fill="#555555" fontSize="14">
             No {cfg.label} posted yet
           </text>
         )}
@@ -167,7 +167,7 @@ export default function SceneHeatmap({ type, title }: Props) {
           const textX = boxX + W / 2
           return (
             <g pointerEvents="none">
-              <rect x={boxX} y={boxY} width={W} height={H} rx="8" fill="rgba(12,12,20,0.96)" stroke={`rgba(${cfg.color},0.45)`} strokeWidth="1.5" />
+              <rect x={boxX} y={boxY} width={W} height={H} rx="8" fill="#ffffff" stroke={`rgba(${cfg.color},0.45)`} strokeWidth="1.5" />
               <text x={textX} y={boxY + 22} textAnchor="middle" fill={`rgb(${cfg.color})`} fontSize="18" fontWeight="700">{tooltip.label}</text>
               <text x={textX} y={boxY + 42} textAnchor="middle" fill="#cbd5e1" fontSize="14">
                 {tooltip.count} {tooltip.count === 1 ? cfg.label.slice(0, -1) : cfg.label}
@@ -177,7 +177,7 @@ export default function SceneHeatmap({ type, title }: Props) {
         })()}
       </svg>
       {missing > 0 && (
-        <p style={{ fontSize: '10px', color: '#6b7280', marginTop: '8px', textAlign: 'center' }}>
+        <p style={{ fontSize: '10px', color: '#555555', marginTop: '8px', textAlign: 'center' }}>
           {missing} not geocoded yet — edit the record and re-save the address to drop a pin.
         </p>
       )}

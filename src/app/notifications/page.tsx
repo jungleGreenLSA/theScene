@@ -79,14 +79,14 @@ export default function NotificationsPage() {
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '4px' }}>Notifications</h1>
-      <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '20px' }}>Join requests, guestbook signs, and mentions show up here.</p>
+      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '4px' }}>Notifications</h1>
+      <p style={{ fontSize: '13px', color: '#666666', marginBottom: '20px' }}>Join requests, guestbook signs, and mentions show up here.</p>
 
       {loading ? (
-        <p style={{ fontSize: '13px', color: '#6b7280' }}>Loading...</p>
+        <p style={{ fontSize: '13px', color: '#555555' }}>Loading...</p>
       ) : items.length === 0 ? (
         <div className="glass" style={{ padding: '32px', textAlign: 'center' }}>
-          <p style={{ fontSize: '14px', color: '#8892a4' }}>Nothing new. Check back later.</p>
+          <p style={{ fontSize: '14px', color: '#666666' }}>Nothing new. Check back later.</p>
         </div>
       ) : (
         <div className="glass" style={{ padding: '8px' }}>
@@ -98,7 +98,7 @@ export default function NotificationsPage() {
                 display: 'flex', gap: '12px', alignItems: 'flex-start',
                 padding: '14px', borderRadius: '8px',
                 background: n.is_read ? 'transparent' : 'rgba(232,120,23,0.05)',
-                borderBottom: '1px solid rgba(255,255,255,0.04)',
+                borderBottom: '1px solid #f5f5f5',
               }}
             >
               <div style={{ fontSize: '22px', flexShrink: 0, width: '28px', textAlign: 'center' }}>
@@ -107,15 +107,15 @@ export default function NotificationsPage() {
               {n.actor?.avatar_url ? (
                 <img src={n.actor.avatar_url} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
               ) : (
-                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(26,26,46,0.6)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#6b7280' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#e4e4e4', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#555555' }}>
                   {n.actor?.username?.charAt(0).toUpperCase() || '?'}
                 </div>
               )}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '14px', color: '#e2e4e9', lineHeight: 1.4 }}>
+                <p style={{ fontSize: '14px', color: '#1a1a1a', lineHeight: 1.4 }}>
                   {n.message || 'New activity'}
                 </p>
-                <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>{timeAgo(n.created_at)}</p>
+                <p style={{ fontSize: '11px', color: '#555555', marginTop: '4px' }}>{timeAgo(n.created_at)}</p>
               </div>
             </Link>
           ))}

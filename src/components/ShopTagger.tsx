@@ -108,7 +108,7 @@ export default function ShopTagger({ vehicleId }: { vehicleId: string }) {
           {tags.map(t => (
             <span key={t.id} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '5px 4px 5px 10px', borderRadius: '6px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', fontSize: '12px', color: '#22c55e' }}>
               <Link href={`/shops/${t.shop.slug}`} style={{ color: '#22c55e', fontWeight: 600 }}>{t.shop.name}</Link>
-              {t.shop.city && <span style={{ color: '#6b7280', fontSize: '11px' }}>· {t.shop.city}, {t.shop.state}</span>}
+              {t.shop.city && <span style={{ color: '#555555', fontSize: '11px' }}>· {t.shop.city}, {t.shop.state}</span>}
               <button onClick={() => untag(t.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '13px', padding: '0 4px' }}>x</button>
             </span>
           ))}
@@ -127,7 +127,7 @@ export default function ShopTagger({ vehicleId }: { vehicleId: string }) {
           style={{ width: '100%' }}
         />
         {showDropdown && query.trim().length >= 2 && (suggestions.length > 0 || !exactMatch) && (
-          <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', zIndex: 10, maxHeight: '280px', overflowY: 'auto' }}>
+          <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: '#12121e', border: '1px solid #d4d4d4', borderRadius: '8px', overflow: 'hidden', zIndex: 10, maxHeight: '280px', overflowY: 'auto' }}>
             {suggestions.map(s => (
               <button
                 key={s.id}
@@ -135,10 +135,10 @@ export default function ShopTagger({ vehicleId }: { vehicleId: string }) {
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => tagShop(s.id)}
                 disabled={adding}
-                style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'none', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.04)', cursor: 'pointer', color: '#e2e4e9' }}
+                style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'none', border: 'none', borderBottom: '1px solid #f5f5f5', cursor: 'pointer', color: '#1a1a1a' }}
               >
                 <span style={{ fontSize: '13px', fontWeight: 600 }}>{s.name}</span>
-                {s.city && s.state && <span style={{ fontSize: '11px', color: '#6b7280', marginLeft: '8px' }}>{s.city}, {s.state}</span>}
+                {s.city && s.state && <span style={{ fontSize: '11px', color: '#555555', marginLeft: '8px' }}>{s.city}, {s.state}</span>}
               </button>
             ))}
             {!exactMatch && (

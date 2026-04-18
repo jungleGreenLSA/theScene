@@ -73,7 +73,7 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
       {file && (
         <div style={{ marginBottom: '10px', position: 'relative', borderRadius: '8px', overflow: 'hidden', maxHeight: '240px' }}>
           <img src={URL.createObjectURL(file)} alt="" style={{ width: '100%', maxHeight: '240px', objectFit: 'cover' }} />
-          <button type="button" onClick={() => setFile(null)} style={{ position: 'absolute', top: '8px', right: '8px', padding: '4px 10px', borderRadius: '6px', background: 'rgba(12,12,20,0.9)', border: 'none', color: '#e2e4e9', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
+          <button type="button" onClick={() => setFile(null)} style={{ position: 'absolute', top: '8px', right: '8px', padding: '4px 10px', borderRadius: '6px', background: '#ffffff', border: 'none', color: '#1a1a1a', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
         </div>
       )}
       {error && <p style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{error}</p>}
@@ -83,7 +83,7 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
           <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </label>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: content.length > 100 ? (content.length > 115 ? '#ef4444' : '#fb923c') : '#6b7280' }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: content.length > 100 ? (content.length > 115 ? '#ef4444' : '#fb923c') : '#555555' }}>
             {120 - content.length}
           </span>
           <button type="submit" disabled={posting || (!content.trim() && !file)} className="btn-primary" style={{ fontSize: '12px', padding: '8px 18px', opacity: (posting || (!content.trim() && !file)) ? 0.4 : 1 }}>

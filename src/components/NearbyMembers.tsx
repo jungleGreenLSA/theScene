@@ -48,7 +48,7 @@ export default function NearbyMembers() {
   return (
     <div className="glass" style={{ padding: '16px', marginBottom: '16px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-        <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#e2e4e9', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1a1a1a', display: 'flex', alignItems: 'center', gap: '6px' }}>
           Near {userLocation}
         </h3>
       </div>
@@ -58,14 +58,14 @@ export default function NearbyMembers() {
             style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px', borderRadius: '6px' }}
           >
             <div style={{ flexShrink: 0 }}>
-              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', backgroundImage: m.avatar_url ? `url(${m.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {!m.avatar_url && <span style={{ fontSize: '10px', color: '#6b7280' }}>{m.username?.charAt(0).toUpperCase()}</span>}
+              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', backgroundImage: m.avatar_url ? `url(${m.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {!m.avatar_url && <span style={{ fontSize: '10px', color: '#555555' }}>{m.username?.charAt(0).toUpperCase()}</span>}
               </div>
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: '12px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.display_name || m.username}</p>
+              <p style={{ fontSize: '12px', fontWeight: 600, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.display_name || m.username}</p>
             </div>
-            <span style={{ fontSize: '10px', color: '#6b7280' }}>{m.vehicle_count} ride{m.vehicle_count === 1 ? '' : 's'}</span>
+            <span style={{ fontSize: '10px', color: '#555555' }}>{m.vehicle_count} ride{m.vehicle_count === 1 ? '' : 's'}</span>
           </Link>
         ))}
       </div>

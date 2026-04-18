@@ -68,7 +68,7 @@ export default function CreateShopPage() {
 
   return (
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/shops" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Shops</Link>
+      <Link href="/shops" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Shops</Link>
 
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Add a <span style={{ color: '#22c55e' }}>Shop</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '28px' }}>List a shop so other members can tag it on their builds.</p>
@@ -85,7 +85,7 @@ export default function CreateShopPage() {
         </div>
 
         <div style={{ marginBottom: '16px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(autocomplete via Google Maps)</span></label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(autocomplete via Google Maps)</span></label>
           <AddressAutocomplete
             placeholder="Start typing the shop's address..."
             onChange={(a: ParsedAddress) => setForm(f => ({
@@ -141,9 +141,9 @@ export default function CreateShopPage() {
                 onClick={() => toggleSpecialty(s)}
                 style={{
                   padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: form.specialties.includes(s) ? 'rgba(34,197,94,0.2)' : 'rgba(18,18,30,0.5)',
-                  color: form.specialties.includes(s) ? '#22c55e' : '#6b7280',
-                  outline: form.specialties.includes(s) ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.specialties.includes(s) ? 'rgba(34,197,94,0.2)' : '#f0f0f0',
+                  color: form.specialties.includes(s) ? '#22c55e' : '#555555',
+                  outline: form.specialties.includes(s) ? '1px solid rgba(34,197,94,0.3)' : '1px solid #e4e4e4',
                 }}
               >
                 {s}
