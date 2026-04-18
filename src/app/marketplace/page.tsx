@@ -167,7 +167,7 @@ export default function MarketplacePage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
             {filteredListings.map(l => (
               <Link key={l.id} href={`/marketplace/${l.id}`} className="glass card-hover" style={{ overflow: 'hidden' }}>
-                <div style={{ aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', position: 'relative' }}>
+                <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', position: 'relative' }}>
                   {l.images && l.images.length > 0 ? (
                     <img src={l.images[0].image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
@@ -205,7 +205,7 @@ export default function MarketplacePage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
             {filteredShops.map(shop => (
               <Link key={shop.id} href={`/shops/${shop.slug}`} className="glass card-hover" style={{ overflow: 'hidden' }}>
-                <div style={{ aspectRatio: '16 / 9', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+                <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                   {shop.cover_image_url ? (
                     <img src={shop.cover_image_url} alt={shop.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (

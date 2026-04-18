@@ -81,7 +81,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
               if (!v?.owner) return null
               return (
                 <Link key={t.id} href={`/user/${v.owner.username}/${v.slug}`} style={{ display: 'block', padding: '12px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div style={{ aspectRatio: '16 / 9', borderRadius: '6px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', marginBottom: '10px' }}>
+                  <div style={{ aspectRatio: '2 / 1', borderRadius: '6px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', marginBottom: '10px' }}>
                     {v.primary_image_url ? (
                       <img src={v.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : null}

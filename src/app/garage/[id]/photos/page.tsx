@@ -141,7 +141,7 @@ export default function VehiclePhotosPage() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '12px' }}>
           {images.map(img => (
-            <div key={img.id} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '16 / 9' }}>
+            <div key={img.id} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '2 / 1' }}>
               <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               {vehicle.primary_image_url === img.image_url && (
                 <span style={{ position: 'absolute', top: '6px', left: '6px', fontSize: '10px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.9)', color: 'white', fontWeight: 600 }}>Primary</span>

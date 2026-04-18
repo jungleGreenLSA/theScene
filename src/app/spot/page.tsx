@@ -159,7 +159,7 @@ export default function SpotPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {sightings.map((s) => (
             <div key={s.id} className="glass overflow-hidden card-hover">
-              <div style={{ aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+              <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img
                   src={s.image_url}
                   alt=""

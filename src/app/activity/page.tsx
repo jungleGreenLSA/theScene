@@ -362,7 +362,7 @@ export default function ActivityPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '14px' }}>
           {sightings.length === 0 ? <div style={{ gridColumn: '1/-1' }}>{emptyState("You haven't posted any sightings yet.")}</div> : sightings.map(s => (
             <div key={s.id} className="glass overflow-hidden">
-              <div style={{ aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+              <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img
                   src={s.image_url}
                   alt=""

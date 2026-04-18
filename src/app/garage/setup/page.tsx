@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
 import { compressImage } from '@/lib/imageUpload'
+import VehicleModsDraft, { type DraftMod } from '@/components/VehicleModsDraft'
 
 const YEARS = Array.from({ length: new Date().getFullYear() - 1919 }, (_, i) => new Date().getFullYear() + 1 - i)
 const BODY_STYLES = ['Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Wagon', 'SUV', 'Truck', 'Van', 'Roadster', 'Other']
@@ -29,6 +30,7 @@ export default function GarageSetupPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [photoFiles, setPhotoFiles] = useState<File[]>([])
+  const [draftMods, setDraftMods] = useState<DraftMod[]>([])
 
   const [form, setForm] = useState({
     year: '',
@@ -60,7 +62,6 @@ export default function GarageSetupPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { setError('You must be signed in'); setLoading(false); return }
 
-    // Ensure profile exists (Google OAuth users may not have one)
     const { data: existingProfile } = await supabase.from('profiles').select('id').eq('id', user.id).single()
     if (!existingProfile) {
       const fullName = user.user_metadata?.full_name || user.user_metadata?.name || ''
@@ -101,9 +102,11 @@ export default function GarageSetupPage() {
     if (insertError) {
       setError(insertError.message)
       setLoading(false)
-    } else {
-      // Upload photos
-      if (photoFiles.length > 0 && newVehicle) {
+      return
+    }
+
+    if (newVehicle) {
+      if (photoFiles.length > 0) {
         for (let i = 0; i < photoFiles.length; i++) {
           const file = photoFiles[i]
           const filename = `vehicles/${user.id}/${newVehicle.id}/${Date.now()}_${i}.${file.name.split('.').pop()}`
@@ -111,7 +114,6 @@ export default function GarageSetupPage() {
           if (!uploadErr) {
             const { data: urlData } = supabase.storage.from('posts').getPublicUrl(filename)
             await supabase.from('vehicle_images').insert({ vehicle_id: newVehicle.id, image_url: urlData.publicUrl, sort_order: i })
-            // Set first photo as primary
             if (i === 0) {
               await supabase.from('vehicles').update({ primary_image_url: urlData.publicUrl }).eq('id', newVehicle.id)
             }
@@ -119,16 +121,33 @@ export default function GarageSetupPage() {
         }
       }
 
-      if (form.location) {
-        await supabase.from('profiles').update({ location: form.location }).eq('id', user.id)
+      if (draftMods.length > 0) {
+        const modsByCategory: Record<string, number> = {}
+        const rows = draftMods.map(m => {
+          const order = modsByCategory[m.category] ?? 0
+          modsByCategory[m.category] = order + 1
+          return {
+            vehicle_id: newVehicle.id,
+            category: m.category,
+            item: m.item,
+            brand: m.brand || null,
+            notes: m.notes || null,
+            sort_order: order,
+          }
+        })
+        await supabase.from('vehicle_modifications').insert(rows)
       }
-      const { data: profile } = await supabase.from('profiles').select('username').eq('id', user.id).single()
-      router.push(`/user/${profile?.username}/${slug}`)
     }
+
+    if (form.location) {
+      await supabase.from('profiles').update({ location: form.location }).eq('id', user.id)
+    }
+    const { data: profile } = await supabase.from('profiles').select('username').eq('id', user.id).single()
+    router.push(`/user/${profile?.username}/${slug}`)
   }
 
   return (
-    <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
           Build Your <span style={{ color: '#fb923c' }}>Garage</span>
@@ -136,12 +155,12 @@ export default function GarageSetupPage() {
         <p style={{ fontSize: '14px', color: '#8892a4' }}>Add your ride to The Scene</p>
       </div>
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: '20px' }}>
 
         {/* Vehicle Info */}
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Vehicle Info</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Year *</label>
               <select name="year" value={form.year} onChange={handleChange} className="input" required>
@@ -178,7 +197,7 @@ export default function GarageSetupPage() {
         {/* Powertrain */}
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Powertrain</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Engine</label>
               <input name="engine" value={form.engine} onChange={handleChange} className="input" placeholder="6.2L LS3 V8" maxLength={128} />
@@ -207,7 +226,7 @@ export default function GarageSetupPage() {
         {/* Build Status */}
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Build Status</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '8px' }}>
             {BUILD_STATUSES.map((status) => (
               <label
                 key={status.value}
@@ -230,7 +249,7 @@ export default function GarageSetupPage() {
         {/* Location & Community */}
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Location & Community</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Location</label>
               <AddressAutocomplete
@@ -252,7 +271,7 @@ export default function GarageSetupPage() {
         </div>
 
         {/* About */}
-        <div className="glass" style={{ padding: '24px' }}>
+        <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
           <div style={sectionTitle}>About This Build</div>
           <textarea
             name="bio"
@@ -265,8 +284,15 @@ export default function GarageSetupPage() {
           />
         </div>
 
+        {/* Modifications */}
+        <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
+          <div style={sectionTitle}>Modifications</div>
+          <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px' }}>Optional — list what you&apos;ve done to your build. You can add more later from the edit page.</p>
+          <VehicleModsDraft mods={draftMods} onChange={setDraftMods} />
+        </div>
+
         {/* Photos */}
-        <div className="glass" style={{ padding: '24px' }}>
+        <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
           <div style={sectionTitle}>Photos</div>
           <p style={hintStyle as React.CSSProperties}>Upload photos of your ride. The first photo will be your primary image.</p>
           <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '28px', border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', marginTop: '10px' }}>
@@ -317,18 +343,17 @@ export default function GarageSetupPage() {
           </div>
         </div>
 
-        {/* Error */}
         {error && (
-          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: '#ef4444', fontSize: '13px' }}>
+          <div style={{ gridColumn: '1 / -1', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: '#ef4444', fontSize: '13px' }}>
             {error}
           </div>
         )}
 
-        {/* Submit */}
         <button
           type="submit"
           disabled={loading}
           style={{
+            gridColumn: '1 / -1',
             width: '100%', padding: '16px', borderRadius: '12px',
             background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
             fontSize: '15px', fontWeight: 700, cursor: 'pointer',

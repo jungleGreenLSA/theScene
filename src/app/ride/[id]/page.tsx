@@ -115,7 +115,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
           <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Gallery</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '10px' }}>
             {images.map((img, i) => (
-              <div key={i} style={{ borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '16/9' }}>
+              <div key={i} style={{ borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '2 / 1' }}>
                 <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             ))}

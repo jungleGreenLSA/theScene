@@ -1,108 +1,73 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { MOD_CATEGORY_GROUPS, type ModCategory as Category } from '@/lib/vehicleMods'
+import { useState } from 'react'
+import { MOD_CATEGORY_GROUPS, type ModCategory } from '@/lib/vehicleMods'
 
-interface Mod {
-  id: string
-  vehicle_id: string
-  category: Category
+export interface DraftMod {
+  category: ModCategory
   item: string
-  brand: string | null
-  notes: string | null
-  sort_order: number
+  brand: string
+  notes: string
 }
 
-const CATEGORY_GROUPS = MOD_CATEGORY_GROUPS
+interface Props {
+  mods: DraftMod[]
+  onChange: (mods: DraftMod[]) => void
+}
 
-export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
-  const supabase = createClient()
-  const [mods, setMods] = useState<Mod[]>([])
-  const [loading, setLoading] = useState(true)
-  const [openCategory, setOpenCategory] = useState<Category | null>(null)
+export default function VehicleModsDraft({ mods, onChange }: Props) {
+  const [openCategory, setOpenCategory] = useState<ModCategory | null>(null)
+  const [editingIndex, setEditingIndex] = useState<number | null>(null)
   const [draft, setDraft] = useState({ item: '', brand: '', notes: '' })
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [saving, setSaving] = useState(false)
 
-  useEffect(() => {
-    const load = async () => {
-      const { data } = await supabase
-        .from('vehicle_modifications')
-        .select('*')
-        .eq('vehicle_id', vehicleId)
-        .order('category')
-        .order('sort_order')
-      setMods((data || []) as Mod[])
-      setLoading(false)
-    }
-    load()
-  }, [vehicleId])
+  const byCategory = (cat: ModCategory) =>
+    mods.map((m, i) => ({ ...m, idx: i })).filter(m => m.category === cat)
 
-  const byCategory = (cat: Category) => mods.filter(m => m.category === cat)
-
-  const openAdd = (cat: Category) => {
+  const openAdd = (cat: ModCategory) => {
     setOpenCategory(cat)
-    setEditingId(null)
+    setEditingIndex(null)
     setDraft({ item: '', brand: '', notes: '' })
   }
 
-  const openEdit = (m: Mod) => {
+  const openEdit = (idx: number) => {
+    const m = mods[idx]
     setOpenCategory(m.category)
-    setEditingId(m.id)
-    setDraft({ item: m.item, brand: m.brand || '', notes: m.notes || '' })
+    setEditingIndex(idx)
+    setDraft({ item: m.item, brand: m.brand, notes: m.notes })
   }
 
   const cancel = () => {
     setOpenCategory(null)
-    setEditingId(null)
+    setEditingIndex(null)
     setDraft({ item: '', brand: '', notes: '' })
   }
 
-  const save = async () => {
+  const save = () => {
     if (!openCategory || !draft.item.trim()) return
-    setSaving(true)
-
-    if (editingId) {
-      const { error } = await supabase.from('vehicle_modifications').update({
-        item: draft.item.trim(),
-        brand: draft.brand.trim() || null,
-        notes: draft.notes.trim() || null,
-      }).eq('id', editingId)
-      if (!error) {
-        setMods(ms => ms.map(m => m.id === editingId ? { ...m, item: draft.item.trim(), brand: draft.brand.trim() || null, notes: draft.notes.trim() || null } : m))
-        cancel()
-      } else {
-        alert('Save failed: ' + error.message)
-      }
-    } else {
-      const nextOrder = byCategory(openCategory).length
-      const { data, error } = await supabase.from('vehicle_modifications').insert({
-        vehicle_id: vehicleId,
-        category: openCategory,
-        item: draft.item.trim(),
-        brand: draft.brand.trim() || null,
-        notes: draft.notes.trim() || null,
-        sort_order: nextOrder,
-      }).select().single()
-      if (error) { alert('Add failed: ' + error.message) }
-      else if (data) { setMods(ms => [...ms, data as Mod]); cancel() }
+    const next: DraftMod = {
+      category: openCategory,
+      item: draft.item.trim(),
+      brand: draft.brand.trim(),
+      notes: draft.notes.trim(),
     }
-    setSaving(false)
+    if (editingIndex !== null) {
+      const copy = [...mods]
+      copy[editingIndex] = next
+      onChange(copy)
+    } else {
+      onChange([...mods, next])
+    }
+    cancel()
   }
 
-  const remove = async (id: string) => {
+  const remove = (idx: number) => {
     if (!window.confirm('Remove this mod?')) return
-    const { error } = await supabase.from('vehicle_modifications').delete().eq('id', id)
-    if (error) { alert('Delete failed: ' + error.message); return }
-    setMods(ms => ms.filter(m => m.id !== id))
+    onChange(mods.filter((_, i) => i !== idx))
   }
-
-  if (loading) return <p style={{ fontSize: '13px', color: '#6b7280' }}>Loading mods...</p>
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-      {CATEGORY_GROUPS.map(group => (
+      {MOD_CATEGORY_GROUPS.map(group => (
         <div key={group.section}>
           <h3 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#a78bfa', marginBottom: '10px' }}>
             {group.section}
@@ -125,7 +90,7 @@ export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
                   {items.length > 0 && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                       {items.map(m => (
-                        <div key={m.id} style={{ padding: '10px 12px', borderRadius: '6px', background: 'rgba(18,18,30,0.6)', border: '1px solid rgba(255,255,255,0.04)' }}>
+                        <div key={m.idx} style={{ padding: '10px 12px', borderRadius: '6px', background: 'rgba(18,18,30,0.6)', border: '1px solid rgba(255,255,255,0.04)' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
                             <div style={{ minWidth: 0, flex: 1 }}>
                               <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{m.item}</p>
@@ -133,8 +98,8 @@ export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
                               {m.notes && <p style={{ fontSize: '12px', color: '#8892a4', marginTop: '4px', whiteSpace: 'pre-wrap' }}>{m.notes}</p>}
                             </div>
                             <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
-                              <button type="button" onClick={() => openEdit(m)} style={{ padding: '4px 10px', borderRadius: '4px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Edit</button>
-                              <button type="button" onClick={() => remove(m.id)} className="btn-danger-sm">Remove</button>
+                              <button type="button" onClick={() => openEdit(m.idx)} style={{ padding: '4px 10px', borderRadius: '4px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Edit</button>
+                              <button type="button" onClick={() => remove(m.idx)} className="btn-danger-sm">Remove</button>
                             </div>
                           </div>
                         </div>
@@ -150,8 +115,8 @@ export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
                         <textarea value={draft.notes} onChange={(e) => setDraft({ ...draft, notes: e.target.value })} className="input" rows={2} placeholder="Notes (optional)" maxLength={500} />
                         <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
                           <button type="button" onClick={cancel} style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
-                          <button type="button" onClick={save} disabled={saving || !draft.item.trim()} className="btn-primary" style={{ fontSize: '12px', padding: '8px 16px', opacity: (saving || !draft.item.trim()) ? 0.5 : 1 }}>
-                            {saving ? 'Saving...' : (editingId ? 'Save' : 'Add mod')}
+                          <button type="button" onClick={save} disabled={!draft.item.trim()} className="btn-primary" style={{ fontSize: '12px', padding: '8px 16px', opacity: !draft.item.trim() ? 0.5 : 1 }}>
+                            {editingIndex !== null ? 'Save' : 'Add mod'}
                           </button>
                         </div>
                       </div>

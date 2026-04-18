@@ -148,7 +148,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
               href={`/user/${username}/${vehicle.slug}`}
               className="glass overflow-hidden card-hover group"
             >
-              <div style={{ aspectRatio: '16 / 9', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+              <div style={{ aspectRatio: '2 / 1', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                 {vehicle.primary_image_url ? (
                   <img
                     src={vehicle.primary_image_url}
