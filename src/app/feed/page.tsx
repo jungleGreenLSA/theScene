@@ -53,19 +53,20 @@ function FeedPageContent() {
           .feed-main { flex: 1 1 100% !important; }
         }
       `}</style>
+
+      {/* Page header — sits above both columns so the sidebar's first card
+          lines up with the main column's first card on desktop. */}
+      <div style={{ marginBottom: '20px' }}>
+        <h1 className="text-3xl font-bold">Feed</h1>
+        <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>
+          What&apos;s happening on The Scene
+        </p>
+      </div>
+
       <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
 
         {/* Main feed */}
         <div className="feed-main" style={{ flex: '1 1 600px', minWidth: 0 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <div>
-              <h1 className="text-3xl font-bold">Feed</h1>
-              <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>
-                What&apos;s happening on The Scene
-              </p>
-            </div>
-          </div>
-
           <Announcements />
           <WeeklyDigest />
           <DailySuggestion />

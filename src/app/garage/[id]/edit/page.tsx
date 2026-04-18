@@ -113,7 +113,7 @@ export default function EditVehiclePage() {
   if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading...</div>
 
   return (
-    <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '720px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <Link href="/garage" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
 
       <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
@@ -129,7 +129,7 @@ export default function EditVehiclePage() {
         {/* Vehicle Info */}
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Vehicle Info</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Year</label>
               <select name="year" value={form.year} onChange={handleChange} className="input">
@@ -166,7 +166,7 @@ export default function EditVehiclePage() {
         {/* Powertrain */}
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Powertrain</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Engine</label>
               <input name="engine" value={form.engine} onChange={handleChange} className="input" maxLength={128} />
@@ -195,7 +195,7 @@ export default function EditVehiclePage() {
         {/* Build Status */}
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Build Status</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '8px' }}>
             {BUILD_STATUSES.map((status) => (
               <label key={status.value} style={{
                 display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', borderRadius: '20px', cursor: 'pointer',
