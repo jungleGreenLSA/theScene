@@ -20,7 +20,6 @@ const PRIMARY_LINKS = [
 ]
 
 const MORE_LINKS = [
-  { href: '/forums', label: 'Forums' },
   { href: '/challenges', label: 'Challenges' },
   { href: '/leaderboard', label: 'Leaderboard' },
 ]
