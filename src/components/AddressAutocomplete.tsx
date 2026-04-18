@@ -23,15 +23,21 @@ export default function AddressAutocomplete({
   const [open, setOpen] = useState(false)
   const [warning, setWarning] = useState('')
   const debounceRef = useRef<number | null>(null)
+  // Only search + open the dropdown after the user actively interacts
+  // with the input. Prevents the initial defaultValue from auto-opening
+  // the menu and prevents a pick() → setValue → useEffect from reopening
+  // the menu immediately after a selection.
+  const userInput = useRef(false)
 
   useEffect(() => {
     if (debounceRef.current) window.clearTimeout(debounceRef.current)
-    if (value.trim().length < 3) { setSuggestions([]); return }
+    if (!userInput.current) return
+    if (value.trim().length < 3) { setSuggestions([]); setOpen(false); return }
     debounceRef.current = window.setTimeout(async () => {
       try {
         const results = await searchAddresses(value, mode)
         setSuggestions(results)
-        setOpen(results.length > 0)
+        setOpen(userInput.current && results.length > 0)
         setWarning('')
       } catch (e: any) {
         setWarning(e.message || 'Search unavailable')
@@ -41,6 +47,7 @@ export default function AddressAutocomplete({
   }, [value, mode])
 
   const pick = (s: ParsedAddress) => {
+    userInput.current = false
     setValue(s.formatted)
     setSuggestions([])
     setOpen(false)
@@ -52,9 +59,10 @@ export default function AddressAutocomplete({
       <input
         type="text"
         value={value}
-        onChange={(e) => { setValue(e.target.value); setOpen(true) }}
-        onFocus={() => setOpen(suggestions.length > 0)}
+        onChange={(e) => { userInput.current = true; setValue(e.target.value) }}
+        onFocus={() => { if (suggestions.length > 0 && userInput.current) setOpen(true) }}
         onBlur={() => setTimeout(() => setOpen(false), 180)}
+        onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false) }}
         placeholder={placeholder}
         className="input"
         required={required}
