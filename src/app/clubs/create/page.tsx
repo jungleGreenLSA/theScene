@@ -175,20 +175,20 @@ export default function CreateClubPage() {
         {/* Logo + Banner */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>🎯 Logo (optional)</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Logo (optional)</label>
             <label style={{ display: 'block', padding: '14px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.12)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.4)' }}>
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setLogoFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
               <span style={{ fontSize: '12px', color: logoFile ? '#22c55e' : '#8892a4' }}>
-                {logoFile ? `✓ ${logoFile.name}` : 'Tap to upload'}
+                {logoFile ? logoFile.name : 'Tap to upload'}
               </span>
             </label>
           </div>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>📷 Banner (optional)</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Banner (optional)</label>
             <label style={{ display: 'block', padding: '14px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.12)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.4)' }}>
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setCoverFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
               <span style={{ fontSize: '12px', color: coverFile ? '#22c55e' : '#8892a4' }}>
-                {coverFile ? `✓ ${coverFile.name}` : 'Tap to upload'}
+                {coverFile ? coverFile.name : 'Tap to upload'}
               </span>
             </label>
           </div>
@@ -203,7 +203,7 @@ export default function CreateClubPage() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <span style={{ fontSize: '11px', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>Chapter {i + 1}{loc.is_primary && ' · Primary'}</span>
                 {locations.length > 1 && (
-                  <button type="button" onClick={() => removeLocation(i)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>✕ Remove</button>
+                  <button type="button" onClick={() => removeLocation(i)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Remove</button>
                 )}
               </div>
               <div style={{ marginBottom: '8px' }}>
@@ -215,7 +215,7 @@ export default function CreateClubPage() {
                 />
                 {loc.city && loc.state && (
                   <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '6px' }}>
-                    ✓ {loc.city}, {loc.state}{loc.zip_code ? ` ${loc.zip_code}` : ''}
+                    {loc.city}, {loc.state}{loc.zip_code ? ` ${loc.zip_code}` : ''}
                   </p>
                 )}
               </div>
@@ -244,7 +244,7 @@ export default function CreateClubPage() {
         )}
 
         <button type="submit" disabled={loading} className="btn-neon" style={{ width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.5 : 1 }}>
-          {loading ? 'Creating club...' : '🏁 Create Club'}
+          {loading ? 'Creating club...' : 'Create Club'}
         </button>
       </form>
     </div>

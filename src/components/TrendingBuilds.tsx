@@ -40,7 +40,7 @@ export default function TrendingBuilds() {
     <div style={{ marginBottom: '24px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
         <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          🔥 Trending This Week
+          Trending This Week
         </h3>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -52,17 +52,15 @@ export default function TrendingBuilds() {
             <div style={{ width: '40px', height: '40px', borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0 }}>
               {b.primary_image_url ? (
                 <img src={b.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              ) : (
-                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>🚗</div>
-              )}
+              ) : null}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.year} {b.make} {b.model}</p>
               <p style={{ fontSize: '11px', color: '#6b7280' }}>@{b.owner_username}</p>
             </div>
             <div style={{ display: 'flex', gap: '8px', fontSize: '11px', color: '#8892a4', flexShrink: 0 }}>
-              <span>🤙{b.recent_props}</span>
-              <span>👁{b.view_count}</span>
+              <span>{b.recent_props} props</span>
+              <span>{b.view_count} views</span>
             </div>
           </Link>
         ))}

@@ -26,10 +26,10 @@ function project(lat: number, lng: number): { x: number; y: number } | null {
 
 type EntityType = 'events' | 'clubs' | 'shops'
 
-const CONFIG: Record<EntityType, { color: string; emoji: string; label: string }> = {
-  events: { color: '249,115,22', emoji: '📅', label: 'shows' },
-  clubs: { color: '124,58,237', emoji: '🏁', label: 'clubs' },
-  shops: { color: '34,197,94', emoji: '🔧', label: 'shops' },
+const CONFIG: Record<EntityType, { color: string; label: string }> = {
+  events: { color: '249,115,22', label: 'shows' },
+  clubs: { color: '124,58,237', label: 'clubs' },
+  shops: { color: '34,197,94', label: 'shops' },
 }
 
 interface Dot { x: number; y: number; label: string; count: number; intensity: number }
@@ -126,7 +126,7 @@ export default function SceneHeatmap({ type, title }: Props) {
   return (
     <div className="glass" style={{ padding: '16px', overflow: 'hidden', borderRadius: '12px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>{cfg.emoji} {title}</h3>
+        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>{title}</h3>
         <span style={{ fontSize: '11px', color: '#6b7280' }}>
           {total} {total === 1 ? cfg.label.slice(0, -1) : cfg.label}
         </span>

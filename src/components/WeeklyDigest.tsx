@@ -34,17 +34,16 @@ export default function WeeklyDigest() {
   return (
     <div className="glass" style={{ padding: '16px', marginBottom: '16px', border: '1px solid rgba(34,197,94,0.15)' }}>
       <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#e2e4e9', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-        📊 Your Week in Review
+        Your Week in Review
       </h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
         {[
-          { icon: '👁', value: digest.garage_views_week, label: 'Views' },
-          { icon: '🤙', value: digest.props_received_week, label: 'Props' },
-          { icon: '📖', value: digest.guestbook_entries_week, label: 'Guestbook' },
-          { icon: '👥', value: digest.new_followers_week, label: 'Followers' },
+          { value: digest.garage_views_week, label: 'Views' },
+          { value: digest.props_received_week, label: 'Props' },
+          { value: digest.guestbook_entries_week, label: 'Guestbook' },
+          { value: digest.new_followers_week, label: 'Followers' },
         ].map(s => (
           <div key={s.label} style={{ textAlign: 'center', padding: '8px', borderRadius: '6px', background: 'rgba(18,18,30,0.5)' }}>
-            <span style={{ fontSize: '12px' }}>{s.icon}</span>
             <div style={{ fontSize: '18px', fontWeight: 700, color: s.value > 0 ? '#22c55e' : '#6b7280' }}>
               {s.value > 0 ? `+${s.value}` : '0'}
             </div>

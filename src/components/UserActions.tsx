@@ -146,7 +146,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
             onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
           >
-            {isBlocked ? '✓ Unblock' : '🚫 Block'} @{targetUsername}
+            {isBlocked ? 'Unblock' : 'Block'} @{targetUsername}
           </button>
 
           <button
@@ -169,7 +169,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
             onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
           >
-            ⚠️ Report @{targetUsername}
+            Report @{targetUsername}
           </button>
         </div>
       )}

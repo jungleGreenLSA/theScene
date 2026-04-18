@@ -86,7 +86,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
           </div>
 
           {profile.location && (
-            <p className="text-muted-light" style={{ fontSize: '13px' }}>📍 {profile.location}</p>
+            <p className="text-muted-light" style={{ fontSize: '13px' }}>{profile.location}</p>
           )}
           {profile.bio && (
             <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.6 }}>{profile.bio}</p>
@@ -105,19 +105,19 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
         {/* Stats grid — 2x2 in the narrow sidebar */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '18px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
-            <div className="text-purple-light font-bold" style={{ fontSize: '1.1rem' }}>🤙 {totalProps}</div>
+            <div className="text-purple-light font-bold" style={{ fontSize: '1.1rem' }}>{totalProps}</div>
             <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Props</div>
           </div>
           <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
-            <div className="text-purple-light font-bold" style={{ fontSize: '1.1rem' }}>👁 {totalViews}</div>
+            <div className="text-purple-light font-bold" style={{ fontSize: '1.1rem' }}>{totalViews}</div>
             <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Views</div>
           </div>
           <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
-            <div className="text-neon-light font-bold" style={{ fontSize: '1.1rem' }}>📅 {eventsAttended?.length || 0}</div>
+            <div className="text-neon-light font-bold" style={{ fontSize: '1.1rem' }}>{eventsAttended?.length || 0}</div>
             <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Events</div>
           </div>
           <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
-            <div className="text-neon-light font-bold" style={{ fontSize: '1.1rem' }}>🚗 {vehicles?.length || 0}</div>
+            <div className="text-neon-light font-bold" style={{ fontSize: '1.1rem' }}>{vehicles?.length || 0}</div>
             <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Rides</div>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
 
       {/* Garage */}
       <h2 className="font-bold text-foreground" style={{ fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-        🏠 {profile.display_name || profile.username}&apos;s Garage
+        {profile.display_name || profile.username}&apos;s Garage
       </h2>
 
       {(!vehicles || vehicles.length === 0) ? (
@@ -156,11 +156,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
                     className="group-hover:scale-105 transition-transform duration-500"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
-                ) : (
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontSize: '40px' }}>🚗</span>
-                  </div>
-                )}
+                ) : null}
               </div>
               <div style={{ padding: '16px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -173,8 +169,8 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
                 </div>
                 <p className="text-muted-light" style={{ fontSize: '13px', marginTop: '4px' }}>{vehicle.color} {vehicle.engine && `· ${vehicle.engine}`}</p>
                 <div style={{ display: 'flex', gap: '12px', marginTop: '10px', fontSize: '12px' }}>
-                  <span className="text-muted">🤙 {vehicle.props_count || 0} props</span>
-                  <span className="text-muted">👁 {vehicle.view_count || 0} views</span>
+                  <span className="text-muted">{vehicle.props_count || 0} props</span>
+                  <span className="text-muted">{vehicle.view_count || 0} views</span>
                 </div>
               </div>
             </Link>

@@ -18,7 +18,7 @@ export default function GarageQR({ username, vehicleSlug, vehicleId }: { usernam
           fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
         }}
       >
-        📱 QR Code
+        QR Code
       </button>
 
       {showQR && (

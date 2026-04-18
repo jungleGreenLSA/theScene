@@ -56,9 +56,7 @@ function renderActivity(a: Activity) {
               <div style={{ width: '52px', height: '52px', borderRadius: '6px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {v.image_url ? (
                   <img src={v.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                ) : (
-                  <span style={{ fontSize: '22px' }}>🏁</span>
-                )}
+                ) : null}
               </div>
               <div style={{ minWidth: 0 }}>
                 <p style={{ fontSize: '12px', color: '#a78bfa', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.year} {v.make} {v.model}</p>
@@ -66,7 +64,7 @@ function renderActivity(a: Activity) {
               </div>
             </Link>
           )}
-          <span style={{ fontSize: '11px', color: '#fb923c', fontWeight: 600, display: 'inline-block', marginTop: '8px' }}>Welcome! 🎉</span>
+          <span style={{ fontSize: '11px', color: '#fb923c', fontWeight: 600, display: 'inline-block', marginTop: '8px' }}>Welcome!</span>
         </div>
       )
     }
@@ -140,7 +138,7 @@ function renderActivity(a: Activity) {
             <span className="font-semibold">{m.title}</span>
           </p>
           {m.city && m.state && (
-            <span className="text-muted" style={{ fontSize: '12px' }}>📍 {m.city}, {m.state}</span>
+            <span className="text-muted" style={{ fontSize: '12px' }}>{m.city}, {m.state}</span>
           )}
         </div>
       )
@@ -155,7 +153,7 @@ function renderActivity(a: Activity) {
           </p>
           {m.city && m.state && (
             <span style={{ display: 'inline-block', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', color: '#a78bfa', marginBottom: '8px' }}>
-              📍 {m.city}, {m.state}
+              {m.city}, {m.state}
             </span>
           )}
         </div>
@@ -293,7 +291,6 @@ export default function ActivityFeed() {
       <div>
         {toggle}
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📡</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>
             {mode === 'following' ? 'Quiet on your side of the scene' : 'No activity yet'}
           </h2>
@@ -351,7 +348,7 @@ export default function ActivityFeed() {
                 }}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px', color: hearts.has(a.id) ? '#ef4444' : '#6b7280', transition: 'color 0.2s', padding: 0 }}
               >
-                {hearts.has(a.id) ? '❤️' : '🤍'} {heartCounts[a.id] || ''}
+                {hearts.has(a.id) ? 'Liked' : 'Like'} {heartCounts[a.id] ? `· ${heartCounts[a.id]}` : ''}
               </button>
               <span style={{ fontSize: '11px', color: '#6b7280' }}>{timeAgo(a.created_at)}</span>
             </div>

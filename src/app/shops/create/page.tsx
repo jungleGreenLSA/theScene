@@ -157,7 +157,7 @@ export default function CreateShopPage() {
         )}
 
         <button type="submit" disabled={loading} className="btn-neon" style={{ width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.5 : 1 }}>
-          {loading ? 'Creating shop...' : '🔧 Add Shop'}
+          {loading ? 'Creating shop...' : 'Add Shop'}
         </button>
       </form>
     </div>

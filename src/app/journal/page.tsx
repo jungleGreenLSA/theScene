@@ -24,9 +24,9 @@ interface Vehicle {
   model: string
 }
 
-const MILESTONE_ICONS: Record<string, string> = {
-  mod_install: '🔧', maintenance: '🛠️', milestone: '🏆', purchase: '💰',
-  event: '📅', photo_shoot: '📸', dyno: '📊', other: '📝',
+const MILESTONE_LABELS: Record<string, string> = {
+  mod_install: 'MOD', maintenance: 'MAINT', milestone: 'MILE', purchase: 'BUY',
+  event: 'EVENT', photo_shoot: 'PHOTO', dyno: 'DYNO', other: 'NOTE',
 }
 
 export default function JournalPage() {
@@ -123,7 +123,6 @@ export default function JournalPage() {
     return (
       <div style={{ maxWidth: '600px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }}>
         <div className="glass" style={{ padding: '48px 32px' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>📓</span>
           <h1 className="text-2xl font-bold" style={{ marginBottom: '8px' }}>Build Journal</h1>
           <p className="text-muted-light" style={{ marginBottom: '12px', lineHeight: 1.6 }}>
             Document your build from Day 1. Track every mod, every milestone, every dollar spent. Before and after photos, cost tracking, and a full timeline of your build journey.
@@ -143,7 +142,7 @@ export default function JournalPage() {
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>Your build story, one entry at a time</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} className="btn-neon" style={{ fontSize: '12px' }}>
-          {showForm ? 'Cancel' : '📝 New Entry'}
+          {showForm ? 'Cancel' : 'New Entry'}
         </button>
       </div>
 
@@ -155,7 +154,6 @@ export default function JournalPage() {
           </select>
         )}
         <div className="glass" style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '14px' }}>💰</span>
           <span className="text-foreground font-bold" style={{ fontSize: '16px' }}>${totalCost.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
           <span className="text-muted" style={{ fontSize: '11px' }}>total invested</span>
         </div>
@@ -202,7 +200,7 @@ export default function JournalPage() {
             <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '13px' }} />
           </div>
           <button type="submit" disabled={submitting} className="btn-neon" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px' }}>
-            {submitting ? 'Saving...' : '📝 Add Entry'}
+            {submitting ? 'Saving...' : 'Add Entry'}
           </button>
         </form>
       )}
@@ -210,7 +208,6 @@ export default function JournalPage() {
       {/* Timeline */}
       {entries.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📓</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No entries yet</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Start documenting your build journey!</p>
         </div>
@@ -227,7 +224,7 @@ export default function JournalPage() {
               <div className="glass card-hover" style={{ padding: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '18px' }}>{MILESTONE_ICONS[entry.milestone_type] || '📝'}</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.12)', color: '#a78bfa' }}>{MILESTONE_LABELS[entry.milestone_type] || 'NOTE'}</span>
                     <h3 className="font-bold text-foreground" style={{ fontSize: '15px' }}>{entry.title}</h3>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

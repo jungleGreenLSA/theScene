@@ -55,9 +55,7 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
           {club.cover_image_url ? (
             <img src={club.cover_image_url} alt={club.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(249,115,22,0.1))' }}>
-              <span style={{ fontSize: '64px' }}>🏁</span>
-            </div>
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(249,115,22,0.1))' }} />
           )}
           <ClubCoverEditor clubId={club.id} currentCoverUrl={club.cover_image_url} currentLogoUrl={club.logo_url} />
         </div>
@@ -89,9 +87,9 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
 
           {/* Social Links */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px' }}>
-            {club.website && <a href={club.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>🌐 Website</a>}
-            {club.instagram_handle && <a href={`https://instagram.com/${club.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>📸 Instagram</a>}
-            {club.facebook_url && <a href={club.facebook_url} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>👥 Facebook</a>}
+            {club.website && <a href={club.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>Website</a>}
+            {club.instagram_handle && <a href={`https://instagram.com/${club.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>Instagram</a>}
+            {club.facebook_url && <a href={club.facebook_url} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>Facebook</a>}
           </div>
         </div>
       </div>
@@ -99,7 +97,7 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
       {/* Locations / Chapters */}
       {locations && locations.length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>📍 Chapters &amp; Locations</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Chapters &amp; Locations</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '10px' }}>
             {locations.map((loc) => (
               <div key={loc.id} style={{ padding: '14px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>

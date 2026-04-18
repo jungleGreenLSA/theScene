@@ -32,9 +32,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
           {shop.cover_image_url ? (
             <img src={shop.cover_image_url} alt={shop.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }}>
-              <span style={{ fontSize: '64px' }}>🔧</span>
-            </div>
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }} />
           )}
         </div>
         <div style={{ padding: '24px' }}>
@@ -47,7 +45,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
             <div style={{ flex: 1, minWidth: 0 }}>
               <h1 style={{ fontSize: '26px', fontWeight: 700, color: '#e2e4e9' }}>{shop.name}</h1>
               {shop.city && shop.state && (
-                <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>📍 {[shop.address, shop.city, shop.state, shop.zip_code].filter(Boolean).join(', ')}</p>
+                <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>{[shop.address, shop.city, shop.state, shop.zip_code].filter(Boolean).join(', ')}</p>
               )}
             </div>
           </div>
@@ -65,15 +63,15 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
           )}
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.06)', flexWrap: 'wrap' }}>
-            {shop.website && <a href={shop.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>🌐 Website</a>}
-            {shop.instagram_handle && <a href={`https://instagram.com/${shop.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>📸 @{shop.instagram_handle}</a>}
-            {shop.phone && <a href={`tel:${shop.phone}`} style={{ fontSize: '13px', color: '#a78bfa' }}>📞 {shop.phone}</a>}
+            {shop.website && <a href={shop.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>Website</a>}
+            {shop.instagram_handle && <a href={`https://instagram.com/${shop.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#a78bfa' }}>@{shop.instagram_handle}</a>}
+            {shop.phone && <a href={`tel:${shop.phone}`} style={{ fontSize: '13px', color: '#a78bfa' }}>{shop.phone}</a>}
           </div>
         </div>
       </div>
 
       <div className="glass" style={{ padding: '24px' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>🏁 Builds tagged here ({tags?.length || 0})</h2>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Builds tagged here ({tags?.length || 0})</h2>
         {!tags || tags.length === 0 ? (
           <p style={{ fontSize: '13px', color: '#8892a4' }}>No builds tagged yet. Members can tag this shop from their garage.</p>
         ) : (
@@ -86,9 +84,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
                   <div style={{ aspectRatio: '16 / 9', borderRadius: '6px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', marginBottom: '10px' }}>
                     {v.primary_image_url ? (
                       <img src={v.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: '28px' }}>🏁</span></div>
-                    )}
+                    ) : null}
                   </div>
                   <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{v.year} {v.make} {v.model}</p>
                   {v.color && <p style={{ fontSize: '11px', color: '#6b7280' }}>{v.color}</p>}

@@ -29,7 +29,7 @@ export default function LeaderboardPage() {
     fetch()
   }, [year])
 
-  const medals = ['🥇', '🥈', '🥉']
+  const rankColors = ['#fbbf24', '#d1d5db', '#d97706']
 
   return (
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
@@ -55,7 +55,6 @@ export default function LeaderboardPage() {
         </div>
       ) : leaders.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📊</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No data yet for {year}</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Start attending events to get on the leaderboard!</p>
         </div>
@@ -72,11 +71,7 @@ export default function LeaderboardPage() {
             >
               {/* Rank */}
               <div style={{ width: '32px', textAlign: 'center', flexShrink: 0 }}>
-                {i < 3 ? (
-                  <span style={{ fontSize: '22px' }}>{medals[i]}</span>
-                ) : (
-                  <span className="text-muted" style={{ fontSize: '16px', fontWeight: 700 }}>{i + 1}</span>
-                )}
+                <span style={{ fontSize: i < 3 ? '18px' : '16px', fontWeight: 700, color: i < 3 ? rankColors[i] : '#6b7280' }}>{i + 1}</span>
               </div>
 
               {/* Avatar */}
@@ -91,7 +86,7 @@ export default function LeaderboardPage() {
               {/* Info */}
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p className="text-foreground font-semibold" style={{ fontSize: '14px' }}>{l.display_name || l.username}</p>
-                {l.location && <p className="text-muted" style={{ fontSize: '11px' }}>📍 {l.location}</p>}
+                {l.location && <p className="text-muted" style={{ fontSize: '11px' }}>{l.location}</p>}
               </div>
 
               {/* Count */}

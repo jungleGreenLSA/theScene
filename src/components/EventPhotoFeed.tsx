@@ -138,19 +138,13 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
 
             <div className="flex items-center gap-5 pt-2 border-t border-border">
               <button onClick={() => handleProp(post.id)} className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light py-1">
-                🤙 <span>{propCounts[post.id] || 0}</span>
-              </button>
-              <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light py-1">
-                🔥
-              </button>
-              <button className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light py-1">
-                🏆
+                <span>{propCounts[post.id] || 0} Props</span>
               </button>
               <button
                 onClick={() => setExpandedPhoto(expandedPhoto === post.id ? null : post.id)}
                 className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-purple-light py-1"
               >
-                💬 <span>{post.comment_count || 0}</span>
+                <span>{post.comment_count || 0} Comments</span>
               </button>
             </div>
 

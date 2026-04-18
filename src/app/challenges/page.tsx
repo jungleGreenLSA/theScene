@@ -48,7 +48,6 @@ export default function ChallengesPage() {
         </div>
       ) : challenges.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>🏆</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No active challenges</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Check back soon! Monthly challenges will be posted by the team.</p>
         </div>
@@ -62,9 +61,7 @@ export default function ChallengesPage() {
                 <div style={{ height: '180px', background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(249,115,22,0.1))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                   {c.cover_image_url ? (
                     <img src={c.cover_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  ) : (
-                    <span style={{ fontSize: '48px' }}>🏆</span>
-                  )}
+                  ) : null}
                   {daysLeft > 0 && (
                     <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(12,12,20,0.9)', borderRadius: '8px', padding: '6px 14px' }}>
                       <span style={{ fontSize: '12px', color: daysLeft <= 3 ? '#ef4444' : '#fb923c', fontWeight: 700 }}>{daysLeft} day{daysLeft !== 1 ? 's' : ''} left</span>
@@ -92,7 +89,7 @@ export default function ChallengesPage() {
                       {c.entries.slice(0, 8).map((entry) => (
                         <div key={entry.id} style={{ width: '80px', height: '80px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'rgba(26,26,46,0.5)', position: 'relative' }}>
                           <img src={entry.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          <div style={{ position: 'absolute', bottom: '2px', right: '4px', fontSize: '10px', color: '#fb923c', fontWeight: 700, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>🤙{entry.vote_count}</div>
+                          <div style={{ position: 'absolute', bottom: '2px', right: '4px', fontSize: '10px', color: '#fb923c', fontWeight: 700, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>{entry.vote_count}</div>
                         </div>
                       ))}
                     </div>

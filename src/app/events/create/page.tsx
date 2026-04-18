@@ -162,7 +162,6 @@ export default function CreateEventPage() {
 
       {!canCreate ? (
         <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
-          <span style={{ fontSize: '40px', display: 'block', marginBottom: '12px' }}>📅</span>
           <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Event limit reached</h2>
           <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '20px' }}>Free members can create up to {maxEvents} events. Upgrade for more.</p>
           <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Upgrade to Premium</Link>
@@ -289,7 +288,7 @@ export default function CreateEventPage() {
         )}
 
         <button type="submit" disabled={loading} className="btn-neon" style={{ width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.5 : 1 }}>
-          {loading ? 'Creating event...' : '📅 Publish Event'}
+          {loading ? 'Creating event...' : 'Publish Event'}
         </button>
       </form>
       )}

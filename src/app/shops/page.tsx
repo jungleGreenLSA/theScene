@@ -77,7 +77,6 @@ export default function ShopsPage() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="glass text-center" style={{ padding: '48px 32px' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>🔧</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No shops yet</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '20px' }}>Be the first to add a shop to The Scene.</p>
           <Link href="/shops/create" className="btn-neon">+ Add a Shop</Link>
@@ -90,9 +89,7 @@ export default function ShopsPage() {
                 {shop.cover_image_url ? (
                   <img src={shop.cover_image_url} alt={shop.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }}>
-                    <span style={{ fontSize: '36px' }}>🔧</span>
-                  </div>
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }} />
                 )}
                 {shop.logo_url && (
                   <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(255,255,255,0.06)' }}>
@@ -103,7 +100,7 @@ export default function ShopsPage() {
               <div style={{ padding: '16px' }}>
                 <h3 className="font-bold text-foreground group-hover:text-success transition-colors" style={{ fontSize: '0.95rem' }}>{shop.name}</h3>
                 {shop.city && shop.state && (
-                  <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>📍 {shop.city}, {shop.state}</p>
+                  <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>{shop.city}, {shop.state}</p>
                 )}
                 {shop.specialties && shop.specialties.length > 0 && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
@@ -113,7 +110,7 @@ export default function ShopsPage() {
                   </div>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="text-muted" style={{ fontSize: '12px' }}>🏁 {shop.tag_count} {shop.tag_count === 1 ? 'build' : 'builds'}</span>
+                  <span className="text-muted" style={{ fontSize: '12px' }}>{shop.tag_count} {shop.tag_count === 1 ? 'build' : 'builds'}</span>
                 </div>
               </div>
             </Link>

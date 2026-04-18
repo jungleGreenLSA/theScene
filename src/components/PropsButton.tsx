@@ -54,7 +54,6 @@ export default function PropsButton({ targetType, targetId, initialCount = 0, si
   }
 
   const fontSize = size === 'sm' ? '13px' : '14px'
-  const iconSize = size === 'sm' ? '14px' : '16px'
 
   return (
     <button
@@ -70,7 +69,6 @@ export default function PropsButton({ targetType, targetId, initialCount = 0, si
         opacity: busy ? 0.6 : 1,
       }}
     >
-      <span style={{ fontSize: iconSize }}>🤙</span>
       <span>{count} Props</span>
     </button>
   )

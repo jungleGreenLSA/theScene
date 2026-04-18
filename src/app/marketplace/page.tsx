@@ -84,7 +84,6 @@ export default function MarketplacePage() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>🏪</span>
           <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>No listings yet</h2>
           <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '20px' }}>Be the first to list something for sale!</p>
           <Link href="/marketplace/create" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>List an Item</Link>
@@ -96,11 +95,7 @@ export default function MarketplacePage() {
               <div style={{ height: '180px', background: 'rgba(26,26,46,0.5)', position: 'relative' }}>
                 {l.images && l.images.length > 0 ? (
                   <img src={l.images[0].image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                ) : (
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '36px' }}>
-                    {l.listing_type === 'vehicle' ? '🚗' : '🔧'}
-                  </div>
-                )}
+                ) : null}
                 <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: 'rgba(12,12,20,0.85)', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: l.listing_type === 'vehicle' ? '#a78bfa' : '#fb923c' }}>
                   {l.listing_type}
                 </span>
@@ -112,8 +107,8 @@ export default function MarketplacePage() {
                 <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#e2e4e9', marginBottom: '6px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{l.title}</h3>
                 <p style={{ fontSize: '22px', fontWeight: 700, color: '#22c55e', marginBottom: '8px' }}>${l.price.toLocaleString()}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: '#6b7280' }}>
-                  <span>📍 {l.seller?.location || `${l.city}, ${l.state}` || 'Location N/A'}</span>
-                  <span>💬 {l.comments?.length || 0}</span>
+                  <span>{l.seller?.location || `${l.city}, ${l.state}` || 'Location N/A'}</span>
+                  <span>{l.comments?.length || 0} comments</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(26,26,46,0.5)', backgroundImage: l.seller?.avatar_url ? `url(${l.seller.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />

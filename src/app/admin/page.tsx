@@ -228,7 +228,6 @@ export default function AdminDashboard() {
     return (
       <div style={{ maxWidth: '500px', margin: '0 auto', padding: '80px 32px', textAlign: 'center' }}>
         <div className="glass" style={{ padding: '48px 32px' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>🔒</span>
           <h1 className="text-2xl font-bold" style={{ marginBottom: '8px' }}>Access Denied</h1>
           <p className="text-muted-light">You must be an administrator to view this page.</p>
         </div>
@@ -279,7 +278,7 @@ export default function AdminDashboard() {
       {activeTab === 'announcements' && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h2 className="font-bold text-foreground" style={{ fontSize: '1rem' }}>📋 News & Updates</h2>
+            <h2 className="font-bold text-foreground" style={{ fontSize: '1rem' }}>News & Updates</h2>
             <button onClick={() => setShowAnnouncementForm(!showAnnouncementForm)} className="btn-neon" style={{ fontSize: '12px', padding: '8px 16px' }}>
               {showAnnouncementForm ? 'Cancel' : '+ New Post'}
             </button>
@@ -310,11 +309,11 @@ export default function AdminDashboard() {
                 </div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginTop: '20px' }}>
                   <input type="checkbox" checked={announcementForm.is_pinned} onChange={(e) => setAnnouncementForm({ ...announcementForm, is_pinned: e.target.checked })} />
-                  <span style={{ fontSize: '13px', color: '#9ca3af' }}>📌 Pin to top</span>
+                  <span style={{ fontSize: '13px', color: '#9ca3af' }}>Pin to top</span>
                 </label>
               </div>
               <button onClick={handleCreateAnnouncement} disabled={announcementSaving || !announcementForm.title || !announcementForm.content} className="btn-neon" style={{ fontSize: '12px', padding: '10px 20px', opacity: announcementSaving ? 0.5 : 1 }}>
-                {announcementSaving ? 'Publishing...' : '📢 Publish'}
+                {announcementSaving ? 'Publishing...' : 'Publish'}
               </button>
             </div>
           )}
@@ -332,7 +331,7 @@ export default function AdminDashboard() {
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
                         <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', color: '#a78bfa' }}>{a.category}</span>
-                        {a.is_pinned && <span style={{ fontSize: '10px', color: '#fb923c', fontWeight: 600 }}>📌 Pinned</span>}
+                        {a.is_pinned && <span style={{ fontSize: '10px', color: '#fb923c', fontWeight: 600 }}>Pinned</span>}
                         {!a.is_published && <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: 600 }}>Draft</span>}
                         <span style={{ fontSize: '11px', color: '#6b7280' }}>{new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                       </div>
@@ -340,9 +339,9 @@ export default function AdminDashboard() {
                       <p style={{ fontSize: '13px', color: '#9ca3af', lineHeight: 1.5 }}>{a.content.length > 150 ? a.content.slice(0, 150) + '...' : a.content}</p>
                     </div>
                     <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
-                      <button onClick={() => handleTogglePin(a.id, a.is_pinned)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', padding: '4px', opacity: 0.6 }} title={a.is_pinned ? 'Unpin' : 'Pin'}>📌</button>
-                      <button onClick={() => handleTogglePublish(a.id, a.is_published)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', padding: '4px', opacity: 0.6 }} title={a.is_published ? 'Unpublish' : 'Publish'}>{a.is_published ? '👁' : '🙈'}</button>
-                      <button onClick={() => handleDeleteAnnouncement(a.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', padding: '4px', opacity: 0.6, color: '#ef4444' }} title="Delete">🗑</button>
+                      <button onClick={() => handleTogglePin(a.id, a.is_pinned)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#9ca3af' }} title={a.is_pinned ? 'Unpin' : 'Pin'}>{a.is_pinned ? 'Unpin' : 'Pin'}</button>
+                      <button onClick={() => handleTogglePublish(a.id, a.is_published)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#9ca3af' }} title={a.is_published ? 'Unpublish' : 'Publish'}>{a.is_published ? 'Hide' : 'Show'}</button>
+                      <button onClick={() => handleDeleteAnnouncement(a.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#ef4444' }} title="Delete">Delete</button>
                     </div>
                   </div>
                 </div>
@@ -358,15 +357,14 @@ export default function AdminDashboard() {
           {/* Key metrics */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px', marginBottom: '24px' }}>
             {[
-              { label: 'Total Members', value: stats.totalUsers, color: '#a78bfa', icon: '👥' },
-              { label: 'Online Now', value: stats.onlineNow, color: '#22c55e', icon: '🟢' },
-              { label: 'Premium', value: stats.premiumUsers, color: '#fb923c', icon: '⭐' },
-              { label: 'Vehicles', value: stats.totalVehicles, color: '#3b82f6', icon: '🚗' },
-              { label: 'Events', value: stats.totalEvents, color: '#ec4899', icon: '📅' },
-              { label: 'Clubs', value: stats.totalClubs, color: '#14b8a6', icon: '🏁' },
+              { label: 'Total Members', value: stats.totalUsers, color: '#a78bfa' },
+              { label: 'Online Now', value: stats.onlineNow, color: '#22c55e' },
+              { label: 'Premium', value: stats.premiumUsers, color: '#fb923c' },
+              { label: 'Vehicles', value: stats.totalVehicles, color: '#3b82f6' },
+              { label: 'Events', value: stats.totalEvents, color: '#ec4899' },
+              { label: 'Clubs', value: stats.totalClubs, color: '#14b8a6' },
             ].map(m => (
               <div key={m.label} className="glass" style={{ padding: '20px', textAlign: 'center' }}>
-                <span style={{ fontSize: '20px', display: 'block', marginBottom: '8px' }}>{m.icon}</span>
                 <div style={{ fontSize: '2rem', fontWeight: 700, color: m.color, lineHeight: 1 }}>{m.value}</div>
                 <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '6px' }}>{m.label}</div>
               </div>
@@ -375,7 +373,7 @@ export default function AdminDashboard() {
 
           {/* Growth */}
           <div className="glass" style={{ padding: '24px', marginBottom: '24px' }}>
-            <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>📈 Growth</h2>
+            <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Growth</h2>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
               <div style={{ textAlign: 'center' }}>
                 <div className="text-neon-light font-bold" style={{ fontSize: '1.8rem' }}>{stats.newUsersToday}</div>
@@ -394,15 +392,14 @@ export default function AdminDashboard() {
 
           {/* Platform stats */}
           <div className="glass" style={{ padding: '24px' }}>
-            <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>📊 Platform Activity</h2>
+            <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Platform Activity</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '12px' }}>
               {[
-                { label: 'Sightings', value: stats.totalSightings, icon: '📸' },
-                { label: 'Conversion', value: `${conversionRate}%`, icon: '💎' },
+                { label: 'Sightings', value: stats.totalSightings },
+                { label: 'Conversion', value: `${conversionRate}%` },
               ].map(s => (
                 <div key={s.label} style={{ padding: '16px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.04)' }}>
-                  <span style={{ fontSize: '16px' }}>{s.icon}</span>
-                  <div className="text-foreground font-bold" style={{ fontSize: '1.3rem', marginTop: '4px' }}>{s.value}</div>
+                  <div className="text-foreground font-bold" style={{ fontSize: '1.3rem' }}>{s.value}</div>
                   <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>{s.label}</div>
                 </div>
               ))}
@@ -414,7 +411,7 @@ export default function AdminDashboard() {
       {/* USERS TAB */}
       {activeTab === 'users' && (
         <div className="glass" style={{ padding: '24px' }}>
-          <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>👥 Recent Signups</h2>
+          <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Recent Signups</h2>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
               <thead>
@@ -460,7 +457,7 @@ export default function AdminDashboard() {
       {/* GEOGRAPHY TAB */}
       {activeTab === 'geography' && (
         <div className="glass" style={{ padding: '24px' }}>
-          <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>📍 Top Locations</h2>
+          <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Top Locations</h2>
           {topCities.length === 0 ? (
             <p className="text-muted" style={{ fontSize: '13px' }}>No location data yet.</p>
           ) : (
@@ -491,7 +488,7 @@ export default function AdminDashboard() {
       {/* CONTENT TAB */}
       {activeTab === 'content' && (
         <div className="glass" style={{ padding: '24px' }}>
-          <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>🏆 Top Vehicles by Props</h2>
+          <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Top Vehicles by Props</h2>
           {topVehicles.length === 0 ? (
             <p className="text-muted" style={{ fontSize: '13px' }}>No vehicles yet.</p>
           ) : (
@@ -508,8 +505,8 @@ export default function AdminDashboard() {
                     <span className="text-muted" style={{ fontSize: '11px', marginLeft: '8px' }}>by @{v.owner_username}</span>
                   </div>
                   <div style={{ display: 'flex', gap: '12px', fontSize: '12px' }}>
-                    <span className="text-neon-light font-bold">🤙 {v.props_count}</span>
-                    <span className="text-muted">👁 {v.view_count}</span>
+                    <span className="text-neon-light font-bold">{v.props_count} props</span>
+                    <span className="text-muted">{v.view_count} views</span>
                   </div>
                 </Link>
               ))}
@@ -521,7 +518,7 @@ export default function AdminDashboard() {
       {/* REPORTS TAB */}
       {activeTab === 'reports' && (
         <div className="glass" style={{ padding: '24px' }}>
-          <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>⚠️ Pending Reports</h2>
+          <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Pending Reports</h2>
           {reports.length === 0 ? (
             <p className="text-muted" style={{ fontSize: '13px' }}>No pending reports. All clear!</p>
           ) : (
@@ -583,7 +580,7 @@ export default function AdminDashboard() {
           </div>
 
           <div className="glass" style={{ padding: '24px' }}>
-            <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>💰 Revenue Milestones</h2>
+            <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Revenue Milestones</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {[
                 { target: 50, label: '$350/mo', annual: '$4,200/yr' },
@@ -599,7 +596,7 @@ export default function AdminDashboard() {
                   <div key={m.target}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                       <span className={hit ? 'text-success' : 'text-muted-light'} style={{ fontSize: '13px', fontWeight: 500 }}>
-                        {hit ? '✓' : ''} {m.target} subscribers -- {m.label}
+                        {hit ? 'DONE:' : ''} {m.target} subscribers -- {m.label}
                       </span>
                       <span className="text-muted" style={{ fontSize: '12px' }}>{m.annual}</span>
                     </div>

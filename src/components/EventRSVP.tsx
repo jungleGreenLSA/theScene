@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 const STATUSES = [
-  { value: 'going', label: "I'm Going", icon: '✅', color: '#22c55e', bg: 'rgba(34,197,94,0.15)', border: 'rgba(34,197,94,0.3)' },
-  { value: 'maybe', label: 'Might Go', icon: '🤔', color: '#fb923c', bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)' },
-  { value: 'not_going', label: "Can't Make It", icon: '❌', color: '#6b7280', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.06)' },
+  { value: 'going', label: "I'm Going", color: '#22c55e', bg: 'rgba(34,197,94,0.15)', border: 'rgba(34,197,94,0.3)' },
+  { value: 'maybe', label: 'Might Go', color: '#fb923c', bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)' },
+  { value: 'not_going', label: "Can't Make It", color: '#6b7280', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.06)' },
 ]
 
 export default function EventRSVP({ eventId }: { eventId: string }) {
@@ -63,7 +63,7 @@ export default function EventRSVP({ eventId }: { eventId: string }) {
               opacity: loading ? 0.5 : 1,
             }}
           >
-            {s.icon} {s.label}
+            {s.label}
           </button>
         )
       })}

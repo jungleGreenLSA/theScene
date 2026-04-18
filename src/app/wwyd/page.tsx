@@ -109,7 +109,7 @@ export default function WWYDPage() {
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>Got a budget? Ask the community what to do next.</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} className="btn-neon" style={{ fontSize: '12px' }}>
-          {showForm ? 'Cancel' : '🤔 Ask the Community'}
+          {showForm ? 'Cancel' : 'Ask the Community'}
         </button>
       </div>
 
@@ -130,7 +130,7 @@ export default function WWYDPage() {
           <div style={{ marginBottom: '12px' }}>
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Photo of your car (optional)</label>
             <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '13px' }} />
-            {imageFile && <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '4px' }}>✓ {imageFile.name}</p>}
+            {imageFile && <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '4px' }}>{imageFile.name}</p>}
           </div>
           <div style={{ marginBottom: '16px' }}>
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On</label>
@@ -140,7 +140,7 @@ export default function WWYDPage() {
             <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', cursor: 'pointer' }}>+ Add option</button>
           </div>
           <button type="submit" disabled={submitting} className="btn-neon" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px' }}>
-            {submitting ? 'Posting...' : '🗳️ Post Question'}
+            {submitting ? 'Posting...' : 'Post Question'}
           </button>
         </form>
       )}
@@ -151,7 +151,6 @@ export default function WWYDPage() {
         </div>
       ) : posts.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>🤔</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No questions yet</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Be the first to ask the community for advice!</p>
         </div>
@@ -171,7 +170,7 @@ export default function WWYDPage() {
                     <p className="text-muted" style={{ fontSize: '11px' }}>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                   </div>
                   {currentUserId === post.author?.id && (
-                    <button onClick={() => handleDeletePost(post.id)} className="btn-danger-sm">🗑 Delete</button>
+                    <button onClick={() => handleDeletePost(post.id)} className="btn-danger-sm">Delete</button>
                   )}
                 </div>
 
@@ -181,7 +180,7 @@ export default function WWYDPage() {
                     <img src={post.image_url} alt="" style={{ width: '100%', maxHeight: '360px', objectFit: 'cover' }} />
                   </div>
                 )}
-                {post.budget && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>💰 Budget: {post.budget}</span>}
+                {post.budget && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>Budget: {post.budget}</span>}
                 {post.description && <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '14px', lineHeight: 1.5 }}>{post.description}</p>}
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

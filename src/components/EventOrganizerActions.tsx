@@ -40,14 +40,14 @@ export default function EventOrganizerActions({ eventId, organizerId, eventSlug 
     <div style={{ display: 'flex', gap: '8px', marginTop: '14px', flexWrap: 'wrap' }}>
       {eventSlug && (
         <Link href={`/events/${eventSlug}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize: '12px', fontWeight: 600 }}>
-          ✏️ Edit Event
+          Edit Event
         </Link>
       )}
       <button onClick={handleClose} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', color: '#fb923c', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>
         Mark as Completed
       </button>
       <button onClick={handleDelete} className="btn-danger">
-        🗑 Delete
+        Delete
       </button>
     </div>
   )

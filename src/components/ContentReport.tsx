@@ -41,7 +41,7 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
         onMouseLeave={(e) => (e.currentTarget.style.color = '#6b7280')}
         title="Report content"
       >
-        ⚠
+        Report
       </button>
 
       {open && (

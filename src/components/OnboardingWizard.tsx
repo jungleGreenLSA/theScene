@@ -149,9 +149,8 @@ export default function OnboardingWizard() {
             <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '18px' }}>Optional — you can always add one later from Settings.</p>
             <label style={{ display: 'block', padding: '32px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.15)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.5)' }}>
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
-              <span style={{ fontSize: '32px', display: 'block', marginBottom: '6px' }}>📷</span>
               <span style={{ fontSize: '13px', color: avatarFile ? '#22c55e' : '#8892a4' }}>
-                {avatarFile ? `✓ ${avatarFile.name}` : 'Tap to upload'}
+                {avatarFile ? avatarFile.name : 'Tap to upload'}
               </span>
             </label>
             {error && <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '8px' }}>{error}</p>}
@@ -183,7 +182,7 @@ export default function OnboardingWizard() {
                 <label style={{ display: 'block', padding: '16px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.1)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.4)' }}>
                   <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setVehicleFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
                   <span style={{ fontSize: '12px', color: vehicleFile ? '#22c55e' : '#8892a4' }}>
-                    {vehicleFile ? `✓ ${vehicleFile.name}` : '📸 Cover photo (optional)'}
+                    {vehicleFile ? vehicleFile.name : 'Cover photo (optional)'}
                   </span>
                 </label>
               </div>
@@ -192,7 +191,7 @@ export default function OnboardingWizard() {
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
               <button onClick={() => setStep(2)} className="btn-outline" style={{ flex: 1, justifyContent: 'center', padding: '10px' }}>Back</button>
               <button onClick={submitVehicle} disabled={busy} className="btn-neon" style={{ flex: 2, justifyContent: 'center', padding: '10px', opacity: busy ? 0.5 : 1 }}>
-                {busy ? 'Saving...' : hasVehicle ? 'Finish 🏁' : 'Add & Finish 🏁'}
+                {busy ? 'Saving...' : hasVehicle ? 'Finish' : 'Add & Finish'}
               </button>
             </div>
           </>

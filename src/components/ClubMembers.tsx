@@ -15,10 +15,10 @@ interface Member {
 }
 
 const ROLE_BADGES: Record<string, string> = {
-  founder: '👑 Founder',
-  admin: '⚡ Admin',
-  officer: '🛡️ Officer',
-  member: '🏁 Member',
+  founder: 'Founder',
+  admin: 'Admin',
+  officer: 'Officer',
+  member: 'Member',
 }
 
 export default function ClubMembers({ clubId, createdBy }: { clubId: string; createdBy: string }) {
@@ -136,7 +136,7 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
       {/* Pending requests — admins/founders only */}
       {canManage && pending.length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px', border: '1px solid rgba(249,115,22,0.25)' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#fb923c', marginBottom: '14px' }}>🔔 Pending Requests ({pending.length})</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#fb923c', marginBottom: '14px' }}>Pending Requests ({pending.length})</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {pending.map(m => (
               <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -147,10 +147,10 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
                 </Link>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <Link href={`/user/${m.user?.username}`} style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{m.user?.display_name || m.user?.username}</Link>
-                  {m.user?.location && <p style={{ fontSize: '11px', color: '#6b7280' }}>📍 {m.user.location}</p>}
+                  {m.user?.location && <p style={{ fontSize: '11px', color: '#6b7280' }}>{m.user.location}</p>}
                 </div>
-                <button onClick={() => approve(m.id)} className="btn-success-sm">✓ Approve</button>
-                <button onClick={() => reject(m.id)} className="btn-danger-sm">✕ Reject</button>
+                <button onClick={() => approve(m.id)} className="btn-success-sm">Approve</button>
+                <button onClick={() => reject(m.id)} className="btn-danger-sm">Reject</button>
               </div>
             ))}
           </div>
@@ -160,7 +160,7 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
       {/* Members */}
       <div className="glass" style={{ padding: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9' }}>👥 Members ({members.length})</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9' }}>Members ({members.length})</h2>
         </div>
         {members.length === 0 ? (
           <p style={{ fontSize: '13px', color: '#8892a4' }}>No members yet.</p>
@@ -193,9 +193,9 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
                       <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>No garage yet</p>
                     )}
                   </div>
-                  {m.user?.location && <span style={{ fontSize: '12px', color: '#6b7280' }}>📍 {m.user.location}</span>}
+                  {m.user?.location && <span style={{ fontSize: '12px', color: '#6b7280' }}>{m.user.location}</span>}
                   {canRemove && (
-                    <button onClick={() => removeMember(m.id, m.user?.username || 'member', m.role)} className="btn-danger-sm">🗑 Remove</button>
+                    <button onClick={() => removeMember(m.id, m.user?.username || 'member', m.role)} className="btn-danger-sm">Remove</button>
                   )}
                 </div>
               )

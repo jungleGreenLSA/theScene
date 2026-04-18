@@ -60,7 +60,6 @@ export default function RunsPage() {
         </div>
       ) : runs.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>🛣️</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No crew runs planned</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '16px' }}>Be the first to organize a group drive!</p>
           <Link href="/events/create" className="btn-neon">Plan a Run</Link>
@@ -74,9 +73,7 @@ export default function RunsPage() {
                 <div style={{ height: '140px', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                   {run.cover_image_url ? (
                     <img src={run.cover_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  ) : (
-                    <span style={{ fontSize: '36px' }}>🛣️</span>
-                  )}
+                  ) : null}
                   <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(12,12,20,0.9)', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
                     <div style={{ fontSize: '10px', color: '#fb923c', fontWeight: 700, textTransform: 'uppercase' }}>{d.toLocaleDateString('en-US', { month: 'short' })}</div>
                     <div style={{ fontSize: '20px', fontWeight: 700, color: '#e2e4e9', lineHeight: 1 }}>{d.getDate()}</div>
@@ -85,15 +82,15 @@ export default function RunsPage() {
                 <div style={{ padding: '16px' }}>
                   <h3 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '8px' }}>{run.title}</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '12px', color: '#9ca3af' }}>
-                    <span>📍 Start: {run.start_location || `${run.start_city}, ${run.start_state}`}</span>
+                    <span>Start: {run.start_location || `${run.start_city}, ${run.start_state}`}</span>
                     {(run.end_location || run.end_city) && (
-                      <span>🏁 End: {run.end_location || `${run.end_city}, ${run.end_state}`}</span>
+                      <span>End: {run.end_location || `${run.end_city}, ${run.end_state}`}</span>
                     )}
-                    {run.estimated_distance && <span>📏 {run.estimated_distance}</span>}
-                    {run.estimated_duration && <span>⏱️ {run.estimated_duration}</span>}
+                    {run.estimated_distance && <span>Distance: {run.estimated_distance}</span>}
+                    {run.estimated_duration && <span>Duration: {run.estimated_duration}</span>}
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    <span className="text-muted" style={{ fontSize: '12px' }}>👥 {run.rsvp_count}{run.max_participants ? `/${run.max_participants}` : ''} going</span>
+                    <span className="text-muted" style={{ fontSize: '12px' }}>{run.rsvp_count}{run.max_participants ? `/${run.max_participants}` : ''} going</span>
                     <Link href={`/user/${run.organizer?.username}`} className="text-muted" style={{ fontSize: '11px' }}>by @{run.organizer?.username}</Link>
                   </div>
                 </div>

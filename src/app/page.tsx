@@ -80,17 +80,12 @@ export default function Home() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
             {[
-              { icon: '🏠', title: 'Build Your Garage', desc: 'Your car gets its own dedicated page with specs, mods, photos, build status, and a guestbook. Just like the original CarDomain -- but better.' },
-              { icon: '🤙', title: 'Give & Get Props', desc: 'Show love for builds you respect. Props, guestbook entries, and trophy badges. The more props, the higher you climb.' },
-              { icon: '📍', title: 'Discover & Connect', desc: 'Find car shows, meets, and track days near you. Browse builds by make, model, or location. Check in at events and share photos.' },
+              { title: 'Build Your Garage', desc: 'Your car gets its own dedicated page with specs, mods, photos, build status, and a guestbook. Just like the original CarDomain -- but better.' },
+              { title: 'Give & Get Props', desc: 'Show love for builds you respect. Props, guestbook entries, and trophy badges. The more props, the higher you climb.' },
+              { title: 'Discover & Connect', desc: 'Find car shows, meets, and track days near you. Browse builds by make, model, or location. Check in at events and share photos.' },
             ].map((f) => (
               <div key={f.title} className="glass card-hover" style={{ padding: '28px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
-                  <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(124,58,237,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <span style={{ fontSize: '22px' }}>{f.icon}</span>
-                  </div>
-                  <h3 className="font-bold text-foreground" style={{ fontSize: '1.05rem' }}>{f.title}</h3>
-                </div>
+                <h3 className="font-bold text-foreground" style={{ fontSize: '1.05rem', marginBottom: '12px' }}>{f.title}</h3>
                 <p className="text-muted-light text-sm leading-relaxed">{f.desc}</p>
               </div>
             ))}
@@ -126,21 +121,16 @@ export default function Home() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: '16px' }}>
             {[
-              { icon: '🔧', title: 'Structured Mod Lists', desc: 'Every mod categorized: engine, exhaust, suspension, wheels, exterior, interior, tuning. Browse other builds by specific parts.' },
-              { icon: '📖', title: 'Guestbook', desc: 'Every garage page has a guestbook where visitors leave messages. Built-in profanity and spam filter keeps it clean.' },
-              { icon: '🏆', title: 'Ride of the Week', desc: 'The most-propped builds get featured on the homepage. Community-driven voting puts the best builds in the spotlight.' },
-              { icon: '🌎', title: 'Regional Discovery', desc: 'Find builds near you. Search by city, state, or zip code. Location-based browsing makes local connections easy.' },
-              { icon: '📸', title: 'Event Check-In & Photos', desc: 'At a car show? Check in to tag your car. After the event, photos get tagged to both the event and the cars.' },
-              { icon: '🔍', title: 'Similar Builds', desc: 'Every garage page shows other builds of the same make and model. See how others built the same platform.' },
+              { title: 'Structured Mod Lists', desc: 'Every mod categorized: engine, exhaust, suspension, wheels, exterior, interior, tuning. Browse other builds by specific parts.' },
+              { title: 'Guestbook', desc: 'Every garage page has a guestbook where visitors leave messages. Built-in profanity and spam filter keeps it clean.' },
+              { title: 'Ride of the Week', desc: 'The most-propped builds get featured on the homepage. Community-driven voting puts the best builds in the spotlight.' },
+              { title: 'Regional Discovery', desc: 'Find builds near you. Search by city, state, or zip code. Location-based browsing makes local connections easy.' },
+              { title: 'Event Check-In & Photos', desc: 'At a car show? Check in to tag your car. After the event, photos get tagged to both the event and the cars.' },
+              { title: 'Similar Builds', desc: 'Every garage page shows other builds of the same make and model. See how others built the same platform.' },
             ].map((f) => (
-              <div key={f.title} className="glass card-hover" style={{ padding: '28px', display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
-                <div className="bg-purple/15 flex items-center justify-center flex-shrink-0" style={{ width: '48px', height: '48px', borderRadius: '12px' }}>
-                  <span style={{ fontSize: '22px' }}>{f.icon}</span>
-                </div>
-                <div>
-                  <h3 className="font-bold text-foreground" style={{ marginBottom: '8px' }}>{f.title}</h3>
-                  <p className="text-sm text-muted-light leading-relaxed">{f.desc}</p>
-                </div>
+              <div key={f.title} className="glass card-hover" style={{ padding: '28px' }}>
+                <h3 className="font-bold text-foreground" style={{ marginBottom: '8px' }}>{f.title}</h3>
+                <p className="text-sm text-muted-light leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -163,11 +153,10 @@ export default function Home() {
           <div className="glass overflow-hidden glow-purple">
             <div className="bg-gradient-to-br from-surface-light to-surface flex items-center justify-center relative" style={{ height: '300px' }}>
               <div className="text-center">
-                <span className="block" style={{ fontSize: '64px', marginBottom: '16px' }}>🏆</span>
                 <p className="text-muted-light text-sm">Featured rides will appear here once the community starts voting.</p>
               </div>
               <div className="absolute top-4 right-4 flex items-center gap-2 bg-background/80 border border-neon/30 rounded-full" style={{ padding: '8px 16px' }}>
-                <span className="text-neon-light text-xs font-bold">🤙 Vote with Props</span>
+                <span className="text-neon-light text-xs font-bold">Vote with Props</span>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4" style={{ padding: '28px 32px' }}>
@@ -196,14 +185,14 @@ export default function Home() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '12px' }}>
             {[
-              { label: 'Domestic', emoji: '🇺🇸', desc: 'American muscle & power' },
-              { label: 'Import', emoji: '🇯🇵', desc: 'JDM performance' },
-              { label: 'Euro Power', emoji: '🌍', desc: 'European & exotic' },
-              { label: 'Trucks', emoji: '🛻', desc: 'Built to work & play' },
-              { label: 'Classic', emoji: '🏁', desc: 'Timeless machines' },
-              { label: 'Off-Road', emoji: '⛰️', desc: 'Trail-ready rigs' },
-              { label: 'Stance', emoji: '📐', desc: 'Low & wide' },
-              { label: 'Race', emoji: '🏎️', desc: 'Track-built weapons' },
+              { label: 'Domestic', desc: 'American muscle & power' },
+              { label: 'Import', desc: 'JDM performance' },
+              { label: 'Euro Power', desc: 'European & exotic' },
+              { label: 'Trucks', desc: 'Built to work & play' },
+              { label: 'Classic', desc: 'Timeless machines' },
+              { label: 'Off-Road', desc: 'Trail-ready rigs' },
+              { label: 'Stance', desc: 'Low & wide' },
+              { label: 'Race', desc: 'Track-built weapons' },
             ].map((cat) => (
               <Link
                 key={cat.label}
@@ -211,7 +200,6 @@ export default function Home() {
                 className="glass card-hover group text-center"
                 style={{ padding: '28px 16px' }}
               >
-                <span className="block" style={{ fontSize: '28px', marginBottom: '12px' }}>{cat.emoji}</span>
                 <span className="text-xs font-semibold uppercase tracking-wider text-foreground group-hover:text-purple-light transition-colors block">
                   {cat.label}
                 </span>

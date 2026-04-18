@@ -141,7 +141,6 @@ export default function ExplorePage() {
 
       {/* AI Search Teaser */}
       <div className="glass" style={{ padding: '14px 20px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '14px', border: '1px solid rgba(249,115,22,0.15)' }}>
-        <span style={{ fontSize: '20px', flexShrink: 0 }}>🤖</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p className="text-foreground font-semibold" style={{ fontSize: '13px', lineHeight: 1.3 }}>AI Search Coming Soon</p>
           <p className="text-muted-light" style={{ fontSize: '11px', lineHeight: 1.4 }}>
@@ -173,7 +172,6 @@ export default function ExplorePage() {
         </div>
       ) : vehicles.length === 0 ? (
         <div className="glass text-center" style={{ padding: '48px 32px' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>🔍</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No builds found</h2>
           <p className="text-muted-light" style={{ marginBottom: '20px', fontSize: '0.9rem' }}>Try adjusting your filters or be the first to add this type of build.</p>
           <Link href="/auth/register" className="btn-neon">Create Your Garage</Link>
@@ -194,11 +192,7 @@ export default function ExplorePage() {
                     className="group-hover:scale-105 transition-transform duration-500"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
-                ) : (
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontSize: '36px' }}>🚗</span>
-                  </div>
-                )}
+                ) : null}
                 <span className="text-purple-light" style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '4px 8px', borderRadius: '4px', background: 'rgba(12,12,20,0.8)', border: '1px solid rgba(124,58,237,0.3)' }}>
                   {vehicle.build_status?.replace('_', ' ')}
                 </span>
@@ -213,7 +207,7 @@ export default function ExplorePage() {
                   {vehicle.horsepower && <span> · {vehicle.horsepower}</span>}
                 </p>
                 {vehicle.owner?.location && (
-                  <p className="text-muted" style={{ fontSize: '12px', marginTop: '4px' }}>📍 {vehicle.owner.location}</p>
+                  <p className="text-muted" style={{ fontSize: '12px', marginTop: '4px' }}>{vehicle.owner.location}</p>
                 )}
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -230,8 +224,8 @@ export default function ExplorePage() {
                     <span className="text-muted-light" style={{ fontSize: '12px' }}>{vehicle.owner?.username}</span>
                   </div>
                   <div className="text-muted" style={{ display: 'flex', gap: '10px', fontSize: '12px' }}>
-                    <span>🤙 {vehicle.props_count || 0}</span>
-                    <span>👁 {vehicle.view_count || 0}</span>
+                    <span>{vehicle.props_count || 0} props</span>
+                    <span>{vehicle.view_count || 0} views</span>
                   </div>
                 </div>
               </div>

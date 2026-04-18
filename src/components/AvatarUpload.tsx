@@ -34,7 +34,7 @@ export default function AvatarUpload({ userId, currentUrl, onUpdate }: { userId:
         {currentUrl ? (
           <img src={currentUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', color: '#6b7280' }}>📷</div>
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px' }}>ADD PHOTO</div>
         )}
       </div>
       <div style={{
@@ -42,7 +42,7 @@ export default function AvatarUpload({ userId, currentUrl, onUpdate }: { userId:
         background: '#7c3aed', border: '2px solid #0c0c14', display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: '10px', color: 'white',
       }}>
-        {uploading ? '...' : '✏'}
+        {uploading ? '...' : '+'}
       </div>
       <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleUpload} style={{ display: 'none' }} />
     </label>

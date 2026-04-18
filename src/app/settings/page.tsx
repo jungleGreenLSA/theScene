@@ -137,7 +137,7 @@ export default function SettingsPage() {
       {/* My Activity */}
       <Link href="/activity" className="glass" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', marginBottom: '20px', textDecoration: 'none' }}>
         <div>
-          <h2 className="text-foreground font-bold" style={{ fontSize: '15px', marginBottom: '2px' }}>📋 My Activity</h2>
+          <h2 className="text-foreground font-bold" style={{ fontSize: '15px', marginBottom: '2px' }}>My Activity</h2>
           <p className="text-muted-light" style={{ fontSize: '12px' }}>Manage your guestbook comments, WWYD votes, and sightings</p>
         </div>
         <span className="text-muted" style={{ fontSize: '18px' }}>›</span>
@@ -145,7 +145,7 @@ export default function SettingsPage() {
 
       {/* Profile Settings */}
       <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
-        <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '20px' }}>👤 Profile</h2>
+        <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '20px' }}>Profile</h2>
 
         {/* Avatar */}
         <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -158,9 +158,9 @@ export default function SettingsPage() {
               backgroundColor: 'rgba(26,26,46,0.5)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              {!profile?.avatar_url && <span style={{ color: '#6b7280' }}>📷</span>}
+              {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px' }}>ADD</span>}
             </div>
-            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#7c3aed', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: 'white' }}>✏</div>
+            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#7c3aed', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'white' }}>+</div>
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={async (e) => {
               const file = e.target.files?.[0]
               if (!file || !profile) return
@@ -312,16 +312,16 @@ export default function SettingsPage() {
         }
         return (
           <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
-            <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '4px' }}>📍 Only Show Me What&apos;s Nearby</h2>
+            <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '4px' }}>Only Show Me What&apos;s Nearby</h2>
             <p className="text-muted-light text-sm" style={{ marginBottom: '8px' }}>
               Scope listings to your state{userState ? ` (${userState})` : ''}.
               {!userState && ' Set your Location above to enable these.'}
             </p>
             <div style={{ opacity: userState ? 1 : 0.5, pointerEvents: userState ? 'auto' : 'none' }}>
-              {toggleRow('filter_events_nearby', '📅 Events only near me', 'Hides car shows outside your state on /events')}
-              {toggleRow('filter_clubs_nearby', '🏁 Clubs only near me', 'Hides clubs with no chapter in your state on /clubs')}
-              {toggleRow('filter_people_nearby', '👥 People only near me', 'Filters the Explore page to members in your state')}
-              {toggleRow('filter_marketplace_nearby', '🏪 Marketplace only near me', 'Hides listings from sellers outside your state')}
+              {toggleRow('filter_events_nearby', 'Events only near me', 'Hides car shows outside your state on /events')}
+              {toggleRow('filter_clubs_nearby', 'Clubs only near me', 'Hides clubs with no chapter in your state on /clubs')}
+              {toggleRow('filter_people_nearby', 'People only near me', 'Filters the Explore page to members in your state')}
+              {toggleRow('filter_marketplace_nearby', 'Marketplace only near me', 'Hides listings from sellers outside your state')}
             </div>
           </div>
         )
@@ -329,7 +329,7 @@ export default function SettingsPage() {
 
       {/* Profile Visibility */}
       <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
-        <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>🔒 Profile Visibility</h2>
+        <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>Profile Visibility</h2>
         <p className="text-muted-light text-sm" style={{ marginBottom: '16px' }}>Control whether your profile appears in search and explore.</p>
 
         <div style={{ display: 'flex', gap: '12px' }}>
@@ -344,7 +344,7 @@ export default function SettingsPage() {
               outline: profile?.is_public ? '2px solid #7c3aed' : '1px solid rgba(255,255,255,0.06)',
             }}
           >
-            🌎 Public
+            Public
           </button>
           <button
             onClick={() => updateProfileVisibility(false)}
@@ -357,7 +357,7 @@ export default function SettingsPage() {
               outline: !profile?.is_public ? '2px solid #7c3aed' : '1px solid rgba(255,255,255,0.06)',
             }}
           >
-            🔒 Private
+            Private
           </button>
         </div>
       </div>
@@ -365,7 +365,7 @@ export default function SettingsPage() {
       {/* Vehicle Visibility */}
       {vehicles.length > 0 && (
         <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
-          <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>🚗 Vehicle Visibility</h2>
+          <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>Vehicle Visibility</h2>
           <p className="text-muted-light text-sm" style={{ marginBottom: '16px' }}>Control whether each vehicle is visible to others. Private vehicles can still be shared via direct link.</p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -385,7 +385,7 @@ export default function SettingsPage() {
                     fontWeight: 600, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px',
                   }}
                 >
-                  {v.is_public ? '🌎 Public' : '🔒 Private'}
+                  {v.is_public ? 'Public' : 'Private'}
                 </button>
               </div>
             ))}
@@ -399,7 +399,7 @@ export default function SettingsPage() {
 
       {/* Account */}
       <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
-        <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '16px' }}>⚙️ Account</h2>
+        <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '16px' }}>Account</h2>
 
         {/* Username */}
         {profile && (() => {
@@ -475,7 +475,7 @@ export default function SettingsPage() {
           }}
           style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', textAlign: 'left' }}
         >
-          🔑 Reset Password
+          Reset Password
         </button>
 
         {/* Delete Account */}
@@ -494,7 +494,7 @@ export default function SettingsPage() {
           }}
           style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
         >
-          🗑️ Delete My Account
+          Delete My Account
         </button>
         <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '8px' }}>
           Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" style={{ color: '#a78bfa' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.

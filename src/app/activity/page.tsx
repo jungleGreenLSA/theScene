@@ -203,12 +203,11 @@ export default function ActivityPage() {
   )
 
   const deleteBtn = (onClick: () => void) => (
-    <button onClick={onClick} className="btn-danger-sm">🗑 Delete</button>
+    <button onClick={onClick} className="btn-danger-sm">Delete</button>
   )
 
-  const emptyState = (icon: string, text: string) => (
+  const emptyState = (text: string) => (
     <div className="glass" style={{ padding: '40px 24px', textAlign: 'center' }}>
-      <span style={{ fontSize: '40px', display: 'block', marginBottom: '12px' }}>{icon}</span>
       <p className="text-muted-light" style={{ fontSize: '13px' }}>{text}</p>
     </div>
   )
@@ -235,18 +234,18 @@ export default function ActivityPage() {
       )}
 
       <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
-        {tabBtn('events', '📅 Events', events.length)}
-        {tabBtn('clubs', '🏁 Clubs', clubs.length)}
-        {tabBtn('listings', '🏪 Marketplace', listings.length)}
-        {tabBtn('wwydPosts', '🤔 WWYD Posts', wwydPosts.length)}
-        {tabBtn('guestbook', '📝 Guestbook', guestbook.length)}
-        {tabBtn('wwyd', '🗳 WWYD Votes', votes.length)}
-        {tabBtn('sightings', '📸 Sightings', sightings.length)}
+        {tabBtn('events', 'Events', events.length)}
+        {tabBtn('clubs', 'Clubs', clubs.length)}
+        {tabBtn('listings', 'Marketplace', listings.length)}
+        {tabBtn('wwydPosts', 'WWYD Posts', wwydPosts.length)}
+        {tabBtn('guestbook', 'Guestbook', guestbook.length)}
+        {tabBtn('wwyd', 'WWYD Votes', votes.length)}
+        {tabBtn('sightings', 'Sightings', sightings.length)}
       </div>
 
       {activeTab === 'listings' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {listings.length === 0 ? emptyState('🏪', "You haven't posted any marketplace listings yet.") : listings.map(l => (
+          {listings.length === 0 ? emptyState("You haven't posted any marketplace listings yet.") : listings.map(l => (
             <div key={l.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/marketplace/${l.id}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{l.title}</Link>
@@ -265,13 +264,13 @@ export default function ActivityPage() {
 
       {activeTab === 'events' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {events.length === 0 ? emptyState('📅', "You haven't created any events yet.") : events.map(e => (
+          {events.length === 0 ? emptyState("You haven't created any events yet.") : events.map(e => (
             <div key={e.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/events/${e.slug}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{e.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  📅 {new Date(e.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                  {e.city && <span> · 📍 {e.city}, {e.state}</span>}
+                  {new Date(e.event_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  {e.city && <span> · {e.city}, {e.state}</span>}
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {e.status}</span>
                 </p>
               </div>
@@ -283,7 +282,7 @@ export default function ActivityPage() {
 
       {activeTab === 'clubs' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {clubs.length === 0 ? emptyState('🏁', "You haven't started any clubs yet.") : clubs.map(c => (
+          {clubs.length === 0 ? emptyState("You haven't started any clubs yet.") : clubs.map(c => (
             <div key={c.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/clubs/${c.slug}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{c.name}</Link>
@@ -298,12 +297,12 @@ export default function ActivityPage() {
 
       {activeTab === 'wwydPosts' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {wwydPosts.length === 0 ? emptyState('🤔', "You haven't posted any WWYD questions yet.") : wwydPosts.map(p => (
+          {wwydPosts.length === 0 ? emptyState("You haven't posted any WWYD questions yet.") : wwydPosts.map(p => (
             <div key={p.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/wwyd`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{p.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  {p.budget && <span style={{ color: '#22c55e' }}>💰 {p.budget} · </span>}
+                  {p.budget && <span style={{ color: '#22c55e' }}>{p.budget} · </span>}
                   <span className="text-muted">{fmtDate(p.created_at)}</span>
                 </p>
               </div>
@@ -315,7 +314,7 @@ export default function ActivityPage() {
 
       {activeTab === 'guestbook' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {guestbook.length === 0 ? emptyState('📝', "You haven't left any guestbook comments yet.") : guestbook.map(g => (
+          {guestbook.length === 0 ? emptyState("You haven't left any guestbook comments yet.") : guestbook.map(g => (
             <div key={g.id} className="glass" style={{ padding: '16px 20px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px', marginBottom: '8px' }}>
                 <div style={{ minWidth: 0, flex: 1 }}>
@@ -338,7 +337,7 @@ export default function ActivityPage() {
 
       {activeTab === 'wwyd' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {votes.length === 0 ? emptyState('🗳', "You haven't voted on any WWYD posts yet.") : votes.map(v => (
+          {votes.length === 0 ? emptyState("You haven't voted on any WWYD posts yet.") : votes.map(v => (
             <div key={v.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 {v.post ? (
@@ -361,7 +360,7 @@ export default function ActivityPage() {
 
       {activeTab === 'sightings' && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '14px' }}>
-          {sightings.length === 0 ? <div style={{ gridColumn: '1/-1' }}>{emptyState('📸', "You haven't posted any sightings yet.")}</div> : sightings.map(s => (
+          {sightings.length === 0 ? <div style={{ gridColumn: '1/-1' }}>{emptyState("You haven't posted any sightings yet.")}</div> : sightings.map(s => (
             <div key={s.id} className="glass overflow-hidden">
               <div style={{ aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img
@@ -376,7 +375,7 @@ export default function ActivityPage() {
                       const fb = document.createElement('div')
                       fb.className = 'img-fallback'
                       fb.style.cssText = 'color:#6b7280;font-size:36px'
-                      fb.textContent = '📸'
+                      fb.textContent = ''
                       parent.appendChild(fb)
                     }
                   }}
@@ -384,7 +383,7 @@ export default function ActivityPage() {
               </div>
               <div style={{ padding: '14px' }}>
                 {s.description && <p className="text-foreground" style={{ fontSize: '13px', marginBottom: '6px' }}>{s.description}</p>}
-                <p className="text-muted-light" style={{ fontSize: '11px' }}>📍 {s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
+                <p className="text-muted-light" style={{ fontSize: '11px' }}>{s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <span className="text-muted" style={{ fontSize: '11px' }}>{fmtDate(s.created_at)}</span>
                   {deleteBtn(() => removeSighting(s.id))}

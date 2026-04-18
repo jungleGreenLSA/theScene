@@ -10,7 +10,14 @@ interface Hit {
   href: string
   title: string
   subtitle?: string
-  icon: string
+}
+
+const KIND_LABELS: Record<Hit['kind'], string> = {
+  user: 'USER',
+  club: 'CLUB',
+  event: 'EVENT',
+  shop: 'SHOP',
+  vehicle: 'RIDE',
 }
 
 export default function GlobalSearch() {
@@ -47,14 +54,14 @@ export default function GlobalSearch() {
       ])
 
       const results: Hit[] = []
-      ;(users.data || []).forEach((u: any) => results.push({ kind: 'user', icon: '👤', title: u.display_name || u.username, subtitle: `@${u.username}`, href: `/user/${u.username}` }))
-      ;(clubs.data || []).forEach((c: any) => results.push({ kind: 'club', icon: '🏁', title: c.name, subtitle: 'Club', href: `/clubs/${c.slug}` }))
-      ;(events.data || []).forEach((e: any) => results.push({ kind: 'event', icon: '📅', title: e.title, subtitle: [e.city, e.state].filter(Boolean).join(', ') || 'Event', href: `/events/${e.slug}` }))
-      ;(shops.data || []).forEach((s: any) => results.push({ kind: 'shop', icon: '🔧', title: s.name, subtitle: [s.city, s.state].filter(Boolean).join(', ') || 'Shop', href: `/shops/${s.slug}` }))
+      ;(users.data || []).forEach((u: any) => results.push({ kind: 'user', title: u.display_name || u.username, subtitle: `@${u.username}`, href: `/user/${u.username}` }))
+      ;(clubs.data || []).forEach((c: any) => results.push({ kind: 'club', title: c.name, subtitle: 'Club', href: `/clubs/${c.slug}` }))
+      ;(events.data || []).forEach((e: any) => results.push({ kind: 'event', title: e.title, subtitle: [e.city, e.state].filter(Boolean).join(', ') || 'Event', href: `/events/${e.slug}` }))
+      ;(shops.data || []).forEach((s: any) => results.push({ kind: 'shop', title: s.name, subtitle: [s.city, s.state].filter(Boolean).join(', ') || 'Shop', href: `/shops/${s.slug}` }))
       ;(vehicles.data || []).forEach((v: any) => {
         const owner = v.owner?.username
         if (!owner) return
-        results.push({ kind: 'vehicle', icon: '🚗', title: `${v.year} ${v.make} ${v.model}`, subtitle: `by @${owner}`, href: `/user/${owner}/${v.slug}` })
+        results.push({ kind: 'vehicle', title: `${v.year} ${v.make} ${v.model}`, subtitle: `by @${owner}`, href: `/user/${owner}/${v.slug}` })
       })
 
       setHits(results)
@@ -75,7 +82,7 @@ export default function GlobalSearch() {
         value={query}
         onChange={(e) => { setQuery(e.target.value); setOpen(true) }}
         onFocus={() => setOpen(true)}
-        placeholder="🔍 Search builds, clubs, events, shops..."
+        placeholder="Search builds, clubs, events, shops..."
         style={{ width: '100%', padding: '7px 12px', borderRadius: '6px', background: 'rgba(18,18,30,0.6)', border: '1px solid rgba(255,255,255,0.08)', color: '#e2e4e9', fontSize: '12px', outline: 'none' }}
       />
       {open && query.trim().length >= 2 && (
@@ -92,7 +99,7 @@ export default function GlobalSearch() {
               onClick={() => pick(h)}
               style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '10px 12px', background: 'none', border: 'none', borderBottom: i < hits.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: 'pointer', textAlign: 'left' }}
             >
-              <span style={{ fontSize: '18px', flexShrink: 0 }}>{h.icon}</span>
+              <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', color: '#6b7280', flexShrink: 0, width: '40px' }}>{KIND_LABELS[h.kind]}</span>
               <div style={{ minWidth: 0 }}>
                 <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.title}</p>
                 {h.subtitle && <p style={{ fontSize: '11px', color: '#6b7280' }}>{h.subtitle}</p>}

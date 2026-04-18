@@ -153,7 +153,7 @@ export default function EditEventPage() {
 
         {/* Co-chairs */}
         <div className="glass" style={{ padding: '24px' }}>
-          <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>👥 Co-Chairs</h3>
+          <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>Co-Chairs</h3>
           <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '12px' }}>Co-chairs can also manage this event.</p>
 
           <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
@@ -166,7 +166,7 @@ export default function EditEventPage() {
               {cochairs.map(c => (
                 <div key={c.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', borderRadius: '6px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <span style={{ fontSize: '13px', color: '#e2e4e9' }}>@{c.user?.username || 'unknown'} <span style={{ color: '#6b7280' }}>({c.user?.display_name || ''})</span></span>
-                  <button type="button" onClick={() => handleRemoveCochair(c.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '14px' }}>✕</button>
+                  <button type="button" onClick={() => handleRemoveCochair(c.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Remove</button>
                 </div>
               ))}
             </div>
@@ -178,7 +178,7 @@ export default function EditEventPage() {
           background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
           fontSize: '15px', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.5 : 1,
         }}>
-          {saving ? 'Saving...' : '💾 Save Changes'}
+          {saving ? 'Saving...' : 'Save Changes'}
         </button>
       </form>
     </div>

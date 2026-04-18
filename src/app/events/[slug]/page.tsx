@@ -84,9 +84,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           {event.cover_image_url ? (
             <img src={event.cover_image_url} alt={event.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(249,115,22,0.1))' }}>
-              <span style={{ fontSize: '64px' }}>🏁</span>
-            </div>
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(249,115,22,0.1))' }} />
           )}
 
           {/* Status badge */}
@@ -116,7 +114,6 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           {/* Countdown */}
           {isUpcoming && diff > 0 && (
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', marginBottom: '14px' }}>
-              <span style={{ fontSize: '13px' }}>⏳</span>
               <span style={{ fontSize: '13px', fontWeight: 600, color: '#fb923c' }}>
                 {daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? 's' : ''} ${hoursLeft}h` : `${hoursLeft} hours`} until showtime
               </span>
@@ -124,14 +121,14 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           )}
           {isToday && (
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', marginBottom: '14px' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: '#22c55e' }}>🏁 Happening today!</span>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: '#22c55e' }}>Happening today!</span>
             </div>
           )}
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', fontSize: '14px', color: '#8892a4', marginBottom: '14px', alignItems: 'center' }}>
-            <span>📅 {eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} at {eventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
-            {event.location_name && <span>📍 {event.location_name}</span>}
-            <span>👥 {event.rsvp_count || 0} interested</span>
+            <span>{eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} at {eventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+            {event.location_name && <span>{event.location_name}</span>}
+            <span>{event.rsvp_count || 0} interested</span>
             <PropsButton targetType="event" targetId={event.id} size="sm" />
             <ShareButton url={`/events/${slug}`} title={event.title} text={`${event.title} on The Scene`} small />
           </div>
@@ -145,7 +142,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
           {event.location_address && (
             <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '8px' }}>
-              📮 {event.location_address}
+              {event.location_address}
               {event.map_url && (
                 <a href={event.map_url} target="_blank" rel="noopener" style={{ marginLeft: '8px', color: '#a78bfa' }}>View Map &rarr;</a>
               )}
@@ -153,7 +150,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           )}
 
           {event.admission_info && (
-            <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '14px' }}>🎟️ {event.admission_info}</p>
+            <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '14px' }}>{event.admission_info}</p>
           )}
 
           {/* Organizer */}
@@ -195,7 +192,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
       {/* Attendees / RSVPs */}
       {rsvps && rsvps.length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>👥 Who&apos;s Going</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Who&apos;s Going</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {rsvps.map((rsvp) => (
               <Link key={rsvp.id} href={`/user/${rsvp.user?.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 12px 5px 5px', borderRadius: '20px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -203,7 +200,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   {!rsvp.user?.avatar_url && <span style={{ fontSize: '9px', color: '#6b7280' }}>{rsvp.user?.username?.charAt(0).toUpperCase()}</span>}
                 </div>
                 <span style={{ fontSize: '12px', color: '#8892a4' }}>{rsvp.user?.display_name || rsvp.user?.username}</span>
-                {rsvp.status === 'checked_in' && <span style={{ fontSize: '10px', color: '#22c55e', fontWeight: 700 }}>✓</span>}
+                {rsvp.status === 'checked_in' && <span style={{ fontSize: '9px', color: '#22c55e', fontWeight: 700, letterSpacing: '0.5px' }}>HERE</span>}
               </Link>
             ))}
           </div>
@@ -223,7 +220,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-xl font-bold text-foreground">📸 Photos from {event.title}</h2>
+              <h2 className="text-xl font-bold text-foreground">Photos from {event.title}</h2>
               <p className="text-sm text-muted-light mt-1">Share your photos and relive the event with the community.</p>
             </div>
           </div>

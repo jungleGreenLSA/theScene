@@ -11,12 +11,12 @@ const BODY_STYLES = ['Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Wagon', 'SUV
 const TRANSMISSIONS = ['Automatic', 'Manual', 'DCT / Dual Clutch', 'CVT', 'Other']
 const DRIVETRAINS = ['RWD', 'FWD', 'AWD', '4WD']
 const BUILD_STATUSES = [
-  { value: 'stock', label: 'Stock', icon: '🏭' },
-  { value: 'lightly_modified', label: 'Lightly Modified', icon: '🔩' },
-  { value: 'modified', label: 'Modified', icon: '🔧' },
-  { value: 'full_build', label: 'Full Build', icon: '⚡' },
-  { value: 'race_car', label: 'Race Car', icon: '🏁' },
-  { value: 'project', label: 'Project', icon: '🚧' },
+  { value: 'stock', label: 'Stock' },
+  { value: 'lightly_modified', label: 'Lightly Modified' },
+  { value: 'modified', label: 'Modified' },
+  { value: 'full_build', label: 'Full Build' },
+  { value: 'race_car', label: 'Race Car' },
+  { value: 'project', label: 'Project' },
 ]
 
 const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }
@@ -140,7 +140,7 @@ export default function GarageSetupPage() {
 
         {/* Vehicle Info */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>🚗</span> Vehicle Info</div>
+          <div style={sectionTitle}>Vehicle Info</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Year *</label>
@@ -177,7 +177,7 @@ export default function GarageSetupPage() {
 
         {/* Powertrain */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>⚡</span> Powertrain</div>
+          <div style={sectionTitle}>Powertrain</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Engine</label>
@@ -206,7 +206,7 @@ export default function GarageSetupPage() {
 
         {/* Build Status */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>🔧</span> Build Status</div>
+          <div style={sectionTitle}>Build Status</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
             {BUILD_STATUSES.map((status) => (
               <label
@@ -221,7 +221,6 @@ export default function GarageSetupPage() {
                 }}
               >
                 <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
-                <span style={{ fontSize: '14px' }}>{status.icon}</span>
                 {status.label}
               </label>
             ))}
@@ -230,7 +229,7 @@ export default function GarageSetupPage() {
 
         {/* Location & Community */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>📍</span> Location & Community</div>
+          <div style={sectionTitle}>Location & Community</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Location</label>
@@ -254,7 +253,7 @@ export default function GarageSetupPage() {
 
         {/* About */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>📝</span> About This Build</div>
+          <div style={sectionTitle}>About This Build</div>
           <textarea
             name="bio"
             value={form.bio}
@@ -268,18 +267,17 @@ export default function GarageSetupPage() {
 
         {/* Photos */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>📸</span> Photos</div>
+          <div style={sectionTitle}>Photos</div>
           <p style={hintStyle as React.CSSProperties}>Upload photos of your ride. The first photo will be your primary image.</p>
           <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '28px', border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', marginTop: '10px' }}>
             <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => setPhotoFiles(Array.from(e.target.files || []))} style={{ display: 'none' }} />
-            <span style={{ fontSize: '24px' }}>📸</span>
             <span style={{ fontSize: '14px', color: '#8892a4' }}>Click to select photos (JPEG, PNG, WebP)</span>
           </label>
           {photoFiles.length > 0 && (
             <div style={{ marginTop: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {photoFiles.map((f, i) => (
                 <div key={i} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', fontSize: '12px', color: '#22c55e', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  {i === 0 && <span style={{ fontSize: '10px' }}>⭐</span>}
+                  {i === 0 && <span style={{ fontSize: '10px', fontWeight: 700 }}>PRIMARY</span>}
                   {f.name.length > 20 ? f.name.slice(0, 20) + '...' : f.name}
                 </div>
               ))}
@@ -289,7 +287,7 @@ export default function GarageSetupPage() {
 
         {/* Visibility */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>🔒</span> Visibility</div>
+          <div style={sectionTitle}>Visibility</div>
           <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '12px' }}>You can change this anytime in settings.</p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             <label style={{
@@ -299,7 +297,6 @@ export default function GarageSetupPage() {
               border: form.visibility === 'public' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
             }}>
               <input type="radio" name="visibility" value="public" checked={form.visibility === 'public'} onChange={handleChange} style={{ display: 'none' }} />
-              <span style={{ fontSize: '22px' }}>🌎</span>
               <div>
                 <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? '#a78bfa' : '#8892a4', display: 'block' }}>Public</span>
                 <span style={{ fontSize: '10px', color: '#6b7280' }}>Visible to everyone</span>
@@ -312,7 +309,6 @@ export default function GarageSetupPage() {
               border: form.visibility === 'private' ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
             }}>
               <input type="radio" name="visibility" value="private" checked={form.visibility === 'private'} onChange={handleChange} style={{ display: 'none' }} />
-              <span style={{ fontSize: '22px' }}>🔒</span>
               <div>
                 <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? '#a78bfa' : '#8892a4', display: 'block' }}>Private</span>
                 <span style={{ fontSize: '10px', color: '#6b7280' }}>Link only</span>
@@ -339,7 +335,7 @@ export default function GarageSetupPage() {
             opacity: loading ? 0.5 : 1, transition: 'all 0.2s',
           }}
         >
-          {loading ? 'Creating your garage...' : '🏁 Create Garage'}
+          {loading ? 'Creating your garage...' : 'Create Garage'}
         </button>
       </form>
     </div>

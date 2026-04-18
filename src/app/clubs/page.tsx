@@ -98,7 +98,6 @@ export default function ClubsPage() {
         </div>
       ) : filteredClubs.length === 0 ? (
         <div className="glass text-center" style={{ padding: '48px 32px' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>🏁</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No clubs found</h2>
           <p className="text-muted-light" style={{ marginBottom: '20px', fontSize: '0.9rem' }}>
             {locationSearch ? `No clubs match "${locationSearch}". Start one!` : 'Be the first to start a car club on The Scene.'}
@@ -113,9 +112,7 @@ export default function ClubsPage() {
                 {club.cover_image_url ? (
                   <img src={club.cover_image_url} alt={club.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))' }}>
-                    <span style={{ fontSize: '36px' }}>🏁</span>
-                  </div>
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))' }} />
                 )}
                 {club.logo_url && (
                   <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(255,255,255,0.06)' }}>
@@ -131,7 +128,7 @@ export default function ClubsPage() {
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
                     {club.locations.slice(0, 3).map((loc, i) => (
                       <span key={i} className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)' }}>
-                        📍 {loc.city}, {loc.state}
+                        {loc.city}, {loc.state}
                       </span>
                     ))}
                     {club.locations.length > 3 && (
@@ -141,7 +138,7 @@ export default function ClubsPage() {
                 )}
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="text-muted" style={{ fontSize: '13px' }}>👥 {club.member_count} member{club.member_count !== 1 ? 's' : ''}</span>
+                  <span className="text-muted" style={{ fontSize: '13px' }}>{club.member_count} member{club.member_count !== 1 ? 's' : ''}</span>
                 </div>
 
                 {club.description && (

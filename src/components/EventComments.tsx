@@ -70,7 +70,7 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
 
   return (
     <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>💬 Comments ({comments.length})</h2>
+      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Comments ({comments.length})</h2>
 
       {message && (
         <div style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{message}</div>

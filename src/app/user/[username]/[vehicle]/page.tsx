@@ -104,17 +104,17 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
   })
 
   const categoryLabels: Record<string, string> = {
-    engine: '🔧 Engine',
-    exhaust: '💨 Exhaust',
-    forced_induction: '⚡ Forced Induction',
-    suspension: '🔩 Suspension',
-    brakes: '🛑 Brakes',
-    wheels_tires: '🛞 Wheels & Tires',
-    exterior: '🎨 Exterior',
-    interior: '🪑 Interior',
-    audio_electronics: '🔊 Audio & Electronics',
-    tuning: '📊 Tuning',
-    other: '📦 Other',
+    engine: 'Engine',
+    exhaust: 'Exhaust',
+    forced_induction: 'Forced Induction',
+    suspension: 'Suspension',
+    brakes: 'Brakes',
+    wheels_tires: 'Wheels & Tires',
+    exterior: 'Exterior',
+    interior: 'Interior',
+    audio_electronics: 'Audio & Electronics',
+    tuning: 'Tuning',
+    other: 'Other',
   }
 
   return (
@@ -131,11 +131,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
         <div style={{ aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', position: 'relative', overflow: 'hidden' }}>
           {(vehicle.primary_image_url || (images && images.length > 0)) ? (
             <img src={vehicle.primary_image_url || images?.[0]?.image_url} alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: '64px' }}>🚗</span>
-            </div>
-          )}
+          ) : null}
           <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(12,12,20,0.8)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.3)' }}>
             {vehicle.build_status?.replace('_', ' ')}
           </span>
@@ -152,7 +148,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <PropsButton targetType="vehicle" targetId={vehicle.id} initialCount={vehicle.props_count || 0} />
               <ShareButton url={`/user/${username}/${vehicleSlug}`} title={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} text={`Check out this ${vehicle.year} ${vehicle.make} ${vehicle.model} on The Scene`} small />
-              <span style={{ fontSize: '13px', color: '#6b7280' }}>👁 {vehicle.view_count || 0} views</span>
+              <span style={{ fontSize: '13px', color: '#6b7280' }}>{vehicle.view_count || 0} views</span>
               <GarageQR username={username} vehicleSlug={vehicleSlug} vehicleId={vehicle.id} />
             </div>
           </div>
@@ -172,7 +168,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
 
       {/* Specs grid */}
       <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>📋 Specs</h2>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Specs</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 140px), 1fr))', gap: '10px' }}>
           {[
             { label: 'Year', value: vehicle.year },
@@ -197,7 +193,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
       {/* About */}
       {vehicle.bio && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>📝 About This Build</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>About This Build</h2>
           <p style={{ fontSize: '14px', color: '#9ca3af', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{vehicle.bio}</p>
         </div>
       )}
@@ -205,7 +201,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
       {/* Gallery */}
       {images && images.length > 0 && (
         <div style={{ marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>📸 Gallery</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Gallery</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '10px' }}>
             {images.map((img) => (
               <div key={img.id} style={{ borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '16/9' }}>
@@ -219,7 +215,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
       {/* Modifications */}
       {Object.keys(modsByCategory).length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>🔧 Modifications</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>Modifications</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {Object.entries(modsByCategory).map(([category, items]) => (
               <div key={category}>
@@ -246,7 +242,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
       {/* Tagged Shops */}
       {taggedShops && taggedShops.length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>🔧 Shops Tagged</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Shops Tagged</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
             {taggedShops.map((t: any) => (
               t.shop && (
@@ -272,23 +268,21 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
       {/* Similar Builds */}
       {similarBuilds && similarBuilds.length > 0 && (
         <div style={{ marginTop: '24px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>🔍 Similar {vehicle.make} {vehicle.model} Builds</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Similar {vehicle.make} {vehicle.model} Builds</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '12px' }}>
             {similarBuilds.map((sim) => (
               <Link key={sim.id} href={`/user/${sim.owner?.username}/${sim.slug}`} className="glass card-hover" style={{ display: 'flex', overflow: 'hidden' }}>
                 <div style={{ width: '160px', aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', flexShrink: 0, overflow: 'hidden' }}>
                   {sim.primary_image_url ? (
                     <img src={sim.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>🚗</div>
-                  )}
+                  ) : null}
                 </div>
                 <div style={{ padding: '14px', flex: 1, minWidth: 0 }}>
                   <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sim.year} {sim.make} {sim.model}</h3>
                   <p style={{ fontSize: '12px', color: '#8892a4', marginTop: '2px' }}>{sim.color} {sim.horsepower && `· ${sim.horsepower}`}</p>
                   <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>by @{sim.owner?.username}</p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
-                    <span style={{ fontSize: '11px', color: '#8892a4' }}>🤙 {sim.props_count || 0}</span>
+                    <span style={{ fontSize: '11px', color: '#8892a4' }}>{sim.props_count || 0} Props</span>
                     <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', color: '#a78bfa' }}>{sim.build_status?.replace('_', ' ')}</span>
                   </div>
                 </div>

@@ -74,14 +74,14 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
   return (
     <div style={{ marginBottom: '20px' }}>
       <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-        📍 Check-Ins
+        Check-Ins
         <span style={{ fontSize: '13px', color: '#6b7280', fontWeight: 400 }}>{checkins.length} member{checkins.length !== 1 ? 's' : ''} checked in</span>
       </h2>
 
       {/* Check-in form */}
       {loggedIn && !alreadyCheckedIn && (
         <div className="glass" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(34,197,94,0.15)' }}>
-          <p style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', marginBottom: '12px' }}>🏁 I&apos;m at {eventTitle}!</p>
+          <p style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', marginBottom: '12px' }}>I&apos;m at {eventTitle}!</p>
           {vehicles.length > 1 && (
             <div style={{ marginBottom: '10px' }}>
               <label style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#8892a4', display: 'block', marginBottom: '4px' }}>Which ride did you bring?</label>
@@ -94,7 +94,7 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '12px', flex: 1 }} />
             <button onClick={handleCheckIn} disabled={loading} style={{ padding: '10px 20px', borderRadius: '8px', background: '#22c55e', border: 'none', color: 'white', fontSize: '13px', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap', opacity: loading ? 0.5 : 1 }}>
-              {loading ? 'Checking in...' : '📍 Check In'}
+              {loading ? 'Checking in...' : 'Check In'}
             </button>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
 
       {alreadyCheckedIn && (
         <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', marginBottom: '16px', fontSize: '13px', color: '#22c55e', fontWeight: 600 }}>
-          ✅ You&apos;re checked in at this event!
+          You&apos;re checked in at this event!
         </div>
       )}
 

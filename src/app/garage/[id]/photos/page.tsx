@@ -113,7 +113,7 @@ export default function VehiclePhotosPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9' }}>
-            📸 Photos: {vehicle.year} {vehicle.make} {vehicle.model}
+            Photos: {vehicle.year} {vehicle.make} {vehicle.model}
           </h1>
           <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>{images.length} photo{images.length !== 1 ? 's' : ''}</p>
         </div>
@@ -129,7 +129,6 @@ export default function VehiclePhotosPage() {
       <div className="glass" style={{ padding: '20px', marginBottom: '20px' }}>
         <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '24px', border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', transition: 'border-color 0.2s' }}>
           <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleUpload} style={{ display: 'none' }} disabled={uploading} />
-          <span style={{ fontSize: '24px' }}>{uploading ? '⏳' : '📸'}</span>
           <span style={{ fontSize: '14px', color: '#8892a4' }}>{uploading ? 'Uploading...' : 'Click to upload photos (JPEG, PNG, WebP, max 5MB each)'}</span>
         </label>
       </div>
@@ -149,9 +148,9 @@ export default function VehiclePhotosPage() {
               )}
               <div style={{ position: 'absolute', bottom: '6px', right: '6px', display: 'flex', gap: '4px' }}>
                 {vehicle.primary_image_url !== img.image_url && (
-                  <button onClick={() => handleSetPrimary(img.image_url)} title="Set as primary" style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#22c55e', cursor: 'pointer', fontSize: '12px' }}>⭐</button>
+                  <button onClick={() => handleSetPrimary(img.image_url)} title="Set as primary" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#22c55e', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>SET PRIMARY</button>
                 )}
-                <button onClick={() => handleDelete(img.id)} title="Delete" style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px' }}>🗑</button>
+                <button onClick={() => handleDelete(img.id)} title="Delete" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>DELETE</button>
               </div>
             </div>
           ))}

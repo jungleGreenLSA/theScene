@@ -76,7 +76,6 @@ export default function CreateListingPage() {
     return (
       <div style={{ maxWidth: '500px', margin: '0 auto', padding: '80px 32px', textAlign: 'center' }}>
         <div className="glass" style={{ padding: '48px 32px' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>🏪</span>
           <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Premium Feature</h1>
           <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '24px', lineHeight: 1.6 }}>
             Listing items for sale is a premium feature. Anyone can browse and interact with listings, but posting requires a premium membership.
@@ -144,7 +143,7 @@ export default function CreateListingPage() {
           background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
           fontSize: '15px', fontWeight: 700, cursor: 'pointer', opacity: loading ? 0.5 : 1,
         }}>
-          {loading ? 'Posting...' : '🏪 Post Listing'}
+          {loading ? 'Posting...' : 'Post Listing'}
         </button>
       </form>
     </div>

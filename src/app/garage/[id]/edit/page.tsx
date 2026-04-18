@@ -10,12 +10,12 @@ const BODY_STYLES = ['Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Wagon', 'SUV
 const TRANSMISSIONS = ['Automatic', 'Manual', 'DCT / Dual Clutch', 'CVT', 'Other']
 const DRIVETRAINS = ['RWD', 'FWD', 'AWD', '4WD']
 const BUILD_STATUSES = [
-  { value: 'stock', label: 'Stock', icon: '🏭' },
-  { value: 'lightly_modified', label: 'Lightly Modified', icon: '🔩' },
-  { value: 'modified', label: 'Modified', icon: '🔧' },
-  { value: 'full_build', label: 'Full Build', icon: '⚡' },
-  { value: 'race_car', label: 'Race Car', icon: '🏁' },
-  { value: 'project', label: 'Project', icon: '🚧' },
+  { value: 'stock', label: 'Stock' },
+  { value: 'lightly_modified', label: 'Lightly Modified' },
+  { value: 'modified', label: 'Modified' },
+  { value: 'full_build', label: 'Full Build' },
+  { value: 'race_car', label: 'Race Car' },
+  { value: 'project', label: 'Project' },
 ]
 const YEARS = Array.from({ length: new Date().getFullYear() - 1919 }, (_, i) => new Date().getFullYear() + 1 - i)
 
@@ -127,7 +127,7 @@ export default function EditVehiclePage() {
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {/* Vehicle Info */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>🚗</span> Vehicle Info</div>
+          <div style={sectionTitle}>Vehicle Info</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Year</label>
@@ -164,7 +164,7 @@ export default function EditVehiclePage() {
 
         {/* Powertrain */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>⚡</span> Powertrain</div>
+          <div style={sectionTitle}>Powertrain</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
               <label style={labelStyle}>Engine</label>
@@ -193,7 +193,7 @@ export default function EditVehiclePage() {
 
         {/* Build Status */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>🔧</span> Build Status</div>
+          <div style={sectionTitle}>Build Status</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
             {BUILD_STATUSES.map((status) => (
               <label key={status.value} style={{
@@ -203,7 +203,7 @@ export default function EditVehiclePage() {
                 fontSize: '12px', fontWeight: 600, color: form.build_status === status.value ? '#a78bfa' : '#8892a4',
               }}>
                 <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
-                <span style={{ fontSize: '14px' }}>{status.icon}</span>{status.label}
+                {status.label}
               </label>
             ))}
           </div>
@@ -211,19 +211,19 @@ export default function EditVehiclePage() {
 
         {/* About */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>📝</span> About This Build</div>
+          <div style={sectionTitle}>About This Build</div>
           <textarea name="bio" value={form.bio} onChange={handleChange} className="input" rows={4} maxLength={2000} placeholder="Tell the story of your build..." />
         </div>
 
         {/* Shops */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>🔧</span> Shops That Worked On This Build</div>
+          <div style={sectionTitle}>Shops That Worked On This Build</div>
           <ShopTagger vehicleId={vehicleId} />
         </div>
 
         {/* Visibility */}
         <div className="glass" style={{ padding: '24px' }}>
-          <div style={sectionTitle}><span>🔒</span> Visibility</div>
+          <div style={sectionTitle}>Visibility</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             <label style={{
               display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', borderRadius: '12px', cursor: 'pointer',
@@ -231,7 +231,6 @@ export default function EditVehiclePage() {
               border: form.is_public ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
             }}>
               <input type="radio" name="is_public" value="true" checked={form.is_public === true} onChange={() => setForm({ ...form, is_public: true })} style={{ display: 'none' }} />
-              <span style={{ fontSize: '22px' }}>🌎</span>
               <div>
                 <span style={{ fontSize: '13px', fontWeight: 600, color: form.is_public ? '#a78bfa' : '#8892a4', display: 'block' }}>Public</span>
                 <span style={{ fontSize: '10px', color: '#6b7280' }}>Visible to everyone</span>
@@ -243,7 +242,6 @@ export default function EditVehiclePage() {
               border: !form.is_public ? '1px solid rgba(124,58,237,0.4)' : '1px solid rgba(255,255,255,0.06)',
             }}>
               <input type="radio" name="is_public" value="false" checked={form.is_public === false} onChange={() => setForm({ ...form, is_public: false })} style={{ display: 'none' }} />
-              <span style={{ fontSize: '22px' }}>🔒</span>
               <div>
                 <span style={{ fontSize: '13px', fontWeight: 600, color: !form.is_public ? '#a78bfa' : '#8892a4', display: 'block' }}>Private</span>
                 <span style={{ fontSize: '10px', color: '#6b7280' }}>Link only</span>
@@ -263,14 +261,14 @@ export default function EditVehiclePage() {
             background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
             fontSize: '15px', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.5 : 1,
           }}>
-            {saving ? 'Saving...' : '💾 Save Changes'}
+            {saving ? 'Saving...' : 'Save Changes'}
           </button>
           <Link href={`/garage/${vehicleId}/photos`} style={{
             padding: '16px 24px', borderRadius: '12px',
             background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa',
-            fontSize: '15px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            📸
+            Photos
           </Link>
         </div>
 
@@ -280,7 +278,7 @@ export default function EditVehiclePage() {
           background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444',
           fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left',
         }}>
-          🗑️ Delete this vehicle permanently
+          Delete this vehicle permanently
         </button>
       </form>
     </div>

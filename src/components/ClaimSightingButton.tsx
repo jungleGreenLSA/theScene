@@ -49,7 +49,7 @@ export default function ClaimSightingButton({ sightingId, spotterId, alreadyClai
         onClick={() => setOpen(true)}
         style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.3)', color: '#fb923c', fontSize: '11px', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}
       >
-        🏁 Claim this ride
+        Claim this ride
       </button>
 
       {open && (

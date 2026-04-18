@@ -129,12 +129,12 @@ export default function ClubActions({ clubId }: { clubId: string }) {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
         {membership === 'pending' ? (
           <>
-            <button disabled style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', color: '#fb923c', fontSize: '12px', fontWeight: 600, cursor: 'default' }}>⏳ Pending Approval</button>
+            <button disabled style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', color: '#fb923c', fontSize: '12px', fontWeight: 600, cursor: 'default' }}>Pending Approval</button>
             <button onClick={handleCancelRequest} style={{ fontSize: '11px', color: '#6b7280', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}>Cancel request</button>
           </>
         ) : (
           <button onClick={handleJoin} disabled={joining} className="btn-neon text-xs" style={{ opacity: joining ? 0.5 : 1 }}>
-            {joining ? 'Sending...' : '🏁 Request to Join'}
+            {joining ? 'Sending...' : 'Request to Join'}
           </button>
         )}
         {message && <span style={{ fontSize: '11px', color: '#22c55e' }}>{message}</span>}
@@ -155,7 +155,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
         </button>
         {isFounder && (
           <button onClick={handleDeleteClub} className="btn-danger">
-            🗑 Delete Club
+            Delete Club
           </button>
         )}
       </div>

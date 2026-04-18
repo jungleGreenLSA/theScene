@@ -54,9 +54,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
         <div style={{ height: '300px', background: 'rgba(26,26,46,0.5)', position: 'relative' }}>
           {(vehicle.primary_image_url || (images && images.length > 0)) ? (
             <img src={vehicle.primary_image_url || images?.[0]?.image_url} alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '64px' }}>🚗</div>
-          )}
+          ) : null}
           <span style={{ position: 'absolute', top: '12px', right: '12px', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '5px 14px', borderRadius: '20px', background: 'rgba(12,12,20,0.85)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.3)' }}>
             {vehicle.build_status?.replace('_', ' ')}
           </span>
@@ -69,8 +67,8 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
           <p style={{ fontSize: '18px', color: '#a78bfa' }}>{vehicle.color}</p>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', fontSize: '14px', color: '#8892a4' }}>
-            <span>🤙 {vehicle.props_count || 0} props</span>
-            <span>👁 {vehicle.view_count || 0} views</span>
+            <span>{vehicle.props_count || 0} props</span>
+            <span>{vehicle.view_count || 0} views</span>
           </div>
 
           {/* Owner */}
@@ -91,7 +89,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
       {/* Bio */}
       {vehicle.bio && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>📝 About This Build</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>About This Build</h2>
           <p style={{ fontSize: '14px', color: '#9ca3af', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{vehicle.bio}</p>
         </div>
       )}
@@ -99,7 +97,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
       {/* Specs */}
       {specItems.length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>📋 Specs</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Specs</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 140px), 1fr))', gap: '10px' }}>
             {specItems.map(s => (
               <div key={s.label} style={{ padding: '12px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px' }}>
@@ -114,7 +112,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
       {/* Gallery */}
       {images && images.length > 0 && (
         <div style={{ marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>📸 Gallery</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Gallery</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '10px' }}>
             {images.map((img, i) => (
               <div key={i} style={{ borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '16/9' }}>
@@ -128,7 +126,7 @@ export default async function PublicRidePage({ params }: { params: Promise<{ id:
       {/* Mods */}
       {mods && mods.length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>🔧 Modifications</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Modifications</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {mods.map((mod, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: '#9ca3af' }}>

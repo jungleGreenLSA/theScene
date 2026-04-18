@@ -87,7 +87,7 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
 
   return (
     <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>📖 Guestbook</h2>
+      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>Guestbook</h2>
 
       {/* Entry form */}
       <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>

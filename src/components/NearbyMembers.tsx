@@ -52,7 +52,7 @@ export default function NearbyMembers() {
     <div className="glass" style={{ padding: '16px', marginBottom: '16px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
         <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#e2e4e9', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          📍 Near {userLocation}
+          Near {userLocation}
         </h3>
         {onlineCount > 0 && (
           <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600 }}>● {onlineCount} online</span>
@@ -74,7 +74,7 @@ export default function NearbyMembers() {
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: '12px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.display_name || m.username}</p>
             </div>
-            <span style={{ fontSize: '10px', color: '#6b7280' }}>{m.vehicle_count} 🚗</span>
+            <span style={{ fontSize: '10px', color: '#6b7280' }}>{m.vehicle_count} ride{m.vehicle_count === 1 ? '' : 's'}</span>
           </Link>
         ))}
       </div>

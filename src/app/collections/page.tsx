@@ -52,7 +52,6 @@ export default function CollectionsPage() {
     return (
       <div style={{ maxWidth: '600px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }}>
         <div className="glass" style={{ padding: '48px 32px' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>📌</span>
           <h1 className="text-2xl font-bold" style={{ marginBottom: '8px' }}>Collections</h1>
           <p className="text-muted-light" style={{ marginBottom: '24px', lineHeight: 1.6 }}>
             Save builds you love, bookmark events, and create an inspiration board for your next project. Premium feature.
@@ -70,7 +69,6 @@ export default function CollectionsPage() {
 
       {items.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📌</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>Nothing saved yet</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>When browsing, use the save button to bookmark builds and events you like.</p>
         </div>
@@ -88,9 +86,9 @@ export default function CollectionsPage() {
                   await supabase.from('collection_items').delete().eq('id', item.id)
                   setItems(items.filter(i => i.id !== item.id))
                 }}
-                style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '14px' }}
+                style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}
               >
-                ✕
+                Remove
               </button>
             </div>
           ))}

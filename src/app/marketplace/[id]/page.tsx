@@ -117,17 +117,17 @@ export default function ListingDetailPage() {
       {/* Status banner */}
       {isPending && (
         <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.3)', marginBottom: '16px', fontSize: '13px', color: '#fb923c', fontWeight: 600 }}>
-          ⏳ Offer accepted -- deal pending
+          Offer accepted -- deal pending
         </div>
       )}
       {isSold && (
         <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e', fontWeight: 600 }}>
-          ✅ This item has been sold
+          This item has been sold
         </div>
       )}
       {isClosed && (
         <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', marginBottom: '16px', fontSize: '13px', color: '#ef4444', fontWeight: 600, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>❌ Listing closed</span>
+          <span>Listing closed</span>
           {isSeller && <button onClick={handleRelistListing} style={{ background: '#7c3aed', border: 'none', color: 'white', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Re-list</button>}
         </div>
       )}
@@ -173,7 +173,7 @@ export default function ListingDetailPage() {
             </div>
             <div>
               <p style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>{listing.seller?.display_name || listing.seller?.username}</p>
-              <p style={{ fontSize: '12px', color: '#6b7280' }}>📍 {listing.seller?.location || 'Location N/A'}</p>
+              <p style={{ fontSize: '12px', color: '#6b7280' }}>{listing.seller?.location || 'Location N/A'}</p>
             </div>
           </Link>
         </div>
@@ -189,7 +189,7 @@ export default function ListingDetailPage() {
 
       {/* Public comments / offers */}
       <div className="glass" style={{ padding: '24px' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>💬 Public Offers & Questions</h2>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>Public Offers & Questions</h2>
 
         {/* Comment input */}
         {isActive && currentUser && (
@@ -197,11 +197,11 @@ export default function ListingDetailPage() {
             <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: !isOffer ? 'rgba(124,58,237,0.15)' : 'rgba(18,18,30,0.5)', color: !isOffer ? '#a78bfa' : '#6b7280', border: !isOffer ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)' }}>
                 <input type="radio" checked={!isOffer} onChange={() => setIsOffer(false)} style={{ display: 'none' }} />
-                💬 Question
+                Question
               </label>
               <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: isOffer ? 'rgba(34,197,94,0.15)' : 'rgba(18,18,30,0.5)', color: isOffer ? '#22c55e' : '#6b7280', border: isOffer ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(255,255,255,0.06)' }}>
                 <input type="radio" checked={isOffer} onChange={() => setIsOffer(true)} style={{ display: 'none' }} />
-                💰 Make Offer
+                Make Offer
               </label>
             </div>
             {isOffer && (
@@ -237,7 +237,7 @@ export default function ListingDetailPage() {
                       </span>
                     )}
                     {c.is_offer && c.offer_status === 'accepted' && (
-                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.2)', color: '#22c55e' }}>✅ ACCEPTED</span>
+                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.2)', color: '#22c55e' }}>ACCEPTED</span>
                     )}
                     <span style={{ fontSize: '11px', color: '#6b7280' }}>
                       {new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}

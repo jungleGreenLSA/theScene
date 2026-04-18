@@ -68,7 +68,6 @@ export default function MyGaragePage() {
 
       {vehicles.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>🏠</span>
           <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Your garage is empty</h2>
           <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '20px' }}>Add your first ride and start showing it off!</p>
           <Link href="/garage/setup" style={{ padding: '12px 28px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '14px', fontWeight: 700 }}>Add Your First Vehicle</Link>
@@ -82,11 +81,9 @@ export default function MyGaragePage() {
                 <div style={{ width: '250px', aspectRatio: '16 / 9', background: 'rgba(26,26,46,0.5)', flexShrink: 0, position: 'relative' }}>
                   {v.primary_image_url ? (
                     <img src={v.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '36px' }}>🚗</div>
-                  )}
+                  ) : null}
                   {!v.is_public && (
-                    <span style={{ position: 'absolute', top: '8px', left: '8px', fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(239,68,68,0.2)', color: '#ef4444', fontWeight: 600 }}>🔒 Private</span>
+                    <span style={{ position: 'absolute', top: '8px', left: '8px', fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(239,68,68,0.2)', color: '#ef4444', fontWeight: 600 }}>Private</span>
                   )}
                 </div>
 
@@ -103,8 +100,8 @@ export default function MyGaragePage() {
                   </div>
 
                   <div style={{ display: 'flex', gap: '16px', fontSize: '13px', color: '#6b7280', marginBottom: '14px' }}>
-                    <span>🤙 {v.props_count || 0} props</span>
-                    <span>👁 {v.view_count || 0} views</span>
+                    <span>{v.props_count || 0} props</span>
+                    <span>{v.view_count || 0} views</span>
                   </div>
 
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -112,10 +109,10 @@ export default function MyGaragePage() {
                       View
                     </Link>
                     <Link href={`/garage/${v.id}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '12px', fontWeight: 600 }}>
-                      ✏️ Edit
+                      Edit
                     </Link>
                     <Link href={`/garage/${v.id}/photos`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)', color: '#fb923c', fontSize: '12px', fontWeight: 600 }}>
-                      📸 Photos
+                      Photos
                     </Link>
                   </div>
                 </div>

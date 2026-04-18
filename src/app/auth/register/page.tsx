@@ -92,7 +92,6 @@ export default function RegisterPage() {
       <>
         <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
           <div className="glass" style={{ padding: '20px 24px', maxWidth: '380px', width: '100%', display: 'flex', alignItems: 'center', gap: '14px', borderColor: 'rgba(34,197,94,0.25)' }}>
-            <span style={{ fontSize: '28px', flexShrink: 0 }}>📧</span>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>Check your email!</p>
               <p style={{ fontSize: '12px', color: '#8892a4', marginTop: '2px' }}>Verification link sent to {email}. Redirecting home...</p>

@@ -149,7 +149,7 @@ export default function EventPhotoUpload({ eventId, eventTitle }: { eventId: str
       )}
 
       <button type="submit" disabled={loading || !file} className="btn-neon text-xs disabled:opacity-50">
-        {loading ? 'Uploading...' : '📸 Post Photo'}
+        {loading ? 'Uploading...' : 'Post Photo'}
       </button>
     </form>
   )

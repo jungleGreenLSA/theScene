@@ -18,22 +18,22 @@ const PRIMARY_LINKS = [
 
 // Rest live in a "More" dropdown
 const MORE_LINKS = [
-  { href: '/marketplace', label: '🏪 Market' },
-  { href: '/shops', label: '🔧 Shops' },
-  { href: '/spot', label: '📸 Spot' },
-  { href: '/wwyd', label: '🤔 WWYD' },
-  { href: '/runs', label: '🏁 Crew Runs' },
-  { href: '/challenges', label: '🎯 Challenges' },
-  { href: '/leaderboard', label: '🏆 Leaderboard' },
+  { href: '/marketplace', label: 'Market' },
+  { href: '/shops', label: 'Shops' },
+  { href: '/spot', label: 'Spot' },
+  { href: '/wwyd', label: 'WWYD' },
+  { href: '/runs', label: 'Crew Runs' },
+  { href: '/challenges', label: 'Challenges' },
+  { href: '/leaderboard', label: 'Leaderboard' },
 ]
 
 // Profile dropdown
 const PROFILE_LINKS = [
-  { href: '/activity', label: '📋 My Activity' },
-  { href: '/analytics', label: '📊 Analytics' },
-  { href: '/journal', label: '📓 Build Journal' },
-  { href: '/collections', label: '⭐ Collections' },
-  { href: '/settings', label: '⚙️ Settings' },
+  { href: '/activity', label: 'My Activity' },
+  { href: '/analytics', label: 'Analytics' },
+  { href: '/journal', label: 'Build Journal' },
+  { href: '/collections', label: 'Collections' },
+  { href: '/settings', label: 'Settings' },
 ]
 
 export default function Navbar() {
@@ -169,7 +169,7 @@ export default function Navbar() {
                 title="Profile menu"
                 style={{ width: '34px', height: '34px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '1px solid rgba(124,58,237,0.3)', cursor: 'pointer', padding: 0, backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               >
-                {!avatarUrl && <span style={{ fontSize: '14px', color: '#9ca3af' }}>👤</span>}
+                {!avatarUrl && <span style={{ fontSize: '11px', fontWeight: 700, color: '#9ca3af' }}>ME</span>}
               </button>
               {profileOpen && (
                 <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '6px', minWidth: '200px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
@@ -177,7 +177,7 @@ export default function Navbar() {
                     <Link key={l.href} href={l.href} onClick={() => setProfileOpen(false)} style={dropdownLinkStyle(l.href)}>{l.label}</Link>
                   ))}
                   <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    <button onClick={handleSignOut} style={{ width: '100%', textAlign: 'left', padding: '10px 14px', fontSize: '13px', fontWeight: 600, color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer' }}>🚪 Sign Out</button>
+                    <button onClick={handleSignOut} style={{ width: '100%', textAlign: 'left', padding: '10px 14px', fontSize: '13px', fontWeight: 600, color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer' }}>Sign Out</button>
                   </div>
                 </div>
               )}
@@ -206,7 +206,7 @@ export default function Navbar() {
             {user ? (
               <Link href="/settings" onClick={() => setMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '10px', background: 'rgba(124,58,237,0.08)', border: '1px solid rgba(124,58,237,0.2)' }}>
                 <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '2px solid rgba(124,58,237,0.4)', flexShrink: 0, backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {!avatarUrl && <span style={{ fontSize: '20px' }}>👤</span>}
+                  {!avatarUrl && <span style={{ fontSize: '13px', fontWeight: 700, color: '#9ca3af' }}>ME</span>}
                 </div>
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <p style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>My Profile</p>
@@ -255,7 +255,7 @@ export default function Navbar() {
 
           {user && (
             <div style={{ marginTop: 'auto', padding: '16px 20px 24px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-              <button onClick={handleSignOut} className="btn-danger" style={{ width: '100%', justifyContent: 'center', padding: '14px' }}>🚪 Sign Out</button>
+              <button onClick={handleSignOut} className="btn-danger" style={{ width: '100%', justifyContent: 'center', padding: '14px' }}>Sign Out</button>
             </div>
           )}
         </div>

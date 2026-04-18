@@ -31,7 +31,7 @@ export default function SupportWidget() {
         }}
         aria-label="Support"
       >
-        {open ? '✕' : '?'}
+        {open ? 'x' : '?'}
       </button>
 
       {/* Popup */}

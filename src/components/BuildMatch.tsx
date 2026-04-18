@@ -35,7 +35,7 @@ export default function BuildMatch({ vehicleId }: { vehicleId: string }) {
   return (
     <div className="glass" style={{ padding: '20px', marginTop: '20px', border: '1px solid rgba(249,115,22,0.15)' }}>
       <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-        🔗 Build Matches
+        Build Matches
         <span style={{ fontSize: '11px', color: '#6b7280', fontWeight: 400 }}>Members with similar mods</span>
       </h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -46,9 +46,7 @@ export default function BuildMatch({ vehicleId }: { vehicleId: string }) {
             <div style={{ width: '44px', height: '44px', borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0 }}>
               {m.matched_primary_image ? (
                 <img src={m.matched_primary_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              ) : (
-                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🚗</div>
-              )}
+              ) : null}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{m.matched_year} {m.matched_make} {m.matched_model}</p>
@@ -59,7 +57,7 @@ export default function BuildMatch({ vehicleId }: { vehicleId: string }) {
                 </p>
               )}
             </div>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: '#fb923c', flexShrink: 0 }}>🔗 {m.common_mods}</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: '#fb923c', flexShrink: 0 }}>{m.common_mods}</span>
           </Link>
         ))}
       </div>

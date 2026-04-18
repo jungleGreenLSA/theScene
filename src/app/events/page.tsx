@@ -104,7 +104,6 @@ export default function EventsPage() {
         </div>
       ) : filteredEvents.length === 0 ? (
         <div className="glass text-center" style={{ padding: '48px 32px' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📅</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No upcoming events</h2>
           <p className="text-muted-light" style={{ marginBottom: '20px', fontSize: '0.9rem' }}>Be the first to list a car show or meet on The Scene.</p>
           <Link href="/events/create" className="btn-neon">Create an Event</Link>
@@ -122,9 +121,7 @@ export default function EventsPage() {
                   {event.cover_image_url ? (
                     <img src={event.cover_image_url} alt={event.title} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))' }}>
-                      <span style={{ fontSize: '36px' }}>🏁</span>
-                    </div>
+                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))' }} />
                   )}
                   {/* Date badge */}
                   <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(12,12,20,0.9)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
@@ -144,10 +141,10 @@ export default function EventsPage() {
                     {event.title}
                   </h3>
                   <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '4px' }}>
-                    📍 {event.location_name || event.location_address || 'TBD'}
+                    {event.location_name || event.location_address || 'TBD'}
                   </p>
                   <p className="text-muted" style={{ fontSize: '13px' }}>
-                    👥 {event.rsvp_count || 0} interested
+                    {event.rsvp_count || 0} interested
                   </p>
 
                   {event.categories && event.categories.length > 0 && (

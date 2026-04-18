@@ -45,14 +45,14 @@ export default function SaveButton({ targetType, targetId }: { targetType: strin
       onClick={handleSave}
       disabled={loading}
       style={{
-        background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px',
-        opacity: loading ? 0.5 : 1, transition: 'transform 0.15s',
+        background: 'none', border: 'none', cursor: 'pointer',
+        fontSize: '12px', fontWeight: 600, color: saved ? '#a78bfa' : '#8892a4',
+        padding: '4px 8px',
+        opacity: loading ? 0.5 : 1, transition: 'color 0.15s',
       }}
       title={saved ? 'Unsave' : 'Save to collection (Premium)'}
-      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
-      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
     >
-      {saved ? '📌' : '🔖'}
+      {saved ? 'Saved' : 'Save'}
     </button>
   )
 }

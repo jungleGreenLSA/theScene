@@ -104,7 +104,6 @@ export default function AnalyticsPage() {
     return (
       <div style={{ maxWidth: '600px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }}>
         <div className="glass" style={{ padding: '48px 32px' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '16px' }}>📊</span>
           <h1 className="text-2xl font-bold" style={{ marginBottom: '8px' }}>Garage Analytics</h1>
           <p className="text-muted-light" style={{ marginBottom: '24px', lineHeight: 1.6 }}>
             See who&apos;s viewing your garage, where your traffic comes from, and how your props trend over time. Upgrade to Premium to unlock analytics.
@@ -154,7 +153,7 @@ export default function AnalyticsPage() {
 
       {/* Traffic sources */}
       <div className="glass" style={{ padding: '24px', marginBottom: '24px' }}>
-        <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>📈 Traffic Sources (Last 30 Days)</h2>
+        <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Traffic Sources (Last 30 Days)</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {[
             { label: 'Explore', count: stats.explore, color: '#a78bfa' },
@@ -181,7 +180,7 @@ export default function AnalyticsPage() {
 
       {/* Recent viewers */}
       <div className="glass" style={{ padding: '24px' }}>
-        <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>👀 Who Viewed Your Garage</h2>
+        <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Who Viewed Your Garage</h2>
         {viewers.length === 0 ? (
           <p className="text-muted" style={{ fontSize: '13px' }}>No tracked views yet. Views from logged-in members will appear here.</p>
         ) : (

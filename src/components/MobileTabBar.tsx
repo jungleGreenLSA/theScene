@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 const TABS = [
-  { href: '/feed', label: 'Feed', icon: '📡' },
-  { href: '/garage', label: 'Garage', icon: '🏁' },
-  { href: '/explore', label: 'Explore', icon: '🔍' },
-  { href: '/events', label: 'Events', icon: '📅' },
-  { href: '/clubs', label: 'Clubs', icon: '👥' },
+  { href: '/feed', label: 'Feed' },
+  { href: '/garage', label: 'Garage' },
+  { href: '/explore', label: 'Explore' },
+  { href: '/events', label: 'Events' },
+  { href: '/clubs', label: 'Clubs' },
 ]
 
 export default function MobileTabBar() {
@@ -47,8 +47,7 @@ export default function MobileTabBar() {
               position: 'relative',
             }}>
               {active && <span style={{ position: 'absolute', top: 0, left: '30%', right: '30%', height: '2px', background: '#a78bfa', borderRadius: '0 0 2px 2px' }} />}
-              <span style={{ fontSize: '20px', lineHeight: 1 }}>{t.icon}</span>
-              <span style={{ fontSize: '10px', fontWeight: 600 }}>{t.label}</span>
+              <span style={{ fontSize: '12px', fontWeight: 600 }}>{t.label}</span>
             </Link>
           )
         })}

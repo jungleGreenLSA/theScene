@@ -109,7 +109,7 @@ export default function SpotPage() {
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>See a cool car? Snap it. Share it. The owner might be on The Scene.</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} className="btn-neon" style={{ fontSize: '12px' }}>
-          {showForm ? 'Cancel' : '📸 Spot a Ride'}
+          {showForm ? 'Cancel' : 'Spot a Ride'}
         </button>
       </div>
 
@@ -141,7 +141,7 @@ export default function SpotPage() {
           </div>
           <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} className="input" style={{ marginBottom: '12px', fontSize: '13px' }} required />
           <button type="submit" disabled={uploading} className="btn-neon" style={{ opacity: uploading ? 0.5 : 1, fontSize: '12px' }}>
-            {uploading ? 'Posting...' : '📸 Post Sighting'}
+            {uploading ? 'Posting...' : 'Post Sighting'}
           </button>
         </form>
       )}
@@ -152,7 +152,6 @@ export default function SpotPage() {
         </div>
       ) : sightings.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📸</span>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No sightings yet</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Be the first to spot a cool ride in the wild!</p>
         </div>
@@ -173,7 +172,7 @@ export default function SpotPage() {
                       const fb = document.createElement('div')
                       fb.className = 'img-fallback'
                       fb.style.cssText = 'color:#6b7280;font-size:36px'
-                      fb.textContent = '📸'
+                      fb.textContent = ''
                       parent.appendChild(fb)
                     }
                   }}
@@ -181,10 +180,10 @@ export default function SpotPage() {
               </div>
               <div style={{ padding: '16px' }}>
                 {s.description && <p className="text-foreground" style={{ fontSize: '14px', marginBottom: '8px' }}>{s.description}</p>}
-                <p className="text-muted-light" style={{ fontSize: '12px' }}>📍 {s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
+                <p className="text-muted-light" style={{ fontSize: '12px' }}>{s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
                 {s.instagram_handle && (
                   <a href={`https://instagram.com/${s.instagram_handle}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '6px', fontSize: '12px', color: '#a78bfa' }}>
-                    📸 @{s.instagram_handle} on IG
+                    @{s.instagram_handle} on IG
                   </a>
                 )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -197,12 +196,12 @@ export default function SpotPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
                   <span className="text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                   {currentUserId === s.spotter_id && (
-                    <button onClick={() => handleDeleteSighting(s.id)} className="btn-danger-sm">🗑 Delete</button>
+                    <button onClick={() => handleDeleteSighting(s.id)} className="btn-danger-sm">Delete</button>
                   )}
                 </div>
                 {s.claimed_vehicle_id && (
                   <div style={{ marginTop: '8px', padding: '6px 10px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)' }}>
-                    <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600 }}>✓ Owner claimed this sighting!</span>
+                    <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600 }}>Owner claimed this sighting!</span>
                   </div>
                 )}
               </div>

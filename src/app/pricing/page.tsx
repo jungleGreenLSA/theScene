@@ -39,12 +39,12 @@ const PREMIUM_FEATURES = [
 ]
 
 const PREMIUM_HIGHLIGHTS = [
-  { icon: '🚗', title: 'Unlimited Garage', desc: 'Add every car you own or have owned. No limits on vehicles or photos.' },
-  { icon: '📊', title: 'Garage Analytics', desc: 'See who viewed your garage, where they\'re from, and how your props trend over time.' },
-  { icon: '⭐', title: 'Premium Badge', desc: 'Stand out in the community with a verified premium badge on your profile and every post.' },
-  { icon: '🏆', title: '2x Voting Power', desc: 'Your props count double toward Ride of the Week. Help your favorites get featured.' },
-  { icon: '📅', title: 'Event & Club Creator', desc: 'Create events and clubs immediately. Free users wait 60 days.' },
-  { icon: '🛒', title: 'Marketplace Power', desc: 'Unlimited listings, featured placement, and a verified seller badge.' },
+  { title: 'Unlimited Garage', desc: 'Add every car you own or have owned. No limits on vehicles or photos.' },
+  { title: 'Garage Analytics', desc: 'See who viewed your garage, where they\'re from, and how your props trend over time.' },
+  { title: 'Premium Badge', desc: 'Stand out in the community with a verified premium badge on your profile and every post.' },
+  { title: '2x Voting Power', desc: 'Your props count double toward Ride of the Week. Help your favorites get featured.' },
+  { title: 'Event & Club Creator', desc: 'Create events and clubs immediately. Free users wait 60 days.' },
+  { title: 'Marketplace Power', desc: 'Unlimited listings, featured placement, and a verified seller badge.' },
 ]
 
 export default function PricingPage() {
@@ -70,7 +70,7 @@ export default function PricingPage() {
 
       {/* Members-only notice */}
       <div className="glass" style={{ padding: '16px 24px', marginBottom: '32px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', border: '1px solid rgba(124,58,237,0.2)' }}>
-        <p className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>🔒 Members-Only Community</p>
+        <p className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Members-Only Community</p>
         <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.5 }}>
           Explore, Events, Clubs, What Would You Do, Spot a Ride, Crew Runs, Challenges, and Leaderboards are exclusively available to registered members. Create a free account to access the full Scene.
         </p>
@@ -123,7 +123,7 @@ export default function PricingPage() {
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
             {FREE_FEATURES.map((f) => (
               <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#9ca3af' }}>
-                <span style={{ color: '#22c55e', flexShrink: 0 }}>✓</span>
+                <span style={{ color: '#22c55e', flexShrink: 0 }}>•</span>
                 {f}
               </li>
             ))}
@@ -156,7 +156,7 @@ export default function PricingPage() {
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
             {FREE_FEATURES.map((f) => (
               <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#9ca3af' }}>
-                <span style={{ color: '#22c55e', flexShrink: 0 }}>✓</span>
+                <span style={{ color: '#22c55e', flexShrink: 0 }}>•</span>
                 {f}
               </li>
             ))}
@@ -165,7 +165,7 @@ export default function PricingPage() {
             </li>
             {PREMIUM_FEATURES.slice(0, 6).map((f) => (
               <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#e2e4e9', fontWeight: 500 }}>
-                <span style={{ color: '#a78bfa', flexShrink: 0 }}>★</span>
+                <span style={{ color: '#a78bfa', flexShrink: 0 }}>•</span>
                 {f}
               </li>
             ))}
@@ -181,7 +181,7 @@ export default function PricingPage() {
             )}
             {showPremiumDetails && PREMIUM_FEATURES.slice(6).map((f) => (
               <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#e2e4e9', fontWeight: 500 }}>
-                <span style={{ color: '#a78bfa', flexShrink: 0 }}>★</span>
+                <span style={{ color: '#a78bfa', flexShrink: 0 }}>•</span>
                 {f}
               </li>
             ))}
@@ -198,10 +198,7 @@ export default function PricingPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
             {PREMIUM_HIGHLIGHTS.map((h) => (
               <div key={h.title} className="glass card-hover" style={{ padding: '24px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
-                  <span style={{ fontSize: '24px' }}>{h.icon}</span>
-                  <h3 className="font-bold text-foreground" style={{ fontSize: '0.95rem' }}>{h.title}</h3>
-                </div>
+                <h3 className="font-bold text-foreground" style={{ fontSize: '0.95rem', marginBottom: '10px' }}>{h.title}</h3>
                 <p className="text-muted-light text-sm leading-relaxed">{h.desc}</p>
               </div>
             ))}

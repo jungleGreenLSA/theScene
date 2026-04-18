@@ -68,7 +68,7 @@ export default function AddressAutocomplete({
         required={required}
         autoComplete="off"
       />
-      {warning && <p style={{ fontSize: '11px', color: '#f59e0b', marginTop: '4px' }}>⚠ {warning} — fill fields manually below.</p>}
+      {warning && <p style={{ fontSize: '11px', color: '#f59e0b', marginTop: '4px' }}>{warning} — fill fields manually below.</p>}
       {open && suggestions.length > 0 && (
         <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', zIndex: 50, maxHeight: '280px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
           {suggestions.map((s, i) => (
