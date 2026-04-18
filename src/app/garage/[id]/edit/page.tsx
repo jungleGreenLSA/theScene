@@ -113,7 +113,7 @@ export default function EditVehiclePage() {
   if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading...</div>
 
   return (
-    <div style={{ maxWidth: '720px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <Link href="/garage" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
 
       <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
@@ -125,7 +125,7 @@ export default function EditVehiclePage() {
         <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e' }}>{message}</div>
       )}
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: '20px' }}>
         {/* Vehicle Info */}
         <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Vehicle Info</div>
@@ -216,15 +216,15 @@ export default function EditVehiclePage() {
           <textarea name="bio" value={form.bio} onChange={handleChange} className="input" rows={4} maxLength={2000} placeholder="Tell the story of your build..." />
         </div>
 
-        {/* Modifications */}
-        <div className="glass" style={{ padding: '24px' }}>
+        {/* Modifications — full width for its categorized sub-layout */}
+        <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
           <div style={sectionTitle}>Modifications</div>
           <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px' }}>List what you&apos;ve done to your build. Categorized so visitors can scan quickly.</p>
           <VehicleMods vehicleId={vehicleId} />
         </div>
 
-        {/* Shops */}
-        <div className="glass" style={{ padding: '24px' }}>
+        {/* Shops — full width */}
+        <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
           <div style={sectionTitle}>Shops That Worked On This Build</div>
           <ShopTagger vehicleId={vehicleId} />
         </div>
@@ -259,11 +259,11 @@ export default function EditVehiclePage() {
         </div>
 
         {error && (
-          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: '#ef4444', fontSize: '13px' }}>{error}</div>
+          <div style={{ gridColumn: '1 / -1', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: '#ef4444', fontSize: '13px' }}>{error}</div>
         )}
 
         {/* Actions */}
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div style={{ gridColumn: '1 / -1', display: 'flex', gap: '12px' }}>
           <button type="submit" disabled={saving} style={{
             flex: 1, padding: '16px', borderRadius: '12px',
             background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
@@ -282,6 +282,7 @@ export default function EditVehiclePage() {
 
         {/* Delete */}
         <button type="button" onClick={handleDelete} style={{
+          gridColumn: '1 / -1',
           width: '100%', padding: '12px', borderRadius: '8px',
           background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444',
           fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left',
