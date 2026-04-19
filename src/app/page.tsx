@@ -69,24 +69,9 @@ export default async function Home() {
           {!isMember && (
             <div className="welcome-cta">
               <Link href="/auth/register" className="btn-neon">Build Your Garage</Link>
-              <Link href="/pricing" className="btn-outline">See What&apos;s Inside</Link>
+              <Link href="/pricing" className="btn-outline">See Plans</Link>
             </div>
           )}
-        </div>
-
-        {/* Browse community strip */}
-        <div className="browse-strip">
-          <span style={{ fontWeight: 700, color: '#1d4d7a' }}>Browse Community:</span>
-          <select className="input" style={{ width: 'auto', padding: '4px 8px', fontSize: '12px' }}>
-            <option>All Makes</option>
-            <option>Honda</option><option>Toyota</option><option>Chevrolet</option>
-            <option>Ford</option><option>Nissan</option><option>Subaru</option>
-            <option>BMW</option><option>Mazda</option>
-          </select>
-          <select className="input" style={{ width: 'auto', padding: '4px 8px', fontSize: '12px' }}>
-            <option>All Models</option>
-          </select>
-          <Link href="/explore" className="btn-neon" style={{ padding: '4px 14px', fontSize: '12px' }}>Go</Link>
         </div>
       </section>
 
@@ -150,6 +135,127 @@ export default async function Home() {
                 <p style={{ fontSize: '13px', color: '#2c3e50', lineHeight: 1.5 }}>{f.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== MEMBERSHIP TIERS ========== */}
+      <section className="section-block">
+        <div className="section-head">
+          <h2>Free or Premium — you pick</h2>
+          <Link href="/pricing">See Full Plans →</Link>
+        </div>
+        <div className="section-body">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gap: '12px',
+          }}>
+            {/* FREE */}
+            <div style={{
+              padding: '18px',
+              background: '#ffffff',
+              border: '1px solid #c4c4c4',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+            }}>
+              <div>
+                <span style={{
+                  display: 'inline-block',
+                  padding: '2px 8px',
+                  background: '#eaeaea',
+                  border: '1px solid #b0b0b0',
+                  color: '#3a3a3a',
+                  fontSize: '10px',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.6px',
+                  borderRadius: '2px',
+                }}>Free</span>
+                <p style={{ fontSize: '24px', fontWeight: 800, color: '#0d3556', marginTop: '6px' }}>
+                  $0 <span style={{ fontSize: '13px', fontWeight: 500, color: '#2c3e50' }}>/ month</span>
+                </p>
+                <p style={{ fontSize: '12px', color: '#2c3e50' }}>Get on the scene. No card required.</p>
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '13px', color: '#1a1a1a', lineHeight: 1.8 }}>
+                <li>✓ 1 vehicle in your garage</li>
+                <li>✓ 5 photos per vehicle</li>
+                <li>✓ Guestbook, props, heatmap</li>
+                <li>✓ Join events and clubs</li>
+                <li>✓ Marketplace (2 active listings)</li>
+              </ul>
+              {!isMember && (
+                <Link href="/auth/register" className="btn-outline" style={{ justifyContent: 'center', marginTop: 'auto' }}>
+                  Start Free
+                </Link>
+              )}
+            </div>
+
+            {/* PREMIUM */}
+            <div style={{
+              padding: '18px',
+              background: 'linear-gradient(180deg, #f7fbff 0%, #eaf4fb 100%)',
+              border: '2px solid #2c79c4',
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+              boxShadow: '0 2px 10px rgba(44, 121, 196, 0.18)',
+            }}>
+              <span style={{
+                position: 'absolute',
+                top: '-11px',
+                right: '14px',
+                padding: '2px 10px',
+                background: 'linear-gradient(180deg, #4fc3f7 0%, #2c79c4 100%)',
+                color: '#fff',
+                fontSize: '10px',
+                fontWeight: 800,
+                textTransform: 'uppercase',
+                letterSpacing: '0.8px',
+                borderRadius: '2px',
+                textShadow: '0 1px 0 rgba(0,0,0,0.25)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.3), 0 1px 2px rgba(0,0,0,0.15)',
+              }}>Most Popular</span>
+              <div>
+                <span style={{
+                  display: 'inline-block',
+                  padding: '2px 8px',
+                  background: '#1d4d7a',
+                  color: '#fff',
+                  fontSize: '10px',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.6px',
+                  borderRadius: '2px',
+                }}>Premium</span>
+                <p style={{ fontSize: '24px', fontWeight: 800, color: '#0d3556', marginTop: '6px' }}>
+                  $4.99 <span style={{ fontSize: '13px', fontWeight: 500, color: '#2c3e50' }}>/ month</span>
+                </p>
+                <p style={{ fontSize: '12px', color: '#2c3e50' }}>
+                  Or $49.99/yr — save ~16%.
+                </p>
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '13px', color: '#0d3556', lineHeight: 1.8, fontWeight: 500 }}>
+                <li>✓ Unlimited vehicles + photos</li>
+                <li>✓ Analytics — views, props, visitors</li>
+                <li>✓ Build Journal + Collections</li>
+                <li>✓ Custom garage URL + profile flair</li>
+                <li>✓ Ride of the Week: 2× props weight</li>
+                <li>✓ Create clubs, unlimited market listings</li>
+                <li>✓ Priority Explore placement</li>
+              </ul>
+              {isMember ? (
+                <Link href="/pricing" className="btn-neon" style={{ justifyContent: 'center', marginTop: 'auto' }}>
+                  Upgrade to Premium
+                </Link>
+              ) : (
+                <Link href="/auth/register?plan=premium" className="btn-neon" style={{ justifyContent: 'center', marginTop: 'auto' }}>
+                  Start Premium
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </section>
