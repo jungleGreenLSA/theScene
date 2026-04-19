@@ -130,7 +130,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
         {membership === 'pending' ? (
           <>
             <button disabled style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.2)', color: '#90caf9', fontSize: '12px', fontWeight: 600, cursor: 'default' }}>Pending Approval</button>
-            <button onClick={handleCancelRequest} style={{ fontSize: '11px', color: '#555555', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}>Cancel request</button>
+            <button onClick={handleCancelRequest} style={{ fontSize: '11px', color: '#2c3e50', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}>Cancel request</button>
           </>
         ) : (
           <button onClick={handleJoin} disabled={joining} className="btn-neon text-xs" style={{ opacity: joining ? 0.5 : 1 }}>
@@ -162,9 +162,9 @@ export default function ClubActions({ clubId }: { clubId: string }) {
 
       {showAddMember && (
         <form onSubmit={handleAddMember} style={{ width: '300px', maxWidth: '100%', padding: '16px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #e4e4e4', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <p style={{ fontSize: '11px', color: '#666666' }}>Add a user to this club by username.</p>
+          <p style={{ fontSize: '11px', color: '#2c3e50' }}>Add a user to this club by username.</p>
           <div>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#666666', marginBottom: '4px' }}>Username</label>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#2c3e50', marginBottom: '4px' }}>Username</label>
             <input
               type="text"
               value={memberUsername}
@@ -175,7 +175,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
             />
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#666666', marginBottom: '4px' }}>Role</label>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#2c3e50', marginBottom: '4px' }}>Role</label>
             <select value={memberRole} onChange={(e) => setMemberRole(e.target.value)} className="input">
               <option value="member">Member</option>
               <option value="officer">Officer</option>

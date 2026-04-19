@@ -123,13 +123,13 @@ export default function OnboardingWizard() {
       <div className="glass" style={{ width: '100%', maxWidth: '480px', padding: '28px', position: 'relative' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: stepColor }}>Step {step} of 3</span>
-          <button onClick={skip} style={{ background: 'none', border: 'none', color: '#555555', fontSize: '12px', cursor: 'pointer' }}>Skip for now</button>
+          <button onClick={skip} style={{ background: 'none', border: 'none', color: '#2c3e50', fontSize: '12px', cursor: 'pointer' }}>Skip for now</button>
         </div>
 
         {step === 1 && (
           <>
             <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Where are you based?</h2>
-            <p style={{ fontSize: '13px', color: '#666666', marginBottom: '18px' }}>So we can show you nearby events, clubs, and shops.</p>
+            <p style={{ fontSize: '13px', color: '#2c3e50', marginBottom: '18px' }}>So we can show you nearby events, clubs, and shops.</p>
             <AddressAutocomplete
               defaultValue={location}
               placeholder="Start typing your city..."
@@ -146,7 +146,7 @@ export default function OnboardingWizard() {
         {step === 2 && (
           <>
             <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Add a profile photo</h2>
-            <p style={{ fontSize: '13px', color: '#666666', marginBottom: '18px' }}>Optional — you can always add one later from Settings.</p>
+            <p style={{ fontSize: '13px', color: '#2c3e50', marginBottom: '18px' }}>Optional — you can always add one later from Settings.</p>
             <label style={{ display: 'block', padding: '32px', borderRadius: '8px', border: '2px dashed #bdbdbd', textAlign: 'center', cursor: 'pointer', background: '#f0f0f0' }}>
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
               <span style={{ fontSize: '13px', color: avatarFile ? '#22c55e' : '#666666' }}>
@@ -168,7 +168,7 @@ export default function OnboardingWizard() {
             <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
               {hasVehicle ? 'You\'re all set!' : 'Add your first ride'}
             </h2>
-            <p style={{ fontSize: '13px', color: '#666666', marginBottom: '18px' }}>
+            <p style={{ fontSize: '13px', color: '#2c3e50', marginBottom: '18px' }}>
               {hasVehicle ? 'Welcome to The Scene. Start exploring.' : 'You can add more vehicles and mods later from your Garage.'}
             </p>
             {!hasVehicle && (

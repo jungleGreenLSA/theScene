@@ -34,7 +34,7 @@ export default function AvatarUpload({ userId, currentUrl, onUpdate }: { userId:
         {currentUrl ? (
           <img src={currentUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#555555', letterSpacing: '1px' }}>ADD PHOTO</div>
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#2c3e50', letterSpacing: '1px' }}>ADD PHOTO</div>
         )}
       </div>
       <div style={{

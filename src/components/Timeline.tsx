@@ -51,7 +51,7 @@ function timeAgo(date: string) {
   return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
 
-// Renders #hashtags and @mentions as orange links inline in post content.
+// Renders #hashtags and @mentions as sky-blue links inline in post content.
 const TOKEN_RE = /(#[a-zA-Z0-9_]+|@[a-zA-Z0-9_]{3,30})/g
 function renderPostContent(text: string | null) {
   if (!text) return null
@@ -98,7 +98,7 @@ function renderActivity(a: Activity) {
               </div>
               <div style={{ minWidth: 0 }}>
                 <p style={{ fontSize: '13px', color: '#2c79c4', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.year} {v.make} {v.model}</p>
-                {v.color && <p style={{ fontSize: '11px', color: '#555' }}>{v.color}</p>}
+                {v.color && <p style={{ fontSize: '11px', color: '#2c3e50' }}>{v.color}</p>}
               </div>
             </Link>
           )}
@@ -110,7 +110,7 @@ function renderActivity(a: Activity) {
         <p>
           <Link href={`/user/${username}`} style={{ fontWeight: 700, color: '#1a1a1a' }}>{name}</Link>
           {' added their '}<span style={{ color: '#2c79c4', fontWeight: 700 }}>{m.year} {m.make} {m.model}</span>
-          {m.color && <span style={{ color: '#555' }}> in {m.color}</span>}
+          {m.color && <span style={{ color: '#2c3e50' }}> in {m.color}</span>}
         </p>
       )
     case 'added_photo':
@@ -148,7 +148,7 @@ function renderActivity(a: Activity) {
         <p>
           <Link href={`/user/${username}`} style={{ fontWeight: 700, color: '#1a1a1a' }}>{name}</Link>
           {' posted a car show: '}<span style={{ fontWeight: 700 }}>{m.title}</span>
-          {m.city && m.state && <span style={{ color: '#555' }}> · {m.city}, {m.state}</span>}
+          {m.city && m.state && <span style={{ color: '#2c3e50' }}> · {m.city}, {m.state}</span>}
         </p>
       )
     default:
@@ -407,7 +407,7 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
           <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '6px' }}>
             {filterTag ? `No posts tagged #${filterTag} yet` : mode === 'following' ? 'Quiet on your side of the scene' : 'No activity yet'}
           </h2>
-          <p style={{ fontSize: '13px', color: '#555' }}>
+          <p style={{ fontSize: '13px', color: '#2c3e50' }}>
             {filterTag ? 'Be the first to post with this hashtag.'
               : mode === 'following' ? (followingCount === 0 ? "You're not following anyone yet. Hit Explore to find people to follow." : "The people you follow haven't posted anything recently. Switch to All to see the wider scene.")
               : 'Share a photo of your build or a mod you just finished.'}

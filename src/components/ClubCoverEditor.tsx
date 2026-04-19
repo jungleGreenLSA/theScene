@@ -68,7 +68,7 @@ export default function ClubCoverEditor({ clubId, currentCoverUrl, currentLogoUr
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} disabled={uploading !== null}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, 'cover') }} />
           </label>
-          <p style={{ fontSize: '11px', color: '#555555' }}>JPEG, PNG, or WebP · up to 5 MB</p>
+          <p style={{ fontSize: '11px', color: '#2c3e50' }}>JPEG, PNG, or WebP · up to 5 MB</p>
         </div>
       )}
 

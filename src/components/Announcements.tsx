@@ -91,14 +91,14 @@ export default function Announcements() {
                 {a.is_pinned && (
                   <span style={{ fontSize: '10px', color: '#90caf9', fontWeight: 600 }}>Pinned</span>
                 )}
-                <span style={{ fontSize: '11px', color: '#555555', marginLeft: 'auto' }}>{timeAgo(a.created_at)}</span>
+                <span style={{ fontSize: '11px', color: '#2c3e50', marginLeft: 'auto' }}>{timeAgo(a.created_at)}</span>
               </div>
 
               {/* Title */}
               <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a', marginBottom: '6px' }}>{a.title}</h4>
 
               {/* Content */}
-              <p style={{ fontSize: '13px', color: '#555555', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+              <p style={{ fontSize: '13px', color: '#2c3e50', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
                 {isLong && !isExpanded ? a.content.slice(0, 200) + '...' : a.content}
               </p>
 
@@ -112,7 +112,7 @@ export default function Announcements() {
               )}
 
               {/* Author */}
-              <p style={{ fontSize: '11px', color: '#555555', marginTop: '8px' }}>
+              <p style={{ fontSize: '11px', color: '#2c3e50', marginTop: '8px' }}>
                 Posted by {a.author?.display_name || a.author?.username || 'Admin'}
               </p>
             </div>

@@ -85,7 +85,7 @@ export default function FollowLists({ userId }: { userId: string }) {
                       {u.avatar_url ? (
                         <img src={u.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (
-                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#555555' }}>
+                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#2c3e50' }}>
                           {u.username?.charAt(0).toUpperCase()}
                         </div>
                       )}

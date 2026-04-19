@@ -99,7 +99,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           border: '1px solid #e4e4e4',
           borderRadius: '8px',
           padding: '8px 12px',
-          color: '#555555',
+          color: '#2c3e50',
           fontSize: '16px',
           cursor: 'pointer',
           lineHeight: 1,
@@ -215,7 +215,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           <div style={{ display: 'flex', gap: '8px' }}>
             <button
               onClick={() => { setShowReport(false); setReportReason('') }}
-              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#555555', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#2c3e50', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
             >
               Cancel
             </button>

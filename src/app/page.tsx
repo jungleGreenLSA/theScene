@@ -5,81 +5,39 @@ import LiveStats from '@/components/LiveStats'
 import { createClient } from '@/lib/supabase/server'
 
 const BROWSE_CATEGORIES = [
-  { slug: 'domestic', label: 'Domestic' },
-  { slug: 'import', label: 'Import' },
-  { slug: 'euro-power', label: 'Euro Power' },
-  { slug: 'trucks', label: 'Trucks' },
-  { slug: 'classic', label: 'Classic' },
-  { slug: 'off-road', label: 'Off-Road' },
-  { slug: 'stance', label: 'Stance' },
-  { slug: 'race', label: 'Race' },
+  { slug: 'domestic', label: 'Domestic', desc: 'American muscle & power' },
+  { slug: 'import', label: 'Import', desc: 'JDM performance' },
+  { slug: 'euro-power', label: 'Euro Power', desc: 'European & exotic' },
+  { slug: 'trucks', label: 'Trucks', desc: 'Built to work & play' },
+  { slug: 'classic', label: 'Classic', desc: 'Timeless machines' },
+  { slug: 'off-road', label: 'Off-Road', desc: 'Trail-ready rigs' },
+  { slug: 'stance', label: 'Stance', desc: 'Low & wide' },
+  { slug: 'race', label: 'Race', desc: 'Track-built weapons' },
 ]
 
-// Sample activity lines — shown when the real feed is empty or while
-// the user isn't logged in. Format mirrors what activity_feed renders.
-const SAMPLE_NEW_RIDES = [
-  { user: 'jeff_a1b2', car: '2010 Chevy SS', action: 'added a new ride to their garage', when: '2h ago' },
-  { user: 'marcus_c3d4', car: '1994 Mazda RX-7', action: 'joined The Scene and built a garage', when: '3h ago' },
-  { user: 'sarah_e5f6', car: '2022 Subaru WRX', action: 'added a new ride', when: '5h ago' },
-  { user: 'devon_g7h8', car: '2008 Honda Civic Si', action: 'added a new ride to their garage', when: '9h ago' },
-  { user: 'tay_i9j0', car: '2016 Ford Mustang GT', action: 'added a new ride', when: '14h ago' },
+const HOW_IT_WORKS = [
+  {
+    title: 'Build Your Garage',
+    desc: "Your car gets its own page with specs, mods, photos, and a guestbook. Just like the original CarDomain — but better.",
+  },
+  {
+    title: 'Give & Get Props',
+    desc: "Show love for builds you respect. Props, guestbook entries, and trophy badges. The more props, the higher you climb.",
+  },
+  {
+    title: 'Discover & Connect',
+    desc: "Find car shows, meets, and track days near you. Browse builds by make, model, or location. Check in at events and share photos.",
+  },
 ]
 
-const SAMPLE_UPDATED_RIDES = [
-  { user: 'jeff_a1b2', car: 'SS', action: 'added a cold air intake', when: '20m ago' },
-  { user: 'marcus_c3d4', car: 'RX-7', action: 'uploaded 4 new photos', when: '45m ago' },
-  { user: 'devon_g7h8', car: 'Civic Si', action: 'posted a build update in the guestbook', when: '1h ago' },
-  { user: 'sarah_e5f6', car: 'WRX', action: 'tagged their ride at a local meet', when: '3h ago' },
-  { user: 'tay_i9j0', car: 'Mustang GT', action: 'added new suspension components', when: '6h ago' },
+const PLATFORM_FEATURES = [
+  { title: 'Structured Mod Lists', desc: 'Every mod categorized: engine, exhaust, suspension, wheels, exterior, interior, tuning. Browse other builds by specific parts.' },
+  { title: 'Guestbook', desc: 'Every garage page has a guestbook where visitors leave messages. Built-in profanity and spam filter keeps it clean.' },
+  { title: 'Ride of the Week', desc: 'The most-propped builds get featured on the homepage. Community-driven voting puts the best builds in the spotlight.' },
+  { title: 'Regional Discovery', desc: 'Find builds near you. Search by city, state, or zip. Location-based browsing makes local connections easy.' },
+  { title: 'Event Check-In & Photos', desc: 'At a car show? Check in to tag your car. After the event, photos get tagged to both the event and the cars.' },
+  { title: 'Similar Builds', desc: 'Every garage page shows other builds of the same make and model. See how others built the same platform.' },
 ]
-
-function FeedLine({
-  user,
-  car,
-  action,
-  when,
-}: {
-  user: string
-  car: string
-  action: string
-  when: string
-}) {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        padding: '10px 4px',
-        borderBottom: '1px solid #eee',
-        fontSize: '13px',
-      }}
-    >
-      <div
-        style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '2px',
-          background: '#ddd',
-          border: '1px solid #bbb',
-          flexShrink: 0,
-        }}
-      />
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ color: '#222', lineHeight: 1.5 }}>
-          <Link href={`/user/${user}`} style={{ fontWeight: 700, color: '#222' }}>
-            {user}
-          </Link>
-          {' '}
-          <span style={{ color: '#555' }}>({car})</span>
-          {' — '}
-          <span>{action}</span>
-        </p>
-        <p style={{ fontSize: '11px', color: '#888', marginTop: '1px' }}>{when}</p>
-      </div>
-    </div>
-  )
-}
 
 export default async function Home() {
   const supabase = await createClient()
@@ -87,92 +45,117 @@ export default async function Home() {
   const isMember = !!user
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '14px 12px 40px' }}>
-      {/* ========== WELCOME BLOCK ========== */}
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '14px 12px 40px' }}>
+      {/* ========== WELCOME / HERO ========== */}
       <section className="section-block" style={{ marginBottom: '14px' }}>
-        <div className="welcome-row">
+        <div className="welcome-row" style={{ padding: '24px 22px' }}>
           <div style={{ flexShrink: 0 }}>
             <Image
               src="/images/logo.png"
               alt="The Scene"
-              width={88}
-              height={88}
+              width={104}
+              height={104}
               priority
             />
           </div>
-          <div className="page-welcome" style={{ flex: '1 1 320px', minWidth: 0 }}>
-            <h1>Welcome to The Scene</h1>
-            <p>
-              Browse custom builds, find car shows and meets near you, and connect with
-              enthusiasts at the world&apos;s newest home for car culture.
+          <div className="page-welcome" style={{ flex: '1 1 340px', minWidth: 0 }}>
+            <h1 style={{ fontSize: 'clamp(22px, 3.2vw, 30px)', fontWeight: 800, color: '#0d3556', marginBottom: '6px' }}>
+              Your Ride Is Your Identity.
+            </h1>
+            <p style={{ fontSize: '14px', color: '#2c3e50', lineHeight: 1.55, maxWidth: '560px' }}>
+              Build your garage. Show off your build. Connect with enthusiasts. Discover car shows and events across the country. Welcome to <strong style={{ color: '#1d4d7a' }}>The Scene</strong>.
             </p>
           </div>
           {!isMember && (
             <div className="welcome-cta">
-              <Link href="/auth/register" className="btn-neon">Join Free</Link>
-              <Link href="/auth/login" className="btn-outline">Sign In</Link>
+              <Link href="/auth/register" className="btn-neon">Build Your Garage</Link>
+              <Link href="/pricing" className="btn-outline">See What&apos;s Inside</Link>
             </div>
           )}
         </div>
 
         {/* Browse community strip */}
         <div className="browse-strip">
-          <span style={{ fontWeight: 700, color: '#333' }}>Browse Community:</span>
+          <span style={{ fontWeight: 700, color: '#1d4d7a' }}>Browse Community:</span>
           <select className="input" style={{ width: 'auto', padding: '4px 8px', fontSize: '12px' }}>
             <option>All Makes</option>
-            <option>Honda</option>
-            <option>Toyota</option>
-            <option>Chevrolet</option>
-            <option>Ford</option>
-            <option>Nissan</option>
-            <option>Subaru</option>
-            <option>BMW</option>
-            <option>Mazda</option>
+            <option>Honda</option><option>Toyota</option><option>Chevrolet</option>
+            <option>Ford</option><option>Nissan</option><option>Subaru</option>
+            <option>BMW</option><option>Mazda</option>
           </select>
           <select className="input" style={{ width: 'auto', padding: '4px 8px', fontSize: '12px' }}>
             <option>All Models</option>
           </select>
-          <Link href="/explore" className="btn-neon" style={{ padding: '4px 14px', fontSize: '12px' }}>
-            Go
-          </Link>
+          <Link href="/explore" className="btn-neon" style={{ padding: '4px 14px', fontSize: '12px' }}>Go</Link>
         </div>
       </section>
 
-      {/* ========== NEW RIDES (feed format) ========== */}
+      {/* ========== HOW IT WORKS ========== */}
       <section className="section-block">
         <div className="section-head">
-          <h2>
-            New Rides on The Scene
-            <span className="section-head-meta">the newest garages</span>
-          </h2>
-          <Link href="/explore?sort=newest">View All →</Link>
+          <h2>How It Works</h2>
+          <span className="section-head-meta">More than a profile — it&apos;s a garage</span>
         </div>
-        <div className="section-body" style={{ padding: '4px 14px' }}>
-          {SAMPLE_NEW_RIDES.map((row, i) => (
-            <FeedLine key={i} {...row} />
-          ))}
+        <div className="section-body">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+            gap: '12px',
+          }}>
+            {HOW_IT_WORKS.map(f => (
+              <div key={f.title} style={{
+                padding: '16px 18px',
+                background: '#f7fbff',
+                border: '1px solid #c8d9e8',
+                borderLeft: '3px solid #2c79c4',
+              }}>
+                <h3 style={{ fontSize: '15px', fontWeight: 800, color: '#0d3556', marginBottom: '6px' }}>{f.title}</h3>
+                <p style={{ fontSize: '13px', color: '#2c3e50', lineHeight: 1.5 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ========== UPDATED RIDES (feed format) ========== */}
+      {/* ========== WHERE THE ACTION IS ========== */}
       <section className="section-block">
         <div className="section-head">
-          <h2>
-            Updated Rides
-            <span className="section-head-meta">fresh posts from the community</span>
-          </h2>
-          <Link href="/feed">View Feed →</Link>
+          <h2>Where The Action Is</h2>
+          <Link href="/explore">Explore Near You →</Link>
         </div>
-        <div className="section-body" style={{ padding: '4px 14px' }}>
-          {SAMPLE_UPDATED_RIDES.map((row, i) => (
-            <FeedLine key={i} {...row} />
-          ))}
+        <div className="section-body">
+          <MemberHeatmap />
         </div>
       </section>
 
-      {/* ========== ROW + BROWSE (responsive 2-col, stacks on mobile) ========== */}
+      {/* ========== PLATFORM FEATURES ========== */}
+      <section className="section-block">
+        <div className="section-head">
+          <h2>Everything Your Build Deserves</h2>
+          <span className="section-head-meta">Six things we built into every garage</span>
+        </div>
+        <div className="section-body">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
+            gap: '12px',
+          }}>
+            {PLATFORM_FEATURES.map(f => (
+              <div key={f.title} style={{
+                padding: '14px 16px',
+                background: '#ffffff',
+                border: '1px solid #c8d9e8',
+              }}>
+                <h3 style={{ fontSize: '14px', fontWeight: 800, color: '#1d4d7a', marginBottom: '4px' }}>{f.title}</h3>
+                <p style={{ fontSize: '13px', color: '#2c3e50', lineHeight: 1.5 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== ROW + BROWSE (2-col, responsive) ========== */}
       <div className="layout-2col">
-        {/* Ride of the Week — members only */}
         <section className="section-block">
           <div className="section-head">
             <h2>Ride of the Week</h2>
@@ -180,21 +163,21 @@ export default async function Home() {
           </div>
           <div className="section-body">
             {isMember ? (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '10px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{
                   aspectRatio: '2 / 1',
-                  background: 'repeating-linear-gradient(45deg, #e8e8e8 0 10px, #dddddd 10px 20px)',
-                  border: '1px solid var(--color-border)',
+                  background: 'repeating-linear-gradient(45deg, #dce7f2 0 10px, #c8d9e8 10px 20px)',
+                  border: '1px solid #6b8ba8',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#888', fontSize: '12px', fontWeight: 600,
+                  color: '#1d4d7a', fontSize: '12px', fontWeight: 800,
                   letterSpacing: '1px', textTransform: 'uppercase',
                 }}>
                   your car could be here
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px', flexWrap: 'wrap' }}>
                   <div>
-                    <p style={{ fontWeight: 700, fontSize: '14px' }}>The most-propped build earns the spotlight.</p>
-                    <p style={{ color: 'var(--color-muted)', fontSize: '12px', marginTop: '2px' }}>
+                    <p style={{ fontWeight: 800, fontSize: '14px', color: '#0d3556' }}>The most-propped build earns the spotlight.</p>
+                    <p style={{ color: '#2c3e50', fontSize: '12px', marginTop: '2px' }}>
                       Rack up props on your garage and land your ride on the homepage.
                     </p>
                   </div>
@@ -205,13 +188,11 @@ export default async function Home() {
               <div style={{
                 padding: '24px 16px',
                 textAlign: 'center',
-                border: '1px dashed var(--color-border-hover)',
-                background: '#fafafa',
+                border: '1px dashed #6b8ba8',
+                background: '#f7fbff',
               }}>
-                <p style={{ fontSize: '13px', fontWeight: 700, marginBottom: '4px' }}>
-                  Members only
-                </p>
-                <p style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '14px' }}>
+                <p style={{ fontSize: '13px', fontWeight: 800, marginBottom: '4px', color: '#0d3556' }}>Members only</p>
+                <p style={{ fontSize: '12px', color: '#2c3e50', marginBottom: '14px' }}>
                   Sign in to see the community&apos;s most-propped build this week.
                 </p>
                 <div style={{ display: 'inline-flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -223,11 +204,10 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Sidebar — Browse by Style + Join CTA */}
         <aside>
           <section className="section-block">
             <div className="section-head">
-              <h2>Browse by Style</h2>
+              <h2>Find Your People</h2>
             </div>
             <div className="section-body" style={{ padding: '8px 0' }}>
               {BROWSE_CATEGORIES.map((cat, i) => (
@@ -236,16 +216,20 @@ export default async function Home() {
                   href={`/explore?category=${cat.slug}`}
                   style={{
                     display: 'flex',
+                    alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '8px 14px',
+                    padding: '10px 14px',
                     fontSize: '13px',
                     fontWeight: 600,
-                    color: '#222',
-                    borderTop: i === 0 ? 'none' : '1px solid #eee',
+                    color: '#0d3556',
+                    borderTop: i === 0 ? 'none' : '1px solid #e4e4e4',
                   }}
                 >
-                  <span>{cat.label}</span>
-                  <span style={{ color: '#999', fontWeight: 400 }}>›</span>
+                  <span>
+                    <strong style={{ color: '#1d4d7a' }}>{cat.label}</strong>
+                    <span style={{ color: '#2c3e50', fontWeight: 400, fontSize: '11px', marginLeft: '8px' }}>{cat.desc}</span>
+                  </span>
+                  <span style={{ color: '#6b8ba8', fontWeight: 400 }}>›</span>
                 </Link>
               ))}
             </div>
@@ -256,9 +240,9 @@ export default async function Home() {
               <div className="section-head">
                 <h2>Join the Community</h2>
               </div>
-              <div className="section-body" style={{ fontSize: '12px', lineHeight: 1.55 }}>
+              <div className="section-body" style={{ fontSize: '12px', lineHeight: 1.55, color: '#2c3e50' }}>
                 <p style={{ marginBottom: '10px' }}>
-                  Share your ride with the world&apos;s largest car community. Free forever.
+                  Share your ride with the world&apos;s newest car community. Free forever.
                 </p>
                 <Link href="/auth/register" className="btn-neon" style={{ width: '100%', justifyContent: 'center' }}>
                   Sign Up Free
@@ -268,17 +252,6 @@ export default async function Home() {
           )}
         </aside>
       </div>
-
-      {/* ========== HEATMAP ========== */}
-      <section className="section-block" style={{ marginTop: '14px' }}>
-        <div className="section-head">
-          <h2>Where The Action Is</h2>
-          <Link href="/explore">Explore Near You →</Link>
-        </div>
-        <div className="section-body">
-          <MemberHeatmap />
-        </div>
-      </section>
 
       {/* ========== LIVE STATS ========== */}
       <section className="section-block" style={{ marginTop: '14px' }}>
@@ -294,10 +267,10 @@ export default async function Home() {
       {!isMember && (
         <section className="section-block" style={{ marginTop: '14px' }}>
           <div className="section-body" style={{ textAlign: 'center', padding: '32px 20px' }}>
-            <h2 style={{ fontSize: '22px', fontWeight: 800, marginBottom: '8px', color: 'var(--color-subhead)' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: 800, marginBottom: '8px', color: '#0d3556' }}>
               Your build deserves a home.
             </h2>
-            <p style={{ color: 'var(--color-muted)', fontSize: '13px', maxWidth: '520px', margin: '0 auto 18px' }}>
+            <p style={{ color: '#2c3e50', fontSize: '13px', maxWidth: '520px', margin: '0 auto 18px' }}>
               Build your garage, give and get props, and connect with enthusiasts across the country.
             </p>
             <div style={{ display: 'inline-flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>

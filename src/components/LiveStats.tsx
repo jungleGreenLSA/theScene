@@ -41,7 +41,7 @@ export default function LiveStats() {
       {items.map((stat) => (
         <div key={stat.label} className="glass card-hover" style={{ padding: '28px 16px', textAlign: 'center' }}>
           <div style={{ fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 700, color: '#5fa8dd' }}>{stat.value.toLocaleString()}</div>
-          <div style={{ fontSize: '11px', color: '#555555', textTransform: 'uppercase', letterSpacing: '1.5px', marginTop: '8px' }}>{stat.label}</div>
+          <div style={{ fontSize: '11px', color: '#2c3e50', textTransform: 'uppercase', letterSpacing: '1.5px', marginTop: '8px' }}>{stat.label}</div>
         </div>
       ))}
     </div>

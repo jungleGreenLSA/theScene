@@ -36,7 +36,7 @@ export default function BuildMatch({ vehicleId }: { vehicleId: string }) {
     <div className="glass" style={{ padding: '20px', marginTop: '20px', border: '1px solid rgba(95, 168, 221, 0.15)' }}>
       <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
         Build Matches
-        <span style={{ fontSize: '11px', color: '#555555', fontWeight: 400 }}>Members with similar mods</span>
+        <span style={{ fontSize: '11px', color: '#2c3e50', fontWeight: 400 }}>Members with similar mods</span>
       </h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {matches.map(m => (
@@ -50,9 +50,9 @@ export default function BuildMatch({ vehicleId }: { vehicleId: string }) {
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{m.matched_year} {m.matched_make} {m.matched_model}</p>
-              <p style={{ fontSize: '11px', color: '#666666' }}>@{m.matched_username} · {m.common_mods} mods in common</p>
+              <p style={{ fontSize: '11px', color: '#2c3e50' }}>@{m.matched_username} · {m.common_mods} mods in common</p>
               {m.common_mod_items && m.common_mod_items.length > 0 && (
-                <p style={{ fontSize: '10px', color: '#555555', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <p style={{ fontSize: '10px', color: '#2c3e50', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {m.common_mod_items.slice(0, 3).join(', ')}
                 </p>
               )}

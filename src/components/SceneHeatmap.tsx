@@ -127,7 +127,7 @@ export default function SceneHeatmap({ type, title }: Props) {
     <div className="glass" style={{ padding: '16px', overflow: 'hidden', borderRadius: '12px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
         <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a' }}>{title}</h3>
-        <span style={{ fontSize: '11px', color: '#555555' }}>
+        <span style={{ fontSize: '11px', color: '#2c3e50' }}>
           {total} {total === 1 ? cfg.label.slice(0, -1) : cfg.label}
         </span>
       </div>
@@ -177,7 +177,7 @@ export default function SceneHeatmap({ type, title }: Props) {
         })()}
       </svg>
       {missing > 0 && (
-        <p style={{ fontSize: '10px', color: '#555555', marginTop: '8px', textAlign: 'center' }}>
+        <p style={{ fontSize: '10px', color: '#2c3e50', marginTop: '8px', textAlign: 'center' }}>
           {missing} not geocoded yet — edit the record and re-save the address to drop a pin.
         </p>
       )}

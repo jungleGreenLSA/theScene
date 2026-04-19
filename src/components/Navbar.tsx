@@ -282,7 +282,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Accent orange rule beneath the nav */}
+      {/* Sky-blue accent rule beneath the nav */}
       <div className="accent-rule" style={{ height: '2px' }} />
 
       {/* Sub-bar — "Home" breadcrumb + quick search on desktop */}
@@ -299,7 +299,7 @@ export default function Navbar() {
           <span style={{ fontWeight: 600 }}>
             <Link href="/" style={{ color: '#444', fontWeight: 600 }}>Home</Link>
           </span>
-          <span style={{ color: '#666' }}>
+          <span style={{ color: '#2c3e50' }}>
             the car community · since 2026
           </span>
         </div>
@@ -336,11 +336,11 @@ export default function Navbar() {
                 }} />
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontSize: '14px', fontWeight: 700 }}>My Profile</p>
-                  <p style={{ fontSize: '12px', color: '#555', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <p style={{ fontSize: '12px', color: '#2c3e50', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {user.email || 'Tap to open settings'}
                   </p>
                 </div>
-                <span style={{ color: '#888' }}>›</span>
+                <span style={{ color: '#3a5876' }}>›</span>
               </Link>
             ) : (
               <div style={{ display: 'flex', gap: '8px' }}>
@@ -351,7 +351,7 @@ export default function Navbar() {
           </div>
 
           <div style={{ padding: '8px 10px' }}>
-            <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666', padding: '10px 6px 6px' }}>Main</p>
+            <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#2c3e50', padding: '10px 6px 6px' }}>Main</p>
             {PRIMARY_LINKS.filter(link => !link.membersOnly || user).map(link => (
               <Link
                 key={link.href}
@@ -370,7 +370,7 @@ export default function Navbar() {
 
             {user && (
               <>
-                <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666', padding: '16px 6px 6px' }}>More</p>
+                <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#2c3e50', padding: '16px 6px 6px' }}>More</p>
                 {MORE_LINKS.map(l => (
                   <Link
                     key={l.href}
@@ -387,7 +387,7 @@ export default function Navbar() {
                   </Link>
                 ))}
 
-                <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666', padding: '16px 6px 6px' }}>You</p>
+                <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#2c3e50', padding: '16px 6px 6px' }}>You</p>
                 {PROFILE_LINKS.map(l => (
                   <Link
                     key={l.href}

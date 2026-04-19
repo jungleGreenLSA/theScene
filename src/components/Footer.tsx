@@ -58,7 +58,7 @@ export default function Footer() {
           flexWrap: 'wrap',
           gap: '8px',
           fontSize: '11px',
-          color: '#666',
+          color: '#2c3e50',
         }}>
           <span>&copy; {new Date().getFullYear()} The Scene. All rights reserved.</span>
           <span>

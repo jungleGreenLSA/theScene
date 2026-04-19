@@ -77,17 +77,17 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
       )}
 
       {loading ? (
-        <p style={{ fontSize: '13px', color: '#555555' }}>Loading...</p>
+        <p style={{ fontSize: '13px', color: '#2c3e50' }}>Loading...</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: currentUserId ? '16px' : 0 }}>
-          {comments.length === 0 && <p style={{ fontSize: '13px', color: '#555555' }}>No comments yet. Kick it off.</p>}
+          {comments.length === 0 && <p style={{ fontSize: '13px', color: '#2c3e50' }}>No comments yet. Kick it off.</p>}
           {comments.map(c => {
             const canRemove = currentUserId && (currentUserId === c.author_id || currentUserId === organizerId)
             return (
               <div key={c.id} style={{ display: 'flex', gap: '12px' }}>
                 <Link href={`/user/${c.author?.username}`} style={{ flexShrink: 0 }}>
                   <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', backgroundImage: c.author?.avatar_url ? `url(${c.author.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {!c.author?.avatar_url && <span style={{ fontSize: '12px', color: '#555555' }}>{c.author?.username?.charAt(0).toUpperCase()}</span>}
+                    {!c.author?.avatar_url && <span style={{ fontSize: '12px', color: '#2c3e50' }}>{c.author?.username?.charAt(0).toUpperCase()}</span>}
                   </div>
                 </Link>
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -95,9 +95,9 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
                     <Link href={`/user/${c.author?.username}`} style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>
                       {c.author?.display_name || c.author?.username}
                     </Link>
-                    <span style={{ fontSize: '11px', color: '#555555' }}>{timeAgo(c.created_at)}</span>
+                    <span style={{ fontSize: '11px', color: '#2c3e50' }}>{timeAgo(c.created_at)}</span>
                     {canRemove && (
-                      <button onClick={() => remove(c.id)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#555555', fontSize: '11px', cursor: 'pointer', padding: '2px 6px' }}>Delete</button>
+                      <button onClick={() => remove(c.id)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#2c3e50', fontSize: '11px', cursor: 'pointer', padding: '2px 6px' }}>Delete</button>
                     )}
                   </div>
                   <p style={{ fontSize: '14px', color: '#333333', whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{c.content}</p>

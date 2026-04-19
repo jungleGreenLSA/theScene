@@ -36,7 +36,7 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <button
         onClick={() => setOpen(!open)}
-        style={{ background: 'none', border: 'none', color: '#555555', fontSize: '14px', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px' }}
+        style={{ background: 'none', border: 'none', color: '#2c3e50', fontSize: '14px', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px' }}
         onMouseEnter={(e) => (e.currentTarget.style.color = '#ef4444')}
         onMouseLeave={(e) => (e.currentTarget.style.color = '#555555')}
         title="Report content"
@@ -80,7 +80,7 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
               <div style={{ display: 'flex', gap: '6px' }}>
                 <button
                   onClick={() => { setOpen(false); setReason('') }}
-                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#555555', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
+                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#2c3e50', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
                 >
                   Cancel
                 </button>

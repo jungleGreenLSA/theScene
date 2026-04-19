@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 /* ============================================
-   THE SCENE — CarDomain-inspired Paper Theme
+   THE SCENE — Paper Theme + Sky-Blue Forum Accent
    Gray paper background · white section cards ·
-   orange accents · purple retained for logo only
+   navy + cyan accents · no orange · no purple
    ============================================ */
 
 @theme inline {
@@ -16,8 +16,8 @@
   --color-border: #c4c4c4;
   --color-border-hover: #9a9a9a;
   --color-border-soft: #e4e4e4;
-  --color-muted: #3f3f3f;
-  --color-muted-light: #4c4c4c;
+  --color-muted: #2c3e50;
+  --color-muted-light: #1d4d7a;
 
   --color-header-bar: #3a3a3a;
   --color-header-bar-light: #555555;
@@ -124,7 +124,7 @@ body::before {
   pointer-events: none;
 }
 
-/* Links — classic blue, orange on hover */
+/* Links — classic navy, brighter sky blue on hover */
 a {
   color: var(--color-link);
   text-decoration: none;
@@ -132,9 +132,9 @@ a {
 }
 a:hover { color: var(--color-link-hover); text-decoration: underline; }
 
-/* Footer links — quieter, dark grey by default, orange on hover */
-footer a { color: #555; text-decoration: none; }
-footer a:hover { color: var(--color-neon); text-decoration: underline; }
+/* Footer links — navy muted, brighter sky-blue on hover */
+footer a { color: #1d4d7a; text-decoration: none; font-weight: 600; }
+footer a:hover { color: #2c79c4; text-decoration: underline; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 10px; }
@@ -286,7 +286,7 @@ footer a:hover { color: var(--color-neon); text-decoration: underline; }
   box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* Neon glow no longer glows — it's a subtle orange left bar */
+/* Legacy .glow-* classes now render as a subtle sky-blue left bar */
 .glow-purple { box-shadow: inset 3px 0 0 var(--color-purple); }
 .glow-neon { box-shadow: inset 3px 0 0 var(--color-neon); }
 

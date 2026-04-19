@@ -47,7 +47,7 @@ export default function WeeklyDigest() {
             <div style={{ fontSize: '18px', fontWeight: 700, color: s.value > 0 ? '#22c55e' : '#555555' }}>
               {s.value > 0 ? `+${s.value}` : '0'}
             </div>
-            <div style={{ fontSize: '9px', color: '#555555', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{s.label}</div>
+            <div style={{ fontSize: '9px', color: '#2c3e50', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{s.label}</div>
           </div>
         ))}
       </div>

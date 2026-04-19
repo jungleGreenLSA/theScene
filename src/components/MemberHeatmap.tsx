@@ -79,7 +79,7 @@ export default function MemberHeatmap() {
   return (
     <div style={{ position: 'relative', overflow: 'hidden' }}>
       <div style={{ marginBottom: '8px' }}>
-        <p style={{ fontSize: '12px', color: '#555' }}>
+        <p style={{ fontSize: '12px', color: '#2c3e50' }}>
           <strong style={{ color: '#222' }}>{totalMembers}</strong>{' '}
           {totalMembers === 1 ? 'member' : 'members'} nationwide
         </p>
@@ -149,15 +149,15 @@ export default function MemberHeatmap() {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(44, 121, 196, 0.45)' }} />
-          <span style={{ fontSize: '11px', color: '#555' }}>Few members</span>
+          <span style={{ fontSize: '11px', color: '#2c3e50' }}>Few members</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'rgba(44, 121, 196, 0.75)' }} />
-          <span style={{ fontSize: '11px', color: '#555' }}>Many members</span>
+          <span style={{ fontSize: '11px', color: '#2c3e50' }}>Many members</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: 'rgba(44, 121, 196, 0.95)', boxShadow: '0 0 6px rgba(44, 121, 196, 0.5)' }} />
-          <span style={{ fontSize: '11px', color: '#555' }}>Hot spot</span>
+          <span style={{ fontSize: '11px', color: '#2c3e50' }}>Hot spot</span>
         </div>
       </div>
     </div>

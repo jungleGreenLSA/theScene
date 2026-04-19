@@ -59,13 +59,13 @@ export default function NearbyMembers() {
           >
             <div style={{ flexShrink: 0 }}>
               <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', backgroundImage: m.avatar_url ? `url(${m.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {!m.avatar_url && <span style={{ fontSize: '10px', color: '#555555' }}>{m.username?.charAt(0).toUpperCase()}</span>}
+                {!m.avatar_url && <span style={{ fontSize: '10px', color: '#2c3e50' }}>{m.username?.charAt(0).toUpperCase()}</span>}
               </div>
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: '12px', fontWeight: 600, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.display_name || m.username}</p>
             </div>
-            <span style={{ fontSize: '10px', color: '#555555' }}>{m.vehicle_count} ride{m.vehicle_count === 1 ? '' : 's'}</span>
+            <span style={{ fontSize: '10px', color: '#2c3e50' }}>{m.vehicle_count} ride{m.vehicle_count === 1 ? '' : 's'}</span>
           </Link>
         ))}
       </div>

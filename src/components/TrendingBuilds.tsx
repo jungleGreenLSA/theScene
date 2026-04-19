@@ -56,9 +56,9 @@ export default function TrendingBuilds() {
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{b.year} {b.make} {b.model}</p>
-              <p style={{ fontSize: '11px', color: '#555555' }}>@{b.owner_username}</p>
+              <p style={{ fontSize: '11px', color: '#2c3e50' }}>@{b.owner_username}</p>
             </div>
-            <div style={{ display: 'flex', gap: '8px', fontSize: '11px', color: '#666666', flexShrink: 0 }}>
+            <div style={{ display: 'flex', gap: '8px', fontSize: '11px', color: '#2c3e50', flexShrink: 0 }}>
               <span>{b.recent_props} props</span>
               <span>{b.view_count} views</span>
             </div>
