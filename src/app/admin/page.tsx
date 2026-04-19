@@ -251,9 +251,20 @@ export default function AdminDashboard() {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <h1 className="text-3xl font-bold">Admin <span className="text-neon-light">Dashboard</span></h1>
-        <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>The Scene command center</p>
+      <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px', flexWrap: 'wrap' }}>
+        <div>
+          <h1 className="text-3xl font-bold">Admin <span className="text-neon-light">Dashboard</span></h1>
+          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>The Scene command center</p>
+        </div>
+        <a
+          href="/api/admin/export-members"
+          className="btn-neon"
+          download
+          style={{ fontSize: '12px' }}
+          title="Download CSV of all members (name, location, phone, email, primary car, clubs)"
+        >
+          Export Members CSV
+        </a>
       </div>
 
       {/* Tabs */}
