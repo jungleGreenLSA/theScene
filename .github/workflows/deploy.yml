@@ -18,12 +18,29 @@ jobs:
           username: ${{ secrets.HOSTINGER_USER }}
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           script: |
+            set -euo pipefail
             export PATH="/usr/local/bin:/usr/bin:$PATH"
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
             cd /var/www/theScene/html
-            git pull origin main
+
+            # Sync working tree to origin/main exactly — no merge surprises,
+            # no stashed local edits. Prior pulls were leaving .next stuck
+            # with old prerenders and Next kept serving the stale build.
+            git fetch origin main
+            git reset --hard origin/main
+            echo "--- Deploying commit:"
+            git log -1 --oneline
+
+            # Always nuke .next so Next.js can't serve a prerender that
+            # predates the current commit. Build recreates everything.
+            rm -rf .next
+
             npm install --production=false
             npm run build
+
             pm2 restart the-scene || pm2 start ecosystem.config.js
-            echo "Deployment complete"
+            pm2 save
+
+            echo "--- Deployment complete: $(git log -1 --oneline)"
