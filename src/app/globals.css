@@ -613,39 +613,40 @@ input[type="datetime-local"] {
 
 .forum-post {
   display: grid;
-  grid-template-columns: 160px 1fr;
+  grid-template-columns: 170px 1fr;
   gap: 0;
-  border: 1px solid #888;
+  border: 1px solid #6b8ba8;
   background: #ffffff;
   margin-bottom: 10px;
   font-family: var(--font-sans), Verdana, Geneva, Tahoma, sans-serif;
-}
-@media (max-width: 700px) {
-  .forum-post { grid-template-columns: 1fr; }
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
 }
 
 .forum-post-meta {
-  background: #ebebeb;
-  border-right: 1px solid #888;
+  background: linear-gradient(180deg, #dce7f2 0%, #c8d9e8 100%);
+  border-right: 1px solid #6b8ba8;
   padding: 12px;
-  font-size: 11px;
-  color: #4c4c4c;
+  font-size: 12px;
+  color: #2a2a2a;
 }
 .forum-post-meta .forum-post-username {
-  font-size: 14px;
-  font-weight: 700;
-  color: #2c79c4;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1d4d7a;
   display: block;
   margin-bottom: 4px;
+  text-decoration: none;
+  word-break: break-word;
 }
-.forum-post-meta .forum-post-username:hover { color: #1d4d7a; }
+.forum-post-meta .forum-post-username:hover { color: #2c79c4; text-decoration: underline; }
 .forum-post-meta .forum-post-rank {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  color: #666;
+  color: #3a3a3a;
   margin-bottom: 8px;
   display: block;
+  font-weight: 700;
 }
 .forum-post-meta .forum-post-avatar {
   width: 120px;
@@ -660,11 +661,17 @@ input[type="datetime-local"] {
 .forum-post-meta .forum-post-stat {
   display: flex;
   justify-content: space-between;
-  padding: 2px 0;
-  border-top: 1px dotted #c4c4c4;
+  padding: 3px 0;
+  border-top: 1px dotted #8ea9c0;
+  font-size: 11px;
+  color: #2a2a2a;
 }
-.forum-post-meta .forum-post-stat:first-of-type { border-top: 1px solid #888; margin-top: 8px; padding-top: 6px; }
-.forum-post-meta .forum-post-stat strong { color: #1a1a1a; font-weight: 700; }
+.forum-post-meta .forum-post-stat:first-of-type {
+  border-top: 1px solid #6b8ba8;
+  margin-top: 8px;
+  padding-top: 6px;
+}
+.forum-post-meta .forum-post-stat strong { color: #0d3556; font-weight: 700; }
 
 .forum-post-body {
   padding: 14px 16px;
@@ -673,20 +680,56 @@ input[type="datetime-local"] {
   min-width: 0;
 }
 .forum-post-body .forum-post-date {
-  font-size: 11px;
-  color: #666;
-  border-bottom: 1px dotted #c4c4c4;
+  font-size: 12px;
+  color: #3a3a3a;
+  border-bottom: 1px dotted #8ea9c0;
   padding-bottom: 8px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
+  font-weight: 500;
+}
+.forum-post-body .forum-post-date strong { color: #1d4d7a; font-weight: 800; }
+
+/* Mobile: collapse to a compact header bar (avatar + name + rank inline)
+   above a full-width body. Stats hide since space is tight. */
+@media (max-width: 700px) {
+  .forum-post { grid-template-columns: 1fr; }
+  .forum-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-right: none;
+    border-bottom: 1px solid #6b8ba8;
+  }
+  .forum-post-meta .forum-post-avatar {
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    flex-shrink: 0;
+    border-width: 1px;
+  }
+  .forum-post-meta .forum-post-username {
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+  .forum-post-meta > div:last-child { display: none; }
+  .forum-post-meta .forum-post-rank {
+    font-size: 10px;
+    margin-bottom: 0;
+    margin-left: auto;
+  }
 }
 .forum-post-body .forum-post-content {
   font-size: 14px;
-  line-height: 1.55;
+  line-height: 1.6;
   color: #1a1a1a;
+  font-weight: 500;
   flex: 1;
 }
+.forum-post-body .forum-post-content p { color: #1a1a1a; }
+.forum-post-body .forum-post-content a { color: #1c58b8; font-weight: 700; }
 .forum-post-body .forum-post-content p { margin-bottom: 10px; }
 .forum-post-body .forum-post-content blockquote {
   background: #f5f5f5;
@@ -707,13 +750,13 @@ input[type="datetime-local"] {
   letter-spacing: 0.5px;
 }
 .forum-post-body .forum-sig {
-  border-top: 1px dotted #888;
+  border-top: 1px dotted #8ea9c0;
   margin-top: 16px;
   padding-top: 8px;
   font-size: 11px;
-  color: #666;
+  color: #3a3a3a;
   font-style: italic;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 /* Breadcrumb used inside forum pages */
