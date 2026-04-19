@@ -93,7 +93,9 @@ export default function Navbar() {
     borderLeft: '1px solid #4a8cbe',
     textDecoration: 'none',
     whiteSpace: 'nowrap',
-    transition: 'background 0.1s, color 0.1s',
+    transition: 'background 0.15s, color 0.15s, box-shadow 0.15s',
+    textShadow: active ? '0 1px 0 rgba(0,0,0,0.25)' : 'none',
+    boxShadow: active ? 'inset 0 2px 4px rgba(0,0,0,0.2), inset 0 -2px 0 #4fc3f7' : 'none',
   })
 
   const dropdownLinkStyle = (active: boolean): React.CSSProperties => ({
