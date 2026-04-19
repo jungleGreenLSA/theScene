@@ -90,10 +90,7 @@ export default async function Home() {
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '14px 12px 40px' }}>
       {/* ========== WELCOME BLOCK ========== */}
       <section className="section-block" style={{ marginBottom: '14px' }}>
-        <div style={{
-          display: 'flex', gap: '18px', alignItems: 'center',
-          padding: '16px 18px', flexWrap: 'wrap',
-        }}>
+        <div className="welcome-row">
           <div style={{ flexShrink: 0 }}>
             <Image
               src="/images/logo.png"
@@ -103,7 +100,7 @@ export default async function Home() {
               priority
             />
           </div>
-          <div className="page-welcome" style={{ flex: '1 1 340px' }}>
+          <div className="page-welcome" style={{ flex: '1 1 320px', minWidth: 0 }}>
             <h1>Welcome to The Scene</h1>
             <p>
               Browse custom builds, find car shows and meets near you, and connect with
@@ -111,25 +108,15 @@ export default async function Home() {
             </p>
           </div>
           {!isMember && (
-            <div style={{
-              display: 'flex', gap: '6px', alignItems: 'center',
-              marginLeft: 'auto', flexShrink: 0,
-            }}>
+            <div className="welcome-cta">
               <Link href="/auth/register" className="btn-neon">Join Free</Link>
               <Link href="/auth/login" className="btn-outline">Sign In</Link>
             </div>
           )}
         </div>
 
-        {/* Browse community bar */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          padding: '8px 14px',
-          background: '#f5f5f5',
-          borderTop: '1px solid var(--color-border)',
-          flexWrap: 'wrap',
-          fontSize: '12px',
-        }}>
+        {/* Browse community strip */}
+        <div className="browse-strip">
           <span style={{ fontWeight: 700, color: '#333' }}>Browse Community:</span>
           <select className="input" style={{ width: 'auto', padding: '4px 8px', fontSize: '12px' }}>
             <option>All Makes</option>
@@ -183,14 +170,10 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ========== ROW + BROWSE (2-col) ========== */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)',
-        gap: '14px',
-      }}>
+      {/* ========== ROW + BROWSE (responsive 2-col, stacks on mobile) ========== */}
+      <div className="layout-2col">
         {/* Ride of the Week — members only */}
-        <section className="section-block" style={{ gridColumn: '1 / 2' }}>
+        <section className="section-block">
           <div className="section-head">
             <h2>Ride of the Week</h2>
             {isMember && <Link href="/explore?sort=propped">See Leaderboard →</Link>}
@@ -241,7 +224,7 @@ export default async function Home() {
         </section>
 
         {/* Sidebar — Browse by Style + Join CTA */}
-        <aside style={{ gridColumn: '2 / 3' }}>
+        <aside>
           <section className="section-block">
             <div className="section-head">
               <h2>Browse by Style</h2>
