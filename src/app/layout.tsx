@@ -55,8 +55,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="antialiased">
+        {/* Skip link for keyboard users — hidden until focused. WCAG 2.4.1 */}
+        <a href="#main" className="skip-link">Skip to main content</a>
         <Navbar />
-        <main className="min-h-screen site-main">
+        <main id="main" className="min-h-screen site-main" tabIndex={-1}>
           {children}
         </main>
         <MobileTabBar />

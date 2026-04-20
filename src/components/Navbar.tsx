@@ -159,6 +159,9 @@ export default function Navbar() {
               <div ref={moreRef} style={{ position: 'relative', height: '100%' }}>
                 <button
                   onClick={() => setMoreOpen(!moreOpen)}
+                  aria-haspopup="menu"
+                  aria-expanded={moreOpen}
+                  aria-label="More navigation"
                   style={{
                     ...tabStyle(moreActive || moreOpen),
                     height: '100%',
@@ -172,7 +175,7 @@ export default function Navbar() {
                     fontFamily: 'inherit',
                   }}
                 >
-                  More <span style={{ fontSize: '9px', opacity: 0.8 }}>▾</span>
+                  More <span aria-hidden="true" style={{ fontSize: '9px', opacity: 0.8 }}>▾</span>
                 </button>
                 {moreOpen && (
                   <div style={{
@@ -209,10 +212,14 @@ export default function Navbar() {
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
                   title="Profile menu"
+                  aria-haspopup="menu"
+                  aria-expanded={profileOpen}
+                  aria-label="Profile menu"
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: '6px',
                     padding: '3px 8px 3px 3px', background: 'rgba(255,255,255,0.12)',
                     border: '1px solid #4a8cbe', borderRadius: '3px', cursor: 'pointer',
+                    minHeight: '32px',
                   }}
                 >
                   <span style={{
@@ -275,8 +282,10 @@ export default function Navbar() {
           <button
             className="nav-mobile-toggle"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-            style={{ marginLeft: 'auto' }}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            style={{ marginLeft: 'auto', minWidth: '44px', minHeight: '44px' }}
           >
             <span style={{ transform: menuOpen ? 'rotate(45deg) translateY(6px)' : 'none' }} />
             <span style={{ opacity: menuOpen ? 0 : 1 }} />
@@ -311,7 +320,10 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {menuOpen && (
         <div
+          id="mobile-menu"
           className="nav-mobile-menu"
+          role="navigation"
+          aria-label="Mobile menu"
           style={{
             position: 'fixed', top: '66px', left: 0, right: 0, bottom: 0,
             background: '#f0f0f0', borderTop: '1px solid #b5b5b5',
