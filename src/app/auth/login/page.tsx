@@ -4,12 +4,18 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
   const [otp, setOtp] = useState('')
   const [error, setError] = useState('')
+  const [emailErr, setEmailErr] = useState('')
+  const [passwordErr, setPasswordErr] = useState('')
+  const [phoneErr, setPhoneErr] = useState('')
+  const [otpErr, setOtpErr] = useState('')
   const [loading, setLoading] = useState(false)
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
   const [otpSent, setOtpSent] = useState(false)

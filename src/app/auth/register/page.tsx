@@ -163,46 +163,87 @@ export default function RegisterPage() {
             </button>
           </div>
 
-          <form onSubmit={handleRegister}>
+          <form onSubmit={handleRegister} noValidate aria-describedby={error ? 'reg-form-error' : undefined}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>First Name *</label>
-                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input" placeholder="Jeff" required />
+                <label htmlFor="reg-first" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
+                  First Name <span aria-hidden="true">*</span> <span className="sr-only">(required)</span>
+                </label>
+                <input id="reg-first" type="text" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input" placeholder="Jeff" required />
               </div>
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name</label>
-                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className="input" placeholder="Optional" />
+                <label htmlFor="reg-last" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
+                  Last Name <span style={{ color: '#3a5876', fontWeight: 400, textTransform: 'none' }}>(optional)</span>
+                </label>
+                <input id="reg-last" type="text" autoComplete="family-name" value={lastName} onChange={(e) => setLastName(e.target.value)} className="input" placeholder="Optional" />
               </div>
             </div>
 
             <div style={{ marginBottom: '16px' }}>
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Username</label>
-              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="input" placeholder="ex: chevyGuy95" required minLength={3} />
-              <p className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>This will be your profile URL</p>
+              <label htmlFor="reg-username" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
+                Username <span aria-hidden="true">*</span> <span className="sr-only">(required)</span>
+              </label>
+              <input
+                id="reg-username"
+                type="text"
+                autoComplete="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                onBlur={(e) => {
+                  const v = e.target.value
+                  if (v && v.length < 3) setError('Username must be at least 3 characters')
+                  else if (v && !/^[a-zA-Z0-9_]+$/.test(v)) setError('Username can only contain letters, numbers, and underscores')
+                  else if (error.startsWith('Username')) setError('')
+                }}
+                className="input"
+                placeholder="ex: chevyGuy95"
+                required
+                minLength={3}
+                aria-describedby="reg-username-help"
+              />
+              <p id="reg-username-help" style={{ fontSize: '11px', marginTop: '4px', color: '#3a3a3a' }}>This will be your profile URL</p>
             </div>
 
             {authMethod === 'email' ? (
               <>
                 <div style={{ marginBottom: '16px' }}>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Email</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="you@example.com" required />
+                  <label htmlFor="reg-email" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
+                    Email <span aria-hidden="true">*</span> <span className="sr-only">(required)</span>
+                  </label>
+                  <input id="reg-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="you@example.com" required />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Password</label>
-                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="Min 8 characters" required minLength={8} />
+                  <label htmlFor="reg-password" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
+                    Password <span aria-hidden="true">*</span> <span className="sr-only">(required, minimum 8 characters)</span>
+                  </label>
+                  <input
+                    id="reg-password"
+                    type="password"
+                    autoComplete="new-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="input"
+                    placeholder="Min 8 characters"
+                    required
+                    minLength={8}
+                    aria-describedby="reg-password-help"
+                  />
+                  <p id="reg-password-help" style={{ fontSize: '11px', marginTop: '4px', color: '#3a3a3a' }}>At least 8 characters.</p>
                 </div>
               </>
             ) : (
               <div style={{ marginBottom: '20px' }}>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Phone Number</label>
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="input" placeholder="+1 (555) 123-4567" required />
-                <p className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>Include country code (e.g. +1 for US)</p>
+                <label htmlFor="reg-phone" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
+                  Phone Number <span aria-hidden="true">*</span> <span className="sr-only">(required)</span>
+                </label>
+                <input id="reg-phone" type="tel" autoComplete="tel" inputMode="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="input" placeholder="+1 (555) 123-4567" required aria-describedby="reg-phone-help" />
+                <p id="reg-phone-help" style={{ fontSize: '11px', marginTop: '4px', color: '#3a3a3a' }}>Include country code (e.g. +1 for US)</p>
               </div>
             )}
 
             {error && (
-              <div className="text-sm" style={{ background: '#fce9e9', border: '1px solid #c02b2b', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#7a1818' }}>
-                {error}
+              <div id="reg-form-error" role="alert" aria-live="polite" style={{ background: '#fce9e9', border: '1px solid #c02b2b', borderRadius: '3px', padding: '12px 16px', marginBottom: '16px', color: '#7a1818', fontSize: '13px' }}>
+                <span aria-hidden="true" style={{ marginRight: '4px' }}>⚠</span>{error}
               </div>
             )}
 
@@ -211,9 +252,9 @@ export default function RegisterPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-muted-light" style={{ marginTop: '24px' }}>
+          <p className="text-center" style={{ marginTop: '24px', fontSize: '14px', color: '#2c3e50' }}>
             Already have an account?{' '}
-            <Link href="/auth/login" className="text-purple-light hover:text-neon-light font-medium">Sign In</Link>
+            <Link href="/auth/login" style={{ color: '#1c58b8', fontWeight: 700 }}>Sign In</Link>
           </p>
         </div>
       </div>

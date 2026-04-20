@@ -397,9 +397,11 @@ footer a:hover { color: #2c79c4; text-decoration: underline; }
    BUTTONS
    ============================================ */
 
-/* Primary CTA — sky-blue gradient with subtle glow on hover.
+/* Primary CTA — sky-blue gradient darkened so white 700-weight text
+   clears WCAG AA (4.5:1) at every vertical slice of the gradient.
+   Previous gradient (#5fa8dd → #2c79c4) landed at ~3.4:1 mid-button.
    Minimum 36px tall on desktop, 44px on mobile so every CTA clears
-   the WCAG/Apple touch-target minimum. */
+   the Apple HIG / MD touch-target minimum. */
 .btn-primary,
 .btn-neon {
   display: inline-flex;
@@ -408,9 +410,9 @@ footer a:hover { color: #2c79c4; text-decoration: underline; }
   gap: 6px;
   padding: 8px 16px;
   min-height: 36px;
-  background: linear-gradient(180deg, #5fa8dd 0%, #2c79c4 100%);
+  background: linear-gradient(180deg, #3f8ad1 0%, #1d4d7a 100%);
   color: #fff;
-  border: 1px solid #1d4d7a;
+  border: 1px solid #174261;
   border-radius: 3px;
   font-weight: 700;
   font-size: 13px;
@@ -418,9 +420,9 @@ footer a:hover { color: #2c79c4; text-decoration: underline; }
   letter-spacing: 0;
   cursor: pointer;
   transition: transform 0.12s, box-shadow 0.18s, background 0.12s;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.35);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.25),
     inset 0 -1px 0 rgba(0,0,0,0.15),
     0 1px 2px rgba(0,0,0,0.18);
 }
@@ -429,12 +431,12 @@ footer a:hover { color: #2c79c4; text-decoration: underline; }
 }
 .btn-primary:hover,
 .btn-neon:hover {
-  background: linear-gradient(180deg, #78baeb 0%, #3f8ad1 100%);
+  background: linear-gradient(180deg, #4291d5 0%, #21567e 100%);
   color: #fff;
   text-decoration: none;
   transform: translateY(-1px);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.32),
     inset 0 -1px 0 rgba(0,0,0,0.15),
     0 3px 10px rgba(44, 121, 196, 0.45),
     0 1px 2px rgba(0,0,0,0.2);
@@ -567,7 +569,9 @@ footer a:hover { color: #2c79c4; text-decoration: underline; }
     0 0 0 3px rgba(79, 195, 247, 0.28),
     0 0 12px rgba(44, 121, 196, 0.15);
 }
-.input::placeholder { color: #9a9a9a; }
+/* Placeholder text — WCAG 1.4.11 wants ≥ 3:1 against its own surface.
+   #9a9a9a on white was 2.7:1; #6b6b6b lands ~5:1. */
+.input::placeholder { color: #6b6b6b; opacity: 1; }
 
 /* Light-themed date picker */
 input[type="date"],
@@ -644,6 +648,33 @@ nav .nav-desktop button[style*="transparent"]:hover {
   .nav-desktop { display: flex; }
   .nav-mobile-toggle { display: none; }
   .nav-mobile-menu { display: none; }
+}
+
+/* ============================================
+   FORM VALIDATION — inline error pattern
+   ============================================ */
+
+/* Error text sits directly under the field it describes. Red enough
+   to pass AA, paired with an icon glyph so color isn't the only cue. */
+.field-error {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7a1818;
+  line-height: 1.4;
+}
+.field-error::before {
+  content: '⚠ ';
+  font-weight: 800;
+  margin-right: 2px;
+}
+
+/* When an input has aria-invalid="true", tint the border red so the
+   field itself reinforces the error that's announced beside it. */
+.input[aria-invalid="true"] {
+  border-color: #c02b2b;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05), 0 0 0 2px rgba(192,43,43,0.15);
 }
 
 /* ============================================

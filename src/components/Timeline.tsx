@@ -52,6 +52,8 @@ function timeAgo(date: string) {
 }
 
 // Renders #hashtags and @mentions as sky-blue links inline in post content.
+// Each link gets an aria-label so screen readers hear "View posts tagged
+// foo" or "View username profile" instead of just "hashtag foo".
 const TOKEN_RE = /(#[a-zA-Z0-9_]+|@[a-zA-Z0-9_]{3,30})/g
 function renderPostContent(text: string | null) {
   if (!text) return null
@@ -63,10 +65,29 @@ function renderPostContent(text: string | null) {
     if (start > last) out.push(text.slice(last, start))
     const tok = m[0]
     if (tok.startsWith('#')) {
-      out.push(<Link key={i++} href={`/feed?tag=${tok.slice(1).toLowerCase()}`} style={{ color: '#2c79c4', fontWeight: 700 }}>#{tok.slice(1)}</Link>)
+      const tag = tok.slice(1)
+      out.push(
+        <Link
+          key={i++}
+          href={`/feed?tag=${tag.toLowerCase()}`}
+          aria-label={`View posts tagged ${tag}`}
+          style={{ color: '#1c58b8', fontWeight: 700, textDecoration: 'underline' }}
+        >
+          #{tag}
+        </Link>
+      )
     } else {
       const uname = tok.slice(1)
-      out.push(<Link key={i++} href={`/user/${uname}`} style={{ color: '#2c79c4', fontWeight: 700 }}>@{uname}</Link>)
+      out.push(
+        <Link
+          key={i++}
+          href={`/user/${uname}`}
+          aria-label={`View ${uname}'s profile`}
+          style={{ color: '#1c58b8', fontWeight: 700, textDecoration: 'underline' }}
+        >
+          @{uname}
+        </Link>
+      )
     }
     last = start + tok.length
   }

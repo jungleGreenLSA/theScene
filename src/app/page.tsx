@@ -106,7 +106,7 @@ export default async function Home() {
       <section className="section-block">
         <div className="section-head">
           <h2>Where The Action Is</h2>
-          <Link href="/explore">Explore Near You →</Link>
+          <Link href="/explore" aria-label="Explore members near you">Explore Near You →</Link>
         </div>
         <div className="section-body">
           <MemberHeatmap />
@@ -143,7 +143,7 @@ export default async function Home() {
       <section className="section-block">
         <div className="section-head">
           <h2>Free or Premium — you pick</h2>
-          <Link href="/pricing">See Full Plans →</Link>
+          <Link href="/pricing" aria-label="See full membership plan comparison">See Full Plans →</Link>
         </div>
         <div className="section-body">
           <div style={{
@@ -265,7 +265,7 @@ export default async function Home() {
         <section className="section-block">
           <div className="section-head">
             <h2>Ride of the Week</h2>
-            {isMember && <Link href="/explore?sort=propped">See Leaderboard →</Link>}
+            {isMember && <Link href="/explore?sort=propped" aria-label="See the most-propped builds leaderboard">See Leaderboard →</Link>}
           </div>
           <div className="section-body">
             {isMember ? (
