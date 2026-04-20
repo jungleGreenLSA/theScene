@@ -1,11 +1,23 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 export default function RegisterPage() {
+  return (
+    <Suspense fallback={null}>
+      <RegisterForm />
+    </Suspense>
+  )
+}
+
+function RegisterForm() {
   const supabaseCheck = createClient()
+  const searchParams = useSearchParams()
+  const initialTier: 'free' | 'premium' = searchParams.get('plan') === 'premium' ? 'premium' : 'free'
+
   useEffect(() => {
     supabaseCheck.auth.getSession().then(({ data: { session } }) => {
       if (session) window.location.href = '/feed'
@@ -22,6 +34,7 @@ export default function RegisterPage() {
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
+  const [tier, setTier] = useState<'free' | 'premium'>(initialTier)
   const supabase = createClient()
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -40,19 +53,32 @@ export default function RegisterPage() {
       return
     }
 
+    // Stash the chosen tier on the new user's metadata so the rest of
+    // the app (and the pricing/checkout flow) can read it back. Free
+    // users don't need a Stripe trip; premium selection redirects to
+    // /pricing?signup=1 after email confirmation where Stripe takes over.
+    const metadata = {
+      username: username.toLowerCase(),
+      first_name: firstName,
+      last_name: lastName,
+      full_name: `${firstName} ${lastName}`.trim(),
+      intended_tier: tier,
+    }
+    const nextParam = tier === 'premium' ? '?next=/pricing%3Fsignup%3D1' : ''
+
     let result
     if (authMethod === 'phone') {
       result = await supabase.auth.signInWithOtp({
         phone,
-        options: { data: { username: username.toLowerCase() } },
+        options: { data: metadata },
       })
     } else {
       result = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: { username: username.toLowerCase(), first_name: firstName, last_name: lastName, full_name: `${firstName} ${lastName}`.trim() },
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback`,
+          data: metadata,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback${nextParam}`,
         },
       })
     }
@@ -66,9 +92,12 @@ export default function RegisterPage() {
     }
   }
 
-  function RedirectToHome() {
+  function PostSignupRedirect() {
     useEffect(() => {
-      const t = setTimeout(() => { window.location.href = 'https://thescene.fyi' }, 2500)
+      const dest = tier === 'premium'
+        ? '/pricing?signup=1'
+        : 'https://thescene.fyi'
+      const t = setTimeout(() => { window.location.href = dest }, 2500)
       return () => clearTimeout(t)
     }, [])
     return null
@@ -85,20 +114,23 @@ export default function RegisterPage() {
     if (error) setError(error.message)
   }
 
-  // A tiny toast appears and the page redirects to the homepage — no
-  // full-screen "Check Your Email" interstitial.
+  // Post-signup toast — copy adapts to the picked tier so premium
+  // users know we're taking them to checkout after confirmation.
   if (success) {
     return (
       <>
         <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
-          <div className="glass" style={{ padding: '20px 24px', maxWidth: '380px', width: '100%', display: 'flex', alignItems: 'center', gap: '14px', borderColor: 'rgba(34,197,94,0.25)' }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a' }}>Check your email!</p>
-              <p style={{ fontSize: '12px', color: '#666666', marginTop: '2px' }}>Verification link sent to {email}. Redirecting home...</p>
-            </div>
+          <div className="section-block" style={{ padding: '20px 24px', maxWidth: '420px', width: '100%' }}>
+            <p style={{ fontSize: '15px', fontWeight: 800, color: '#0d3556', marginBottom: '4px' }}>Check your email!</p>
+            <p style={{ fontSize: '13px', color: '#2c3e50', lineHeight: 1.5 }}>
+              Verification link sent to <strong>{email}</strong>.{' '}
+              {tier === 'premium'
+                ? 'Once you confirm, we\u2019ll take you to checkout for Premium ($4.99/mo).'
+                : 'Redirecting you back to the homepage...'}
+            </p>
           </div>
         </div>
-        <RedirectToHome />
+        <PostSignupRedirect />
       </>
     )
   }
@@ -113,7 +145,67 @@ export default function RegisterPage() {
           <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>Create your garage and show off your build</p>
         </div>
 
-        <div className="glass" style={{ padding: '36px 32px' }}>
+        <div className="glass" style={{ padding: '28px 28px' }}>
+          {/* Tier picker — visible at top so users pick Free vs Premium
+              before filling the form. Defaults to ?plan= from URL. */}
+          <fieldset style={{ border: 'none', padding: 0, margin: '0 0 22px' }}>
+            <legend className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ marginBottom: '8px', color: '#1d4d7a' }}>
+              Pick your plan
+            </legend>
+            <div role="radiogroup" aria-label="Membership tier" style={{
+              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px',
+            }}>
+              {(['free', 'premium'] as const).map(opt => {
+                const active = tier === opt
+                return (
+                  <button
+                    key={opt}
+                    type="button"
+                    role="radio"
+                    aria-checked={active}
+                    onClick={() => setTier(opt)}
+                    style={{
+                      padding: '12px 14px',
+                      textAlign: 'left',
+                      background: active
+                        ? (opt === 'premium' ? 'linear-gradient(180deg, #eaf4fb 0%, #d7e9f5 100%)' : '#ffffff')
+                        : '#fafafa',
+                      border: active
+                        ? (opt === 'premium' ? '2px solid #2c79c4' : '2px solid #1d4d7a')
+                        : '1px solid #c4c4c4',
+                      borderRadius: '3px',
+                      cursor: 'pointer',
+                      minHeight: '80px',
+                      display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                      transition: 'border-color 0.12s, transform 0.12s',
+                      boxShadow: active ? '0 2px 6px rgba(44,121,196,0.2)' : 'none',
+                    }}
+                  >
+                    <span style={{
+                      fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.6px',
+                      color: opt === 'premium' ? '#1d4d7a' : '#3a3a3a',
+                    }}>
+                      {opt === 'premium' ? 'Premium' : 'Free'}
+                    </span>
+                    <span style={{ fontSize: '18px', fontWeight: 800, color: '#0d3556', marginTop: '2px' }}>
+                      {opt === 'premium' ? '$4.99' : '$0'}
+                      <span style={{ fontSize: '11px', fontWeight: 500, color: '#2c3e50' }}>/mo</span>
+                    </span>
+                    <span style={{ fontSize: '11px', color: '#2c3e50', marginTop: '4px', lineHeight: 1.35 }}>
+                      {opt === 'premium'
+                        ? 'Unlimited vehicles, analytics, priority placement.'
+                        : '1 vehicle, 5 photos each, full community access.'}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+            {tier === 'premium' && (
+              <p style={{ fontSize: '11px', color: '#2c3e50', marginTop: '8px' }}>
+                After you confirm your email, we&apos;ll send you to checkout ($4.99/mo or $49.99/yr).
+              </p>
+            )}
+          </fieldset>
           {/* OAuth Buttons */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
             <button
