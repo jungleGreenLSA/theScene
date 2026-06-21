@@ -47,10 +47,11 @@ export default function ShopsPage() {
     : shops
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 16px 40px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 className="text-3xl font-bold">Car <span style={{ color: '#22c55e' }}>Shops</span></h1>
+          <p className="eyebrow" style={{ marginBottom: '4px' }}>Directory</p>
+          <h1 className="text-3xl font-bold">Car <span className="gradient-text">Shops</span></h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>Performance, detail, fab, tune — find the shops building your scene.</p>
         </div>
         <Link href="/shops/create" className="btn-primary text-xs">+ Add Shop</Link>
@@ -79,7 +80,7 @@ export default function ShopsPage() {
         <div className="glass text-center" style={{ padding: '48px 32px' }}>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No shops yet</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '20px' }}>Be the first to add a shop to The Scene.</p>
-          <Link href="/shops/create" className="btn-neon">+ Add a Shop</Link>
+          <Link href="/shops/create" className="btn-primary">+ Add a Shop</Link>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
@@ -89,7 +90,7 @@ export default function ShopsPage() {
                 {shop.cover_image_url ? (
                   <img src={shop.cover_image_url} alt={shop.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }} />
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(45,212,191,0.08), rgba(139,92,246,0.08))' }} />
                 )}
                 {shop.logo_url && (
                   <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(255,255,255,0.06)' }}>
@@ -98,19 +99,19 @@ export default function ShopsPage() {
                 )}
               </div>
               <div style={{ padding: '16px' }}>
-                <h3 className="font-bold text-foreground group-hover:text-success transition-colors" style={{ fontSize: '0.95rem' }}>{shop.name}</h3>
+                <h3 className="font-bold text-foreground group-hover:text-teal transition-colors" style={{ fontSize: '0.95rem' }}>{shop.name}</h3>
                 {shop.city && shop.state && (
                   <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>{shop.city}, {shop.state}</p>
                 )}
                 {shop.specialties && shop.specialties.length > 0 && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
                     {shop.specialties.slice(0, 3).map((t, i) => (
-                      <span key={i} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>{t}</span>
+                      <span key={i} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.2)', color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>{t}</span>
                     ))}
                   </div>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="text-muted" style={{ fontSize: '12px' }}>{shop.tag_count} {shop.tag_count === 1 ? 'build' : 'builds'}</span>
+                  <span className="text-muted spec" style={{ fontSize: '12px' }}>{shop.tag_count} {shop.tag_count === 1 ? 'build' : 'builds'}</span>
                 </div>
               </div>
             </Link>

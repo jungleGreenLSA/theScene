@@ -152,7 +152,7 @@ export default function SettingsPage() {
           <label style={{ cursor: 'pointer', position: 'relative' }}>
             <div style={{
               width: '72px', height: '72px', borderRadius: '50%', flexShrink: 0,
-              border: '2px solid rgba(124,58,237,0.3)',
+              border: '2px solid rgba(45,212,191,0.3)',
               backgroundImage: profile?.avatar_url ? `url(${profile.avatar_url})` : 'none',
               backgroundSize: 'cover', backgroundPosition: 'center',
               backgroundColor: 'rgba(26,26,46,0.5)',
@@ -160,7 +160,7 @@ export default function SettingsPage() {
             }}>
               {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px' }}>ADD</span>}
             </div>
-            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#7c3aed', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'white' }}>+</div>
+            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#2dd4bf', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#0d1117' }}>+</div>
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={async (e) => {
               const file = e.target.files?.[0]
               if (!file || !profile) return
@@ -272,7 +272,7 @@ export default function SettingsPage() {
         </div>
 
         <div style={{ textAlign: 'right', marginTop: '8px' }}>
-          <button onClick={() => { setMessage('Profile saved!'); setTimeout(() => setMessage(''), 3000) }} style={{ padding: '10px 24px', borderRadius: '8px', background: '#7c3aed', border: '1px solid #a78bfa', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={() => { setMessage('Profile saved!'); setTimeout(() => setMessage(''), 3000) }} className="btn-teal" style={{ padding: '10px 24px', fontSize: '13px', cursor: 'pointer' }}>
             Save Changes
           </button>
         </div>
@@ -296,14 +296,14 @@ export default function SettingsPage() {
                 }}
                 style={{
                   width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
-                  background: on ? '#7c3aed' : 'rgba(255,255,255,0.08)',
+                  background: on ? '#2dd4bf' : 'rgba(255,255,255,0.08)',
                   position: 'relative', transition: 'background 0.2s',
                   flexShrink: 0, marginLeft: '16px',
                 }}
               >
                 <span style={{
                   position: 'absolute', top: '3px', left: on ? '23px' : '3px',
-                  width: '18px', height: '18px', borderRadius: '50%', background: 'white',
+                  width: '18px', height: '18px', borderRadius: '50%', background: on ? '#0d1117' : 'white',
                   transition: 'left 0.2s',
                 }} />
               </button>
@@ -338,10 +338,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: profile?.is_public ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-              color: profile?.is_public ? '#a78bfa' : '#6b7280',
+              background: profile?.is_public ? 'rgba(45,212,191,0.15)' : 'rgba(18,18,30,0.5)',
+              color: profile?.is_public ? '#2dd4bf' : '#6b7280',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: profile?.is_public ? '2px solid #7c3aed' : '1px solid rgba(255,255,255,0.06)',
+              outline: profile?.is_public ? '2px solid rgba(45,212,191,0.5)' : '1px solid rgba(255,255,255,0.06)',
             }}
           >
             Public
@@ -351,10 +351,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: !profile?.is_public ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-              color: !profile?.is_public ? '#a78bfa' : '#6b7280',
+              background: !profile?.is_public ? 'rgba(45,212,191,0.15)' : 'rgba(18,18,30,0.5)',
+              color: !profile?.is_public ? '#2dd4bf' : '#6b7280',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: !profile?.is_public ? '2px solid #7c3aed' : '1px solid rgba(255,255,255,0.06)',
+              outline: !profile?.is_public ? '2px solid rgba(45,212,191,0.5)' : '1px solid rgba(255,255,255,0.06)',
             }}
           >
             Private
@@ -497,7 +497,7 @@ export default function SettingsPage() {
           Delete My Account
         </button>
         <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '8px' }}>
-          Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" style={{ color: '#a78bfa' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
+          Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" className="text-teal" style={{ textDecoration: 'none' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
         </p>
       </div>
     </div>

@@ -67,25 +67,25 @@ export default function CreateShopPage() {
   }
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/shops" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Shops</Link>
+    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 16px 40px' }}>
+      <Link href="/shops" className="text-muted-light hover:text-teal" style={{ fontSize: '13px', display: 'block', marginBottom: '20px' }}>&larr; Back to Shops</Link>
 
-      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Add a <span style={{ color: '#22c55e' }}>Shop</span></h1>
+      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Add a <span className="gradient-text">Shop</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '28px' }}>List a shop so other members can tag it on their builds.</p>
 
       <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px' }}>
         <div style={{ marginBottom: '16px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Shop Name *</label>
+          <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>Shop Name *</label>
           <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" placeholder='e.g. "Dallas Performance"' required maxLength={120} />
         </div>
 
         <div style={{ marginBottom: '16px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Description</label>
+          <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>Description</label>
           <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" rows={3} placeholder="What does this shop do? What are they known for?" />
         </div>
 
         <div style={{ marginBottom: '16px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(autocomplete via Google Maps)</span></label>
+          <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(autocomplete via Google Maps)</span></label>
           <AddressAutocomplete
             placeholder="Start typing the shop's address..."
             onChange={(a: ParsedAddress) => setForm(f => ({
@@ -100,39 +100,39 @@ export default function CreateShopPage() {
           />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 120px), 1fr))', gap: '12px', marginBottom: '16px' }}>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>City *</label>
+            <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>City *</label>
             <input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} className="input" placeholder="Dallas" required />
           </div>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>State *</label>
+            <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>State *</label>
             <input value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} className="input" placeholder="TX" required maxLength={2} style={{ textTransform: 'uppercase' }} />
           </div>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>ZIP</label>
+            <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>ZIP</label>
             <input value={form.zip_code} onChange={(e) => setForm({ ...form, zip_code: e.target.value })} className="input" placeholder="75201" maxLength={10} />
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '12px', marginBottom: '16px' }}>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Website</label>
+            <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>Website</label>
             <input value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} className="input" placeholder="https://..." />
           </div>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Instagram</label>
+            <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>Instagram</label>
             <input value={form.instagram_handle} onChange={(e) => setForm({ ...form, instagram_handle: e.target.value })} className="input" placeholder="@handle" />
           </div>
         </div>
 
         <div style={{ marginBottom: '16px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Phone</label>
+          <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>Phone</label>
           <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input" placeholder="(555) 555-5555" />
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '8px' }}>Specialties</label>
+          <label className="label-mono" style={{ display: 'block', marginBottom: '8px' }}>Specialties</label>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {SPECIALTY_OPTIONS.map(s => (
               <button
@@ -141,9 +141,9 @@ export default function CreateShopPage() {
                 onClick={() => toggleSpecialty(s)}
                 style={{
                   padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: form.specialties.includes(s) ? 'rgba(34,197,94,0.2)' : 'rgba(18,18,30,0.5)',
-                  color: form.specialties.includes(s) ? '#22c55e' : '#6b7280',
-                  outline: form.specialties.includes(s) ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.specialties.includes(s) ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
+                  color: form.specialties.includes(s) ? '#2dd4bf' : '#6b7280',
+                  outline: form.specialties.includes(s) ? '1px solid rgba(45,212,191,0.3)' : '1px solid rgba(255,255,255,0.06)',
                 }}
               >
                 {s}
@@ -156,7 +156,7 @@ export default function CreateShopPage() {
           <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444', fontSize: '13px' }}>{error}</div>
         )}
 
-        <button type="submit" disabled={loading} className="btn-neon" style={{ width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.5 : 1 }}>
+        <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.5 : 1 }}>
           {loading ? 'Creating shop...' : 'Add Shop'}
         </button>
       </form>

@@ -32,13 +32,28 @@ export default function ShareButton({ url, title, text, label = 'Share', small =
     }
   }
 
-  const padding = small ? '5px 10px' : '8px 14px'
+  const padding = small ? '6px 12px' : '8px 14px'
   const fontSize = small ? '11px' : '12px'
 
   return (
     <button
       onClick={share}
-      style={{ padding, borderRadius: '6px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
+      style={{
+        padding,
+        borderRadius: '6px',
+        background: 'rgba(45,212,191,0.08)',
+        border: '1px solid rgba(45,212,191,0.25)',
+        color: copied ? '#2dd4bf' : '#9ca3af',
+        fontSize,
+        fontWeight: 600,
+        cursor: 'pointer',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '6px',
+        whiteSpace: 'nowrap',
+        minHeight: '44px',
+        transition: 'color 0.15s, border-color 0.15s',
+      }}
     >
       {copied ? '✓ Link copied' : fail ? 'Copy failed' : `🔗 ${label}`}
     </button>

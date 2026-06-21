@@ -21,7 +21,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: `${data.year} ${data.make} ${data.model}`,
       subhead: `${data.color ? data.color + ' · ' : ''}by ${owner?.display_name || owner?.username || 'a Scene member'}`,
       tag: 'BUILD',
-      accent: '#a78bfa',
+      accent: '#2dd4bf',
       image: data.primary_image_url,
     }
   }
@@ -56,7 +56,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: data.name,
       subhead: data.description || 'A car club on The Scene',
       tag: 'CLUB',
-      accent: '#a78bfa',
+      accent: '#2dd4bf',
       image: data.cover_image_url,
     }
   }
@@ -79,7 +79,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ type: s
             <span style={{ fontSize: 28, color: '#9ca3af' }}>{data.subhead}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 4, color: '#e2e4e9' }}>THE<span style={{ color: '#a78bfa' }}>SCENE</span></span>
+            <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 4, color: '#e2e4e9' }}>THE<span style={{ color: '#2dd4bf' }}>SCENE</span></span>
             <span style={{ fontSize: 20, color: '#6b7280' }}>· thescene.fyi</span>
           </div>
         </div>

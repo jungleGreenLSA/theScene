@@ -64,7 +64,7 @@ export default function CollectionsPage() {
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>My <span className="text-purple-light">Collections</span></h1>
+      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>My <span className="gradient-text">Collections</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.85rem', marginBottom: '24px' }}>Builds, events, and mods you&apos;ve saved for later</p>
 
       {items.length === 0 ? (
@@ -77,7 +77,7 @@ export default function CollectionsPage() {
           {items.map((item) => (
             <div key={item.id} className="glass" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <span className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>{item.target_type}</span>
+                <span className="eyebrow" style={{ fontSize: '10px' }}>{item.target_type}</span>
                 {item.note && <p className="text-muted-light" style={{ fontSize: '13px', marginTop: '4px' }}>{item.note}</p>}
                 <p className="text-muted" style={{ fontSize: '11px', marginTop: '2px' }}>Saved {new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
               </div>

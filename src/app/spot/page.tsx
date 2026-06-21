@@ -102,13 +102,14 @@ export default function SpotPage() {
   }
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 16px 40px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 className="text-3xl font-bold">Spot a <span className="text-neon-light">Ride</span></h1>
+          <p className="eyebrow" style={{ marginBottom: '4px' }}>The Scene</p>
+          <h1 className="text-3xl font-bold">Spot a <span style={{ color: '#2dd4bf' }}>Ride</span></h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>See a cool car? Snap it. Share it. The owner might be on The Scene.</p>
         </div>
-        <button onClick={() => setShowForm(!showForm)} className="btn-neon" style={{ fontSize: '12px' }}>
+        <button onClick={() => setShowForm(!showForm)} className={showForm ? 'btn-outline' : 'btn-teal'} style={{ fontSize: '12px', minHeight: '44px' }}>
           {showForm ? 'Cancel' : 'Spot a Ride'}
         </button>
       </div>
@@ -119,12 +120,12 @@ export default function SpotPage() {
 
       {showForm && (
         <form onSubmit={handleSubmit} className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h3 className="font-bold text-foreground" style={{ marginBottom: '16px' }}>Post a Sighting</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+          <p className="eyebrow" style={{ marginBottom: '14px' }}>Post a Sighting</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '12px', marginBottom: '12px' }}>
             <input value={form.location_name} onChange={(e) => setForm({ ...form, location_name: e.target.value })} className="input" placeholder="Where? (e.g. Starbucks on Elm St)" required />
             <div style={{ display: 'flex', gap: '8px' }}>
               <input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} className="input" placeholder="City" required style={{ flex: 2 }} />
-              <input value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} className="input" placeholder="ST" required style={{ flex: 0.6, textTransform: 'uppercase' }} maxLength={2} />
+              <input value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value })} className="input" placeholder="ST" required style={{ flex: '0 0 60px', textTransform: 'uppercase' }} maxLength={2} />
             </div>
           </div>
           <input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" placeholder="What did you spot? (e.g. Jungle Green Chevy SS, heavily modified)" style={{ marginBottom: '12px' }} />
@@ -140,14 +141,14 @@ export default function SpotPage() {
             />
           </div>
           <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} className="input" style={{ marginBottom: '12px', fontSize: '13px' }} required />
-          <button type="submit" disabled={uploading} className="btn-neon" style={{ opacity: uploading ? 0.5 : 1, fontSize: '12px' }}>
+          <button type="submit" disabled={uploading} className="btn-teal" style={{ opacity: uploading ? 0.5 : 1, fontSize: '12px', minHeight: '44px' }}>
             {uploading ? 'Posting...' : 'Post Sighting'}
           </button>
         </form>
       )}
 
       {loading ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {[1,2,3].map(i => <div key={i} className="glass animate-pulse" style={{ height: '300px' }} />)}
         </div>
       ) : sightings.length === 0 ? (
@@ -156,7 +157,7 @@ export default function SpotPage() {
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Be the first to spot a cool ride in the wild!</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {sightings.map((s) => (
             <div key={s.id} className="glass overflow-hidden card-hover">
               <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
@@ -194,7 +195,7 @@ export default function SpotPage() {
                   <ClaimSightingButton sightingId={s.id} spotterId={s.spotter_id} alreadyClaimed={!!s.claimed_vehicle_id} onClaimed={() => setSightings(sightings.map(x => x.id === s.id ? { ...x, claimed_vehicle_id: 'claimed' } as any : x))} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px' }}>
-                  <span className="text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  <span className="spec text-muted" style={{ fontSize: '11px' }}>{new Date(s.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
                   {currentUserId === s.spotter_id && (
                     <button onClick={() => handleDeleteSighting(s.id)} className="btn-danger-sm">Delete</button>
                   )}

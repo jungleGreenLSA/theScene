@@ -123,13 +123,13 @@ export default function WWYDPage() {
   }
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 16px 40px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 className="text-3xl font-bold">What Would <span className="text-neon-light">You Do?</span></h1>
+          <h1 className="text-3xl font-bold">What Would <span className="gradient-text">You Do?</span></h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>Got a budget? Ask the community what to do next.</p>
         </div>
-        <button onClick={() => setShowForm(!showForm)} className="btn-neon" style={{ fontSize: '12px' }}>
+        <button onClick={() => setShowForm(!showForm)} className="btn-primary" style={{ fontSize: '12px', minHeight: '44px', padding: '10px 20px' }}>
           {showForm ? 'Cancel' : 'Ask the Community'}
         </button>
       </div>
@@ -137,24 +137,24 @@ export default function WWYDPage() {
       {showForm && (
         <form onSubmit={handleSubmit} className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
           <div style={{ marginBottom: '12px' }}>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Question</label>
+            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Question</label>
             <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input" placeholder='e.g. "I have $3,000 to spend, what should I do next?"' required />
           </div>
           <div style={{ marginBottom: '12px' }}>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Budget</label>
+            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Budget</label>
             <input value={form.budget} onChange={(e) => setForm({ ...form, budget: e.target.value })} className="input" placeholder="$3,000" />
           </div>
           <div style={{ marginBottom: '12px' }}>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Details (optional)</label>
+            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Details (optional)</label>
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" rows={2} placeholder="Tell the community about your car and what you're thinking..." />
           </div>
           <div style={{ marginBottom: '12px' }}>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Photo of your car (optional)</label>
+            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Photo of your car (optional)</label>
             <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '13px' }} />
             {imageFile && <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '4px' }}>{imageFile.name}</p>}
           </div>
           <div style={{ marginBottom: '16px' }}>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(2–4 choices)</span></label>
+            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none', fontSize: '11px', fontFamily: 'inherit', letterSpacing: 0 }}>(2–4 choices)</span></label>
             {form.options.map((opt, i) => (
               <div key={i} style={{ display: 'flex', gap: '6px', marginBottom: '6px' }}>
                 <input value={opt} onChange={(e) => { const o = [...form.options]; o[i] = e.target.value; setForm({ ...form, options: o }) }} className="input" placeholder={`Option ${i + 1}`} style={{ flex: 1 }} required={i < 2} />
@@ -167,7 +167,7 @@ export default function WWYDPage() {
               <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', cursor: 'pointer' }}>+ Add option ({4 - form.options.length} more)</button>
             )}
           </div>
-          <button type="submit" disabled={submitting} className="btn-neon" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px' }}>
+          <button type="submit" disabled={submitting} className="btn-teal" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px', minHeight: '44px', padding: '10px 24px' }}>
             {submitting ? 'Posting...' : 'Post Question'}
           </button>
         </form>
@@ -194,8 +194,8 @@ export default function WWYDPage() {
                     {post.author?.avatar_url ? <img src={post.author.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#6b7280' }}>{post.author?.username?.charAt(0).toUpperCase()}</div>}
                   </Link>
                   <div style={{ flex: 1 }}>
-                    <Link href={`/user/${post.author?.username}`} className="font-semibold text-foreground hover:text-purple-light" style={{ fontSize: '14px' }}>{post.author?.display_name || post.author?.username}</Link>
-                    <p className="text-muted" style={{ fontSize: '11px' }}>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+                    <Link href={`/user/${post.author?.username}`} className="font-semibold text-foreground" style={{ fontSize: '14px', transition: 'color 0.2s' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#57f1db')} onMouseLeave={(e) => (e.currentTarget.style.color = '')}>{post.author?.display_name || post.author?.username}</Link>
+                    <p className="spec text-muted" style={{ fontSize: '11px' }}>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                   </div>
                   {currentUserId === post.author?.id && (
                     <button onClick={() => handleDeletePost(post.id)} className="btn-danger-sm">Delete</button>
@@ -208,7 +208,7 @@ export default function WWYDPage() {
                     <img src={post.image_url} alt="" style={{ width: '100%', maxHeight: '360px', objectFit: 'cover' }} />
                   </div>
                 )}
-                {post.budget && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>Budget: {post.budget}</span>}
+                {post.budget && <span style={{ display: 'inline-block', padding: '4px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>Budget: <span className="spec" style={{ fontSize: '12px', color: 'inherit' }}>{post.budget}</span></span>}
                 {post.description && <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '14px', lineHeight: 1.5 }}>{post.description}</p>}
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -226,16 +226,16 @@ export default function WWYDPage() {
                           overflow: 'hidden', transition: 'all 0.2s',
                         }}
                       >
-                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${pct}%`, background: 'rgba(124,58,237,0.15)', transition: 'width 0.5s ease', borderRadius: '8px' }} />
+                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${pct}%`, background: 'rgba(45,212,191,0.12)', transition: 'width 0.5s ease', borderRadius: '8px' }} />
                         <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <span className="text-foreground" style={{ fontSize: '14px', fontWeight: 500 }}>{opt.label}</span>
-                          <span className="text-muted-light" style={{ fontSize: '12px', fontWeight: 600 }}>{opt.vote_count} vote{opt.vote_count !== 1 ? 's' : ''} {totalVotes > 0 && `(${Math.round(pct)}%)`}</span>
+                          <span className="spec text-muted-light" style={{ fontSize: '12px' }}>{opt.vote_count} vote{opt.vote_count !== 1 ? 's' : ''} {totalVotes > 0 && `(${Math.round(pct)}%)`}</span>
                         </div>
                       </button>
                     )
                   })}
                 </div>
-                <p className="text-muted" style={{ fontSize: '11px', marginTop: '8px' }}>{totalVotes} total vote{totalVotes !== 1 ? 's' : ''}</p>
+                <p className="text-muted" style={{ fontSize: '11px', marginTop: '8px' }}><span className="spec" style={{ fontSize: '11px' }}>{totalVotes}</span> total vote{totalVotes !== 1 ? 's' : ''}</p>
               </div>
             )
           })}

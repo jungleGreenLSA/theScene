@@ -116,7 +116,7 @@ export default function OnboardingWizard() {
 
   if (!open || !profile) return null
 
-  const stepColor = '#a78bfa'
+  const stepColor = '#2dd4bf'
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>

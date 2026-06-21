@@ -54,10 +54,10 @@ function renderPostContent(text: string | null) {
     const tok = m[0]
     if (tok.startsWith('#')) {
       const tag = tok.slice(1).toLowerCase()
-      out.push(<Link key={i++} href={`/feed?tag=${tag}`} style={{ color: '#a78bfa', fontWeight: 600 }}>#{tok.slice(1)}</Link>)
+      out.push(<Link key={i++} href={`/feed?tag=${tag}`} style={{ color: '#2dd4bf', fontWeight: 600 }}>#{tok.slice(1)}</Link>)
     } else {
       const uname = tok.slice(1)
-      out.push(<Link key={i++} href={`/user/${uname}`} style={{ color: '#a78bfa', fontWeight: 600 }}>@{uname}</Link>)
+      out.push(<Link key={i++} href={`/user/${uname}`} style={{ color: '#2dd4bf', fontWeight: 600 }}>@{uname}</Link>)
     }
     last = start + tok.length
   }
@@ -130,7 +130,7 @@ function renderActivity(a: Activity) {
         <p style={{ fontSize: '14px', color: '#e2e4e9' }}>
           <Link href={`/user/${username}`} style={{ fontWeight: 600, color: '#e2e4e9' }}>{name}</Link>
           {' started following '}
-          <Link href={`/user/${m.following_username}`} style={{ fontWeight: 600, color: '#a78bfa' }}>@{m.following_username}</Link>
+          <Link href={`/user/${m.following_username}`} style={{ fontWeight: 600, color: '#2dd4bf' }}>@{m.following_username}</Link>
         </p>
       )
     case 'created_event':
@@ -304,10 +304,10 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
 
   const toggle = !filterTag && (
     <div style={{ display: 'inline-flex', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '3px', marginBottom: '16px' }}>
-      <button onClick={() => setMode('following')} style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'following' ? 'rgba(124,58,237,0.2)' : 'transparent', color: mode === 'following' ? '#a78bfa' : '#6b7280' }}>
+      <button onClick={() => setMode('following')} style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'following' ? 'rgba(45,212,191,0.15)' : 'transparent', color: mode === 'following' ? '#2dd4bf' : '#6b7280' }}>
         Following {mode === 'following' && followingCount > 0 && `(${followingCount})`}
       </button>
-      <button onClick={() => setMode('all')} style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'all' ? 'rgba(124,58,237,0.2)' : 'transparent', color: mode === 'all' ? '#a78bfa' : '#6b7280' }}>
+      <button onClick={() => setMode('all')} style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'all' ? 'rgba(45,212,191,0.15)' : 'transparent', color: mode === 'all' ? '#2dd4bf' : '#6b7280' }}>
         All
       </button>
     </div>
@@ -346,7 +346,7 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
       {toggle}
       {filterTag && (
         <div className="glass" style={{ padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <p style={{ fontSize: '13px', color: '#e2e4e9' }}>Showing posts tagged <span style={{ color: '#a78bfa', fontWeight: 700 }}>#{filterTag}</span></p>
+          <p style={{ fontSize: '13px', color: '#e2e4e9' }}>Showing posts tagged <span style={{ color: '#2dd4bf', fontWeight: 700 }}>#{filterTag}</span></p>
           <Link href="/feed" style={{ fontSize: '12px', color: '#6b7280' }}>Clear filter</Link>
         </div>
       )}

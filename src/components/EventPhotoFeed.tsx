@@ -96,7 +96,7 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
             </Link>
             <div className="flex-1 min-w-0">
               <p className="text-sm text-foreground">
-                <Link href={`/user/${post.author?.username}`} className="font-semibold hover:text-purple-light">
+                <Link href={`/user/${post.author?.username}`} className="font-semibold hover:text-teal-light">
                   {post.author?.display_name || post.author?.username}
                 </Link>
                 {post.vehicle && (
@@ -104,8 +104,8 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
                     {' '}
                     <span className="text-muted-light">—</span>
                     {' '}
-                    <Link href={`/user/${post.author?.username}/${post.vehicle.slug}`} className="text-purple-light hover:text-neon-light">
-                      {post.vehicle.year} {post.vehicle.make} {post.vehicle.model}
+                    <Link href={`/user/${post.author?.username}/${post.vehicle.slug}`} className="text-teal hover:text-teal-light">
+                      <span className="spec">{post.vehicle.year} {post.vehicle.make} {post.vehicle.model}</span>
                     </Link>
                   </>
                 )}
@@ -137,14 +137,15 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
             )}
 
             <div className="flex items-center gap-5 pt-2 border-t border-border">
-              <button onClick={() => handleProp(post.id)} className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light py-1">
-                <span>{propCounts[post.id] || 0} Props</span>
+              <button onClick={() => handleProp(post.id)} className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-teal py-1" style={{ minHeight: '44px' }}>
+                <span><span className="spec">{propCounts[post.id] || 0}</span> Props</span>
               </button>
               <button
                 onClick={() => setExpandedPhoto(expandedPhoto === post.id ? null : post.id)}
-                className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-purple-light py-1"
+                className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-teal py-1"
+                style={{ minHeight: '44px' }}
               >
-                <span>{post.comment_count || 0} Comments</span>
+                <span><span className="spec">{post.comment_count || 0}</span> Comments</span>
               </button>
             </div>
 

@@ -27,9 +27,9 @@ function project(lat: number, lng: number): { x: number; y: number } | null {
 type EntityType = 'events' | 'clubs' | 'shops'
 
 const CONFIG: Record<EntityType, { color: string; label: string }> = {
-  events: { color: '249,115,22', label: 'shows' },
-  clubs: { color: '124,58,237', label: 'clubs' },
-  shops: { color: '34,197,94', label: 'shops' },
+  events: { color: '45,212,191', label: 'shows' },
+  clubs: { color: '167,139,250', label: 'clubs' },
+  shops: { color: '139,92,246', label: 'shops' },
 }
 
 interface Dot { x: number; y: number; label: string; count: number; intensity: number }
@@ -126,8 +126,8 @@ export default function SceneHeatmap({ type, title }: Props) {
   return (
     <div className="glass" style={{ padding: '16px', overflow: 'hidden', borderRadius: '12px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>{title}</h3>
-        <span style={{ fontSize: '11px', color: '#6b7280' }}>
+        <span className="eyebrow">{title}</span>
+        <span className="spec" style={{ fontSize: '11px', color: '#6b7280' }}>
           {total} {total === 1 ? cfg.label.slice(0, -1) : cfg.label}
         </span>
       </div>

@@ -24,7 +24,7 @@ export default function AdSlot({ placement, className = '' }: AdSlotProps) {
   if (process.env.NODE_ENV === 'production') return null
 
   return (
-    <div className={`border border-dashed border-purple/20 rounded-lg flex items-center justify-center bg-surface/50 my-6 ${styles[placement]} ${className}`}>
+    <div className={`rounded-lg flex items-center justify-center my-6 ${styles[placement]} ${className}`} style={{ border: '1px dashed rgba(45,212,191,0.2)', background: 'rgba(27,27,35,0.5)' }}>
       <div className="text-center">
         <p className="text-xs text-muted uppercase tracking-wider font-semibold">Ad Slot: {placement}</p>
         <p className="text-[10px] text-muted mt-1">Monetization placeholder — hidden in production</p>

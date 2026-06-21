@@ -79,14 +79,14 @@ export default function NotificationsPage() {
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '4px' }}>Notifications</h1>
-      <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '20px' }}>Join requests, guestbook signs, and mentions show up here.</p>
+      <h1 className="text-2xl font-bold text-foreground" style={{ marginBottom: '4px' }}>Notifications</h1>
+      <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '20px' }}>Join requests, guestbook signs, and mentions show up here.</p>
 
       {loading ? (
-        <p style={{ fontSize: '13px', color: '#6b7280' }}>Loading...</p>
+        <p className="text-muted" style={{ fontSize: '13px' }}>Loading...</p>
       ) : items.length === 0 ? (
         <div className="glass" style={{ padding: '32px', textAlign: 'center' }}>
-          <p style={{ fontSize: '14px', color: '#8892a4' }}>Nothing new. Check back later.</p>
+          <p className="text-muted-light" style={{ fontSize: '14px' }}>Nothing new. Check back later.</p>
         </div>
       ) : (
         <div className="glass" style={{ padding: '8px' }}>
@@ -97,8 +97,9 @@ export default function NotificationsPage() {
               style={{
                 display: 'flex', gap: '12px', alignItems: 'flex-start',
                 padding: '14px', borderRadius: '8px',
-                background: n.is_read ? 'transparent' : 'rgba(124,58,237,0.05)',
+                background: n.is_read ? 'transparent' : 'rgba(45,212,191,0.05)',
                 borderBottom: '1px solid rgba(255,255,255,0.04)',
+                borderLeft: n.is_read ? '2px solid transparent' : '2px solid rgba(45,212,191,0.4)',
               }}
             >
               <div style={{ fontSize: '22px', flexShrink: 0, width: '28px', textAlign: 'center' }}>
@@ -112,10 +113,10 @@ export default function NotificationsPage() {
                 </div>
               )}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '14px', color: '#e2e4e9', lineHeight: 1.4 }}>
+                <p className="text-foreground" style={{ fontSize: '14px', lineHeight: 1.4 }}>
                   {n.message || 'New activity'}
                 </p>
-                <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>{timeAgo(n.created_at)}</p>
+                <p className="spec text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>{timeAgo(n.created_at)}</p>
               </div>
             </Link>
           ))}

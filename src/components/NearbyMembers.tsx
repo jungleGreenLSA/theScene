@@ -48,24 +48,23 @@ export default function NearbyMembers() {
   return (
     <div className="glass" style={{ padding: '16px', marginBottom: '16px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-        <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#e2e4e9', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          Near {userLocation}
-        </h3>
+        <span className="eyebrow">Near {userLocation}</span>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         {members.slice(0, 5).map(m => (
           <Link key={m.user_id} href={`/user/${m.username}`}
-            style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px', borderRadius: '6px' }}
+            className="card-hover"
+            style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px', borderRadius: '8px', minHeight: '44px' }}
           >
             <div style={{ flexShrink: 0 }}>
-              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', backgroundImage: m.avatar_url ? `url(${m.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {!m.avatar_url && <span style={{ fontSize: '10px', color: '#6b7280' }}>{m.username?.charAt(0).toUpperCase()}</span>}
+              <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(45,212,191,0.1)', backgroundImage: m.avatar_url ? `url(${m.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(45,212,191,0.2)' }}>
+                {!m.avatar_url && <span style={{ fontSize: '11px', color: '#2dd4bf', fontWeight: 700 }}>{m.username?.charAt(0).toUpperCase()}</span>}
               </div>
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: '12px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.display_name || m.username}</p>
+              <p style={{ fontSize: '12px', fontWeight: 600, color: '#e4e1ed', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.display_name || m.username}</p>
             </div>
-            <span style={{ fontSize: '10px', color: '#6b7280' }}>{m.vehicle_count} ride{m.vehicle_count === 1 ? '' : 's'}</span>
+            <span className="spec" style={{ fontSize: '10px', color: '#6b7280', flexShrink: 0 }}>{m.vehicle_count} ride{m.vehicle_count === 1 ? '' : 's'}</span>
           </Link>
         ))}
       </div>

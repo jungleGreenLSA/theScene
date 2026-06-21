@@ -68,16 +68,18 @@ export default function AddressAutocomplete({
         required={required}
         autoComplete="off"
       />
-      {warning && <p style={{ fontSize: '11px', color: '#f59e0b', marginTop: '4px' }}>{warning} — fill fields manually below.</p>}
+      {warning && <p style={{ fontSize: '11px', color: '#eab308', marginTop: '4px' }}>{warning} — fill fields manually below.</p>}
       {open && suggestions.length > 0 && (
-        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', zIndex: 50, maxHeight: '280px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
+        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: '#13131b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', overflow: 'hidden', zIndex: 50, maxHeight: '280px', overflowY: 'auto', boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(45,212,191,0.06)' }}>
           {suggestions.map((s, i) => (
             <button
               key={i}
               type="button"
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => pick(s)}
-              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'none', border: 'none', borderBottom: i < suggestions.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: 'pointer', color: '#e2e4e9', fontSize: '13px' }}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '11px 14px', background: 'none', border: 'none', borderBottom: i < suggestions.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none', cursor: 'pointer', color: '#e4e1ed', fontSize: '13px', minHeight: '44px', transition: 'background 0.15s, color 0.15s' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(45,212,191,0.08)'; (e.currentTarget as HTMLButtonElement).style.color = '#2dd4bf' }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; (e.currentTarget as HTMLButtonElement).style.color = '#e4e1ed' }}
             >
               {s.formatted}
             </button>

@@ -61,15 +61,20 @@ export default function PropsButton({ targetType, targetId, initialCount = 0, si
       disabled={busy}
       style={{
         display: 'flex', alignItems: 'center', gap: '6px',
-        padding: '0', background: 'none', border: 'none',
+        padding: size === 'sm' ? '6px 8px' : '8px 10px',
+        background: 'none', border: 'none',
         fontSize, fontWeight: 600, cursor: busy ? 'default' : 'pointer',
-        color: propped ? '#fb923c' : '#8892a4',
+        color: propped ? '#2dd4bf' : '#9ca3af',
         transition: 'all 0.2s',
         transform: animating ? 'scale(1.15)' : 'scale(1)',
         opacity: busy ? 0.6 : 1,
+        minHeight: '44px',
+        borderRadius: '6px',
       }}
+      aria-pressed={propped}
+      aria-label={`Props (${count})`}
     >
-      <span>👍 {count} Props</span>
+      <span className={propped ? 'text-glow-teal' : ''}>👍 <span className="spec">{count}</span> Props</span>
     </button>
   )
 }

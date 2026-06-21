@@ -17,8 +17,8 @@ export default function SupportWidget() {
           width: '48px',
           height: '48px',
           borderRadius: '50%',
-          background: '#7c3aed',
-          border: '1px solid #a78bfa',
+          background: '#0f766e',
+          border: '1px solid #2dd4bf',
           color: 'white',
           fontSize: '20px',
           cursor: 'pointer',
@@ -26,7 +26,7 @@ export default function SupportWidget() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 0 20px rgba(124,58,237,0.3)',
+          boxShadow: '0 0 20px rgba(45,212,191,0.3)',
           transition: 'all 0.2s',
         }}
         aria-label="Support"
@@ -57,7 +57,8 @@ export default function SupportWidget() {
             See an issue?{' '}
             <a
               href="mailto:support@thescene.fyi?subject=Bug Report"
-              className="text-purple-light hover:text-neon-light font-semibold"
+              className="font-semibold"
+              style={{ color: '#2dd4bf' }}
             >
               Report it here
             </a>
@@ -67,8 +68,7 @@ export default function SupportWidget() {
             <p className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>Or reach us directly:</p>
             <a
               href="mailto:support@thescene.fyi"
-              className="text-purple-light hover:text-neon-light"
-              style={{ fontSize: '0.85rem', fontWeight: 600 }}
+              style={{ fontSize: '0.85rem', fontWeight: 600, color: '#2dd4bf' }}
             >
               support@thescene.fyi
             </a>

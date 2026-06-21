@@ -118,7 +118,7 @@ export default function AnalyticsPage() {
 
   return (
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Garage <span className="text-purple-light">Analytics</span></h1>
+      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Garage <span className="gradient-text">Analytics</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.85rem', marginBottom: '24px' }}>See who&apos;s checking out your builds</p>
 
       {/* Vehicle selector */}
@@ -138,11 +138,11 @@ export default function AnalyticsPage() {
       {/* Overview stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '12px', marginBottom: '24px' }}>
         <div className="glass" style={{ padding: '20px', textAlign: 'center' }}>
-          <div className="text-purple-light font-bold" style={{ fontSize: '2rem' }}>{selectedV?.view_count || 0}</div>
+          <div className="spec" style={{ fontSize: '2rem', fontWeight: 700, color: '#2dd4bf' }}>{selectedV?.view_count || 0}</div>
           <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Total Views</div>
         </div>
         <div className="glass" style={{ padding: '20px', textAlign: 'center' }}>
-          <div className="text-neon-light font-bold" style={{ fontSize: '2rem' }}>{selectedV?.props_count || 0}</div>
+          <div className="spec" style={{ fontSize: '2rem', fontWeight: 700, color: '#2dd4bf' }}>{selectedV?.props_count || 0}</div>
           <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Props</div>
         </div>
         <div className="glass" style={{ padding: '20px', textAlign: 'center' }}>
@@ -202,7 +202,7 @@ export default function AnalyticsPage() {
                   <p className="text-muted" style={{ fontSize: '11px' }}>@{v.username}</p>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <p className="text-purple-light font-bold" style={{ fontSize: '14px' }}>{v.view_count}x</p>
+                  <p className="spec" style={{ fontSize: '14px', color: '#2dd4bf', fontWeight: 700 }}>{v.view_count}x</p>
                   <p className="text-muted" style={{ fontSize: '10px' }}>last {new Date(v.last_viewed).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                 </div>
               </Link>

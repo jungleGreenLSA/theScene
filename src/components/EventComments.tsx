@@ -70,7 +70,9 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
 
   return (
     <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Comments ({comments.length})</h2>
+      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e4e1ed', marginBottom: '14px' }}>
+        Comments <span className="spec">({comments.length})</span>
+      </h2>
 
       {message && (
         <div style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{message}</div>
@@ -92,7 +94,7 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
                 </Link>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px', flexWrap: 'wrap' }}>
-                    <Link href={`/user/${c.author?.username}`} style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>
+                    <Link href={`/user/${c.author?.username}`} style={{ fontSize: '13px', fontWeight: 600, color: '#e4e1ed' }}>
                       {c.author?.display_name || c.author?.username}
                     </Link>
                     <span style={{ fontSize: '11px', color: '#6b7280' }}>{timeAgo(c.created_at)}</span>
@@ -120,7 +122,7 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
             style={{ resize: 'vertical', minHeight: '60px' }}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '11px', fontWeight: 600, color: draft.length > 450 ? '#fb923c' : '#6b7280' }}>{500 - draft.length}</span>
+            <span className="spec" style={{ color: draft.length > 450 ? '#f97316' : '#6b7280' }}>{500 - draft.length}</span>
             <button type="submit" disabled={submitting || !draft.trim()} className="btn-primary" style={{ fontSize: '12px', padding: '8px 20px', opacity: (submitting || !draft.trim()) ? 0.5 : 1 }}>
               {submitting ? 'Posting...' : 'Post Comment'}
             </button>

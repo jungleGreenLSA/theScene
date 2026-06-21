@@ -13,13 +13,13 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 
 export default function CookiePage() {
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/" className="text-muted-light hover:text-purple-light" style={{ fontSize: '13px', display: 'block', marginBottom: '24px' }}>&larr; Back to Home</Link>
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px clamp(16px, 4vw, 32px) 40px' }}>
+      <Link href="/" className="text-muted-light hover:text-teal-light" style={{ fontSize: '13px', display: 'block', marginBottom: '24px' }}>&larr; Back to Home</Link>
 
-      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Cookie <span className="text-purple-light">Policy</span></h1>
-      <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Effective: April 17, 2026</p>
+      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Cookie <span className="gradient-text">Policy</span></h1>
+      <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Effective: <span className="spec">April 17, 2026</span></p>
 
-      <div className="glass" style={{ padding: '32px' }}>
+      <div className="glass" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
           <Section title="1. What cookies are">
@@ -61,12 +61,12 @@ export default function CookiePage() {
           </Section>
 
           <Section title="7. Related policies">
-            <p>• <Link href="/privacy" className="text-purple-light hover:text-neon-light">Privacy Policy</Link> — what personal data we collect and how we use it.</p>
-            <p>• <Link href="/terms" className="text-purple-light hover:text-neon-light">Terms of Service</Link> — the rules for using The Scene.</p>
+            <p>• <Link href="/privacy">Privacy Policy</Link> — what personal data we collect and how we use it.</p>
+            <p>• <Link href="/terms">Terms of Service</Link> — the rules for using The Scene.</p>
           </Section>
 
           <Section title="8. Contact">
-            <p><a href="mailto:support@thescene.fyi" className="text-purple-light hover:text-neon-light">support@thescene.fyi</a> for cookie-related questions.</p>
+            <p><a href="mailto:support@thescene.fyi">support@thescene.fyi</a> for cookie-related questions.</p>
           </Section>
 
         </div>

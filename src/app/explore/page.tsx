@@ -139,17 +139,18 @@ export default function ExplorePage() {
 
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 16px 40px' }}>
       {/* Header */}
       <div className="text-center" style={{ marginBottom: '24px' }}>
-        <h1 className="text-3xl font-bold">Explore <span className="text-purple-light">The Scene</span></h1>
+        <p className="eyebrow" style={{ marginBottom: '8px' }}>Discovery</p>
+        <h1 className="text-3xl font-bold">Explore <span className="gradient-text">The Scene</span></h1>
         <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>
-          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: '#a78bfa' }}>{nearbyState}</span></> : ' across the country'}
+          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: '#2dd4bf' }}>{nearbyState}</span></> : ' across the country'}
         </p>
       </div>
 
       {/* Search Bar */}
-      <form onSubmit={handleSearch} className="glass" style={{ padding: '20px', marginBottom: '12px' }}>
+      <form onSubmit={handleSearch} className="glass" style={{ padding: '16px 20px', marginBottom: '12px' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'stretch' }}>
           <input
             type="text"
@@ -176,7 +177,7 @@ export default function ExplorePage() {
 
         {searchCoords && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '12px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#6b7280' }}>Within</span>
+            <span className="eyebrow">Within</span>
             <div style={{ display: 'inline-flex', borderRadius: '6px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
               {RADIUS_OPTIONS.map(opt => (
                 <button
@@ -185,15 +186,15 @@ export default function ExplorePage() {
                   onClick={() => setRadius(opt.miles)}
                   style={{
                     padding: '6px 12px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600,
-                    background: radius === opt.miles ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-                    color: radius === opt.miles ? '#a78bfa' : '#8892a4',
+                    background: radius === opt.miles ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
+                    color: radius === opt.miles ? '#2dd4bf' : '#8892a4',
                   }}
                 >
                   {opt.label}
                 </button>
               ))}
             </div>
-            <span style={{ fontSize: '12px', color: '#8892a4' }}>of <span style={{ color: '#a78bfa', fontWeight: 600 }}>{locationText}</span></span>
+            <span style={{ fontSize: '12px', color: '#8892a4' }}>of <span style={{ color: '#2dd4bf', fontWeight: 600 }}>{locationText}</span></span>
             <button type="button" onClick={clearCity} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#6b7280', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
           </div>
         )}
@@ -206,7 +207,7 @@ export default function ExplorePage() {
 
       {/* Vehicle Grid / Results */}
       {loading ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {[1,2,3].map(i => (
             <div key={i} className="glass overflow-hidden animate-pulse">
               <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)' }} />
@@ -224,7 +225,7 @@ export default function ExplorePage() {
           <Link href="/auth/register" className="btn-neon">Create Your Garage</Link>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {vehicles.map((vehicle) => (
             <Link
               key={vehicle.id}
@@ -240,18 +241,18 @@ export default function ExplorePage() {
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 ) : null}
-                <span className="text-purple-light" style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '4px 8px', borderRadius: '4px', background: 'rgba(12,12,20,0.8)', border: '1px solid rgba(124,58,237,0.3)' }}>
+                <span className="eyebrow" style={{ position: 'absolute', top: '10px', right: '10px', padding: '4px 8px', borderRadius: '4px', background: 'rgba(12,12,20,0.8)', border: '1px solid rgba(45,212,191,0.25)' }}>
                   {vehicle.build_status?.replace('_', ' ')}
                 </span>
               </div>
 
               <div style={{ padding: '16px' }}>
-                <h3 className="font-bold text-foreground group-hover:text-purple-light transition-colors" style={{ fontSize: '0.95rem' }}>
-                  {vehicle.year} {vehicle.make} {vehicle.model}
+                <h3 className="font-bold text-foreground group-hover:text-teal-light transition-colors" style={{ fontSize: '0.95rem' }}>
+                  <span className="spec" style={{ fontSize: '0.95rem', color: 'inherit' }}>{vehicle.year}</span> {vehicle.make} {vehicle.model}
                 </h3>
                 <p className="text-muted-light" style={{ fontSize: '13px', marginTop: '4px' }}>
                   {vehicle.color}
-                  {vehicle.horsepower && <span> · {vehicle.horsepower}</span>}
+                  {vehicle.horsepower && <span> · <span className="spec" style={{ fontSize: '13px' }}>{vehicle.horsepower}</span></span>}
                 </p>
                 {vehicle.owner?.location && (
                   <p className="text-muted" style={{ fontSize: '12px', marginTop: '4px' }}>{vehicle.owner.location}</p>
@@ -271,8 +272,8 @@ export default function ExplorePage() {
                     <span className="text-muted-light" style={{ fontSize: '12px' }}>{vehicle.owner?.username}</span>
                   </div>
                   <div className="text-muted" style={{ display: 'flex', gap: '10px', fontSize: '12px' }}>
-                    <span>{vehicle.props_count || 0} props</span>
-                    <span>{vehicle.view_count || 0} views</span>
+                    <span><span className="spec" style={{ fontSize: '12px' }}>{vehicle.props_count || 0}</span> props</span>
+                    <span><span className="spec" style={{ fontSize: '12px' }}>{vehicle.view_count || 0}</span> views</span>
                   </div>
                 </div>
               </div>

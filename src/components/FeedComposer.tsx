@@ -66,7 +66,7 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
       {hashtags.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
           {hashtags.map(tag => (
-            <span key={tag} style={{ fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '4px', background: 'rgba(124,58,237,0.12)', border: '1px solid rgba(124,58,237,0.25)', color: '#a78bfa' }}>#{tag}</span>
+            <span key={tag} className="chip" style={{ fontSize: '11px' }}>#{tag}</span>
           ))}
         </div>
       )}
@@ -78,7 +78,7 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
       )}
       {error && <p style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{error}</p>}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-        <label style={{ cursor: 'pointer', fontSize: '12px', fontWeight: 600, color: '#a78bfa', padding: '6px 12px', borderRadius: '6px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.25)' }}>
+        <label style={{ cursor: 'pointer', fontSize: '12px', fontWeight: 600, color: '#2dd4bf', padding: '6px 12px', borderRadius: '6px', background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.25)' }}>
           Add Photo
           <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </label>

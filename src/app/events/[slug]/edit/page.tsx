@@ -120,16 +120,15 @@ export default function EditEventPage() {
     setCochairs(cochairs.filter(c => c.id !== cochairId))
   }
 
-  const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }
-
-  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading...</div>
+  // labelStyle replaced by eyebrow class — see JSX below
+  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#9ca3af' }}>Loading...</div>
 
   return (
-    <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href={`/events/${slug}`} style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Event</Link>
+    <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 16px 40px' }}>
+      <Link href={`/events/${slug}`} style={{ fontSize: '13px', color: '#2dd4bf', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', textDecoration: 'none' }}>&larr; Back to Event</Link>
 
-      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '28px' }}>
-        Edit <span style={{ color: '#fb923c' }}>Event</span>
+      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e4e1ed', marginBottom: '28px' }}>
+        Edit <span style={{ color: '#2dd4bf' }}>Event</span>
       </h1>
 
       {message && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e' }}>{message}</div>}
@@ -138,16 +137,16 @@ export default function EditEventPage() {
       <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div className="glass" style={{ padding: '24px' }}>
           <div style={{ marginBottom: '12px' }}>
-            <label style={labelStyle}>Title</label>
+            <label className="eyebrow" style={{ marginBottom: '6px' }}>Title</label>
             <input name="title" value={form.title} onChange={handleChange} className="input" required maxLength={128} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
-            <div><label style={labelStyle}>Date</label><input type="date" name="event_date" value={form.event_date} onChange={handleChange} className="input" required /></div>
-            <div><label style={labelStyle}>Time</label><input type="time" name="event_time" value={form.event_time} onChange={handleChange} className="input" /></div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px', marginBottom: '12px' }}>
+            <div><label className="eyebrow" style={{ marginBottom: '6px' }}>Date</label><input type="date" name="event_date" value={form.event_date} onChange={handleChange} className="input" required /></div>
+            <div><label className="eyebrow" style={{ marginBottom: '6px' }}>Time</label><input type="time" name="event_time" value={form.event_time} onChange={handleChange} className="input" /></div>
           </div>
-          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Venue</label><input name="location_name" value={form.location_name} onChange={handleChange} className="input" maxLength={128} /></div>
+          <div style={{ marginBottom: '12px' }}><label className="eyebrow" style={{ marginBottom: '6px' }}>Venue</label><input name="location_name" value={form.location_name} onChange={handleChange} className="input" maxLength={128} /></div>
           <div style={{ marginBottom: '12px' }}>
-            <label style={labelStyle}>City / State — pick from dropdown to drop a pin on the heatmap</label>
+            <label className="eyebrow" style={{ marginBottom: '6px' }}>City / State — pick from dropdown to drop a pin on the heatmap</label>
             <AddressAutocomplete
               defaultValue={form.city && form.state ? `${form.city}, ${form.state}` : ''}
               placeholder="Start typing a city..."
@@ -161,23 +160,23 @@ export default function EditEventPage() {
               }))}
             />
             {form.city && form.state && (
-              <p style={{ fontSize: '11px', color: form.lat && form.lng ? '#22c55e' : '#fb923c', marginTop: '6px' }}>
+              <p className="spec" style={{ fontSize: '11px', color: form.lat && form.lng ? '#22c55e' : '#2dd4bf', marginTop: '6px' }}>
                 {form.city}, {form.state}{form.lat && form.lng ? ' · geocoded ✓' : ' · geocoding on save'}
               </p>
             )}
           </div>
-          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Address (optional)</label><input name="location_address" value={form.location_address} onChange={handleChange} className="input" maxLength={128} /></div>
-          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Description</label><textarea name="description" value={form.description} onChange={handleChange} className="input" rows={4} maxLength={2000} /></div>
-          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Admission</label><input name="admission_info" value={form.admission_info} onChange={handleChange} className="input" maxLength={128} /></div>
+          <div style={{ marginBottom: '12px' }}><label className="eyebrow" style={{ marginBottom: '6px' }}>Address (optional)</label><input name="location_address" value={form.location_address} onChange={handleChange} className="input" maxLength={128} /></div>
+          <div style={{ marginBottom: '12px' }}><label className="eyebrow" style={{ marginBottom: '6px' }}>Description</label><textarea name="description" value={form.description} onChange={handleChange} className="input" rows={4} maxLength={2000} /></div>
+          <div style={{ marginBottom: '12px' }}><label className="eyebrow" style={{ marginBottom: '6px' }}>Admission</label><input name="admission_info" value={form.admission_info} onChange={handleChange} className="input" maxLength={128} /></div>
           <div>
-            <label style={labelStyle}>Categories</label>
+            <label className="eyebrow" style={{ marginBottom: '6px' }}>Categories</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
               {CATEGORIES.map(cat => (
                 <button key={cat} type="button" onClick={() => toggleCategory(cat)} style={{
                   padding: '5px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: form.categories.includes(cat) ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-                  color: form.categories.includes(cat) ? '#a78bfa' : '#6b7280',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.categories.includes(cat) ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
+                  color: form.categories.includes(cat) ? '#2dd4bf' : '#6b7280',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(45,212,191,0.3)' : '1px solid rgba(255,255,255,0.06)',
                 }}>{cat}</button>
               ))}
             </div>
@@ -186,12 +185,12 @@ export default function EditEventPage() {
 
         {/* Co-chairs */}
         <div className="glass" style={{ padding: '24px' }}>
-          <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>Co-Chairs</h3>
+          <p className="eyebrow" style={{ marginBottom: '8px' }}>Co-Chairs</p>
           <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '12px' }}>Co-chairs can also manage this event.</p>
 
           <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
             <input value={cochairUsername} onChange={(e) => setCochairUsername(e.target.value)} className="input" placeholder="Enter username" maxLength={64} style={{ flex: 1 }} />
-            <button type="button" onClick={handleAddCochair} style={{ padding: '10px 16px', borderRadius: '8px', background: '#7c3aed', border: '1px solid #a78bfa', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Add</button>
+            <button type="button" onClick={handleAddCochair} className="btn-teal" style={{ whiteSpace: 'nowrap', fontSize: '12px' }}>Add</button>
           </div>
 
           {cochairs.length > 0 && (
@@ -206,10 +205,8 @@ export default function EditEventPage() {
           )}
         </div>
 
-        <button type="submit" disabled={saving} style={{
-          width: '100%', padding: '16px', borderRadius: '12px',
-          background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
-          fontSize: '15px', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.5 : 1,
+        <button type="submit" disabled={saving} className="btn-primary" style={{
+          width: '100%', padding: '16px', fontSize: '15px', opacity: saving ? 0.5 : 1,
         }}>
           {saving ? 'Saving...' : 'Save Changes'}
         </button>

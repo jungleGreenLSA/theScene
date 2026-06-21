@@ -6,7 +6,7 @@ export default function GarageQR({ username, vehicleSlug, vehicleId }: { usernam
   const [showQR, setShowQR] = useState(false)
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'
   const garageUrl = `${siteUrl}/ride/${vehicleId}`
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(garageUrl)}&bgcolor=0c0c14&color=a78bfa`
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(garageUrl)}&bgcolor=0c0c14&color=2dd4bf`
 
   return (
     <>

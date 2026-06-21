@@ -108,7 +108,7 @@ export default function RegisterPage() {
       <div style={{ maxWidth: '440px', width: '100%' }}>
         <div className="text-center" style={{ marginBottom: '32px' }}>
           <h1 className="text-3xl font-bold">
-            Join <span className="text-neon-light text-glow-neon">The Scene</span>
+            Join <span className="gradient-text">The Scene</span>
           </h1>
           <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>Create your garage and show off your build</p>
         </div>
@@ -150,14 +150,14 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => setAuthMethod('email')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'email' ? '#a78bfa' : '#6b7280' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)', color: authMethod === 'email' ? '#2dd4bf' : '#6b7280' }}
             >
               Email
             </button>
             <button
               type="button"
               onClick={() => setAuthMethod('phone')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'phone' ? '#a78bfa' : '#6b7280' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)', color: authMethod === 'phone' ? '#2dd4bf' : '#6b7280' }}
             >
               Phone
             </button>
@@ -206,14 +206,14 @@ export default function RegisterPage() {
               </div>
             )}
 
-            <button type="submit" disabled={loading} className="btn-neon" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
+            <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
               {loading ? 'Creating account...' : 'Create Account'}
             </button>
           </form>
 
           <p className="text-center text-sm text-muted-light" style={{ marginTop: '24px' }}>
             Already have an account?{' '}
-            <Link href="/auth/login" className="text-purple-light hover:text-neon-light font-medium">Sign In</Link>
+            <Link href="/auth/login" style={{ color: '#2dd4bf', fontWeight: 600 }}>Sign In</Link>
           </p>
         </div>
       </div>

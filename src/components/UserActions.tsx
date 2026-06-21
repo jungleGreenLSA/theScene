@@ -96,15 +96,19 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
         onClick={() => setOpen(!open)}
         style={{
           background: 'rgba(18,18,30,0.5)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: '8px',
-          padding: '8px 12px',
-          color: '#6b7280',
+          padding: '10px 14px',
+          color: '#9ca3af',
           fontSize: '16px',
           cursor: 'pointer',
           lineHeight: 1,
+          minHeight: '44px',
+          minWidth: '44px',
+          transition: 'border-color 0.15s, color 0.15s',
         }}
         aria-label="User actions"
+        aria-expanded={open}
       >
         ···
       </button>
@@ -116,10 +120,10 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           top: '100%',
           right: 0,
           marginTop: '8px',
-          width: '220px',
+          width: 'min(220px, calc(100vw - 32px))',
           background: 'rgba(18,18,30,0.95)',
           backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: '10px',
           padding: '6px',
           zIndex: 50,
@@ -142,6 +146,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
+              minHeight: '44px',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
@@ -157,7 +162,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               background: 'none',
               border: 'none',
               borderRadius: '6px',
-              color: '#fb923c',
+              color: '#9ca3af',
               fontSize: '13px',
               fontWeight: 600,
               textAlign: 'left',
@@ -165,6 +170,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
+              minHeight: '44px',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
@@ -181,10 +187,10 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           top: '100%',
           right: 0,
           marginTop: '8px',
-          width: '300px',
+          width: 'min(300px, calc(100vw - 32px))',
           background: 'rgba(18,18,30,0.95)',
           backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: '10px',
           padding: '20px',
           zIndex: 50,
@@ -222,7 +228,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
             <button
               onClick={handleReport}
               disabled={loading || !reportReason}
-              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: reportReason ? '#7c3aed' : 'rgba(124,58,237,0.3)', border: 'none', color: 'white', fontSize: '12px', fontWeight: 600, cursor: reportReason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1 }}
+              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: reportReason ? '#2dd4bf' : 'rgba(45,212,191,0.2)', border: 'none', color: reportReason ? '#13131b' : '#6b7280', fontSize: '12px', fontWeight: 700, cursor: reportReason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1, minHeight: '44px' }}
             >
               {loading ? 'Sending...' : 'Submit Report'}
             </button>
@@ -238,12 +244,12 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           left: '50%',
           transform: 'translateX(-50%)',
           background: 'rgba(18,18,30,0.95)',
-          border: '1px solid rgba(124,58,237,0.3)',
+          border: '1px solid rgba(45,212,191,0.3)',
           borderRadius: '10px',
           padding: '14px 24px',
           zIndex: 1000,
           boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
-          maxWidth: '400px',
+          maxWidth: 'min(400px, calc(100vw - 32px))',
         }}>
           <p className="text-foreground" style={{ fontSize: '13px', fontWeight: 500 }}>{message}</p>
         </div>

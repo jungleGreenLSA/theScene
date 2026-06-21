@@ -14,7 +14,7 @@ function renderMentions(text: string): (string | React.ReactElement)[] {
   for (const m of text.matchAll(re)) {
     const start = m.index ?? 0
     if (start > last) out.push(text.slice(last, start))
-    out.push(<Link key={i++} href={`/user/${m[1]}`} style={{ color: '#a78bfa', fontWeight: 600 }}>@{m[1]}</Link>)
+    out.push(<Link key={i++} href={`/user/${m[1]}`} className="text-teal" style={{ fontWeight: 600, textDecoration: 'none' }}>@{m[1]}</Link>)
     last = start + m[0].length
   }
   if (last < text.length) out.push(text.slice(last))
@@ -104,7 +104,7 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
 
   return (
     <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>Guestbook</h2>
+      <h2 className="eyebrow" style={{ marginBottom: '16px' }}>Guestbook</h2>
 
       {/* Entry form */}
       <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
@@ -123,9 +123,8 @@ export default function GuestbookSection({ vehicleId, entries: initialEntries }:
         )}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={{ fontSize: '12px', fontWeight: 600, color: newEntry.length > 100 ? (newEntry.length > 115 ? '#ef4444' : '#fb923c') : '#6b7280' }}>{120 - newEntry.length}</span>
-          <button type="submit" disabled={loading || !newEntry.trim()} style={{
-            padding: '8px 20px', borderRadius: '8px', background: '#7c3aed', border: '1px solid #a78bfa',
-            color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
+          <button type="submit" disabled={loading || !newEntry.trim()} className="btn-teal" style={{
+            padding: '8px 20px', fontSize: '12px', cursor: 'pointer',
             opacity: loading || !newEntry.trim() ? 0.5 : 1,
           }}>
             {loading ? 'Posting...' : 'Sign Guestbook'}

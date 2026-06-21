@@ -46,13 +46,18 @@ export default function SaveButton({ targetType, targetId }: { targetType: strin
       disabled={loading}
       style={{
         background: 'none', border: 'none', cursor: 'pointer',
-        fontSize: '12px', fontWeight: 600, color: saved ? '#a78bfa' : '#8892a4',
-        padding: '4px 8px',
-        opacity: loading ? 0.5 : 1, transition: 'color 0.15s',
+        fontSize: '12px', fontWeight: 600,
+        color: saved ? '#2dd4bf' : '#9ca3af',
+        padding: '8px 10px',
+        minHeight: '44px',
+        opacity: loading ? 0.5 : 1,
+        transition: 'color 0.15s',
+        borderRadius: '6px',
       }}
+      aria-pressed={saved}
       title={saved ? 'Unsave' : 'Save to collection (Premium)'}
     >
-      {saved ? 'Saved' : 'Save'}
+      {saved ? '★ Saved' : '☆ Save'}
     </button>
   )
 }

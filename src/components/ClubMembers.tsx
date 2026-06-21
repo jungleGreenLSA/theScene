@@ -137,8 +137,8 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
 
       {/* Pending requests — admins/founders only */}
       {canManage && pending.length > 0 && (
-        <div className="glass" style={{ padding: '24px', marginBottom: '20px', border: '1px solid rgba(249,115,22,0.25)' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#fb923c', marginBottom: '14px' }}>Pending Requests ({pending.length})</h2>
+        <div className="glass" style={{ padding: '24px', marginBottom: '20px', border: '1px solid rgba(45,212,191,0.2)' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e4e1ed', marginBottom: '14px' }}>Pending Requests <span className="spec" style={{ color: '#2dd4bf' }}>({pending.length})</span></h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {pending.map(m => (
               <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -162,7 +162,7 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
       {/* Members */}
       <div className="glass" style={{ padding: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9' }}>Members ({members.length})</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e4e1ed' }}>Members <span className="spec" style={{ color: '#2dd4bf' }}>({members.length})</span></h2>
         </div>
         {members.length === 0 ? (
           <p style={{ fontSize: '13px', color: '#8892a4' }}>No members yet.</p>
@@ -183,13 +183,13 @@ export default function ClubMembers({ clubId, createdBy }: { clubId: string; cre
                       <Link href={`/user/${m.user?.username}`} style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>
                         {m.user?.display_name || m.user?.username}
                       </Link>
-                      <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', color: '#a78bfa', border: '1px solid rgba(124,58,237,0.2)' }}>
+                      <span className={['founder', 'admin'].includes(m.role) ? 'chip' : 'chip chip-purple'}>
                         {ROLE_BADGES[m.role] || m.role}
                       </span>
                     </div>
                     {v ? (
-                      <Link href={`/user/${m.user?.username}/${v.slug}`} style={{ fontSize: '12px', color: '#8892a4', display: 'block', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {v.year} {v.make} {v.model} {v.color && `— ${v.color}`}
+                      <Link href={`/user/${m.user?.username}/${v.slug}`} style={{ fontSize: '12px', color: '#9ca3af', display: 'block', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <span className="spec">{v.year}</span> {v.make} {v.model}{v.color && <span style={{ color: '#6b7280' }}> — {v.color}</span>}
                       </Link>
                     ) : (
                       <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>No garage yet</p>

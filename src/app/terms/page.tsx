@@ -13,17 +13,17 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 
 export default function TermsPage() {
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/" className="text-muted-light hover:text-purple-light" style={{ fontSize: '13px', display: 'block', marginBottom: '24px' }}>&larr; Back to Home</Link>
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px clamp(16px, 4vw, 32px) 40px' }}>
+      <Link href="/" className="text-muted-light hover:text-teal-light" style={{ fontSize: '13px', display: 'block', marginBottom: '24px' }}>&larr; Back to Home</Link>
 
-      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Terms of <span className="text-purple-light">Service</span></h1>
-      <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Effective: April 17, 2026 · These terms govern your use of thescene.fyi.</p>
+      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Terms of <span className="gradient-text">Service</span></h1>
+      <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Effective: <span className="spec">April 17, 2026</span> · These terms govern your use of thescene.fyi.</p>
 
-      <div className="glass" style={{ padding: '32px' }}>
+      <div className="glass" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
           <Section title="1. Acceptance of terms">
-            <p>By creating an account, signing in, or using The Scene (&quot;the Service&quot;), you agree to these Terms of Service and our <Link href="/privacy" className="text-purple-light hover:text-neon-light">Privacy Policy</Link>. If you don&apos;t agree, don&apos;t use the Service.</p>
+            <p>By creating an account, signing in, or using The Scene (&quot;the Service&quot;), you agree to these Terms of Service and our <Link href="/privacy">Privacy Policy</Link>. If you don&apos;t agree, don&apos;t use the Service.</p>
             <p>We may update these terms. When we do, we&apos;ll change the &quot;Effective&quot; date above and notify you in-app or by email. Continued use after the effective date means you accept the update.</p>
           </Section>
 
@@ -111,7 +111,7 @@ export default function TermsPage() {
           </Section>
 
           <Section title="17. Contact">
-            <p><a href="mailto:support@thescene.fyi" className="text-purple-light hover:text-neon-light">support@thescene.fyi</a> for any questions about these terms.</p>
+            <p><a href="mailto:support@thescene.fyi">support@thescene.fyi</a> for any questions about these terms.</p>
           </Section>
 
         </div>

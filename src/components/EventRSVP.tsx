@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 
 const STATUSES = [
   { value: 'going', label: "I'm Going", color: '#22c55e', bg: 'rgba(34,197,94,0.15)', border: 'rgba(34,197,94,0.3)' },
-  { value: 'maybe', label: 'Might Go', color: '#fb923c', bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)' },
+  { value: 'maybe', label: 'Might Go', color: '#2dd4bf', bg: 'rgba(45,212,191,0.1)', border: 'rgba(45,212,191,0.2)' },
   { value: 'not_going', label: "Can't Make It", color: '#6b7280', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.06)' },
 ]
 
@@ -67,9 +67,10 @@ export default function EventRSVP({ eventId }: { eventId: string }) {
               padding: '8px 18px', borderRadius: '20px', cursor: 'pointer',
               fontSize: '12px', fontWeight: 600, transition: 'all 0.2s',
               background: isSelected ? s.bg : 'rgba(18,18,30,0.5)',
-              border: `1px solid ${isSelected ? s.border : 'rgba(255,255,255,0.06)'}`,
-              color: isSelected ? s.color : '#6b7280',
+              border: `1px solid ${isSelected ? s.border : 'rgba(255,255,255,0.08)'}`,
+              color: isSelected ? s.color : '#9ca3af',
               opacity: loading ? 0.5 : 1,
+              minHeight: '44px',
             }}
           >
             {s.label}

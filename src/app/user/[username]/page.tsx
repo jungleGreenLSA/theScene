@@ -39,7 +39,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
   const totalViews = vehicles?.reduce((sum, v) => sum + (v.view_count || 0), 0) || 0
 
   return (
-    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 16px 40px' }}>
       <div className="profile-grid">
         <div className="profile-grid-sidebar">
 
@@ -47,7 +47,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
       <div className="glass" style={{ padding: '24px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '12px' }}>
           <div style={{ position: 'relative' }}>
-            <div style={{ width: '96px', height: '96px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(124,58,237,0.3)' }}>
+            <div style={{ width: '96px', height: '96px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(45,212,191,0.3)' }}>
               {profile.avatar_url ? (
                 <img src={profile.avatar_url} alt={profile.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
@@ -62,10 +62,10 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', justifyContent: 'center' }}>
               <h1 className="text-2xl font-bold text-foreground">{profile.display_name || profile.username}</h1>
               {profile.subscription_tier === 'premium' && (
-                <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.2)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa' }}>Premium</span>
+                <span className="chip-purple">Premium</span>
               )}
             </div>
-            <p className="text-purple-light" style={{ fontSize: '14px' }}>@{profile.username}</p>
+            <p className="text-teal" style={{ fontSize: '14px' }}>@{profile.username}</p>
           </div>
 
           {profile.location && (
@@ -88,20 +88,20 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
         {/* Stats grid — 2x2 in the narrow sidebar */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '18px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
           <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
-            <div className="text-purple-light font-bold" style={{ fontSize: '1.1rem' }}>{totalProps}</div>
-            <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Props</div>
+            <div className="text-teal font-bold spec" style={{ fontSize: '1.1rem' }}>{totalProps}</div>
+            <div className="label-mono text-muted">Props</div>
           </div>
           <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
-            <div className="text-purple-light font-bold" style={{ fontSize: '1.1rem' }}>{totalViews}</div>
-            <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Views</div>
+            <div className="text-teal font-bold spec" style={{ fontSize: '1.1rem' }}>{totalViews}</div>
+            <div className="label-mono text-muted">Views</div>
           </div>
           <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
-            <div className="text-neon-light font-bold" style={{ fontSize: '1.1rem' }}>{eventsAttended?.length || 0}</div>
-            <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Events</div>
+            <div className="text-teal font-bold spec" style={{ fontSize: '1.1rem' }}>{eventsAttended?.length || 0}</div>
+            <div className="label-mono text-muted">Events</div>
           </div>
           <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
-            <div className="text-neon-light font-bold" style={{ fontSize: '1.1rem' }}>{vehicles?.length || 0}</div>
-            <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>Rides</div>
+            <div className="text-teal font-bold spec" style={{ fontSize: '1.1rem' }}>{vehicles?.length || 0}</div>
+            <div className="label-mono text-muted">Rides</div>
           </div>
         </div>
 
@@ -115,8 +115,8 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
       <div>
 
       {/* Garage */}
-      <h2 className="font-bold text-foreground" style={{ fontSize: '1.2rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-        {profile.display_name || profile.username}&apos;s Garage
+      <h2 className="eyebrow" style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <span className="gradient-text">{profile.display_name || profile.username}&apos;s Garage</span>
       </h2>
 
       {(!vehicles || vehicles.length === 0) ? (
@@ -143,10 +143,10 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
               </div>
               <div style={{ padding: '16px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <h3 className="font-bold text-foreground group-hover:text-purple-light transition-colors" style={{ fontSize: '1rem' }}>
+                  <h3 className="font-bold text-foreground group-hover:text-teal transition-colors" style={{ fontSize: '1rem' }}>
                     {vehicle.year} {vehicle.make} {vehicle.model}
                   </h3>
-                  <span className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)' }}>
+                  <span className="chip">
                     {vehicle.build_status?.replace('_', ' ')}
                   </span>
                 </div>

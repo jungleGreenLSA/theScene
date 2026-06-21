@@ -93,8 +93,8 @@ export default function Navbar() {
     fontSize: '13px',
     fontWeight: 600,
     transition: 'all 0.2s',
-    color: isActive(href) ? '#a78bfa' : '#9ca3af',
-    background: isActive(href) ? 'rgba(124,58,237,0.1)' : 'transparent',
+    color: isActive(href) ? '#2dd4bf' : '#9ca3af',
+    background: isActive(href) ? 'rgba(45,212,191,0.1)' : 'transparent',
     whiteSpace: 'nowrap',
   })
 
@@ -103,8 +103,8 @@ export default function Navbar() {
     padding: '10px 14px',
     fontSize: '13px',
     fontWeight: 600,
-    color: isActive(href) ? '#a78bfa' : '#d1d5db',
-    background: isActive(href) ? 'rgba(124,58,237,0.1)' : 'transparent',
+    color: isActive(href) ? '#2dd4bf' : '#d1d5db',
+    background: isActive(href) ? 'rgba(45,212,191,0.1)' : 'transparent',
     transition: 'background 0.15s',
   })
 
@@ -118,8 +118,8 @@ export default function Navbar() {
     }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', height: '56px', display: 'flex', alignItems: 'center', gap: '16px' }}>
         {/* Logo */}
-        <Link href="/" style={{ flexShrink: 0, fontSize: '16px', fontWeight: 700, letterSpacing: '1.5px', color: '#e2e4e9' }}>
-          THE<span style={{ color: '#a78bfa' }}>SCENE</span>
+        <Link href="/" style={{ flexShrink: 0, fontSize: '17px', fontWeight: 800, letterSpacing: '1.5px', color: '#e4e1ed', display: 'inline-flex', alignItems: 'baseline' }}>
+          THE<span className="brand-text" style={{ fontWeight: 900 }}>SCENE</span>
         </Link>
 
         {/* Search (desktop only, fills available space) */}
@@ -142,8 +142,8 @@ export default function Navbar() {
                 onClick={() => setMoreOpen(!moreOpen)}
                 style={{
                   ...navLinkStyle('/__more'),
-                  background: moreActive ? 'rgba(124,58,237,0.1)' : (moreOpen ? 'rgba(255,255,255,0.04)' : 'transparent'),
-                  color: moreActive ? '#a78bfa' : '#9ca3af',
+                  background: moreActive ? 'rgba(45,212,191,0.1)' : (moreOpen ? 'rgba(255,255,255,0.04)' : 'transparent'),
+                  color: moreActive ? '#2dd4bf' : '#9ca3af',
                   border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '4px',
                 }}
               >
@@ -168,7 +168,7 @@ export default function Navbar() {
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
                 title="Profile menu"
-                style={{ width: '34px', height: '34px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '1px solid rgba(124,58,237,0.3)', cursor: 'pointer', padding: 0, backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                style={{ width: '34px', height: '34px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '1px solid rgba(45,212,191,0.4)', cursor: 'pointer', padding: 0, backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               >
                 {!avatarUrl && <span style={{ fontSize: '11px', fontWeight: 700, color: '#9ca3af' }}>ME</span>}
               </button>
@@ -186,7 +186,7 @@ export default function Navbar() {
           ) : (
             <div style={{ display: 'flex', gap: '8px', marginLeft: '8px' }}>
               <Link href="/auth/login" style={{ padding: '7px 16px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af' }}>Sign In</Link>
-              <Link href="/pricing" style={{ padding: '7px 16px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, background: '#7c3aed', border: '1px solid #a78bfa', color: 'white' }}>Join</Link>
+              <Link href="/pricing" style={{ padding: '7px 16px', borderRadius: '6px', fontSize: '12px', fontWeight: 700, background: 'linear-gradient(135deg, #2dd4bf, #6366f1 55%, #a855f7)', border: 'none', color: '#06121a' }}>Join</Link>
             </div>
           )}
         </div>
@@ -205,8 +205,8 @@ export default function Navbar() {
           {/* Profile / auth — pinned top */}
           <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
             {user ? (
-              <Link href="/settings" onClick={() => setMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '10px', background: 'rgba(124,58,237,0.08)', border: '1px solid rgba(124,58,237,0.2)' }}>
-                <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '2px solid rgba(124,58,237,0.4)', flexShrink: 0, backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Link href="/settings" onClick={() => setMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '10px', background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.2)' }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.8)', border: '2px solid rgba(45,212,191,0.4)', flexShrink: 0, backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {!avatarUrl && <span style={{ fontSize: '13px', fontWeight: 700, color: '#9ca3af' }}>ME</span>}
                 </div>
                 <div style={{ minWidth: 0, flex: 1 }}>
@@ -218,7 +218,7 @@ export default function Navbar() {
             ) : (
               <div style={{ display: 'flex', gap: '8px' }}>
                 <Link href="/auth/login" onClick={() => setMenuOpen(false)} style={{ flex: 1, textAlign: 'center', padding: '14px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#e2e4e9', fontSize: '14px', fontWeight: 700 }}>Sign In</Link>
-                <Link href="/pricing" onClick={() => setMenuOpen(false)} style={{ flex: 1, textAlign: 'center', padding: '14px', borderRadius: '8px', background: '#7c3aed', border: '1px solid #a78bfa', color: 'white', fontSize: '14px', fontWeight: 700 }}>Join</Link>
+                <Link href="/pricing" onClick={() => setMenuOpen(false)} style={{ flex: 1, textAlign: 'center', padding: '14px', borderRadius: '8px', background: 'linear-gradient(135deg, #2dd4bf, #6366f1 55%, #a855f7)', border: 'none', color: '#06121a', fontSize: '14px', fontWeight: 800 }}>Join</Link>
               </div>
             )}
           </div>
@@ -228,7 +228,7 @@ export default function Navbar() {
             <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#6b7280', padding: '12px 8px 6px' }}>Main</p>
             {PRIMARY_LINKS.filter(link => !link.membersOnly || user).map(link => (
               <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
-                style={{ padding: '14px 12px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, color: isActive(link.href) ? '#a78bfa' : '#e2e4e9', background: isActive(link.href) ? 'rgba(124,58,237,0.12)' : 'transparent' }}>
+                style={{ padding: '14px 12px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, color: isActive(link.href) ? '#2dd4bf' : '#e4e1ed', background: isActive(link.href) ? 'rgba(45,212,191,0.12)' : 'transparent' }}>
                 {link.label}
               </Link>
             ))}
@@ -238,7 +238,7 @@ export default function Navbar() {
                 <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#6b7280', padding: '16px 8px 6px' }}>More</p>
                 {MORE_LINKS.map(l => (
                   <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
-                    style={{ padding: '14px 12px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, color: isActive(l.href) ? '#a78bfa' : '#e2e4e9', background: isActive(l.href) ? 'rgba(124,58,237,0.12)' : 'transparent' }}>
+                    style={{ padding: '14px 12px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, color: isActive(l.href) ? '#2dd4bf' : '#e4e1ed', background: isActive(l.href) ? 'rgba(45,212,191,0.12)' : 'transparent' }}>
                     {l.label}
                   </Link>
                 ))}
@@ -246,7 +246,7 @@ export default function Navbar() {
                 <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#6b7280', padding: '16px 8px 6px' }}>You</p>
                 {PROFILE_LINKS.map(l => (
                   <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
-                    style={{ padding: '14px 12px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, color: isActive(l.href) ? '#a78bfa' : '#e2e4e9', background: isActive(l.href) ? 'rgba(124,58,237,0.12)' : 'transparent' }}>
+                    style={{ padding: '14px 12px', borderRadius: '8px', fontSize: '15px', fontWeight: 600, color: isActive(l.href) ? '#2dd4bf' : '#e4e1ed', background: isActive(l.href) ? 'rgba(45,212,191,0.12)' : 'transparent' }}>
                     {l.label}
                   </Link>
                 ))}

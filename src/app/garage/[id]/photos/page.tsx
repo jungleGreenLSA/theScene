@@ -103,40 +103,42 @@ export default function VehiclePhotosPage() {
     setTimeout(() => setMessage(''), 3000)
   }
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading...</div>
-  if (!vehicle) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Vehicle not found</div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#9ca3af' }}>Loading…</div>
+  if (!vehicle) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#9ca3af' }}>Vehicle not found</div>
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/garage" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 24px 40px' }}>
+      <Link href="/garage" style={{ fontSize: '13px', color: '#2dd4bf', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', opacity: 0.8 }}>&larr; Back to Garage</Link>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9' }}>
-            Photos: {vehicle.year} {vehicle.make} {vehicle.model}
+          <p className="eyebrow" style={{ marginBottom: '4px' }}>Photo Gallery</p>
+          <h1 style={{ fontSize: 'clamp(20px, 4vw, 24px)', fontWeight: 700, color: '#e4e1ed' }}>
+            <span className="spec" style={{ fontSize: '11px', color: '#9ca3af', display: 'block', marginBottom: '2px' }}>{vehicle.year}</span>
+            {vehicle.make} {vehicle.model}
           </h1>
-          <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>{images.length} photo{images.length !== 1 ? 's' : ''}</p>
+          <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '4px' }}><span className="spec">{images.length}</span> photo{images.length !== 1 ? 's' : ''}</p>
         </div>
       </div>
 
       {message && (
-        <div style={{ padding: '12px 16px', borderRadius: '8px', background: message.includes('failed') ? 'rgba(239,68,68,0.1)' : 'rgba(34,197,94,0.1)', border: `1px solid ${message.includes('failed') ? 'rgba(239,68,68,0.3)' : 'rgba(34,197,94,0.3)'}`, marginBottom: '16px', fontSize: '13px', color: message.includes('failed') ? '#ef4444' : '#22c55e' }}>
+        <div style={{ padding: '12px 16px', borderRadius: '8px', background: message.includes('failed') || message.includes('capped') ? 'rgba(239,68,68,0.1)' : 'rgba(45,212,191,0.08)', border: `1px solid ${message.includes('failed') || message.includes('capped') ? 'rgba(239,68,68,0.3)' : 'rgba(45,212,191,0.25)'}`, marginBottom: '16px', fontSize: '13px', color: message.includes('failed') || message.includes('capped') ? '#ef4444' : '#2dd4bf' }}>
           {message}
         </div>
       )}
 
       {/* Upload */}
       <div className="glass" style={{ padding: '20px', marginBottom: '20px' }}>
-        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '24px', border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', transition: 'border-color 0.2s' }}>
+        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '24px', border: '2px dashed rgba(45,212,191,0.18)', borderRadius: '8px', cursor: 'pointer', transition: 'border-color 0.2s', minHeight: '80px' }}>
           <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleUpload} style={{ display: 'none' }} disabled={uploading} />
-          <span style={{ fontSize: '14px', color: '#8892a4' }}>{uploading ? 'Uploading...' : 'Click to upload photos (JPEG, PNG, WebP, max 5MB each)'}</span>
+          <span style={{ fontSize: '14px', color: uploading ? '#2dd4bf' : '#9ca3af' }}>{uploading ? 'Uploading...' : 'Click to upload photos (JPEG, PNG, WebP, max 5MB each)'}</span>
         </label>
       </div>
 
       {/* Gallery */}
       {images.length === 0 ? (
         <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
-          <p style={{ color: '#8892a4' }}>No photos yet. Upload some above!</p>
+          <p style={{ color: '#9ca3af' }}>No photos yet. Upload some above!</p>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '12px' }}>
@@ -148,9 +150,9 @@ export default function VehiclePhotosPage() {
               )}
               <div style={{ position: 'absolute', bottom: '6px', right: '6px', display: 'flex', gap: '4px' }}>
                 {vehicle.primary_image_url !== img.image_url && (
-                  <button onClick={() => handleSetPrimary(img.image_url)} title="Set as primary" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#22c55e', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>SET PRIMARY</button>
+                  <button onClick={() => handleSetPrimary(img.image_url)} title="Set as primary" style={{ padding: '8px 10px', borderRadius: '6px', background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(45,212,191,0.4)', color: '#2dd4bf', cursor: 'pointer', fontSize: '9px', fontWeight: 700, minHeight: '36px', fontFamily: 'var(--font-mono, monospace)', letterSpacing: '0.05em' }}>SET PRIMARY</button>
                 )}
-                <button onClick={() => handleDelete(img.id)} title="Delete" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>DELETE</button>
+                <button onClick={() => handleDelete(img.id)} title="Delete" style={{ padding: '8px 10px', borderRadius: '6px', background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(239,68,68,0.4)', color: '#ef4444', cursor: 'pointer', fontSize: '9px', fontWeight: 700, minHeight: '36px', fontFamily: 'var(--font-mono, monospace)', letterSpacing: '0.05em' }}>DELETE</button>
               </div>
             </div>
           ))}

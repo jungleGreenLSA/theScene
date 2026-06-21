@@ -36,9 +36,11 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <button
         onClick={() => setOpen(!open)}
-        style={{ background: 'none', border: 'none', color: '#6b7280', fontSize: '14px', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px' }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = '#ef4444')}
+        style={{ background: 'none', border: 'none', color: '#6b7280', fontSize: '12px', fontWeight: 600, cursor: 'pointer', padding: '8px 10px', borderRadius: '4px', minHeight: '44px', transition: 'color 0.15s' }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = '#9ca3af')}
         onMouseLeave={(e) => (e.currentTarget.style.color = '#6b7280')}
+        aria-expanded={open}
+        aria-label="Report content"
         title="Report content"
       >
         Report
@@ -50,10 +52,10 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
           bottom: '100%',
           right: 0,
           marginBottom: '8px',
-          width: '240px',
+          width: 'min(240px, calc(100vw - 32px))',
           background: 'rgba(18,18,30,0.95)',
           backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: '10px',
           padding: '16px',
           zIndex: 50,
@@ -80,14 +82,14 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
               <div style={{ display: 'flex', gap: '6px' }}>
                 <button
                   onClick={() => { setOpen(false); setReason('') }}
-                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#9ca3af', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
+                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '11px', fontWeight: 600, cursor: 'pointer', minHeight: '44px' }}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSubmit}
                   disabled={!reason || loading}
-                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: reason ? '#ef4444' : 'rgba(239,68,68,0.3)', border: 'none', color: 'white', fontSize: '11px', fontWeight: 600, cursor: reason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1 }}
+                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: reason ? '#ef4444' : 'rgba(239,68,68,0.2)', border: 'none', color: reason ? 'white' : '#6b7280', fontSize: '11px', fontWeight: 700, cursor: reason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1, minHeight: '44px' }}
                 >
                   Report
                 </button>

@@ -13,13 +13,13 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 
 export default function PrivacyPage() {
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/" className="text-muted-light hover:text-purple-light" style={{ fontSize: '13px', display: 'block', marginBottom: '24px' }}>&larr; Back to Home</Link>
+    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px clamp(16px, 4vw, 32px) 40px' }}>
+      <Link href="/" className="text-muted-light hover:text-teal-light" style={{ fontSize: '13px', display: 'block', marginBottom: '24px' }}>&larr; Back to Home</Link>
 
-      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Privacy <span className="text-purple-light">Policy</span></h1>
-      <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Effective: April 17, 2026 · Operated by The Scene (&quot;we&quot;, &quot;us&quot;) at thescene.fyi</p>
+      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Privacy <span className="gradient-text">Policy</span></h1>
+      <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Effective: <span className="spec">April 17, 2026</span> · Operated by The Scene (&quot;we&quot;, &quot;us&quot;) at thescene.fyi</p>
 
-      <div className="glass" style={{ padding: '32px' }}>
+      <div className="glass" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
           <Section title="1. What this policy covers">
@@ -38,7 +38,7 @@ export default function PrivacyPage() {
           <Section title="3. Information we collect automatically">
             <p><strong>Usage data.</strong> Pages you visit, features you interact with, time spent, and referring URLs. We use this to improve the product and diagnose problems.</p>
             <p><strong>Device and connection.</strong> IP address, browser type and version, operating system, device identifiers, and approximate geolocation derived from IP.</p>
-            <p><strong>Cookies.</strong> We use cookies for authentication, session management, and preferences. See our <Link href="/cookies" className="text-purple-light hover:text-neon-light">Cookie Policy</Link>.</p>
+            <p><strong>Cookies.</strong> We use cookies for authentication, session management, and preferences. See our <Link href="/cookies">Cookie Policy</Link>.</p>
           </Section>
 
           <Section title="4. How we use your information">
@@ -101,7 +101,7 @@ export default function PrivacyPage() {
           </Section>
 
           <Section title="14. Contact us">
-            <p>Privacy questions or requests: <a href="mailto:support@thescene.fyi" className="text-purple-light hover:text-neon-light">support@thescene.fyi</a>.</p>
+            <p>Privacy questions or requests: <a href="mailto:support@thescene.fyi">support@thescene.fyi</a>.</p>
           </Section>
 
         </div>

@@ -252,7 +252,8 @@ export default function AdminDashboard() {
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ marginBottom: '24px' }}>
-        <h1 className="text-3xl font-bold">Admin <span className="text-neon-light">Dashboard</span></h1>
+        <p className="eyebrow" style={{ marginBottom: '6px' }}>Command Center</p>
+        <h1 className="text-3xl font-bold">Admin <span className="gradient-text">Dashboard</span></h1>
         <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>The Scene command center</p>
       </div>
 
@@ -264,9 +265,9 @@ export default function AdminDashboard() {
             onClick={() => setActiveTab(t.id)}
             style={{
               padding: '8px 18px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
-              background: activeTab === t.id ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-              color: activeTab === t.id ? '#a78bfa' : '#6b7280',
-              outline: activeTab === t.id ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)',
+              background: activeTab === t.id ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
+              color: activeTab === t.id ? '#2dd4bf' : '#6b7280',
+              outline: activeTab === t.id ? '1px solid rgba(45,212,191,0.3)' : '1px solid rgba(255,255,255,0.06)',
             }}
           >
             {t.label}
@@ -330,7 +331,7 @@ export default function AdminDashboard() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', color: '#a78bfa' }}>{a.category}</span>
+                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.2)', color: '#2dd4bf' }}>{a.category}</span>
                         {a.is_pinned && <span style={{ fontSize: '10px', color: '#fb923c', fontWeight: 600 }}>Pinned</span>}
                         {!a.is_published && <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: 600 }}>Draft</span>}
                         <span style={{ fontSize: '11px', color: '#6b7280' }}>{new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
@@ -357,15 +358,15 @@ export default function AdminDashboard() {
           {/* Key metrics */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px', marginBottom: '24px' }}>
             {[
-              { label: 'Total Members', value: stats.totalUsers, color: '#a78bfa' },
+              { label: 'Total Members', value: stats.totalUsers, color: '#2dd4bf' },
               { label: 'Online Now', value: stats.onlineNow, color: '#22c55e' },
-              { label: 'Premium', value: stats.premiumUsers, color: '#fb923c' },
-              { label: 'Vehicles', value: stats.totalVehicles, color: '#3b82f6' },
-              { label: 'Events', value: stats.totalEvents, color: '#ec4899' },
-              { label: 'Clubs', value: stats.totalClubs, color: '#14b8a6' },
+              { label: 'Premium', value: stats.premiumUsers, color: '#f97316' },
+              { label: 'Vehicles', value: stats.totalVehicles, color: '#a78bfa' },
+              { label: 'Events', value: stats.totalEvents, color: '#2dd4bf' },
+              { label: 'Clubs', value: stats.totalClubs, color: '#a78bfa' },
             ].map(m => (
-              <div key={m.label} className="glass" style={{ padding: '20px', textAlign: 'center' }}>
-                <div style={{ fontSize: '2rem', fontWeight: 700, color: m.color, lineHeight: 1 }}>{m.value}</div>
+              <div key={m.label} className="glass card-hover" style={{ padding: '20px', textAlign: 'center' }}>
+                <div className="spec" style={{ fontSize: '2rem', fontWeight: 700, color: m.color, lineHeight: 1 }}>{m.value.toLocaleString()}</div>
                 <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', marginTop: '6px' }}>{m.label}</div>
               </div>
             ))}
@@ -373,18 +374,19 @@ export default function AdminDashboard() {
 
           {/* Growth */}
           <div className="glass" style={{ padding: '24px', marginBottom: '24px' }}>
+            <p className="eyebrow" style={{ marginBottom: '14px' }}>New Members</p>
             <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Growth</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 100px), 1fr))', gap: '16px' }}>
               <div style={{ textAlign: 'center' }}>
-                <div className="text-neon-light font-bold" style={{ fontSize: '1.8rem' }}>{stats.newUsersToday}</div>
+                <div className="spec" style={{ fontSize: '1.8rem', fontWeight: 700, color: '#2dd4bf' }}>{stats.newUsersToday}</div>
                 <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Today</div>
               </div>
               <div style={{ textAlign: 'center' }}>
-                <div className="text-neon-light font-bold" style={{ fontSize: '1.8rem' }}>{stats.newUsersWeek}</div>
+                <div className="spec" style={{ fontSize: '1.8rem', fontWeight: 700, color: '#2dd4bf' }}>{stats.newUsersWeek}</div>
                 <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>This Week</div>
               </div>
               <div style={{ textAlign: 'center' }}>
-                <div className="text-neon-light font-bold" style={{ fontSize: '1.8rem' }}>{stats.newUsersMonth}</div>
+                <div className="spec" style={{ fontSize: '1.8rem', fontWeight: 700, color: '#2dd4bf' }}>{stats.newUsersMonth}</div>
                 <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>This Month</div>
               </div>
             </div>
@@ -471,10 +473,10 @@ export default function AdminDashboard() {
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
                         <span className="text-foreground" style={{ fontSize: '13px', fontWeight: 500 }}>{c.location}</span>
-                        <span className="text-purple-light font-bold" style={{ fontSize: '13px' }}>{c.count}</span>
+                        <span className="spec" style={{ fontSize: '13px', color: '#2dd4bf', fontWeight: 700 }}>{c.count}</span>
                       </div>
                       <div style={{ height: '5px', background: 'rgba(255,255,255,0.04)', borderRadius: '3px', overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${pct}%`, background: i < 3 ? '#a78bfa' : '#4a5568', borderRadius: '3px', transition: 'width 0.5s ease' }} />
+                        <div style={{ height: '100%', width: `${pct}%`, background: i < 3 ? '#2dd4bf' : '#4a5568', borderRadius: '3px', transition: 'width 0.5s ease' }} />
                       </div>
                     </div>
                   </div>
@@ -505,7 +507,7 @@ export default function AdminDashboard() {
                     <span className="text-muted" style={{ fontSize: '11px', marginLeft: '8px' }}>by @{v.owner_username}</span>
                   </div>
                   <div style={{ display: 'flex', gap: '12px', fontSize: '12px' }}>
-                    <span className="text-neon-light font-bold">{v.props_count} props</span>
+                    <span className="spec" style={{ color: '#2dd4bf', fontWeight: 700 }}>{v.props_count} props</span>
                     <span className="text-muted">{v.view_count} views</span>
                   </div>
                 </Link>
@@ -562,18 +564,18 @@ export default function AdminDashboard() {
       {activeTab === 'revenue' && stats && (
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '16px', marginBottom: '24px' }}>
-            <div className="glass" style={{ padding: '24px', textAlign: 'center', border: '1px solid rgba(249,115,22,0.2)' }}>
-              <span style={{ fontSize: '11px', color: '#fb923c', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Monthly Revenue</span>
-              <div className="text-neon-light font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>${monthlyRevenue}</div>
+            <div className="glass" style={{ padding: '24px', textAlign: 'center', border: '1px solid rgba(45,212,191,0.2)' }}>
+              <span className="eyebrow" style={{ marginBottom: 0 }}>Monthly Revenue</span>
+              <div className="spec" style={{ fontSize: '2.5rem', fontWeight: 700, color: '#2dd4bf', marginTop: '8px' }}>${monthlyRevenue}</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>{stats.premiumUsers} premium x $6.99</div>
             </div>
             <div className="glass" style={{ padding: '24px', textAlign: 'center' }}>
-              <span style={{ fontSize: '11px', color: '#a78bfa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Annual Projection</span>
-              <div className="text-purple-light font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>${annualProjection}</div>
+              <span className="eyebrow" style={{ marginBottom: 0, color: '#a78bfa' }}>Annual Projection</span>
+              <div className="spec" style={{ fontSize: '2.5rem', fontWeight: 700, color: '#2dd4bf', marginTop: '8px' }}>${annualProjection}</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>at current rate</div>
             </div>
             <div className="glass" style={{ padding: '24px', textAlign: 'center' }}>
-              <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Conversion Rate</span>
+              <span className="eyebrow" style={{ marginBottom: 0, color: '#22c55e' }}>Conversion Rate</span>
               <div className="text-success font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>{conversionRate}%</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>free to premium</div>
             </div>
@@ -601,7 +603,7 @@ export default function AdminDashboard() {
                       <span className="text-muted" style={{ fontSize: '12px' }}>{m.annual}</span>
                     </div>
                     <div style={{ height: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '3px', overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${pct}%`, background: hit ? '#22c55e' : '#7c3aed', borderRadius: '3px', transition: 'width 0.5s ease' }} />
+                      <div style={{ height: '100%', width: `${pct}%`, background: hit ? '#22c55e' : '#2dd4bf', borderRadius: '3px', transition: 'width 0.5s ease' }} />
                     </div>
                   </div>
                 )

@@ -80,9 +80,9 @@ export default function MemberHeatmap() {
   return (
     <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '12px', background: 'rgba(18,18,30,0.8)', border: '1px solid rgba(255,255,255,0.06)' }}>
       <div style={{ padding: '20px 24px 0' }}>
-        <h3 className="font-bold text-foreground" style={{ fontSize: '1rem' }}>Where The Scene Is Happening</h3>
-        <p className="text-muted" style={{ fontSize: '12px', marginTop: '4px' }}>
-          {totalMembers} {totalMembers === 1 ? 'member' : 'members'} nationwide
+        <span className="eyebrow" style={{ display: 'block', marginBottom: '4px' }}>Where The Scene Is Happening</span>
+        <p className="text-muted" style={{ fontSize: '12px' }}>
+          <span className="spec">{totalMembers}</span> {totalMembers === 1 ? 'member' : 'members'} nationwide
         </p>
       </div>
 
@@ -90,8 +90,8 @@ export default function MemberHeatmap() {
         <svg viewBox={`0 0 ${SVG_W} ${SVG_H}`} style={{ width: '100%', height: 'auto', maxHeight: '400px' }}>
           <path
             d="M 130 95 L 175 82 L 240 76 L 330 73 L 420 72 L 520 72 L 580 75 L 640 82 L 700 92 L 760 102 L 820 112 L 865 122 L 895 135 L 905 155 L 900 175 L 880 185 L 860 200 L 842 220 L 820 230 L 800 240 L 792 265 L 790 290 L 802 315 L 818 340 L 820 360 L 805 385 L 780 405 L 748 420 L 732 435 L 735 465 L 745 495 L 748 520 L 735 518 L 720 490 L 705 465 L 688 450 L 658 440 L 625 440 L 590 445 L 555 448 L 530 445 L 510 455 L 495 475 L 482 495 L 470 495 L 458 475 L 448 455 L 422 435 L 390 418 L 360 405 L 328 392 L 290 382 L 248 375 L 208 370 L 182 360 L 162 335 L 150 300 L 140 260 L 132 210 L 128 150 Z"
-            fill="rgba(124,58,237,0.04)"
-            stroke="rgba(124,58,237,0.25)"
+            fill="rgba(45,212,191,0.04)"
+            stroke="rgba(45,212,191,0.2)"
             strokeWidth="1.5"
             strokeLinejoin="round"
           />
@@ -112,14 +112,14 @@ export default function MemberHeatmap() {
                 onMouseLeave={() => setTooltip(null)}
                 style={{ cursor: 'pointer' }}
               >
-                <circle cx={spot.x} cy={spot.y} r={glowRadius} fill={`rgba(124,58,237,${0.05 + spot.intensity * 0.1})`}>
+                <circle cx={spot.x} cy={spot.y} r={glowRadius} fill={`rgba(45,212,191,${0.04 + spot.intensity * 0.08})`}>
                   <animate attributeName="r" values={`${glowRadius * 0.8};${glowRadius * 1.2};${glowRadius * 0.8}`} dur={`${3 + Math.random() * 2}s`} repeatCount="indefinite" />
                   <animate attributeName="opacity" values="0.6;1;0.6" dur={`${3 + Math.random() * 2}s`} repeatCount="indefinite" />
                 </circle>
-                <circle cx={spot.x} cy={spot.y} r={radius * 1.5} fill={`rgba(249,115,22,${0.1 + spot.intensity * 0.15})`}>
+                <circle cx={spot.x} cy={spot.y} r={radius * 1.5} fill={`rgba(45,212,191,${0.08 + spot.intensity * 0.14})`}>
                   <animate attributeName="r" values={`${radius * 1.3};${radius * 1.8};${radius * 1.3}`} dur={`${2 + Math.random() * 2}s`} repeatCount="indefinite" />
                 </circle>
-                <circle cx={spot.x} cy={spot.y} r={radius * 0.4} fill={`rgba(249,115,22,${0.6 + spot.intensity * 0.4})`} />
+                <circle cx={spot.x} cy={spot.y} r={radius * 0.4} fill={`rgba(45,212,191,${0.55 + spot.intensity * 0.4})`} />
                 <circle cx={spot.x} cy={spot.y} r={radius * 0.15} fill="rgba(255,255,255,0.8)" />
               </g>
             )
@@ -127,9 +127,9 @@ export default function MemberHeatmap() {
 
           {tooltip && (
             <g pointerEvents="none">
-              <rect x={tooltip.x - 70} y={tooltip.y - 45} width="140" height="32" rx="6" fill="rgba(12,12,20,0.92)" stroke="rgba(124,58,237,0.35)" strokeWidth="1" />
-              <text x={tooltip.x} y={tooltip.y - 32} textAnchor="middle" fill="#a78bfa" fontSize="10" fontWeight="700">{tooltip.label}</text>
-              <text x={tooltip.x} y={tooltip.y - 20} textAnchor="middle" fill="#fb923c" fontSize="9">
+              <rect x={tooltip.x - 70} y={tooltip.y - 45} width="140" height="32" rx="6" fill="rgba(12,12,20,0.92)" stroke="rgba(45,212,191,0.35)" strokeWidth="1" />
+              <text x={tooltip.x} y={tooltip.y - 32} textAnchor="middle" fill="#2dd4bf" fontSize="10" fontWeight="700">{tooltip.label}</text>
+              <text x={tooltip.x} y={tooltip.y - 20} textAnchor="middle" fill="#9ca3af" fontSize="9">
                 {tooltip.count} member{tooltip.count !== 1 ? 's' : ''}
               </text>
             </g>
@@ -137,17 +137,17 @@ export default function MemberHeatmap() {
         </svg>
       </div>
 
-      <div style={{ padding: '0 24px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '24px' }}>
+      <div style={{ padding: '0 24px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '24px', flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(249,115,22,0.4)' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(45,212,191,0.35)' }} />
           <span className="text-muted" style={{ fontSize: '11px' }}>Few members</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'rgba(249,115,22,0.7)', boxShadow: '0 0 8px rgba(249,115,22,0.4)' }} />
+          <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'rgba(45,212,191,0.65)', boxShadow: '0 0 8px rgba(45,212,191,0.3)' }} />
           <span className="text-muted" style={{ fontSize: '11px' }}>Many members</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: 'rgba(249,115,22,0.9)', boxShadow: '0 0 12px rgba(249,115,22,0.6)' }} />
+          <div style={{ width: '14px', height: '14px', borderRadius: '50%', background: 'rgba(45,212,191,0.9)', boxShadow: '0 0 12px rgba(45,212,191,0.5)' }} />
           <span className="text-muted" style={{ fontSize: '11px' }}>Hot spot</span>
         </div>
       </div>

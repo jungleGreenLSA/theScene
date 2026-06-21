@@ -32,20 +32,21 @@ export default function LeaderboardPage() {
   const rankColors = ['#fbbf24', '#d1d5db', '#d97706']
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 16px 40px' }}>
       <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-        <h1 className="text-3xl font-bold">Event <span className="text-neon-light">Leaderboard</span></h1>
+        <p className="eyebrow" style={{ marginBottom: '8px' }}>Community</p>
+        <h1 className="text-3xl font-bold">Event <span className="gradient-text">Leaderboard</span></h1>
         <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>Who shows up the most? The car meet MVPs.</p>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '24px' }}>
         {[2024, 2025, 2026].map(y => (
           <button key={y} onClick={() => setYear(y)} style={{
-            padding: '8px 20px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
-            background: year === y ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-            color: year === y ? '#a78bfa' : '#6b7280',
-            outline: year === y ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)',
-          }}>{y}</button>
+            padding: '10px 24px', minHeight: '44px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
+            background: year === y ? 'rgba(45,212,191,0.15)' : 'rgba(18,18,30,0.5)',
+            color: year === y ? '#2dd4bf' : '#6b7280',
+            outline: year === y ? '1px solid rgba(45,212,191,0.35)' : '1px solid rgba(255,255,255,0.06)',
+          }}><span className="spec" style={{ fontSize: '13px', color: 'inherit' }}>{y}</span></button>
         ))}
       </div>
 
@@ -71,11 +72,11 @@ export default function LeaderboardPage() {
             >
               {/* Rank */}
               <div style={{ width: '32px', textAlign: 'center', flexShrink: 0 }}>
-                <span style={{ fontSize: i < 3 ? '18px' : '16px', fontWeight: 700, color: i < 3 ? rankColors[i] : '#6b7280' }}>{i + 1}</span>
+                <span className="spec" style={{ fontSize: i < 3 ? '18px' : '16px', color: i < 3 ? rankColors[i] : '#6b7280' }}>{i + 1}</span>
               </div>
 
               {/* Avatar */}
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0, border: i < 3 ? '2px solid rgba(124,58,237,0.4)' : 'none' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0, border: i < 3 ? '2px solid rgba(45,212,191,0.4)' : 'none' }}>
                 {l.avatar_url ? (
                   <img src={l.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
@@ -91,8 +92,8 @@ export default function LeaderboardPage() {
 
               {/* Count */}
               <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                <p className="text-neon-light font-bold" style={{ fontSize: '1.2rem' }}>{l.event_count}</p>
-                <p className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>events</p>
+                <p className="font-bold spec" style={{ fontSize: '1.2rem', color: '#2dd4bf' }}>{l.event_count}</p>
+                <p className="eyebrow" style={{ fontSize: '10px' }}>events</p>
               </div>
             </Link>
           ))}

@@ -18,7 +18,7 @@ import Timeline from '@/components/Timeline'
 // under Suspense — the CSR bailout).
 export default function FeedPage() {
   return (
-    <Suspense fallback={<div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px', color: '#6b7280' }}>Loading feed...</div>}>
+    <Suspense fallback={<div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }} className="text-muted">Loading feed...</div>}>
       <FeedPageContent />
     </Suspense>
   )
@@ -80,7 +80,7 @@ function FeedPageContent() {
         <div className="feed-sidebar" style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Latest rides */}
           <div className="glass" style={{ padding: '20px' }}>
-            <h3 className="font-bold text-foreground" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '14px' }}>
+            <h3 className="eyebrow" style={{ marginBottom: '14px' }}>
               Latest Rides
             </h3>
             {latestMembers.length === 0 ? (
@@ -122,19 +122,19 @@ function FeedPageContent() {
 
           {/* Quick links */}
           <div className="glass" style={{ padding: '20px' }}>
-            <h3 className="font-bold text-foreground" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '14px' }}>
+            <h3 className="eyebrow" style={{ marginBottom: '14px' }}>
               Quick Links
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <Link href="/explore" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>Explore Builds</Link>
               <Link href="/events" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>Events</Link>
               <Link href="/clubs" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>Clubs</Link>
-              <Link href="/garage/setup" style={{ fontSize: '13px', color: '#fb923c', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
+              <Link href="/garage/setup" style={{ fontSize: '13px', color: '#2dd4bf', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
             </div>
           </div>
 
           {/* CTA */}
-          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(124,58,237,0.2)' }}>
+          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(45,212,191,0.2)' }}>
             <p className="text-foreground font-semibold" style={{ fontSize: '14px', marginBottom: '8px' }}>Unlock More with Premium</p>
             <p className="text-muted" style={{ fontSize: '12px', marginBottom: '12px' }}>Unlimited garage, analytics, and more.</p>
             <Link href="/pricing" className="btn-primary" style={{ fontSize: '11px', padding: '8px 16px', width: '100%', justifyContent: 'center', display: 'flex' }}>

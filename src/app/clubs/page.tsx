@@ -63,13 +63,14 @@ export default function ClubsPage() {
     : clubs
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 16px 40px' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 className="text-3xl font-bold">Car <span className="text-purple-light">Clubs</span></h1>
+          <p className="eyebrow" style={{ marginBottom: '4px' }}>Community</p>
+          <h1 className="text-3xl font-bold">Car <span className="gradient-text">Clubs</span></h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>
-            Find your crew. Join your local scene.{nearbyState && <> · filtered to <span style={{ color: '#a78bfa' }}>{nearbyState}</span></>}
+            Find your crew. Join your local scene.{nearbyState && <> · filtered to <span style={{ color: '#2dd4bf' }}>{nearbyState}</span></>}
           </p>
         </div>
         <Link href="/clubs/create" className="btn-primary text-xs">Start a Club</Link>
@@ -110,7 +111,7 @@ export default function ClubsPage() {
           <p className="text-muted-light" style={{ marginBottom: '20px', fontSize: '0.9rem' }}>
             {locationSearch ? `No clubs match "${locationSearch}". Start one!` : 'Be the first to start a car club on The Scene.'}
           </p>
-          <Link href="/clubs/create" className="btn-neon">Start a Club</Link>
+          <Link href="/clubs/create" className="btn-primary">Start a Club</Link>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
@@ -120,7 +121,7 @@ export default function ClubsPage() {
                 {club.cover_image_url ? (
                   <img src={club.cover_image_url} alt={club.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))' }} />
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(45,212,191,0.08), rgba(139,92,246,0.1))' }} />
                 )}
                 {club.logo_url && (
                   <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(255,255,255,0.06)' }}>
@@ -130,12 +131,12 @@ export default function ClubsPage() {
               </div>
 
               <div style={{ padding: '16px' }}>
-                <h3 className="font-bold text-foreground group-hover:text-purple-light transition-colors" style={{ fontSize: '0.95rem' }}>{club.name}</h3>
+                <h3 className="font-bold text-foreground group-hover:text-teal transition-colors" style={{ fontSize: '0.95rem' }}>{club.name}</h3>
 
                 {club.locations && club.locations.length > 0 && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
                     {club.locations.slice(0, 3).map((loc, i) => (
-                      <span key={i} className="text-purple-light" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)' }}>
+                      <span key={i} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, padding: '3px 8px', borderRadius: '4px', color: '#2dd4bf', background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.2)', fontFamily: 'var(--font-mono)' }}>
                         {loc.city}, {loc.state}
                       </span>
                     ))}
@@ -146,7 +147,7 @@ export default function ClubsPage() {
                 )}
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="text-muted" style={{ fontSize: '13px' }}>{club.member_count} member{club.member_count !== 1 ? 's' : ''}</span>
+                  <span className="text-muted spec" style={{ fontSize: '13px' }}>{club.member_count} member{club.member_count !== 1 ? 's' : ''}</span>
                 </div>
 
                 {club.description && (

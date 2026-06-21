@@ -59,9 +59,9 @@ export default function PricingPage() {
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-        <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', color: '#a78bfa' }}>Choose Your Plan</span>
+        <span className="eyebrow">Choose Your Plan</span>
         <h1 className="font-bold text-foreground" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginTop: '8px' }}>
-          Join <span className="text-neon-light text-glow-neon">The Scene</span>
+          Join <span className="gradient-text">The Scene</span>
         </h1>
         <p className="text-muted-light" style={{ marginTop: '12px', fontSize: '1rem', maxWidth: '500px', marginLeft: 'auto', marginRight: 'auto' }}>
           Start free. Upgrade when you&apos;re ready to unlock the full experience.
@@ -69,7 +69,7 @@ export default function PricingPage() {
       </div>
 
       {/* Members-only notice */}
-      <div className="glass" style={{ padding: '16px 24px', marginBottom: '32px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', border: '1px solid rgba(124,58,237,0.2)' }}>
+      <div className="glass" style={{ padding: '16px 24px', marginBottom: '32px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', border: '1px solid rgba(45,212,191,0.2)' }}>
         <p className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Members-Only Community</p>
         <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.5 }}>
           Explore, Events, Clubs, What Would You Do, Spot a Ride, Crew Runs, Challenges, and Leaderboards are exclusively available to registered members. Create a free account to access the full Scene.
@@ -83,8 +83,8 @@ export default function PricingPage() {
             onClick={() => setBillingCycle('monthly')}
             style={{
               padding: '10px 24px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
-              background: billingCycle === 'monthly' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-              color: billingCycle === 'monthly' ? '#a78bfa' : '#6b7280',
+              background: billingCycle === 'monthly' ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
+              color: billingCycle === 'monthly' ? '#2dd4bf' : '#6b7280',
             }}
           >
             Monthly
@@ -93,8 +93,8 @@ export default function PricingPage() {
             onClick={() => setBillingCycle('yearly')}
             style={{
               padding: '10px 24px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
-              background: billingCycle === 'yearly' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
-              color: billingCycle === 'yearly' ? '#a78bfa' : '#6b7280',
+              background: billingCycle === 'yearly' ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
+              color: billingCycle === 'yearly' ? '#2dd4bf' : '#6b7280',
             }}
           >
             Yearly
@@ -108,7 +108,7 @@ export default function PricingPage() {
         {/* FREE */}
         <div className="glass" style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column' }}>
           <div style={{ marginBottom: '24px' }}>
-            <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', color: '#9ca3af' }}>Free</span>
+            <span className="eyebrow" style={{ letterSpacing: '2px', color: '#9ca3af' }}>Free</span>
             <div style={{ marginTop: '8px' }}>
               <span className="text-foreground font-bold" style={{ fontSize: '3rem', lineHeight: 1 }}>$0</span>
               <span className="text-muted" style={{ fontSize: '14px', marginLeft: '4px' }}>forever</span>
@@ -131,14 +131,14 @@ export default function PricingPage() {
         </div>
 
         {/* PREMIUM */}
-        <div className="glass" style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', border: '1px solid rgba(124,58,237,0.3)', position: 'relative', overflow: 'hidden' }}>
+        <div className="glass" style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', border: '1px solid rgba(45,212,191,0.25)', position: 'relative', overflow: 'hidden' }}>
           {/* Popular badge */}
           <div style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)', borderRadius: '50px', padding: '4px 14px' }}>
             <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#fb923c' }}>Best Value</span>
           </div>
 
           <div style={{ marginBottom: '24px' }}>
-            <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', color: '#a78bfa' }}>Premium</span>
+            <span className="eyebrow" style={{ letterSpacing: '2px' }}>Premium</span>
             <div style={{ marginTop: '8px', display: 'flex', alignItems: 'baseline', gap: '4px' }}>
               <span className="text-foreground font-bold" style={{ fontSize: '3rem', lineHeight: 1 }}>{price}</span>
               <span className="text-muted" style={{ fontSize: '14px' }}>/{billingCycle === 'monthly' ? 'month' : 'year'}</span>
@@ -149,7 +149,7 @@ export default function PricingPage() {
             <p className="text-muted-light" style={{ fontSize: '14px', marginTop: '8px' }}>The full Scene experience. Unlock everything.</p>
           </div>
 
-          <Link href="/auth/register?plan=premium" className="btn-neon" style={{ width: '100%', justifyContent: 'center', padding: '14px', marginBottom: '24px' }}>
+          <Link href="/auth/register?plan=premium" className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px', marginBottom: '24px' }}>
             Start Premium
           </Link>
 
@@ -173,7 +173,7 @@ export default function PricingPage() {
               <li>
                 <button
                   onClick={() => setShowPremiumDetails(true)}
-                  style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', fontWeight: 600, cursor: 'pointer', padding: '4px 0' }}
+                  style={{ background: 'none', border: 'none', color: '#2dd4bf', fontSize: '13px', fontWeight: 600, cursor: 'pointer', padding: '4px 0' }}
                 >
                   + {PREMIUM_FEATURES.length - 6} more features →
                 </button>
@@ -193,7 +193,7 @@ export default function PricingPage() {
       {showPremiumDetails && (
         <div style={{ marginBottom: '40px' }}>
           <h2 className="font-bold text-foreground" style={{ fontSize: '1.5rem', textAlign: 'center', marginBottom: '24px' }}>
-            What You Get with <span className="text-purple-light">Premium</span>
+            What You Get with <span className="gradient-text">Premium</span>
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
             {PREMIUM_HIGHLIGHTS.map((h) => (

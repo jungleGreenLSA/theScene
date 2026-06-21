@@ -99,10 +99,10 @@ export default function MarketplacePage() {
       onClick={() => setTab(key)}
       style={{
         padding: '10px 18px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-        background: tab === key ? 'rgba(249,115,22,0.15)' : 'rgba(18,18,30,0.5)',
-        color: tab === key ? '#fb923c' : '#9ca3af',
+        background: tab === key ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
+        color: tab === key ? '#2dd4bf' : '#9ca3af',
         fontWeight: 700, fontSize: '13px',
-        outline: tab === key ? '1px solid rgba(249,115,22,0.35)' : '1px solid rgba(255,255,255,0.06)',
+        outline: tab === key ? '1px solid rgba(45,212,191,0.35)' : '1px solid rgba(255,255,255,0.06)',
         display: 'flex', alignItems: 'center', gap: '8px',
       }}
     >
@@ -112,17 +112,19 @@ export default function MarketplacePage() {
   )
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 16px 40px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9' }}>Market<span style={{ color: '#fb923c' }}>place</span></h1>
-          <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>
-            Buy and sell vehicles & parts, or find the shops working on builds{nearbyState && <> · filtered to <span style={{ color: '#fb923c' }}>{nearbyState}</span></>}
+          <p className="eyebrow" style={{ marginBottom: '6px' }}>The Scene</p>
+          <h1 style={{ fontSize: 'clamp(22px, 5vw, 28px)', fontWeight: 700, color: '#e4e1ed' }}>Market<span className="gradient-text">place</span></h1>
+          <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '4px' }}>
+            Buy and sell vehicles & parts, or find the shops working on builds{nearbyState && <> · filtered to <span style={{ color: '#2dd4bf' }}>{nearbyState}</span></>}
           </p>
         </div>
         <Link
           href={tab === 'items' ? '/marketplace/create' : '/shops/create'}
-          style={{ padding: '10px 20px', borderRadius: '8px', background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}
+          className="btn-teal"
+          style={{ fontSize: '13px', fontWeight: 700, whiteSpace: 'nowrap' }}
         >
           + {tab === 'items' ? 'List Item' : 'Add Shop'}
         </Link>
@@ -153,25 +155,25 @@ export default function MarketplacePage() {
       </div>
 
       {loading ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {[1,2,3].map(i => <div key={i} className="glass animate-pulse" style={{ height: '300px' }} />)}
         </div>
       ) : tab === 'items' ? (
         filteredListings.length === 0 ? (
           <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>No listings yet</h2>
-            <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '20px' }}>Be the first to list something for sale!</p>
-            <Link href="/marketplace/create" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>List an Item</Link>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e4e1ed', marginBottom: '8px' }}>No listings yet</h2>
+            <p style={{ fontSize: '14px', color: '#9ca3af', marginBottom: '20px' }}>Be the first to list something for sale!</p>
+            <Link href="/marketplace/create" className="btn-teal" style={{ fontSize: '13px', fontWeight: 700 }}>List an Item</Link>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
             {filteredListings.map(l => (
               <Link key={l.id} href={`/marketplace/${l.id}`} className="glass card-hover" style={{ overflow: 'hidden' }}>
                 <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', position: 'relative' }}>
                   {l.images && l.images.length > 0 ? (
                     <img src={l.images[0].image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
-                  <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: 'rgba(12,12,20,0.85)', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: l.listing_type === 'vehicle' ? '#a78bfa' : '#fb923c' }}>
+                  <span className={l.listing_type === 'vehicle' ? 'chip chip-purple' : 'chip'} style={{ position: 'absolute', top: '10px', left: '10px' }}>
                     {l.listing_type}
                   </span>
                   {l.is_obo && (
@@ -180,10 +182,10 @@ export default function MarketplacePage() {
                 </div>
                 <div style={{ padding: '16px' }}>
                   <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#e2e4e9', marginBottom: '6px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{l.title}</h3>
-                  <p style={{ fontSize: '22px', fontWeight: 700, color: '#22c55e', marginBottom: '8px' }}>${l.price.toLocaleString()}</p>
+                  <p className="spec" style={{ fontSize: '22px', fontWeight: 700, color: '#2dd4bf', marginBottom: '8px' }}>${l.price.toLocaleString()}</p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: '#6b7280' }}>
                     <span>{l.seller?.location || `${l.city}, ${l.state}` || 'Location N/A'}</span>
-                    <span>{l.comments?.length || 0} comments</span>
+                    <span className="spec">{l.comments?.length || 0} comments</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                     <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(26,26,46,0.5)', backgroundImage: l.seller?.avatar_url ? `url(${l.seller.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
@@ -197,26 +199,26 @@ export default function MarketplacePage() {
       ) : (
         filteredShops.length === 0 ? (
           <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>No shops yet</h2>
-            <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '20px' }}>Be the first to add a shop to The Scene.</p>
-            <Link href="/shops/create" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Add a Shop</Link>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e4e1ed', marginBottom: '8px' }}>No shops yet</h2>
+            <p style={{ fontSize: '14px', color: '#9ca3af', marginBottom: '20px' }}>Be the first to add a shop to The Scene.</p>
+            <Link href="/shops/create" className="btn-teal" style={{ fontSize: '13px', fontWeight: 700 }}>Add a Shop</Link>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
             {filteredShops.map(shop => (
               <Link key={shop.id} href={`/shops/${shop.slug}`} className="glass card-hover" style={{ overflow: 'hidden' }}>
                 <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                   {shop.cover_image_url ? (
                     <img src={shop.cover_image_url} alt={shop.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(249,115,22,0.08))' }} />
+                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(45,212,191,0.1), rgba(139,92,246,0.08))' }} />
                   )}
                   {shop.logo_url && (
                     <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(255,255,255,0.06)' }}>
                       <img src={shop.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   )}
-                  <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: 'rgba(12,12,20,0.85)', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#22c55e' }}>
+                  <span className="chip" style={{ position: 'absolute', top: '10px', left: '10px' }}>
                     Shop
                   </span>
                 </div>
@@ -228,12 +230,12 @@ export default function MarketplacePage() {
                   {shop.specialties && shop.specialties.length > 0 && (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginBottom: '8px' }}>
                       {shop.specialties.slice(0, 3).map((t, i) => (
-                        <span key={i} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>{t}</span>
+                        <span key={i} className="chip">{t}</span>
                       ))}
                     </div>
                   )}
                   <div style={{ fontSize: '12px', color: '#6b7280', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    {shop.tag_count} {shop.tag_count === 1 ? 'build' : 'builds'} tagged
+                    <span className="spec">{shop.tag_count}</span> {shop.tag_count === 1 ? 'build' : 'builds'} tagged
                   </div>
                 </div>
               </Link>
