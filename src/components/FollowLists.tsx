@@ -81,11 +81,11 @@ export default function FollowLists({ userId }: { userId: string }) {
               {list.map((u) => (
                 <Link key={u.id} href={`/user/${u.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px', borderRadius: '6px' }}>
                   <div style={{ position: 'relative', flexShrink: 0 }}>
-                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4' }}>
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                       {u.avatar_url ? (
                         <img src={u.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (
-                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#2c3e50' }}>
+                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#6b7280' }}>
                           {u.username?.charAt(0).toUpperCase()}
                         </div>
                       )}

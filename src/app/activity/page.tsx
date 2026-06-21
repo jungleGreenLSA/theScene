@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import Skeleton from '@/components/Skeleton'
 
 interface GuestbookItem {
   id: string
@@ -191,15 +190,15 @@ export default function ActivityPage() {
       onClick={() => setActiveTab(key)}
       style={{
         padding: '10px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-        background: activeTab === key ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-        color: activeTab === key ? 'var(--color-link)' : '#555555',
+        background: activeTab === key ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
+        color: activeTab === key ? '#a78bfa' : '#9ca3af',
         fontWeight: 600, fontSize: '13px',
-        outline: activeTab === key ? '2px solid #2c79c4' : '1px solid #e4e4e4',
+        outline: activeTab === key ? '2px solid #7c3aed' : '1px solid rgba(255,255,255,0.06)',
         display: 'flex', alignItems: 'center', gap: '8px',
       }}
     >
       {label}
-      <span style={{ fontSize: '11px', background: '#d4d4d4', padding: '2px 8px', borderRadius: '10px' }}>{count}</span>
+      <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.08)', padding: '2px 8px', borderRadius: '10px' }}>{count}</span>
     </button>
   )
 
@@ -216,7 +215,7 @@ export default function ActivityPage() {
   if (loading) {
     return (
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
-        <Skeleton variant="line" count={5} />
+        <div className="text-center text-muted-light">Loading your activity...</div>
       </div>
     )
   }
@@ -229,7 +228,7 @@ export default function ActivityPage() {
       </div>
 
       {message && (
-        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: 'var(--color-success)', fontSize: '13px' }}>
+        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: '#22c55e', fontSize: '13px' }}>
           {message}
         </div>
       )}
@@ -251,7 +250,7 @@ export default function ActivityPage() {
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/marketplace/${l.id}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{l.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  <span style={{ color: 'var(--color-link)', fontWeight: 600 }}>${l.price}</span>
+                  <span style={{ color: '#fb923c', fontWeight: 600 }}>${l.price}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.listing_type}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.status}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {fmtDate(l.created_at)}</span>
@@ -303,7 +302,7 @@ export default function ActivityPage() {
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/wwyd`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{p.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  {p.budget && <span style={{ color: 'var(--color-success)' }}>{p.budget} · </span>}
+                  {p.budget && <span style={{ color: '#22c55e' }}>{p.budget} · </span>}
                   <span className="text-muted">{fmtDate(p.created_at)}</span>
                 </p>
               </div>
@@ -349,7 +348,7 @@ export default function ActivityPage() {
                   <span className="text-muted" style={{ fontSize: '13px' }}>Post removed</span>
                 )}
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  You voted: <span style={{ color: 'var(--color-link)', fontWeight: 600 }}>{v.option?.label || '—'}</span>
+                  You voted: <span style={{ color: '#a78bfa', fontWeight: 600 }}>{v.option?.label || '—'}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {fmtDate(v.created_at)}</span>
                 </p>
               </div>
@@ -363,10 +362,10 @@ export default function ActivityPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '14px' }}>
           {sightings.length === 0 ? <div style={{ gridColumn: '1/-1' }}>{emptyState("You haven't posted any sightings yet.")}</div> : sightings.map(s => (
             <div key={s.id} className="glass overflow-hidden">
-              <div style={{ aspectRatio: '2 / 1', background: '#e4e4e4', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+              <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img
                   src={s.image_url}
-                  alt={s.description || `Sighting${s.location_name ? ` at ${s.location_name}` : ''}`}
+                  alt=""
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   onError={(e) => {
                     const img = e.currentTarget
@@ -375,7 +374,7 @@ export default function ActivityPage() {
                     if (parent && !parent.querySelector('.img-fallback')) {
                       const fb = document.createElement('div')
                       fb.className = 'img-fallback'
-                      fb.style.cssText = 'color:#555555;font-size:36px'
+                      fb.style.cssText = 'color:#6b7280;font-size:36px'
                       fb.textContent = ''
                       parent.appendChild(fb)
                     }
@@ -385,7 +384,7 @@ export default function ActivityPage() {
               <div style={{ padding: '14px' }}>
                 {s.description && <p className="text-foreground" style={{ fontSize: '13px', marginBottom: '6px' }}>{s.description}</p>}
                 <p className="text-muted-light" style={{ fontSize: '11px' }}>{s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #e4e4e4' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <span className="text-muted" style={{ fontSize: '11px' }}>{fmtDate(s.created_at)}</span>
                   {deleteBtn(() => removeSighting(s.id))}
                 </div>

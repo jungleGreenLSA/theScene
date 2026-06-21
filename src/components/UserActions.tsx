@@ -18,7 +18,6 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
   const [loading, setLoading] = useState(false)
   const [isOwnProfile, setIsOwnProfile] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-  const triggerRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const checkStatus = async () => {
@@ -48,19 +47,6 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
-
-  useEffect(() => {
-    if (!open) return
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setOpen(false)
-        setShowReport(false)
-        triggerRef.current?.focus()
-      }
-    }
-    document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [open])
 
   if (isOwnProfile) return null
 
@@ -107,16 +93,13 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
     <div ref={menuRef} style={{ position: 'relative' }}>
       {/* Trigger button */}
       <button
-        ref={triggerRef}
         onClick={() => setOpen(!open)}
-        aria-haspopup="menu"
-        aria-expanded={open}
         style={{
-          background: '#f0f0f0',
-          border: '1px solid #e4e4e4',
+          background: 'rgba(18,18,30,0.5)',
+          border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: '8px',
           padding: '8px 12px',
-          color: '#2c3e50',
+          color: '#6b7280',
           fontSize: '16px',
           cursor: 'pointer',
           lineHeight: 1,
@@ -128,22 +111,21 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
 
       {/* Dropdown */}
       {open && !showReport && (
-        <div role="menu" aria-label="User actions" className="menu-pop" style={{
+        <div style={{
           position: 'absolute',
           top: '100%',
           right: 0,
           marginTop: '8px',
           width: '220px',
-          background: '#f0f0f0',
+          background: 'rgba(18,18,30,0.95)',
           backdropFilter: 'blur(16px)',
-          border: '1px solid #e4e4e4',
+          border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: '10px',
           padding: '6px',
           zIndex: 50,
           boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
         }}>
           <button
-            role="menuitem"
             onClick={handleBlock}
             disabled={loading}
             style={{
@@ -152,7 +134,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               background: 'none',
               border: 'none',
               borderRadius: '6px',
-              color: isBlocked ? 'var(--color-success)' : 'var(--color-danger)',
+              color: isBlocked ? '#22c55e' : '#ef4444',
               fontSize: '13px',
               fontWeight: 600,
               textAlign: 'left',
@@ -161,14 +143,13 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               alignItems: 'center',
               gap: '10px',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f5f5')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
           >
             {isBlocked ? 'Unblock' : 'Block'} @{targetUsername}
           </button>
 
           <button
-            role="menuitem"
             onClick={() => setShowReport(true)}
             style={{
               width: '100%',
@@ -176,7 +157,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               background: 'none',
               border: 'none',
               borderRadius: '6px',
-              color: 'var(--color-link)',
+              color: '#fb923c',
               fontSize: '13px',
               fontWeight: 600,
               textAlign: 'left',
@@ -185,7 +166,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               alignItems: 'center',
               gap: '10px',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f5f5')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
           >
             Report @{targetUsername}
@@ -195,21 +176,21 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
 
       {/* Report form */}
       {open && showReport && (
-        <div role="dialog" aria-modal="false" aria-labelledby="useractions-report-title" className="menu-pop" style={{
+        <div style={{
           position: 'absolute',
           top: '100%',
           right: 0,
           marginTop: '8px',
           width: '300px',
-          background: '#f0f0f0',
+          background: 'rgba(18,18,30,0.95)',
           backdropFilter: 'blur(16px)',
-          border: '1px solid #e4e4e4',
+          border: '1px solid rgba(255,255,255,0.06)',
           borderRadius: '10px',
           padding: '20px',
           zIndex: 50,
           boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
         }}>
-          <h4 id="useractions-report-title" className="font-bold text-foreground" style={{ fontSize: '14px', marginBottom: '4px' }}>
+          <h4 className="font-bold text-foreground" style={{ fontSize: '14px', marginBottom: '4px' }}>
             Report @{targetUsername}
           </h4>
           <p className="text-muted" style={{ fontSize: '12px', marginBottom: '12px' }}>
@@ -234,14 +215,14 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           <div style={{ display: 'flex', gap: '8px' }}>
             <button
               onClick={() => { setShowReport(false); setReportReason('') }}
-              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#2c3e50', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#9ca3af', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
             >
               Cancel
             </button>
             <button
               onClick={handleReport}
               disabled={loading || !reportReason}
-              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: reportReason ? '#2c79c4' : 'rgba(44, 121, 196, 0.3)', border: 'none', color: 'white', fontSize: '12px', fontWeight: 600, cursor: reportReason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1 }}
+              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: reportReason ? '#7c3aed' : 'rgba(124,58,237,0.3)', border: 'none', color: 'white', fontSize: '12px', fontWeight: 600, cursor: reportReason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1 }}
             >
               {loading ? 'Sending...' : 'Submit Report'}
             </button>
@@ -251,13 +232,13 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
 
       {/* Toast message */}
       {message && (
-        <div role="status" aria-live="polite" style={{
+        <div style={{
           position: 'fixed',
           bottom: '80px',
           left: '50%',
           transform: 'translateX(-50%)',
-          background: '#f0f0f0',
-          border: '1px solid rgba(44, 121, 196, 0.3)',
+          background: 'rgba(18,18,30,0.95)',
+          border: '1px solid rgba(124,58,237,0.3)',
           borderRadius: '10px',
           padding: '14px 24px',
           zIndex: 1000,

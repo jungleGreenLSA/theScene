@@ -59,12 +59,11 @@ export default function PropsButton({ targetType, targetId, initialCount = 0, si
     <button
       onClick={handleProps}
       disabled={busy}
-      aria-pressed={propped}
       style={{
         display: 'flex', alignItems: 'center', gap: '6px',
         padding: '0', background: 'none', border: 'none',
         fontSize, fontWeight: 600, cursor: busy ? 'default' : 'pointer',
-        color: propped ? 'var(--color-link)' : '#666666',
+        color: propped ? '#fb923c' : '#8892a4',
         transition: 'all 0.2s',
         transform: animating ? 'scale(1.15)' : 'scale(1)',
         opacity: busy ? 0.6 : 1,

@@ -36,16 +36,11 @@ export default function ShareButton({ url, title, text, label = 'Share', small =
   const fontSize = small ? '11px' : '12px'
 
   return (
-    <>
-      <button
-        onClick={share}
-        style={{ padding, borderRadius: '6px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.3)', color: 'var(--color-link)', fontSize, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
-      >
-        {copied ? '✓ Link copied' : fail ? 'Copy failed' : `🔗 ${label}`}
-      </button>
-      <span role="status" aria-live="polite" className="sr-only">
-        {copied ? 'Link copied to clipboard' : fail ? 'Copy failed' : ''}
-      </span>
-    </>
+    <button
+      onClick={share}
+      style={{ padding, borderRadius: '6px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize, fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
+    >
+      {copied ? '✓ Link copied' : fail ? 'Copy failed' : `🔗 ${label}`}
+    </button>
   )
 }

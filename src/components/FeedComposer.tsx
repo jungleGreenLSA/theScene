@@ -66,24 +66,24 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
       {hashtags.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
           {hashtags.map(tag => (
-            <span key={tag} style={{ fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.12)', border: '1px solid rgba(44, 121, 196, 0.25)', color: 'var(--color-link)' }}>#{tag}</span>
+            <span key={tag} style={{ fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '4px', background: 'rgba(124,58,237,0.12)', border: '1px solid rgba(124,58,237,0.25)', color: '#a78bfa' }}>#{tag}</span>
           ))}
         </div>
       )}
       {file && (
         <div style={{ marginBottom: '10px', position: 'relative', borderRadius: '8px', overflow: 'hidden', maxHeight: '240px' }}>
           <img src={URL.createObjectURL(file)} alt="" style={{ width: '100%', maxHeight: '240px', objectFit: 'cover' }} />
-          <button type="button" onClick={() => setFile(null)} style={{ position: 'absolute', top: '8px', right: '8px', padding: '4px 10px', borderRadius: '6px', background: '#ffffff', border: 'none', color: '#1a1a1a', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
+          <button type="button" onClick={() => setFile(null)} style={{ position: 'absolute', top: '8px', right: '8px', padding: '4px 10px', borderRadius: '6px', background: 'rgba(12,12,20,0.9)', border: 'none', color: '#e2e4e9', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
         </div>
       )}
-      {error && <p role="alert" style={{ fontSize: '12px', color: 'var(--color-danger)', marginBottom: '10px' }}>{error}</p>}
+      {error && <p style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{error}</p>}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-        <label style={{ cursor: 'pointer', fontSize: '12px', fontWeight: 600, color: 'var(--color-link)', padding: '6px 12px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.25)' }}>
+        <label style={{ cursor: 'pointer', fontSize: '12px', fontWeight: 600, color: '#a78bfa', padding: '6px 12px', borderRadius: '6px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.25)' }}>
           Add Photo
-          <input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Add photo to post" className="sr-only" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+          <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </label>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: content.length > 100 ? (content.length > 115 ? 'var(--color-danger)' : 'var(--color-link)') : '#555555' }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: content.length > 100 ? (content.length > 115 ? '#ef4444' : '#fb923c') : '#6b7280' }}>
             {120 - content.length}
           </span>
           <button type="submit" disabled={posting || (!content.trim() && !file)} className="btn-primary" style={{ fontSize: '12px', padding: '8px 18px', opacity: (posting || (!content.trim() && !file)) ? 0.4 : 1 }}>

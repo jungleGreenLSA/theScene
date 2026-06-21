@@ -157,14 +157,14 @@ export default function CreateEventPage() {
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>
         Create an <span className="text-neon-light">Event</span>
       </h1>
-      <p style={{ fontSize: '14px', color: '#666666', marginBottom: '12px' }}>List a car show, meet, track day, or cruise</p>
-      <p style={{ fontSize: '12px', color: '#555555', marginBottom: '28px' }}>{eventCount} of {maxEvents} events used {maxEvents <= 2 && '· Upgrade to premium for up to 10'}</p>
+      <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '12px' }}>List a car show, meet, track day, or cruise</p>
+      <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '28px' }}>{eventCount} of {maxEvents} events used {maxEvents <= 2 && '· Upgrade to premium for up to 10'}</p>
 
       {!canCreate ? (
         <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Event limit reached</h2>
-          <p style={{ fontSize: '14px', color: '#666666', marginBottom: '20px' }}>Free members can create up to {maxEvents} events. Upgrade for more.</p>
-          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: '#5fa8dd', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Upgrade to Premium</Link>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Event limit reached</h2>
+          <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '20px' }}>Free members can create up to {maxEvents} events. Upgrade for more.</p>
+          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Upgrade to Premium</Link>
         </div>
       ) : (
       <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px' }}>
@@ -204,7 +204,7 @@ export default function CreateEventPage() {
           <input name="location_name" value={form.location_name} onChange={handleChange} className="input" placeholder="e.g. Dallas Convention Center" />
         </div>
         <div style={{ marginBottom: '16px' }}>
-          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(start typing — we&apos;ll fill in the rest)</span></label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(start typing — we&apos;ll fill in the rest)</span></label>
           <AddressAutocomplete
             defaultValue={form.location_address}
             placeholder="Start typing a venue address..."
@@ -257,9 +257,9 @@ export default function CreateEventPage() {
                 onClick={() => toggleCategory(cat)}
                 style={{
                   padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', border: 'none', transition: 'all 0.2s',
-                  background: form.categories.includes(cat) ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-                  color: form.categories.includes(cat) ? 'var(--color-link)' : '#555555',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4',
+                  background: form.categories.includes(cat) ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
+                  color: form.categories.includes(cat) ? '#a78bfa' : '#6b7280',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)',
                 }}
               >
                 {cat}
@@ -282,7 +282,7 @@ export default function CreateEventPage() {
         </div>
 
         {error && (
-          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: 'var(--color-danger)', fontSize: '13px' }}>
+          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444', fontSize: '13px' }}>
             {error}
           </div>
         )}

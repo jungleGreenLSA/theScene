@@ -54,13 +54,13 @@ export default function DailySuggestion() {
   if (!suggestion) return null
 
   return (
-    <div className="glass" style={{ padding: '20px', border: '1px solid rgba(95, 168, 221, 0.15)' }}>
+    <div className="glass" style={{ padding: '20px', border: '1px solid rgba(249,115,22,0.15)' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
         <span style={{ fontSize: '28px', flexShrink: 0, marginTop: '2px' }}>{suggestion.emoji}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--color-link)' }}>Community Prompt</span>
-            <span style={{ fontSize: '10px', color: '#2c3e50' }}>New every day</span>
+            <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#fb923c' }}>Community Prompt</span>
+            <span style={{ fontSize: '10px', color: '#6b7280' }}>New every day</span>
           </div>
           <h3 className="font-bold text-foreground" style={{ fontSize: '15px', marginBottom: '4px' }}>{suggestion.title}</h3>
           <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.5, marginBottom: suggestion.hashtag ? '10px' : 0 }}>{suggestion.description}</p>
@@ -72,19 +72,19 @@ export default function DailySuggestion() {
                 title="Copy hashtag"
                 style={{
                   padding: '4px 10px', borderRadius: '4px',
-                  background: 'rgba(44, 121, 196, 0.12)', border: '1px solid rgba(44, 121, 196, 0.3)',
-                  color: 'var(--color-link)', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
+                  background: 'rgba(124,58,237,0.12)', border: '1px solid rgba(124,58,237,0.3)',
+                  color: '#a78bfa', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
                 }}
               >
                 #{suggestion.hashtag}
               </button>
               <Link
                 href={`/feed?tag=${encodeURIComponent(suggestion.hashtag.toLowerCase())}`}
-                style={{ fontSize: '11px', color: '#2c3e50', textDecoration: 'underline' }}
+                style={{ fontSize: '11px', color: '#8892a4', textDecoration: 'underline' }}
               >
                 See posts →
               </Link>
-              {copied && <span style={{ fontSize: '11px', color: 'var(--color-success)' }}>Copied!</span>}
+              {copied && <span style={{ fontSize: '11px', color: '#22c55e' }}>Copied!</span>}
             </div>
           )}
         </div>

@@ -5,7 +5,6 @@ import { createClient } from '@/lib/supabase/client'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { compressImage } from '@/lib/imageUpload'
-import Skeleton from '@/components/Skeleton'
 
 const FREE_PHOTO_LIMIT = 5
 
@@ -104,19 +103,19 @@ export default function VehiclePhotosPage() {
     setTimeout(() => setMessage(''), 3000)
   }
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px' }}><Skeleton variant="card" count={2} /></div>
-  if (!vehicle) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Vehicle not found</div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading...</div>
+  if (!vehicle) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Vehicle not found</div>
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href="/garage" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
+      <Link href="/garage" style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a' }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9' }}>
             Photos: {vehicle.year} {vehicle.make} {vehicle.model}
           </h1>
-          <p style={{ fontSize: '14px', color: '#666666', marginTop: '4px' }}>{images.length} photo{images.length !== 1 ? 's' : ''}</p>
+          <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>{images.length} photo{images.length !== 1 ? 's' : ''}</p>
         </div>
       </div>
 
@@ -128,30 +127,30 @@ export default function VehiclePhotosPage() {
 
       {/* Upload */}
       <div className="glass" style={{ padding: '20px', marginBottom: '20px' }}>
-        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '24px', border: '2px dashed #d4d4d4', borderRadius: '8px', cursor: 'pointer', transition: 'border-color 0.2s' }}>
-          <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleUpload} className="sr-only" aria-label="Upload vehicle photos" disabled={uploading} />
-          <span style={{ fontSize: '14px', color: '#666666' }}>{uploading ? 'Uploading...' : 'Click to upload photos (JPEG, PNG, WebP, max 5MB each)'}</span>
+        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '24px', border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', transition: 'border-color 0.2s' }}>
+          <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleUpload} style={{ display: 'none' }} disabled={uploading} />
+          <span style={{ fontSize: '14px', color: '#8892a4' }}>{uploading ? 'Uploading...' : 'Click to upload photos (JPEG, PNG, WebP, max 5MB each)'}</span>
         </label>
       </div>
 
       {/* Gallery */}
       {images.length === 0 ? (
         <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
-          <p style={{ color: '#666666' }}>No photos yet. Upload some above!</p>
+          <p style={{ color: '#8892a4' }}>No photos yet. Upload some above!</p>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '12px' }}>
           {images.map(img => (
-            <div key={img.id} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: '#e4e4e4', aspectRatio: '2 / 1' }}>
-              <img src={img.image_url} alt={img.caption || `${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div key={img.id} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '2 / 1' }}>
+              <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               {vehicle.primary_image_url === img.image_url && (
                 <span style={{ position: 'absolute', top: '6px', left: '6px', fontSize: '10px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.9)', color: 'white', fontWeight: 600 }}>Primary</span>
               )}
               <div style={{ position: 'absolute', bottom: '6px', right: '6px', display: 'flex', gap: '4px' }}>
                 {vehicle.primary_image_url !== img.image_url && (
-                  <button onClick={() => handleSetPrimary(img.image_url)} title="Set as primary" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: 'var(--color-success)', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>SET PRIMARY</button>
+                  <button onClick={() => handleSetPrimary(img.image_url)} title="Set as primary" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#22c55e', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>SET PRIMARY</button>
                 )}
-                <button onClick={() => handleDelete(img.id)} title="Delete" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>DELETE</button>
+                <button onClick={() => handleDelete(img.id)} title="Delete" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>DELETE</button>
               </div>
             </div>
           ))}

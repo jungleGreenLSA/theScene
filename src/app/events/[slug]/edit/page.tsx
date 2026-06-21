@@ -6,7 +6,6 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
 import { geocodeCityState } from '@/lib/mapbox'
-import Skeleton from '@/components/Skeleton'
 
 const CATEGORIES = ['Car Show', 'Car Meet', 'Track Day', 'Cruise', 'Swap Meet', 'Drag Race', 'Autocross', 'Dyno Day', 'Charity Event']
 
@@ -121,20 +120,20 @@ export default function EditEventPage() {
     setCochairs(cochairs.filter(c => c.id !== cochairId))
   }
 
-  const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }
+  const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#8892a4', marginBottom: '6px' }
 
-  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px' }}><Skeleton variant="line" count={4} /></div>
+  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading...</div>
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <Link href={`/events/${slug}`} style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Event</Link>
+      <Link href={`/events/${slug}`} style={{ fontSize: '13px', color: '#8892a4', display: 'block', marginBottom: '20px' }}>&larr; Back to Event</Link>
 
-      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '28px' }}>
-        Edit <span style={{ color: 'var(--color-link)' }}>Event</span>
+      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e2e4e9', marginBottom: '28px' }}>
+        Edit <span style={{ color: '#fb923c' }}>Event</span>
       </h1>
 
-      {message && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-success)' }}>{message}</div>}
-      {error && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-danger)' }}>{error}</div>}
+      {message && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e' }}>{message}</div>}
+      {error && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', marginBottom: '16px', fontSize: '13px', color: '#ef4444' }}>{error}</div>}
 
       <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div className="glass" style={{ padding: '24px' }}>
@@ -162,7 +161,7 @@ export default function EditEventPage() {
               }))}
             />
             {form.city && form.state && (
-              <p style={{ fontSize: '11px', color: form.lat && form.lng ? 'var(--color-success)' : 'var(--color-link)', marginTop: '6px' }}>
+              <p style={{ fontSize: '11px', color: form.lat && form.lng ? '#22c55e' : '#fb923c', marginTop: '6px' }}>
                 {form.city}, {form.state}{form.lat && form.lng ? ' · geocoded ✓' : ' · geocoding on save'}
               </p>
             )}
@@ -176,9 +175,9 @@ export default function EditEventPage() {
               {CATEGORIES.map(cat => (
                 <button key={cat} type="button" onClick={() => toggleCategory(cat)} style={{
                   padding: '5px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: form.categories.includes(cat) ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-                  color: form.categories.includes(cat) ? 'var(--color-link)' : '#555555',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4',
+                  background: form.categories.includes(cat) ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
+                  color: form.categories.includes(cat) ? '#a78bfa' : '#6b7280',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)',
                 }}>{cat}</button>
               ))}
             </div>
@@ -187,20 +186,20 @@ export default function EditEventPage() {
 
         {/* Co-chairs */}
         <div className="glass" style={{ padding: '24px' }}>
-          <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#1a1a1a', marginBottom: '12px' }}>Co-Chairs</h3>
-          <p style={{ fontSize: '12px', color: '#555555', marginBottom: '12px' }}>Co-chairs can also manage this event.</p>
+          <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>Co-Chairs</h3>
+          <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '12px' }}>Co-chairs can also manage this event.</p>
 
           <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
             <input value={cochairUsername} onChange={(e) => setCochairUsername(e.target.value)} className="input" placeholder="Enter username" maxLength={64} style={{ flex: 1 }} />
-            <button type="button" onClick={handleAddCochair} style={{ padding: '10px 16px', borderRadius: '8px', background: '#2c79c4', border: '1px solid #5fa8dd', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Add</button>
+            <button type="button" onClick={handleAddCochair} style={{ padding: '10px 16px', borderRadius: '8px', background: '#7c3aed', border: '1px solid #a78bfa', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Add</button>
           </div>
 
           {cochairs.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {cochairs.map(c => (
-                <div key={c.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', borderRadius: '6px', background: '#f0f0f0', border: '1px solid #e4e4e4' }}>
-                  <span style={{ fontSize: '13px', color: '#1a1a1a' }}>@{c.user?.username || 'unknown'} <span style={{ color: '#555555' }}>({c.user?.display_name || ''})</span></span>
-                  <button type="button" onClick={() => handleRemoveCochair(c.id)} style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Remove</button>
+                <div key={c.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', borderRadius: '6px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <span style={{ fontSize: '13px', color: '#e2e4e9' }}>@{c.user?.username || 'unknown'} <span style={{ color: '#6b7280' }}>({c.user?.display_name || ''})</span></span>
+                  <button type="button" onClick={() => handleRemoveCochair(c.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Remove</button>
                 </div>
               ))}
             </div>
@@ -209,7 +208,7 @@ export default function EditEventPage() {
 
         <button type="submit" disabled={saving} style={{
           width: '100%', padding: '16px', borderRadius: '12px',
-          background: '#5fa8dd', border: '1px solid #90caf9', color: '#0c0c14',
+          background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
           fontSize: '15px', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.5 : 1,
         }}>
           {saving ? 'Saving...' : 'Save Changes'}

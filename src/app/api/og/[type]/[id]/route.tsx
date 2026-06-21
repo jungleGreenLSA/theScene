@@ -21,7 +21,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: `${data.year} ${data.make} ${data.model}`,
       subhead: `${data.color ? data.color + ' · ' : ''}by ${owner?.display_name || owner?.username || 'a Scene member'}`,
       tag: 'BUILD',
-      accent: '#5fa8dd',
+      accent: '#a78bfa',
       image: data.primary_image_url,
     }
   }
@@ -33,7 +33,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: data.title,
       subhead: `${when}${data.city ? ` · ${data.city}, ${data.state}` : ''}`,
       tag: 'CAR SHOW',
-      accent: '#90caf9',
+      accent: '#fb923c',
       image: data.cover_image_url,
     }
   }
@@ -56,7 +56,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: data.name,
       subhead: data.description || 'A car club on The Scene',
       tag: 'CLUB',
-      accent: '#5fa8dd',
+      accent: '#a78bfa',
       image: data.cover_image_url,
     }
   }
@@ -75,12 +75,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ type: s
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '60px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <span style={{ fontSize: 22, fontWeight: 700, color: data.accent, letterSpacing: 4 }}>{data.tag}</span>
-            <span style={{ fontSize: 64, fontWeight: 800, color: '#1a1a1a', lineHeight: 1.1 }}>{data.headline}</span>
-            <span style={{ fontSize: 28, color: '#555555' }}>{data.subhead}</span>
+            <span style={{ fontSize: 64, fontWeight: 800, color: '#e2e4e9', lineHeight: 1.1 }}>{data.headline}</span>
+            <span style={{ fontSize: 28, color: '#9ca3af' }}>{data.subhead}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 4, color: '#1a1a1a' }}>THE<span style={{ color: '#5fa8dd' }}>SCENE</span></span>
-            <span style={{ fontSize: 20, color: '#555555' }}>· thescene.fyi</span>
+            <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 4, color: '#e2e4e9' }}>THE<span style={{ color: '#a78bfa' }}>SCENE</span></span>
+            <span style={{ fontSize: 20, color: '#6b7280' }}>· thescene.fyi</span>
           </div>
         </div>
         {/* Right — image */}

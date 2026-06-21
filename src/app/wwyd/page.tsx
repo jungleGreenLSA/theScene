@@ -151,20 +151,20 @@ export default function WWYDPage() {
           <div style={{ marginBottom: '12px' }}>
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Photo of your car (optional)</label>
             <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '13px' }} />
-            {imageFile && <p style={{ fontSize: '11px', color: 'var(--color-success)', marginTop: '4px' }}>{imageFile.name}</p>}
+            {imageFile && <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '4px' }}>{imageFile.name}</p>}
           </div>
           <div style={{ marginBottom: '16px' }}>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(2–4 choices)</span></label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(2–4 choices)</span></label>
             {form.options.map((opt, i) => (
               <div key={i} style={{ display: 'flex', gap: '6px', marginBottom: '6px' }}>
                 <input value={opt} onChange={(e) => { const o = [...form.options]; o[i] = e.target.value; setForm({ ...form, options: o }) }} className="input" placeholder={`Option ${i + 1}`} style={{ flex: 1 }} required={i < 2} />
                 {form.options.length > 2 && (
-                  <button type="button" onClick={() => setForm({ ...form, options: form.options.filter((_, idx) => idx !== i) })} style={{ padding: '0 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: 'var(--color-danger)', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
+                  <button type="button" onClick={() => setForm({ ...form, options: form.options.filter((_, idx) => idx !== i) })} style={{ padding: '0 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
                 )}
               </div>
             ))}
             {form.options.length < 4 && (
-              <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: 'var(--color-link)', fontSize: '13px', cursor: 'pointer' }}>+ Add option ({4 - form.options.length} more)</button>
+              <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', cursor: 'pointer' }}>+ Add option ({4 - form.options.length} more)</button>
             )}
           </div>
           <button type="submit" disabled={submitting} className="btn-neon" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px' }}>
@@ -190,8 +190,8 @@ export default function WWYDPage() {
             return (
               <div key={post.id} className="glass" style={{ padding: '24px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-                  <Link href={`/user/${post.author?.username}`} style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0, display: 'block' }}>
-                    {post.author?.avatar_url ? <img src={post.author.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#555555' }}>{post.author?.username?.charAt(0).toUpperCase()}</div>}
+                  <Link href={`/user/${post.author?.username}`} style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0, display: 'block' }}>
+                    {post.author?.avatar_url ? <img src={post.author.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#6b7280' }}>{post.author?.username?.charAt(0).toUpperCase()}</div>}
                   </Link>
                   <div style={{ flex: 1 }}>
                     <Link href={`/user/${post.author?.username}`} className="font-semibold text-foreground hover:text-purple-light" style={{ fontSize: '14px' }}>{post.author?.display_name || post.author?.username}</Link>
@@ -204,11 +204,11 @@ export default function WWYDPage() {
 
                 <h3 className="font-bold text-foreground" style={{ fontSize: '1.1rem', marginBottom: '6px' }}>{post.title}</h3>
                 {post.image_url && (
-                  <div style={{ borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', maxHeight: '360px', background: '#e4e4e4' }}>
-                    <img src={post.image_url} alt={post.title} style={{ width: '100%', maxHeight: '360px', objectFit: 'cover' }} />
+                  <div style={{ borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', maxHeight: '360px', background: 'rgba(26,26,46,0.5)' }}>
+                    <img src={post.image_url} alt="" style={{ width: '100%', maxHeight: '360px', objectFit: 'cover' }} />
                   </div>
                 )}
-                {post.budget && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: 'var(--color-success)', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>Budget: {post.budget}</span>}
+                {post.budget && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>Budget: {post.budget}</span>}
                 {post.description && <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '14px', lineHeight: 1.5 }}>{post.description}</p>}
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -222,11 +222,11 @@ export default function WWYDPage() {
                         style={{
                           position: 'relative', width: '100%', textAlign: 'left', padding: '12px 16px',
                           borderRadius: '8px', border: 'none', cursor: hasVoted ? 'default' : 'pointer',
-                          background: '#f0f0f0', outline: '1px solid #e4e4e4',
+                          background: 'rgba(18,18,30,0.5)', outline: '1px solid rgba(255,255,255,0.06)',
                           overflow: 'hidden', transition: 'all 0.2s',
                         }}
                       >
-                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${pct}%`, background: 'rgba(44, 121, 196, 0.15)', transition: 'width 0.5s ease', borderRadius: '8px' }} />
+                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${pct}%`, background: 'rgba(124,58,237,0.15)', transition: 'width 0.5s ease', borderRadius: '8px' }} />
                         <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <span className="text-foreground" style={{ fontSize: '14px', fontWeight: 500 }}>{opt.label}</span>
                           <span className="text-muted-light" style={{ fontSize: '12px', fontWeight: 600 }}>{opt.vote_count} vote{opt.vote_count !== 1 ? 's' : ''} {totalVotes > 0 && `(${Math.round(pct)}%)`}</span>

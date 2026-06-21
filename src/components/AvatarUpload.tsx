@@ -30,21 +30,21 @@ export default function AvatarUpload({ userId, currentUrl, onUpdate }: { userId:
 
   return (
     <label style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}>
-      <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', border: '2px solid rgba(44, 121, 196, 0.3)' }}>
+      <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(124,58,237,0.3)' }}>
         {currentUrl ? (
           <img src={currentUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#2c3e50', letterSpacing: '1px' }}>ADD PHOTO</div>
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px' }}>ADD PHOTO</div>
         )}
       </div>
       <div style={{
         position: 'absolute', bottom: -2, right: -2, width: '24px', height: '24px', borderRadius: '50%',
-        background: '#2c79c4', border: '2px solid #0c0c14', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: '#7c3aed', border: '2px solid #0c0c14', display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: '10px', color: 'white',
       }}>
         {uploading ? '...' : '+'}
       </div>
-      <input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Upload profile photo" onChange={handleUpload} className="sr-only" />
+      <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleUpload} style={{ display: 'none' }} />
     </label>
   )
 }

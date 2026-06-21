@@ -4,18 +4,12 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
   const [otp, setOtp] = useState('')
   const [error, setError] = useState('')
-  const [emailErr, setEmailErr] = useState('')
-  const [passwordErr, setPasswordErr] = useState('')
-  const [phoneErr, setPhoneErr] = useState('')
-  const [otpErr, setOtpErr] = useState('')
   const [loading, setLoading] = useState(false)
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
   const [otpSent, setOtpSent] = useState(false)
@@ -119,24 +113,24 @@ export default function LoginPage() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-            <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }} />
+            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
             <span className="text-xs text-muted uppercase tracking-wider">or</span>
-            <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }} />
+            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
           </div>
 
           {/* Auth method toggle */}
-          <div style={{ display: 'flex', marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--color-border)' }}>
+          <div style={{ display: 'flex', marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
             <button
               type="button"
               onClick={() => { setAuthMethod('email'); setOtpSent(false); setError('') }}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0', color: authMethod === 'email' ? '#5fa8dd' : '#555555' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'email' ? '#a78bfa' : '#6b7280' }}
             >
               Email
             </button>
             <button
               type="button"
               onClick={() => { setAuthMethod('phone'); setError('') }}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0', color: authMethod === 'phone' ? '#5fa8dd' : '#555555' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'phone' ? '#a78bfa' : '#6b7280' }}
             >
               Phone
             </button>
@@ -157,13 +151,13 @@ export default function LoginPage() {
                   if (error) setError(error.message)
                   else setError('')
                   alert(error ? error.message : 'Password reset link sent to ' + email)
-                }} style={{ background: 'none', border: 'none', color: 'var(--color-link)', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
+                }} style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
                   Forgot password?
                 </button>
               </div>
 
               {error && (
-                <div className="text-sm" style={{ background: '#fce9e9', border: '1px solid #c02b2b', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#7a1818' }}>{error}</div>
+                <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>{error}</div>
               )}
 
               <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
@@ -179,7 +173,7 @@ export default function LoginPage() {
               </div>
 
               {error && (
-                <div className="text-sm" style={{ background: '#fce9e9', border: '1px solid #c02b2b', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#7a1818' }}>{error}</div>
+                <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>{error}</div>
               )}
 
               <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
@@ -195,7 +189,7 @@ export default function LoginPage() {
               </div>
 
               {error && (
-                <div className="text-sm" style={{ background: '#fce9e9', border: '1px solid #c02b2b', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#7a1818' }}>{error}</div>
+                <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>{error}</div>
               )}
 
               <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>

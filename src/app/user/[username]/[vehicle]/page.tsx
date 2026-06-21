@@ -120,19 +120,19 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
   return (
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
       {/* Breadcrumb */}
-      <div style={{ fontSize: '14px', color: '#555555', marginBottom: '20px' }}>
-        <Link href={`/user/${username}`} style={{ color: '#666666' }}>@{username}</Link>
+      <div style={{ fontSize: '14px', color: '#6b7280', marginBottom: '20px' }}>
+        <Link href={`/user/${username}`} style={{ color: '#8892a4' }}>@{username}</Link>
         <span style={{ margin: '0 8px' }}>/</span>
-        <span style={{ color: '#1a1a1a' }}>{vehicle.year} {vehicle.make} {vehicle.model}</span>
+        <span style={{ color: '#e2e4e9' }}>{vehicle.year} {vehicle.make} {vehicle.model}</span>
       </div>
 
       {/* Hero card */}
       <div className="glass glow-purple" style={{ overflow: 'hidden', marginBottom: '24px' }}>
-        <div style={{ aspectRatio: '2 / 1', background: '#e4e4e4', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', position: 'relative', overflow: 'hidden' }}>
           {(vehicle.primary_image_url || (images && images.length > 0)) ? (
             <img src={vehicle.primary_image_url || images?.[0]?.image_url} alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : null}
-          <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: '#ffffff', color: 'var(--color-link)', border: '1px solid rgba(95, 168, 221, 0.3)' }}>
+          <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(12,12,20,0.8)', color: '#fb923c', border: '1px solid rgba(249,115,22,0.3)' }}>
             {vehicle.build_status?.replace('_', ' ')}
           </span>
         </div>
@@ -140,27 +140,27 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
         <div style={{ padding: '24px' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
             <div>
-              <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>
+              <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9' }}>
                 {vehicle.year} {vehicle.make} {vehicle.model}
               </h1>
-              <p style={{ fontSize: '16px', color: 'var(--color-link)', marginTop: '4px' }}>{vehicle.color}</p>
+              <p style={{ fontSize: '16px', color: '#a78bfa', marginTop: '4px' }}>{vehicle.color}</p>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <PropsButton targetType="vehicle" targetId={vehicle.id} initialCount={vehicle.props_count || 0} />
               <ShareButton url={`/user/${username}/${vehicleSlug}`} title={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} text={`Check out this ${vehicle.year} ${vehicle.make} ${vehicle.model} on The Scene`} small />
-              <span style={{ fontSize: '13px', color: '#555555' }}>{vehicle.view_count || 0} views</span>
+              <span style={{ fontSize: '13px', color: '#6b7280' }}>{vehicle.view_count || 0} views</span>
               <GarageQR username={username} vehicleSlug={vehicleSlug} vehicleId={vehicle.id} />
             </div>
           </div>
 
           {/* Owner */}
-          <Link href={`/user/${username}`} style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e4e4e4' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', backgroundImage: profile.avatar_url ? `url(${profile.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {!profile.avatar_url && <span style={{ fontSize: '14px', color: '#555555' }}>{profile.username.charAt(0).toUpperCase()}</span>}
+          <Link href={`/user/${username}`} style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', backgroundImage: profile.avatar_url ? `url(${profile.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {!profile.avatar_url && <span style={{ fontSize: '14px', color: '#6b7280' }}>{profile.username.charAt(0).toUpperCase()}</span>}
             </div>
             <div>
-              <p style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>{profile.display_name || profile.username}</p>
-              <p style={{ fontSize: '12px', color: '#666666' }}>@{profile.username} {profile.location && `· ${profile.location}`}</p>
+              <p style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>{profile.display_name || profile.username}</p>
+              <p style={{ fontSize: '12px', color: '#8892a4' }}>@{profile.username} {profile.location && `· ${profile.location}`}</p>
             </div>
           </Link>
         </div>
@@ -168,7 +168,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
 
       {/* Specs grid */}
       <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }}>Specs</h2>
+        <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Specs</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 140px), 1fr))', gap: '10px' }}>
           {[
             { label: 'Year', value: vehicle.year },
@@ -182,9 +182,9 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
             { label: 'Horsepower', value: vehicle.horsepower },
             { label: 'Mileage', value: vehicle.mileage },
           ].filter(s => s.value).map((spec) => (
-            <div key={spec.label} style={{ padding: '12px', background: '#f0f0f0', borderRadius: '8px' }}>
-              <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--color-link)', fontWeight: 600 }}>{spec.label}</p>
-              <p style={{ fontSize: '14px', fontWeight: 500, color: '#1a1a1a', marginTop: '2px' }}>{spec.value}</p>
+            <div key={spec.label} style={{ padding: '12px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px' }}>
+              <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#a78bfa', fontWeight: 600 }}>{spec.label}</p>
+              <p style={{ fontSize: '14px', fontWeight: 500, color: '#e2e4e9', marginTop: '2px' }}>{spec.value}</p>
             </div>
           ))}
         </div>
@@ -193,18 +193,18 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
       {/* About */}
       {vehicle.bio && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '12px' }}>About This Build</h2>
-          <p style={{ fontSize: '14px', color: '#555555', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{vehicle.bio}</p>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '12px' }}>About This Build</h2>
+          <p style={{ fontSize: '14px', color: '#9ca3af', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{vehicle.bio}</p>
         </div>
       )}
 
       {/* Gallery */}
       {images && images.length > 0 && (
         <div style={{ marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }}>Gallery</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Gallery</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '10px' }}>
             {images.map((img) => (
-              <div key={img.id} style={{ borderRadius: '8px', overflow: 'hidden', background: '#e4e4e4', aspectRatio: '2 / 1' }}>
+              <div key={img.id} style={{ borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', aspectRatio: '2 / 1' }}>
                 <img src={img.image_url} alt={img.caption || ''} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             ))}
@@ -215,20 +215,20 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
       {/* Modifications */}
       {Object.keys(modsByCategory).length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '16px' }}>Modifications</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '16px' }}>Modifications</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {Object.entries(modsByCategory).map(([category, items]) => (
               <div key={category}>
-                <h3 style={{ fontSize: '12px', fontWeight: 700, color: 'var(--color-link)', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '8px' }}>
+                <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#fb923c', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '8px' }}>
                   {categoryLabels[category] || category}
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {items?.map((mod) => (
-                    <div key={mod.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: '#555555' }}>
-                      <span style={{ color: 'var(--color-link)', marginTop: '2px' }}>•</span>
+                    <div key={mod.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: '#9ca3af' }}>
+                      <span style={{ color: '#a78bfa', marginTop: '2px' }}>•</span>
                       <span>
-                        {mod.brand && <strong style={{ color: '#1a1a1a' }}>{mod.brand}</strong>} {mod.item}
-                        {mod.notes && <span style={{ color: '#555555', marginLeft: '4px' }}>— {mod.notes}</span>}
+                        {mod.brand && <strong style={{ color: '#e2e4e9' }}>{mod.brand}</strong>} {mod.item}
+                        {mod.notes && <span style={{ color: '#6b7280', marginLeft: '4px' }}>— {mod.notes}</span>}
                       </span>
                     </div>
                   ))}
@@ -242,15 +242,15 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
       {/* Tagged Shops */}
       {taggedShops && taggedShops.length > 0 && (
         <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }}>Shops Tagged</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Shops Tagged</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
             {taggedShops.map((t: any) => (
               t.shop && (
                 <Link key={t.id} href={`/shops/${t.shop.slug}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', borderRadius: '8px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
-                  {t.shop.logo_url && <img src={t.shop.logo_url} alt={`${t.shop.name} logo`} style={{ width: '28px', height: '28px', borderRadius: '4px', objectFit: 'cover' }} />}
+                  {t.shop.logo_url && <img src={t.shop.logo_url} alt="" style={{ width: '28px', height: '28px', borderRadius: '4px', objectFit: 'cover' }} />}
                   <div>
-                    <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-success)' }}>{t.shop.name}</p>
-                    {t.shop.city && <p style={{ fontSize: '11px', color: '#555555' }}>{t.shop.city}, {t.shop.state}</p>}
+                    <p style={{ fontSize: '13px', fontWeight: 600, color: '#22c55e' }}>{t.shop.name}</p>
+                    {t.shop.city && <p style={{ fontSize: '11px', color: '#6b7280' }}>{t.shop.city}, {t.shop.state}</p>}
                   </div>
                 </Link>
               )
@@ -268,22 +268,22 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
       {/* Similar Builds */}
       {similarBuilds && similarBuilds.length > 0 && (
         <div style={{ marginTop: '24px' }}>
-          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }}>Similar {vehicle.make} {vehicle.model} Builds</h2>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e2e4e9', marginBottom: '14px' }}>Similar {vehicle.make} {vehicle.model} Builds</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '12px' }}>
             {similarBuilds.map((sim) => (
               <Link key={sim.id} href={`/user/${sim.owner?.username}/${sim.slug}`} className="glass card-hover" style={{ display: 'flex', overflow: 'hidden' }}>
-                <div style={{ width: '160px', aspectRatio: '2 / 1', background: '#e4e4e4', flexShrink: 0, overflow: 'hidden' }}>
+                <div style={{ width: '160px', aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', flexShrink: 0, overflow: 'hidden' }}>
                   {sim.primary_image_url ? (
-                    <img src={sim.primary_image_url} alt={`${sim.year} ${sim.make} ${sim.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={sim.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
                 </div>
                 <div style={{ padding: '14px', flex: 1, minWidth: 0 }}>
-                  <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sim.year} {sim.make} {sim.model}</h3>
-                  <p style={{ fontSize: '12px', color: '#666666', marginTop: '2px' }}>{sim.color} {sim.horsepower && `· ${sim.horsepower}`}</p>
-                  <p style={{ fontSize: '11px', color: '#555555', marginTop: '4px' }}>by @{sim.owner?.username}</p>
+                  <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{sim.year} {sim.make} {sim.model}</h3>
+                  <p style={{ fontSize: '12px', color: '#8892a4', marginTop: '2px' }}>{sim.color} {sim.horsepower && `· ${sim.horsepower}`}</p>
+                  <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px' }}>by @{sim.owner?.username}</p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
-                    <span style={{ fontSize: '11px', color: '#666666' }}>{sim.props_count || 0} Props</span>
-                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', color: 'var(--color-link)' }}>{sim.build_status?.replace('_', ' ')}</span>
+                    <span style={{ fontSize: '11px', color: '#8892a4' }}>{sim.props_count || 0} Props</span>
+                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', color: '#a78bfa' }}>{sim.build_status?.replace('_', ' ')}</span>
                   </div>
                 </div>
               </Link>

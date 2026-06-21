@@ -59,7 +59,7 @@ export default function PricingPage() {
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-        <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', color: 'var(--color-link)' }}>Choose Your Plan</span>
+        <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '3px', color: '#a78bfa' }}>Choose Your Plan</span>
         <h1 className="font-bold text-foreground" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginTop: '8px' }}>
           Join <span className="text-neon-light text-glow-neon">The Scene</span>
         </h1>
@@ -69,7 +69,7 @@ export default function PricingPage() {
       </div>
 
       {/* Members-only notice */}
-      <div className="glass" style={{ padding: '16px 24px', marginBottom: '32px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
+      <div className="glass" style={{ padding: '16px 24px', marginBottom: '32px', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', border: '1px solid rgba(124,58,237,0.2)' }}>
         <p className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, marginBottom: '4px' }}>Members-Only Community</p>
         <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.5 }}>
           Explore, Events, Clubs, What Would You Do, Spot a Ride, Crew Runs, Challenges, and Leaderboards are exclusively available to registered members. Create a free account to access the full Scene.
@@ -78,13 +78,13 @@ export default function PricingPage() {
 
       {/* Billing toggle */}
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
-        <div style={{ display: 'flex', borderRadius: '8px', overflow: 'hidden', border: '1px solid #e4e4e4' }}>
+        <div style={{ display: 'flex', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
           <button
             onClick={() => setBillingCycle('monthly')}
             style={{
               padding: '10px 24px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
-              background: billingCycle === 'monthly' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-              color: billingCycle === 'monthly' ? 'var(--color-link)' : '#555555',
+              background: billingCycle === 'monthly' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
+              color: billingCycle === 'monthly' ? '#a78bfa' : '#6b7280',
             }}
           >
             Monthly
@@ -93,12 +93,12 @@ export default function PricingPage() {
             onClick={() => setBillingCycle('yearly')}
             style={{
               padding: '10px 24px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
-              background: billingCycle === 'yearly' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-              color: billingCycle === 'yearly' ? 'var(--color-link)' : '#555555',
+              background: billingCycle === 'yearly' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
+              color: billingCycle === 'yearly' ? '#a78bfa' : '#6b7280',
             }}
           >
             Yearly
-            {billingCycle === 'yearly' && <span style={{ marginLeft: '8px', color: 'var(--color-success)', fontSize: '11px' }}>Save 27%</span>}
+            {billingCycle === 'yearly' && <span style={{ marginLeft: '8px', color: '#22c55e', fontSize: '11px' }}>Save 27%</span>}
           </button>
         </div>
       </div>
@@ -108,7 +108,7 @@ export default function PricingPage() {
         {/* FREE */}
         <div className="glass" style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column' }}>
           <div style={{ marginBottom: '24px' }}>
-            <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', color: '#555555' }}>Free</span>
+            <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', color: '#9ca3af' }}>Free</span>
             <div style={{ marginTop: '8px' }}>
               <span className="text-foreground font-bold" style={{ fontSize: '3rem', lineHeight: 1 }}>$0</span>
               <span className="text-muted" style={{ fontSize: '14px', marginLeft: '4px' }}>forever</span>
@@ -122,8 +122,8 @@ export default function PricingPage() {
 
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
             {FREE_FEATURES.map((f) => (
-              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#555555' }}>
-                <span style={{ color: 'var(--color-success)', flexShrink: 0 }}>•</span>
+              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#9ca3af' }}>
+                <span style={{ color: '#22c55e', flexShrink: 0 }}>•</span>
                 {f}
               </li>
             ))}
@@ -131,20 +131,20 @@ export default function PricingPage() {
         </div>
 
         {/* PREMIUM */}
-        <div className="glass" style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', border: '1px solid rgba(44, 121, 196, 0.3)', position: 'relative', overflow: 'hidden' }}>
+        <div className="glass" style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column', border: '1px solid rgba(124,58,237,0.3)', position: 'relative', overflow: 'hidden' }}>
           {/* Popular badge */}
-          <div style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(95, 168, 221, 0.15)', border: '1px solid rgba(95, 168, 221, 0.3)', borderRadius: '50px', padding: '4px 14px' }}>
-            <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--color-link)' }}>Best Value</span>
+          <div style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)', borderRadius: '50px', padding: '4px 14px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#fb923c' }}>Best Value</span>
           </div>
 
           <div style={{ marginBottom: '24px' }}>
-            <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--color-link)' }}>Premium</span>
+            <span style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', color: '#a78bfa' }}>Premium</span>
             <div style={{ marginTop: '8px', display: 'flex', alignItems: 'baseline', gap: '4px' }}>
               <span className="text-foreground font-bold" style={{ fontSize: '3rem', lineHeight: 1 }}>{price}</span>
               <span className="text-muted" style={{ fontSize: '14px' }}>/{billingCycle === 'monthly' ? 'month' : 'year'}</span>
             </div>
             {billingCycle === 'yearly' && (
-              <p style={{ fontSize: '13px', color: 'var(--color-success)', marginTop: '4px', fontWeight: 600 }}>{savings} ({perMonth}/mo)</p>
+              <p style={{ fontSize: '13px', color: '#22c55e', marginTop: '4px', fontWeight: 600 }}>{savings} ({perMonth}/mo)</p>
             )}
             <p className="text-muted-light" style={{ fontSize: '14px', marginTop: '8px' }}>The full Scene experience. Unlock everything.</p>
           </div>
@@ -155,17 +155,17 @@ export default function PricingPage() {
 
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', flex: 1 }}>
             {FREE_FEATURES.map((f) => (
-              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#555555' }}>
-                <span style={{ color: 'var(--color-success)', flexShrink: 0 }}>•</span>
+              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#9ca3af' }}>
+                <span style={{ color: '#22c55e', flexShrink: 0 }}>•</span>
                 {f}
               </li>
             ))}
-            <li style={{ borderTop: '1px solid #e4e4e4', paddingTop: '12px', marginTop: '4px' }}>
-              <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--color-link)' }}>Plus Premium:</span>
+            <li style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px', marginTop: '4px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#a78bfa' }}>Plus Premium:</span>
             </li>
             {PREMIUM_FEATURES.slice(0, 6).map((f) => (
-              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#1a1a1a', fontWeight: 500 }}>
-                <span style={{ color: 'var(--color-link)', flexShrink: 0 }}>•</span>
+              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#e2e4e9', fontWeight: 500 }}>
+                <span style={{ color: '#a78bfa', flexShrink: 0 }}>•</span>
                 {f}
               </li>
             ))}
@@ -173,15 +173,15 @@ export default function PricingPage() {
               <li>
                 <button
                   onClick={() => setShowPremiumDetails(true)}
-                  style={{ background: 'none', border: 'none', color: 'var(--color-link)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', padding: '4px 0' }}
+                  style={{ background: 'none', border: 'none', color: '#a78bfa', fontSize: '13px', fontWeight: 600, cursor: 'pointer', padding: '4px 0' }}
                 >
                   + {PREMIUM_FEATURES.length - 6} more features →
                 </button>
               </li>
             )}
             {showPremiumDetails && PREMIUM_FEATURES.slice(6).map((f) => (
-              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#1a1a1a', fontWeight: 500 }}>
-                <span style={{ color: 'var(--color-link)', flexShrink: 0 }}>•</span>
+              <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '14px', color: '#e2e4e9', fontWeight: 500 }}>
+                <span style={{ color: '#a78bfa', flexShrink: 0 }}>•</span>
                 {f}
               </li>
             ))}
@@ -215,7 +215,7 @@ export default function PricingPage() {
           { q: 'What payment methods do you accept?', a: 'We accept all major credit cards, debit cards, and Apple Pay / Google Pay through our secure payment provider (Stripe).' },
           { q: 'Is my payment information secure?', a: 'Yes. We never see or store your card details. All payments are processed securely by Stripe.' },
         ].map((faq) => (
-          <div key={faq.q} style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #e4e4e4' }}>
+          <div key={faq.q} style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
             <p className="font-semibold text-foreground" style={{ fontSize: '14px', marginBottom: '6px' }}>{faq.q}</p>
             <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.6 }}>{faq.a}</p>
           </div>

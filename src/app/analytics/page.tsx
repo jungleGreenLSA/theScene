@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import Skeleton from '@/components/Skeleton'
 
 interface Vehicle {
   id: string
@@ -98,7 +97,7 @@ export default function AnalyticsPage() {
   }
 
   if (loading) {
-    return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}><Skeleton variant="card" count={3} /></div>
+    return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }} className="text-muted-light">Loading analytics...</div>
   }
 
   if (!isPremium) {
@@ -157,9 +156,9 @@ export default function AnalyticsPage() {
         <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Traffic Sources (Last 30 Days)</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {[
-            { label: 'Explore', count: stats.explore, color: 'var(--color-link)' },
-            { label: 'Search', count: stats.search, color: 'var(--color-link)' },
-            { label: 'Direct Link', count: stats.direct, color: 'var(--color-success)' },
+            { label: 'Explore', count: stats.explore, color: '#a78bfa' },
+            { label: 'Search', count: stats.search, color: '#fb923c' },
+            { label: 'Direct Link', count: stats.direct, color: '#22c55e' },
             { label: 'QR Code', count: stats.qr, color: '#3b82f6' },
             { label: 'Feed', count: stats.feed, color: '#ec4899' },
           ].map((source) => {
@@ -170,7 +169,7 @@ export default function AnalyticsPage() {
                   <span className="text-muted-light" style={{ fontSize: '13px' }}>{source.label}</span>
                   <span className="text-foreground font-semibold" style={{ fontSize: '13px' }}>{source.count} ({Math.round(pct)}%)</span>
                 </div>
-                <div style={{ height: '6px', background: '#f5f5f5', borderRadius: '3px', overflow: 'hidden' }}>
+                <div style={{ height: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '3px', overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: `${pct}%`, background: source.color, borderRadius: '3px', transition: 'width 0.5s ease' }} />
                 </div>
               </div>
@@ -191,11 +190,11 @@ export default function AnalyticsPage() {
                 onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
                 onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
               >
-                <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0 }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0 }}>
                   {v.avatar_url ? (
                     <img src={v.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', color: '#555555' }}>{v.username?.charAt(0).toUpperCase()}</div>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', color: '#6b7280' }}>{v.username?.charAt(0).toUpperCase()}</div>
                   )}
                 </div>
                 <div style={{ flex: 1 }}>

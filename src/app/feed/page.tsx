@@ -4,7 +4,6 @@ import { useEffect, useState, Suspense } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import Skeleton from '@/components/Skeleton'
 import DailySuggestion from '@/components/DailySuggestion'
 import Announcements from '@/components/Announcements'
 import TrendingBuilds from '@/components/TrendingBuilds'
@@ -19,7 +18,7 @@ import Timeline from '@/components/Timeline'
 // under Suspense — the CSR bailout).
 export default function FeedPage() {
   return (
-    <Suspense fallback={<div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}><Skeleton variant="card" count={3} /></div>}>
+    <Suspense fallback={<div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px', color: '#6b7280' }}>Loading feed...</div>}>
       <FeedPageContent />
     </Suspense>
   )
@@ -94,11 +93,11 @@ function FeedPageContent() {
                     onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
                   >
                     <div style={{ position: 'relative', flexShrink: 0 }}>
-                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4' }}>
+                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                         {m.avatar_url ? (
                           <img src={m.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         ) : (
-                          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#555555' }}>
+                          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#6b7280' }}>
                             {m.username?.charAt(0).toUpperCase()}
                           </div>
                         )}
@@ -127,15 +126,15 @@ function FeedPageContent() {
               Quick Links
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Link href="/explore" style={{ fontSize: '13px', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>Explore Builds</Link>
-              <Link href="/events" style={{ fontSize: '13px', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>Events</Link>
-              <Link href="/clubs" style={{ fontSize: '13px', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>Clubs</Link>
-              <Link href="/garage/setup" style={{ fontSize: '13px', color: 'var(--color-link)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
+              <Link href="/explore" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>Explore Builds</Link>
+              <Link href="/events" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>Events</Link>
+              <Link href="/clubs" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>Clubs</Link>
+              <Link href="/garage/setup" style={{ fontSize: '13px', color: '#fb923c', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
             </div>
           </div>
 
           {/* CTA */}
-          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
+          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(124,58,237,0.2)' }}>
             <p className="text-foreground font-semibold" style={{ fontSize: '14px', marginBottom: '8px' }}>Unlock More with Premium</p>
             <p className="text-muted" style={{ fontSize: '12px', marginBottom: '12px' }}>Unlimited garage, analytics, and more.</p>
             <Link href="/pricing" className="btn-primary" style={{ fontSize: '11px', padding: '8px 16px', width: '100%', justifyContent: 'center', display: 'flex' }}>

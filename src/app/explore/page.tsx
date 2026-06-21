@@ -144,7 +144,7 @@ export default function ExplorePage() {
       <div className="text-center" style={{ marginBottom: '24px' }}>
         <h1 className="text-3xl font-bold">Explore <span className="text-purple-light">The Scene</span></h1>
         <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>
-          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: 'var(--color-link)' }}>{nearbyState}</span></> : ' across the country'}
+          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: '#a78bfa' }}>{nearbyState}</span></> : ' across the country'}
         </p>
       </div>
 
@@ -176,8 +176,8 @@ export default function ExplorePage() {
 
         {searchCoords && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '12px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#555555' }}>Within</span>
-            <div style={{ display: 'inline-flex', borderRadius: '6px', overflow: 'hidden', border: '1px solid #d4d4d4' }}>
+            <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#6b7280' }}>Within</span>
+            <div style={{ display: 'inline-flex', borderRadius: '6px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
               {RADIUS_OPTIONS.map(opt => (
                 <button
                   key={opt.miles}
@@ -185,16 +185,16 @@ export default function ExplorePage() {
                   onClick={() => setRadius(opt.miles)}
                   style={{
                     padding: '6px 12px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600,
-                    background: radius === opt.miles ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-                    color: radius === opt.miles ? 'var(--color-link)' : '#666666',
+                    background: radius === opt.miles ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
+                    color: radius === opt.miles ? '#a78bfa' : '#8892a4',
                   }}
                 >
                   {opt.label}
                 </button>
               ))}
             </div>
-            <span style={{ fontSize: '12px', color: '#666666' }}>of <span style={{ color: 'var(--color-link)', fontWeight: 600 }}>{locationText}</span></span>
-            <button type="button" onClick={clearCity} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#555555', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
+            <span style={{ fontSize: '12px', color: '#8892a4' }}>of <span style={{ color: '#a78bfa', fontWeight: 600 }}>{locationText}</span></span>
+            <button type="button" onClick={clearCity} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#6b7280', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
           </div>
         )}
       </form>
@@ -209,10 +209,10 @@ export default function ExplorePage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {[1,2,3].map(i => (
             <div key={i} className="glass overflow-hidden animate-pulse">
-              <div style={{ aspectRatio: '2 / 1', background: '#e4e4e4' }} />
+              <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)' }} />
               <div style={{ padding: '16px' }}>
-                <div style={{ height: '14px', background: '#e4e4e4', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
-                <div style={{ height: '12px', background: '#e4e4e4', borderRadius: '4px', width: '50%' }} />
+                <div style={{ height: '14px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
+                <div style={{ height: '12px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '50%' }} />
               </div>
             </div>
           ))}
@@ -229,9 +229,9 @@ export default function ExplorePage() {
             <Link
               key={vehicle.id}
               href={`/user/${vehicle.owner?.username}/${vehicle.slug}`}
-              className="glass overflow-hidden card-hover group hover-lift press-fb"
+              className="glass overflow-hidden card-hover group"
             >
-              <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: '#e4e4e4' }}>
+              <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                 {vehicle.primary_image_url ? (
                   <img
                     src={vehicle.primary_image_url}
@@ -240,7 +240,7 @@ export default function ExplorePage() {
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 ) : null}
-                <span className="text-purple-light" style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '4px 8px', borderRadius: '4px', background: '#ffffff', border: '1px solid rgba(44, 121, 196, 0.3)' }}>
+                <span className="text-purple-light" style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '4px 8px', borderRadius: '4px', background: 'rgba(12,12,20,0.8)', border: '1px solid rgba(124,58,237,0.3)' }}>
                   {vehicle.build_status?.replace('_', ' ')}
                 </span>
               </div>
@@ -257,9 +257,9 @@ export default function ExplorePage() {
                   <p className="text-muted" style={{ fontSize: '12px', marginTop: '4px' }}>{vehicle.owner.location}</p>
                 )}
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid #e4e4e4' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
                       {vehicle.owner?.avatar_url ? (
                         <img src={vehicle.owner.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (

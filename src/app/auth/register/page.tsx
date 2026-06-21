@@ -1,23 +1,11 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 export default function RegisterPage() {
-  return (
-    <Suspense fallback={null}>
-      <RegisterForm />
-    </Suspense>
-  )
-}
-
-function RegisterForm() {
   const supabaseCheck = createClient()
-  const searchParams = useSearchParams()
-  const initialTier: 'free' | 'premium' = searchParams.get('plan') === 'premium' ? 'premium' : 'free'
-
   useEffect(() => {
     supabaseCheck.auth.getSession().then(({ data: { session } }) => {
       if (session) window.location.href = '/feed'
@@ -34,7 +22,6 @@ function RegisterForm() {
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
-  const [tier, setTier] = useState<'free' | 'premium'>(initialTier)
   const supabase = createClient()
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -53,32 +40,19 @@ function RegisterForm() {
       return
     }
 
-    // Stash the chosen tier on the new user's metadata so the rest of
-    // the app (and the pricing/checkout flow) can read it back. Free
-    // users don't need a Stripe trip; premium selection redirects to
-    // /pricing?signup=1 after email confirmation where Stripe takes over.
-    const metadata = {
-      username: username.toLowerCase(),
-      first_name: firstName,
-      last_name: lastName,
-      full_name: `${firstName} ${lastName}`.trim(),
-      intended_tier: tier,
-    }
-    const nextParam = tier === 'premium' ? '?next=/pricing%3Fsignup%3D1' : ''
-
     let result
     if (authMethod === 'phone') {
       result = await supabase.auth.signInWithOtp({
         phone,
-        options: { data: metadata },
+        options: { data: { username: username.toLowerCase() } },
       })
     } else {
       result = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: metadata,
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback${nextParam}`,
+          data: { username: username.toLowerCase(), first_name: firstName, last_name: lastName, full_name: `${firstName} ${lastName}`.trim() },
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback`,
         },
       })
     }
@@ -92,12 +66,9 @@ function RegisterForm() {
     }
   }
 
-  function PostSignupRedirect() {
+  function RedirectToHome() {
     useEffect(() => {
-      const dest = tier === 'premium'
-        ? '/pricing?signup=1'
-        : 'https://thescene.fyi'
-      const t = setTimeout(() => { window.location.href = dest }, 2500)
+      const t = setTimeout(() => { window.location.href = 'https://thescene.fyi' }, 2500)
       return () => clearTimeout(t)
     }, [])
     return null
@@ -114,23 +85,20 @@ function RegisterForm() {
     if (error) setError(error.message)
   }
 
-  // Post-signup toast — copy adapts to the picked tier so premium
-  // users know we're taking them to checkout after confirmation.
+  // A tiny toast appears and the page redirects to the homepage — no
+  // full-screen "Check Your Email" interstitial.
   if (success) {
     return (
       <>
         <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
-          <div className="section-block" style={{ padding: '20px 24px', maxWidth: '420px', width: '100%' }}>
-            <p style={{ fontSize: '15px', fontWeight: 800, color: '#0d3556', marginBottom: '4px' }}>Check your email!</p>
-            <p style={{ fontSize: '13px', color: '#2c3e50', lineHeight: 1.5 }}>
-              Verification link sent to <strong>{email}</strong>.{' '}
-              {tier === 'premium'
-                ? 'Once you confirm, we\u2019ll take you to checkout for Premium ($4.99/mo).'
-                : 'Redirecting you back to the homepage...'}
-            </p>
+          <div className="glass" style={{ padding: '20px 24px', maxWidth: '380px', width: '100%', display: 'flex', alignItems: 'center', gap: '14px', borderColor: 'rgba(34,197,94,0.25)' }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>Check your email!</p>
+              <p style={{ fontSize: '12px', color: '#8892a4', marginTop: '2px' }}>Verification link sent to {email}. Redirecting home...</p>
+            </div>
           </div>
         </div>
-        <PostSignupRedirect />
+        <RedirectToHome />
       </>
     )
   }
@@ -145,67 +113,7 @@ function RegisterForm() {
           <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>Create your garage and show off your build</p>
         </div>
 
-        <div className="glass" style={{ padding: '28px 28px' }}>
-          {/* Tier picker — visible at top so users pick Free vs Premium
-              before filling the form. Defaults to ?plan= from URL. */}
-          <fieldset style={{ border: 'none', padding: 0, margin: '0 0 22px' }}>
-            <legend className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ marginBottom: '8px', color: '#1d4d7a' }}>
-              Pick your plan
-            </legend>
-            <div role="radiogroup" aria-label="Membership tier" style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px',
-            }}>
-              {(['free', 'premium'] as const).map(opt => {
-                const active = tier === opt
-                return (
-                  <button
-                    key={opt}
-                    type="button"
-                    role="radio"
-                    aria-checked={active}
-                    onClick={() => setTier(opt)}
-                    style={{
-                      padding: '12px 14px',
-                      textAlign: 'left',
-                      background: active
-                        ? (opt === 'premium' ? 'linear-gradient(180deg, #eaf4fb 0%, #d7e9f5 100%)' : '#ffffff')
-                        : '#fafafa',
-                      border: active
-                        ? (opt === 'premium' ? '2px solid #2c79c4' : '2px solid #1d4d7a')
-                        : '1px solid #c4c4c4',
-                      borderRadius: '3px',
-                      cursor: 'pointer',
-                      minHeight: '80px',
-                      display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                      transition: 'border-color 0.12s, transform 0.12s',
-                      boxShadow: active ? '0 2px 6px rgba(44,121,196,0.2)' : 'none',
-                    }}
-                  >
-                    <span style={{
-                      fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.6px',
-                      color: opt === 'premium' ? '#1d4d7a' : '#3a3a3a',
-                    }}>
-                      {opt === 'premium' ? 'Premium' : 'Free'}
-                    </span>
-                    <span style={{ fontSize: '18px', fontWeight: 800, color: '#0d3556', marginTop: '2px' }}>
-                      {opt === 'premium' ? '$4.99' : '$0'}
-                      <span style={{ fontSize: '11px', fontWeight: 500, color: '#2c3e50' }}>/mo</span>
-                    </span>
-                    <span style={{ fontSize: '11px', color: '#2c3e50', marginTop: '4px', lineHeight: 1.35 }}>
-                      {opt === 'premium'
-                        ? 'Unlimited vehicles, analytics, priority placement.'
-                        : '1 vehicle, 5 photos each, full community access.'}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-            {tier === 'premium' && (
-              <p style={{ fontSize: '11px', color: '#2c3e50', marginTop: '8px' }}>
-                After you confirm your email, we&apos;ll send you to checkout ($4.99/mo or $49.99/yr).
-              </p>
-            )}
-          </fieldset>
+        <div className="glass" style={{ padding: '36px 32px' }}>
           {/* OAuth Buttons */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
             <button
@@ -232,110 +140,69 @@ function RegisterForm() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-            <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }} />
+            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
             <span className="text-xs text-muted uppercase tracking-wider">or</span>
-            <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }} />
+            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
           </div>
 
           {/* Auth method toggle */}
-          <div style={{ display: 'flex', marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--color-border)' }}>
+          <div style={{ display: 'flex', marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
             <button
               type="button"
               onClick={() => setAuthMethod('email')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0', color: authMethod === 'email' ? '#5fa8dd' : '#555555' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'email' ? '#a78bfa' : '#6b7280' }}
             >
               Email
             </button>
             <button
               type="button"
               onClick={() => setAuthMethod('phone')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0', color: authMethod === 'phone' ? '#5fa8dd' : '#555555' }}
+              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)', color: authMethod === 'phone' ? '#a78bfa' : '#6b7280' }}
             >
               Phone
             </button>
           </div>
 
-          <form onSubmit={handleRegister} noValidate aria-describedby={error ? 'reg-form-error' : undefined}>
+          <form onSubmit={handleRegister}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
               <div>
-                <label htmlFor="reg-first" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-                  First Name <span aria-hidden="true">*</span> <span className="sr-only">(required)</span>
-                </label>
-                <input id="reg-first" type="text" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input" placeholder="Jeff" required />
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>First Name *</label>
+                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input" placeholder="Jeff" required />
               </div>
               <div>
-                <label htmlFor="reg-last" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-                  Last Name <span style={{ color: '#3a5876', fontWeight: 400, textTransform: 'none' }}>(optional)</span>
-                </label>
-                <input id="reg-last" type="text" autoComplete="family-name" value={lastName} onChange={(e) => setLastName(e.target.value)} className="input" placeholder="Optional" />
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name</label>
+                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className="input" placeholder="Optional" />
               </div>
             </div>
 
             <div style={{ marginBottom: '16px' }}>
-              <label htmlFor="reg-username" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-                Username <span aria-hidden="true">*</span> <span className="sr-only">(required)</span>
-              </label>
-              <input
-                id="reg-username"
-                type="text"
-                autoComplete="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                onBlur={(e) => {
-                  const v = e.target.value
-                  if (v && v.length < 3) setError('Username must be at least 3 characters')
-                  else if (v && !/^[a-zA-Z0-9_]+$/.test(v)) setError('Username can only contain letters, numbers, and underscores')
-                  else if (error.startsWith('Username')) setError('')
-                }}
-                className="input"
-                placeholder="ex: chevyGuy95"
-                required
-                minLength={3}
-                aria-describedby="reg-username-help"
-              />
-              <p id="reg-username-help" style={{ fontSize: '11px', marginTop: '4px', color: '#3a3a3a' }}>This will be your profile URL</p>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Username</label>
+              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="input" placeholder="ex: chevyGuy95" required minLength={3} />
+              <p className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>This will be your profile URL</p>
             </div>
 
             {authMethod === 'email' ? (
               <>
                 <div style={{ marginBottom: '16px' }}>
-                  <label htmlFor="reg-email" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-                    Email <span aria-hidden="true">*</span> <span className="sr-only">(required)</span>
-                  </label>
-                  <input id="reg-email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="you@example.com" required />
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Email</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="you@example.com" required />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
-                  <label htmlFor="reg-password" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-                    Password <span aria-hidden="true">*</span> <span className="sr-only">(required, minimum 8 characters)</span>
-                  </label>
-                  <input
-                    id="reg-password"
-                    type="password"
-                    autoComplete="new-password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="input"
-                    placeholder="Min 8 characters"
-                    required
-                    minLength={8}
-                    aria-describedby="reg-password-help"
-                  />
-                  <p id="reg-password-help" style={{ fontSize: '11px', marginTop: '4px', color: '#3a3a3a' }}>At least 8 characters.</p>
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Password</label>
+                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="Min 8 characters" required minLength={8} />
                 </div>
               </>
             ) : (
               <div style={{ marginBottom: '20px' }}>
-                <label htmlFor="reg-phone" className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-                  Phone Number <span aria-hidden="true">*</span> <span className="sr-only">(required)</span>
-                </label>
-                <input id="reg-phone" type="tel" autoComplete="tel" inputMode="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="input" placeholder="+1 (555) 123-4567" required aria-describedby="reg-phone-help" />
-                <p id="reg-phone-help" style={{ fontSize: '11px', marginTop: '4px', color: '#3a3a3a' }}>Include country code (e.g. +1 for US)</p>
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Phone Number</label>
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="input" placeholder="+1 (555) 123-4567" required />
+                <p className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>Include country code (e.g. +1 for US)</p>
               </div>
             )}
 
             {error && (
-              <div id="reg-form-error" role="alert" aria-live="polite" style={{ background: '#fce9e9', border: '1px solid #c02b2b', borderRadius: '3px', padding: '12px 16px', marginBottom: '16px', color: '#7a1818', fontSize: '13px' }}>
-                <span aria-hidden="true" style={{ marginRight: '4px' }}>⚠</span>{error}
+              <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>
+                {error}
               </div>
             )}
 
@@ -344,9 +211,9 @@ function RegisterForm() {
             </button>
           </form>
 
-          <p className="text-center" style={{ marginTop: '24px', fontSize: '14px', color: '#2c3e50' }}>
+          <p className="text-center text-sm text-muted-light" style={{ marginTop: '24px' }}>
             Already have an account?{' '}
-            <Link href="/auth/login" style={{ color: '#1c58b8', fontWeight: 700 }}>Sign In</Link>
+            <Link href="/auth/login" className="text-purple-light hover:text-neon-light font-medium">Sign In</Link>
           </p>
         </div>
       </div>

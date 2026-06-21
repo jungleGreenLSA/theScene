@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import Skeleton from '@/components/Skeleton'
 
 interface Vehicle {
   id: string
@@ -47,21 +46,21 @@ export default function MyGaragePage() {
   const maxVehicles = tier === 'premium' ? 999 : 2
   const canAddMore = vehicles.length < maxVehicles
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px' }}><Skeleton variant="card" count={3} /></div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#8892a4' }}>Loading your garage...</div>
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>My <span style={{ color: 'var(--color-link)' }}>Garage</span></h1>
-          <p style={{ fontSize: '14px', color: '#666666', marginTop: '4px' }}>{vehicles.length} vehicle{vehicles.length !== 1 ? 's' : ''} {tier !== 'premium' && `(${maxVehicles} max on free tier)`}</p>
+          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e2e4e9' }}>My <span style={{ color: '#fb923c' }}>Garage</span></h1>
+          <p style={{ fontSize: '14px', color: '#8892a4', marginTop: '4px' }}>{vehicles.length} vehicle{vehicles.length !== 1 ? 's' : ''} {tier !== 'premium' && `(${maxVehicles} max on free tier)`}</p>
         </div>
         {canAddMore ? (
-          <Link href="/garage/setup" style={{ padding: '10px 24px', borderRadius: '8px', background: '#5fa8dd', border: '1px solid #90caf9', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>
+          <Link href="/garage/setup" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>
             + Add Vehicle
           </Link>
         ) : (
-          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: 'var(--color-link)', fontSize: '12px', fontWeight: 600 }}>
+          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize: '12px', fontWeight: 600 }}>
             Upgrade for more
           </Link>
         )}
@@ -69,22 +68,22 @@ export default function MyGaragePage() {
 
       {vehicles.length === 0 ? (
         <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Your garage is empty</h2>
-          <p style={{ fontSize: '14px', color: '#666666', marginBottom: '20px' }}>Add your first ride and start showing it off!</p>
-          <Link href="/garage/setup" style={{ padding: '12px 28px', borderRadius: '8px', background: '#5fa8dd', color: '#0c0c14', fontSize: '14px', fontWeight: 700 }}>Add Your First Vehicle</Link>
+          <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Your garage is empty</h2>
+          <p style={{ fontSize: '14px', color: '#8892a4', marginBottom: '20px' }}>Add your first ride and start showing it off!</p>
+          <Link href="/garage/setup" style={{ padding: '12px 28px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '14px', fontWeight: 700 }}>Add Your First Vehicle</Link>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {vehicles.map((v, i) => (
-            <div key={v.id} className={`glass hover-lift press-fb${i < 8 ? ' stagger-item' : ''}`} style={i < 8 ? ({ overflow: 'hidden', '--i': i } as React.CSSProperties) : { overflow: 'hidden' }}>
+          {vehicles.map(v => (
+            <div key={v.id} className="glass" style={{ overflow: 'hidden' }}>
               <div style={{ display: 'flex', gap: '0' }}>
                 {/* Image */}
-                <div style={{ width: '250px', aspectRatio: '2 / 1', background: '#e4e4e4', flexShrink: 0, position: 'relative' }}>
+                <div style={{ width: '250px', aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', flexShrink: 0, position: 'relative' }}>
                   {v.primary_image_url ? (
-                    <img src={v.primary_image_url} alt={`${v.year} ${v.make} ${v.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={v.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
                   {!v.is_public && (
-                    <span style={{ position: 'absolute', top: '8px', left: '8px', fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(239,68,68,0.2)', color: 'var(--color-danger)', fontWeight: 600 }}>Private</span>
+                    <span style={{ position: 'absolute', top: '8px', left: '8px', fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(239,68,68,0.2)', color: '#ef4444', fontWeight: 600 }}>Private</span>
                   )}
                 </div>
 
@@ -92,27 +91,27 @@ export default function MyGaragePage() {
                 <div style={{ flex: 1, padding: '20px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                     <div>
-                      <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a' }}>{v.year} {v.make} {v.model}</h3>
-                      <p style={{ fontSize: '14px', color: 'var(--color-link)', marginTop: '2px' }}>{v.color}</p>
+                      <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#e2e4e9' }}>{v.year} {v.make} {v.model}</h3>
+                      <p style={{ fontSize: '14px', color: '#a78bfa', marginTop: '2px' }}>{v.color}</p>
                     </div>
-                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '4px 10px', borderRadius: '20px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.2)', color: 'var(--color-link)' }}>
+                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '4px 10px', borderRadius: '20px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', color: '#a78bfa' }}>
                       {v.build_status?.replace('_', ' ')}
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '16px', fontSize: '13px', color: '#555555', marginBottom: '14px' }}>
+                  <div style={{ display: 'flex', gap: '16px', fontSize: '13px', color: '#6b7280', marginBottom: '14px' }}>
                     <span>{v.props_count || 0} props</span>
                     <span>{v.view_count || 0} views</span>
                   </div>
 
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    <Link href={`/user/${username}/${v.slug}`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: 'var(--color-link)', fontSize: '12px', fontWeight: 600 }}>
+                    <Link href={`/user/${username}/${v.slug}`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', color: '#a78bfa', fontSize: '12px', fontWeight: 600 }}>
                       View
                     </Link>
-                    <Link href={`/garage/${v.id}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #d4d4d4', color: '#555555', fontSize: '12px', fontWeight: 600 }}>
+                    <Link href={`/garage/${v.id}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '12px', fontWeight: 600 }}>
                       Edit
                     </Link>
-                    <Link href={`/garage/${v.id}/photos`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(95, 168, 221, 0.15)', border: '1px solid rgba(95, 168, 221, 0.3)', color: 'var(--color-link)', fontSize: '12px', fontWeight: 600 }}>
+                    <Link href={`/garage/${v.id}/photos`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(249,115,22,0.15)', border: '1px solid rgba(249,115,22,0.3)', color: '#fb923c', fontSize: '12px', fontWeight: 600 }}>
                       Photos
                     </Link>
                   </div>

@@ -53,12 +53,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} dark`}>
       <body className="antialiased">
-        {/* Skip link for keyboard users — hidden until focused. WCAG 2.4.1 */}
-        <a href="#main" className="skip-link">Skip to main content</a>
         <Navbar />
-        <main id="main" className="min-h-screen site-main" tabIndex={-1}>
+        <main className="min-h-screen site-main">
           {children}
         </main>
         <MobileTabBar />

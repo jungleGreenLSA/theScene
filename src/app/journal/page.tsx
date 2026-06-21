@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import Skeleton from '@/components/Skeleton'
 
 interface JournalEntry {
   id: string
@@ -118,7 +117,7 @@ export default function JournalPage() {
     await loadEntries(selectedVehicle)
   }
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}><Skeleton variant="card" count={3} /></div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }} className="text-muted-light">Loading...</div>
 
   if (!isPremium) {
     return (
@@ -215,22 +214,22 @@ export default function JournalPage() {
       ) : (
         <div style={{ position: 'relative', paddingLeft: '32px' }}>
           {/* Timeline line */}
-          <div style={{ position: 'absolute', left: '11px', top: 0, bottom: 0, width: '2px', background: 'rgba(44, 121, 196, 0.2)' }} />
+          <div style={{ position: 'absolute', left: '11px', top: 0, bottom: 0, width: '2px', background: 'rgba(124,58,237,0.2)' }} />
 
           {entries.map((entry, i) => (
             <div key={entry.id} style={{ position: 'relative', marginBottom: '20px' }}>
               {/* Timeline dot */}
-              <div style={{ position: 'absolute', left: '-27px', top: '20px', width: '14px', height: '14px', borderRadius: '50%', background: '#2c79c4', border: '3px solid #0c0c14', zIndex: 1 }} />
+              <div style={{ position: 'absolute', left: '-27px', top: '20px', width: '14px', height: '14px', borderRadius: '50%', background: '#7c3aed', border: '3px solid #0c0c14', zIndex: 1 }} />
 
               <div className="glass card-hover" style={{ padding: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.12)', color: 'var(--color-link)' }}>{MILESTONE_LABELS[entry.milestone_type] || 'NOTE'}</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.12)', color: '#a78bfa' }}>{MILESTONE_LABELS[entry.milestone_type] || 'NOTE'}</span>
                     <h3 className="font-bold text-foreground" style={{ fontSize: '15px' }}>{entry.title}</h3>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     {entry.cost && (
-                      <span style={{ fontSize: '13px', color: 'var(--color-success)', fontWeight: 700 }}>${parseFloat(String(entry.cost)).toLocaleString()}</span>
+                      <span style={{ fontSize: '13px', color: '#22c55e', fontWeight: 700 }}>${parseFloat(String(entry.cost)).toLocaleString()}</span>
                     )}
                     <span className="text-muted" style={{ fontSize: '12px' }}>
                       {new Date(entry.journal_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -239,8 +238,8 @@ export default function JournalPage() {
                 </div>
                 {entry.content && <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.6 }}>{entry.content}</p>}
                 {entry.image_url && (
-                  <div style={{ marginTop: '12px', borderRadius: '8px', overflow: 'hidden', maxHeight: '250px', background: '#e4e4e4' }}>
-                    <img src={entry.image_url} alt={entry.title} style={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: '250px' }} />
+                  <div style={{ marginTop: '12px', borderRadius: '8px', overflow: 'hidden', maxHeight: '250px', background: 'rgba(26,26,46,0.5)' }}>
+                    <img src={entry.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: '250px' }} />
                   </div>
                 )}
               </div>

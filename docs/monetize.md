@@ -11,9 +11,7 @@
 | Plan | Monthly | Yearly | Per Month (Yearly) |
 |---|---|---|---|
 | Free | $0 | $0 | $0 |
-| Premium | $4.99 | $49.99 | $4.17 (16% savings) |
-
-> Historical note: premium was $7.99 at launch, dropped to $6.99, and settled at $4.99. Anywhere the code still references the old prices should be updated before changing this table back.
+| Premium | $7.99 | $69.99 | $5.83 (27% savings) |
 
 ## Free vs Premium Features
 
@@ -83,14 +81,14 @@ Stripe handles all payment processing. You never see or store credit card number
 
 **Price 1 - Monthly:**
 - Pricing model: Recurring
-- Amount: $4.99
+- Amount: $7.99
 - Billing period: Monthly
 - Click **Add price**
 - Copy the **Price ID** (starts with `price_`)
 
 **Price 2 - Yearly:**
 - Pricing model: Recurring
-- Amount: $49.99
+- Amount: $69.99
 - Billing period: Yearly
 - Click **Add price**
 - Copy the **Price ID** (starts with `price_`)
@@ -373,4 +371,4 @@ Test the full flow:
 
 ---
 
-*Stripe takes approximately 2.9% + $0.30 per transaction. Factor this into your pricing. On a $4.99 monthly subscription, Stripe takes approximately $0.44, leaving you ~$4.55.*
+*Stripe takes approximately 2.9% + $0.30 per transaction. Factor this into your pricing. On a $7.99 monthly subscription, Stripe takes approximately $0.53, leaving you $7.46.*

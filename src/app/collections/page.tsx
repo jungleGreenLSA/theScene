@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import Skeleton from '@/components/Skeleton'
 
 interface SavedItem {
   id: string
@@ -47,7 +46,7 @@ export default function CollectionsPage() {
     load()
   }, [])
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}><Skeleton variant="line" count={4} /></div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }} className="text-muted-light">Loading...</div>
 
   if (!isPremium) {
     return (
@@ -87,7 +86,7 @@ export default function CollectionsPage() {
                   await supabase.from('collection_items').delete().eq('id', item.id)
                   setItems(items.filter(i => i.id !== item.id))
                 }}
-                style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}
+                style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}
               >
                 Remove
               </button>

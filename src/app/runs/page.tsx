@@ -69,19 +69,19 @@ export default function RunsPage() {
           {runs.map((run) => {
             const d = new Date(run.run_date)
             return (
-              <Link key={run.id} href={`/runs/${run.slug}`} className="glass overflow-hidden card-hover hover-lift press-fb">
-                <div style={{ height: '140px', background: 'linear-gradient(135deg, rgba(44, 121, 196, 0.1), rgba(95, 168, 221, 0.1))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+              <div key={run.id} className="glass overflow-hidden card-hover">
+                <div style={{ height: '140px', background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(249,115,22,0.1))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                   {run.cover_image_url ? (
-                    <img src={run.cover_image_url} alt={run.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={run.cover_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: '#ffffff', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
-                    <div style={{ fontSize: '10px', color: 'var(--color-link)', fontWeight: 700, textTransform: 'uppercase' }}>{d.toLocaleDateString('en-US', { month: 'short' })}</div>
-                    <div style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', lineHeight: 1 }}>{d.getDate()}</div>
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(12,12,20,0.9)', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '10px', color: '#fb923c', fontWeight: 700, textTransform: 'uppercase' }}>{d.toLocaleDateString('en-US', { month: 'short' })}</div>
+                    <div style={{ fontSize: '20px', fontWeight: 700, color: '#e2e4e9', lineHeight: 1 }}>{d.getDate()}</div>
                   </div>
                 </div>
                 <div style={{ padding: '16px' }}>
                   <h3 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '8px' }}>{run.title}</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '12px', color: '#555555' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '12px', color: '#9ca3af' }}>
                     <span>Start: {run.start_location || `${run.start_city}, ${run.start_state}`}</span>
                     {(run.end_location || run.end_city) && (
                       <span>End: {run.end_location || `${run.end_city}, ${run.end_state}`}</span>
@@ -89,12 +89,12 @@ export default function RunsPage() {
                     {run.estimated_distance && <span>Distance: {run.estimated_distance}</span>}
                     {run.estimated_duration && <span>Duration: {run.estimated_duration}</span>}
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid #e4e4e4' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                     <span className="text-muted" style={{ fontSize: '12px' }}>{run.rsvp_count}{run.max_participants ? `/${run.max_participants}` : ''} going</span>
-                    <span className="text-muted" style={{ fontSize: '11px' }}>by @{run.organizer?.username}</span>
+                    <Link href={`/user/${run.organizer?.username}`} className="text-muted" style={{ fontSize: '11px' }}>by @{run.organizer?.username}</Link>
                   </div>
                 </div>
-              </Link>
+              </div>
             )
           })}
         </div>

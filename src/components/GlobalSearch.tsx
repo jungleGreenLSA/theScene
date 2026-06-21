@@ -27,10 +27,8 @@ export default function GlobalSearch() {
   const [open, setOpen] = useState(false)
   const [hits, setHits] = useState<Hit[]>([])
   const [loading, setLoading] = useState(false)
-  const [activeIndex, setActiveIndex] = useState(-1)
   const debounceRef = useRef<number | null>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const listboxId = 'global-search-listbox'
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -67,7 +65,6 @@ export default function GlobalSearch() {
       })
 
       setHits(results)
-      setActiveIndex(-1)
       setLoading(false)
     }, 250)
   }, [query])
@@ -75,23 +72,7 @@ export default function GlobalSearch() {
   const pick = (h: Hit) => {
     setOpen(false)
     setQuery('')
-    setActiveIndex(-1)
     router.push(h.href)
-  }
-
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Escape') { setOpen(false); setActiveIndex(-1); return }
-    if (!open || hits.length === 0) return
-    if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      setActiveIndex(i => (i + 1) % hits.length)
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setActiveIndex(i => (i <= 0 ? hits.length - 1 : i - 1))
-    } else if (e.key === 'Enter' && activeIndex >= 0) {
-      e.preventDefault()
-      pick(hits[activeIndex])
-    }
   }
 
   return (
@@ -99,36 +80,29 @@ export default function GlobalSearch() {
       <input
         type="text"
         value={query}
-        role="combobox"
-        aria-expanded={open && query.trim().length >= 2}
-        aria-controls={listboxId}
-        aria-autocomplete="list"
-        aria-activedescendant={activeIndex >= 0 ? `global-search-opt-${activeIndex}` : undefined}
-        aria-label="Search builds, clubs, events, and shops"
         onChange={(e) => { setQuery(e.target.value); setOpen(true) }}
         onFocus={() => setOpen(true)}
-        onKeyDown={onKeyDown}
         placeholder="Search builds, clubs, events, shops..."
-        style={{ width: '100%', padding: '7px 12px', borderRadius: '6px', background: '#f0f0f0', border: '1px solid #d4d4d4', color: '#1a1a1a', fontSize: '12px', outline: 'none' }}
+        style={{ width: '100%', padding: '7px 12px', borderRadius: '6px', background: 'rgba(18,18,30,0.6)', border: '1px solid rgba(255,255,255,0.08)', color: '#e2e4e9', fontSize: '12px', outline: 'none' }}
       />
       {open && query.trim().length >= 2 && (
-        <div id={listboxId} role="listbox" aria-label="Search results" className="menu-pop" style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '6px', background: 'var(--color-surface)', border: '1px solid #d4d4d4', borderRadius: '8px', overflow: 'hidden', zIndex: 60, maxHeight: '360px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.18)' }}>
+        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '6px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', zIndex: 60, maxHeight: '360px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
           {loading && hits.length === 0 && (
-            <div style={{ padding: '14px', fontSize: '12px', color: '#2c3e50', textAlign: 'center' }}>Searching…</div>
+            <div style={{ padding: '14px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>Searching…</div>
           )}
           {!loading && hits.length === 0 && (
-            <div style={{ padding: '14px', fontSize: '12px', color: '#2c3e50', textAlign: 'center' }}>No matches.</div>
+            <div style={{ padding: '14px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>No matches.</div>
           )}
           {hits.map((h, i) => (
             <button
               key={i}
               onClick={() => pick(h)}
-              style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '10px 12px', background: 'none', border: 'none', borderBottom: i < hits.length - 1 ? '1px solid #f5f5f5' : 'none', cursor: 'pointer', textAlign: 'left' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '10px 12px', background: 'none', border: 'none', borderBottom: i < hits.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: 'pointer', textAlign: 'left' }}
             >
-              <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', color: '#2c3e50', flexShrink: 0, width: '40px' }}>{KIND_LABELS[h.kind]}</span>
+              <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', color: '#6b7280', flexShrink: 0, width: '40px' }}>{KIND_LABELS[h.kind]}</span>
               <div style={{ minWidth: 0 }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.title}</p>
-                {h.subtitle && <p style={{ fontSize: '11px', color: '#2c3e50' }}>{h.subtitle}</p>}
+                <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.title}</p>
+                {h.subtitle && <p style={{ fontSize: '11px', color: '#6b7280' }}>{h.subtitle}</p>}
               </div>
             </button>
           ))}

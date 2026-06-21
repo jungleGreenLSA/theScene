@@ -1,12 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { useFocusTrap } from '@/lib/useFocusTrap'
+import { useState } from 'react'
 
 export default function SupportWidget() {
   const [open, setOpen] = useState(false)
-  const dialogRef = useRef<HTMLDivElement>(null)
-  useFocusTrap(open, dialogRef, () => setOpen(false))
 
   return (
     <>
@@ -20,8 +17,8 @@ export default function SupportWidget() {
           width: '48px',
           height: '48px',
           borderRadius: '50%',
-          background: '#2c79c4',
-          border: '1px solid #5fa8dd',
+          background: '#7c3aed',
+          border: '1px solid #a78bfa',
           color: 'white',
           fontSize: '20px',
           cursor: 'pointer',
@@ -29,12 +26,10 @@ export default function SupportWidget() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 0 20px rgba(44, 121, 196, 0.3)',
+          boxShadow: '0 0 20px rgba(124,58,237,0.3)',
           transition: 'all 0.2s',
         }}
-        aria-label={open ? 'Close support' : 'Open support'}
-        aria-haspopup="dialog"
-        aria-expanded={open}
+        aria-label="Support"
       >
         {open ? 'x' : '?'}
       </button>
@@ -42,27 +37,21 @@ export default function SupportWidget() {
       {/* Popup */}
       {open && (
         <div
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="support-title"
-          className="overlay-pop"
           style={{
             position: 'fixed',
             bottom: '84px',
             left: '24px',
             width: '320px',
             borderRadius: '12px',
-            background: '#f0f0f0',
+            background: 'rgba(18,18,30,0.95)',
             backdropFilter: 'blur(16px)',
-            border: '1px solid #e4e4e4',
+            border: '1px solid rgba(255,255,255,0.06)',
             padding: '24px',
             zIndex: 999,
             boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-            transformOrigin: 'bottom left',
           }}
         >
-          <h3 id="support-title" className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '12px' }}>Need Help?</h3>
+          <h3 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '12px' }}>Need Help?</h3>
 
           <p className="text-muted-light" style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: '16px' }}>
             See an issue?{' '}
@@ -74,7 +63,7 @@ export default function SupportWidget() {
             </a>
           </p>
 
-          <div style={{ borderTop: '1px solid #e4e4e4', paddingTop: '12px' }}>
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
             <p className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>Or reach us directly:</p>
             <a
               href="mailto:support@thescene.fyi"

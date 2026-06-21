@@ -42,8 +42,8 @@ export default function UserBadges({ userId }: { userId: string }) {
           style={{
             display: 'flex', alignItems: 'center', gap: '4px',
             padding: '3px 10px', borderRadius: '20px',
-            background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.2)',
-            fontSize: '11px', fontWeight: 600, color: 'var(--color-link)', cursor: 'default',
+            background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)',
+            fontSize: '11px', fontWeight: 600, color: '#a78bfa', cursor: 'default',
           }}
         >
           <span style={{ fontSize: '13px' }}>{b.icon}</span>

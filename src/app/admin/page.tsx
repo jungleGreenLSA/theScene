@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import Skeleton from '@/components/Skeleton'
 
 interface Stats {
   totalUsers: number
@@ -223,7 +222,7 @@ export default function AdminDashboard() {
     setAnnouncements(announcements.map(a => a.id === id ? { ...a, is_published: !currentPublished } : a))
   }
 
-  if (loading) return <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px' }}><Skeleton variant="line" count={5} /></div>
+  if (loading) return <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px', textAlign: 'center' }} className="text-muted-light">Loading dashboard...</div>
 
   if (!authorized) {
     return (
@@ -252,20 +251,9 @@ export default function AdminDashboard() {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
-      <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px', flexWrap: 'wrap' }}>
-        <div>
-          <h1 className="text-3xl font-bold">Admin <span className="text-neon-light">Dashboard</span></h1>
-          <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>The Scene command center</p>
-        </div>
-        <a
-          href="/api/admin/export-members"
-          className="btn-neon"
-          download
-          style={{ fontSize: '12px' }}
-          title="Download CSV of all members (name, location, phone, email, primary car, clubs)"
-        >
-          Export Members CSV
-        </a>
+      <div style={{ marginBottom: '24px' }}>
+        <h1 className="text-3xl font-bold">Admin <span className="text-neon-light">Dashboard</span></h1>
+        <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>The Scene command center</p>
       </div>
 
       {/* Tabs */}
@@ -276,9 +264,9 @@ export default function AdminDashboard() {
             onClick={() => setActiveTab(t.id)}
             style={{
               padding: '8px 18px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
-              background: activeTab === t.id ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-              color: activeTab === t.id ? 'var(--color-link)' : '#555555',
-              outline: activeTab === t.id ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4',
+              background: activeTab === t.id ? 'rgba(124,58,237,0.2)' : 'rgba(18,18,30,0.5)',
+              color: activeTab === t.id ? '#a78bfa' : '#6b7280',
+              outline: activeTab === t.id ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(255,255,255,0.06)',
             }}
           >
             {t.label}
@@ -300,16 +288,16 @@ export default function AdminDashboard() {
           {showAnnouncementForm && (
             <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
               <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#666666', marginBottom: '6px' }}>Title *</label>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#8892a4', marginBottom: '6px' }}>Title *</label>
                 <input value={announcementForm.title} onChange={(e) => setAnnouncementForm({ ...announcementForm, title: e.target.value })} className="input" placeholder="What's new?" maxLength={128} />
               </div>
               <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#666666', marginBottom: '6px' }}>Content *</label>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#8892a4', marginBottom: '6px' }}>Content *</label>
                 <textarea value={announcementForm.content} onChange={(e) => setAnnouncementForm({ ...announcementForm, content: e.target.value })} className="input" rows={4} placeholder="Write your update..." maxLength={2000} />
               </div>
               <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#666666', marginBottom: '6px' }}>Category</label>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#8892a4', marginBottom: '6px' }}>Category</label>
                   <select value={announcementForm.category} onChange={(e) => setAnnouncementForm({ ...announcementForm, category: e.target.value })} className="input" style={{ width: '180px' }}>
                     <option value="update">Update</option>
                     <option value="feature">New Feature</option>
@@ -321,7 +309,7 @@ export default function AdminDashboard() {
                 </div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', marginTop: '20px' }}>
                   <input type="checkbox" checked={announcementForm.is_pinned} onChange={(e) => setAnnouncementForm({ ...announcementForm, is_pinned: e.target.checked })} />
-                  <span style={{ fontSize: '13px', color: '#555555' }}>Pin to top</span>
+                  <span style={{ fontSize: '13px', color: '#9ca3af' }}>Pin to top</span>
                 </label>
               </div>
               <button onClick={handleCreateAnnouncement} disabled={announcementSaving || !announcementForm.title || !announcementForm.content} className="btn-neon" style={{ fontSize: '12px', padding: '10px 20px', opacity: announcementSaving ? 0.5 : 1 }}>
@@ -342,18 +330,18 @@ export default function AdminDashboard() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.2)', color: 'var(--color-link)' }}>{a.category}</span>
-                        {a.is_pinned && <span style={{ fontSize: '10px', color: 'var(--color-link)', fontWeight: 600 }}>Pinned</span>}
-                        {!a.is_published && <span style={{ fontSize: '10px', color: 'var(--color-danger)', fontWeight: 600 }}>Draft</span>}
-                        <span style={{ fontSize: '11px', color: '#555555' }}>{new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.2)', color: '#a78bfa' }}>{a.category}</span>
+                        {a.is_pinned && <span style={{ fontSize: '10px', color: '#fb923c', fontWeight: 600 }}>Pinned</span>}
+                        {!a.is_published && <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: 600 }}>Draft</span>}
+                        <span style={{ fontSize: '11px', color: '#6b7280' }}>{new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                       </div>
-                      <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a', marginBottom: '4px' }}>{a.title}</h4>
-                      <p style={{ fontSize: '13px', color: '#555555', lineHeight: 1.5 }}>{a.content.length > 150 ? a.content.slice(0, 150) + '...' : a.content}</p>
+                      <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', marginBottom: '4px' }}>{a.title}</h4>
+                      <p style={{ fontSize: '13px', color: '#9ca3af', lineHeight: 1.5 }}>{a.content.length > 150 ? a.content.slice(0, 150) + '...' : a.content}</p>
                     </div>
                     <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
-                      <button onClick={() => handleTogglePin(a.id, a.is_pinned)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#555555' }} title={a.is_pinned ? 'Unpin' : 'Pin'}>{a.is_pinned ? 'Unpin' : 'Pin'}</button>
-                      <button onClick={() => handleTogglePublish(a.id, a.is_published)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#555555' }} title={a.is_published ? 'Unpublish' : 'Publish'}>{a.is_published ? 'Hide' : 'Show'}</button>
-                      <button onClick={() => handleDeleteAnnouncement(a.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: 'var(--color-danger)' }} title="Delete">Delete</button>
+                      <button onClick={() => handleTogglePin(a.id, a.is_pinned)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#9ca3af' }} title={a.is_pinned ? 'Unpin' : 'Pin'}>{a.is_pinned ? 'Unpin' : 'Pin'}</button>
+                      <button onClick={() => handleTogglePublish(a.id, a.is_published)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#9ca3af' }} title={a.is_published ? 'Unpublish' : 'Publish'}>{a.is_published ? 'Hide' : 'Show'}</button>
+                      <button onClick={() => handleDeleteAnnouncement(a.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#ef4444' }} title="Delete">Delete</button>
                     </div>
                   </div>
                 </div>
@@ -369,9 +357,9 @@ export default function AdminDashboard() {
           {/* Key metrics */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px', marginBottom: '24px' }}>
             {[
-              { label: 'Total Members', value: stats.totalUsers, color: 'var(--color-link)' },
-              { label: 'Online Now', value: stats.onlineNow, color: 'var(--color-success)' },
-              { label: 'Premium', value: stats.premiumUsers, color: 'var(--color-link)' },
+              { label: 'Total Members', value: stats.totalUsers, color: '#a78bfa' },
+              { label: 'Online Now', value: stats.onlineNow, color: '#22c55e' },
+              { label: 'Premium', value: stats.premiumUsers, color: '#fb923c' },
               { label: 'Vehicles', value: stats.totalVehicles, color: '#3b82f6' },
               { label: 'Events', value: stats.totalEvents, color: '#ec4899' },
               { label: 'Clubs', value: stats.totalClubs, color: '#14b8a6' },
@@ -410,7 +398,7 @@ export default function AdminDashboard() {
                 { label: 'Sightings', value: stats.totalSightings },
                 { label: 'Conversion', value: `${conversionRate}%` },
               ].map(s => (
-                <div key={s.label} style={{ padding: '16px', background: '#f0f0f0', borderRadius: '8px', textAlign: 'center', border: '1px solid #f5f5f5' }}>
+                <div key={s.label} style={{ padding: '16px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.04)' }}>
                   <div className="text-foreground font-bold" style={{ fontSize: '1.3rem' }}>{s.value}</div>
                   <div className="text-muted" style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px' }}>{s.label}</div>
                 </div>
@@ -427,12 +415,12 @@ export default function AdminDashboard() {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
               <thead>
-                <tr style={{ borderBottom: '1px solid #e4e4e4' }}>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#555555', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>User</th>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#555555', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Location</th>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#555555', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Tier</th>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#555555', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Status</th>
-                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#555555', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Joined</th>
+                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#6b7280', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>User</th>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#6b7280', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Location</th>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#6b7280', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Tier</th>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#6b7280', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Status</th>
+                  <th style={{ textAlign: 'left', padding: '10px 12px', color: '#6b7280', fontWeight: 600, fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Joined</th>
                 </tr>
               </thead>
               <tbody>
@@ -440,22 +428,22 @@ export default function AdminDashboard() {
                   <tr key={u.username} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
                     <td style={{ padding: '10px 12px' }}>
                       <Link href={`/user/${u.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0 }}>
-                          {u.avatar_url ? <img src={u.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#555555' }}>{u.username?.charAt(0).toUpperCase()}</div>}
+                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0 }}>
+                          {u.avatar_url ? <img src={u.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#6b7280' }}>{u.username?.charAt(0).toUpperCase()}</div>}
                         </div>
                         <span className="text-foreground font-semibold">{u.display_name || u.username}</span>
                       </Link>
                     </td>
-                    <td style={{ padding: '10px 12px', color: '#555555' }}>{u.location || '--'}</td>
+                    <td style={{ padding: '10px 12px', color: '#9ca3af' }}>{u.location || '--'}</td>
                     <td style={{ padding: '10px 12px' }}>
-                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: u.subscription_tier === 'premium' ? 'rgba(95, 168, 221, 0.15)' : '#f5f5f5', color: u.subscription_tier === 'premium' ? '#90caf9' : '#555555' }}>
+                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: u.subscription_tier === 'premium' ? 'rgba(249,115,22,0.15)' : 'rgba(255,255,255,0.04)', color: u.subscription_tier === 'premium' ? '#fb923c' : '#6b7280' }}>
                         {u.subscription_tier || 'free'}
                       </span>
                     </td>
                     <td style={{ padding: '10px 12px' }}>
-                      {u.is_online ? <span style={{ color: 'var(--color-success)', fontSize: '12px' }}>● Online</span> : <span style={{ color: '#555555', fontSize: '12px' }}>Offline</span>}
+                      {u.is_online ? <span style={{ color: '#22c55e', fontSize: '12px' }}>● Online</span> : <span style={{ color: '#6b7280', fontSize: '12px' }}>Offline</span>}
                     </td>
-                    <td style={{ padding: '10px 12px', color: '#555555' }}>
+                    <td style={{ padding: '10px 12px', color: '#6b7280' }}>
                       {new Date(u.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </td>
                   </tr>
@@ -485,8 +473,8 @@ export default function AdminDashboard() {
                         <span className="text-foreground" style={{ fontSize: '13px', fontWeight: 500 }}>{c.location}</span>
                         <span className="text-purple-light font-bold" style={{ fontSize: '13px' }}>{c.count}</span>
                       </div>
-                      <div style={{ height: '5px', background: '#f5f5f5', borderRadius: '3px', overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${pct}%`, background: i < 3 ? '#5fa8dd' : '#4a5568', borderRadius: '3px', transition: 'width 0.5s ease' }} />
+                      <div style={{ height: '5px', background: 'rgba(255,255,255,0.04)', borderRadius: '3px', overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: `${pct}%`, background: i < 3 ? '#a78bfa' : '#4a5568', borderRadius: '3px', transition: 'width 0.5s ease' }} />
                       </div>
                     </div>
                   </div>
@@ -549,7 +537,7 @@ export default function AdminDashboard() {
                         await supabase.from('reports').update({ status: 'resolved' }).eq('id', r.id)
                         setReports(reports.filter(rep => rep.id !== r.id))
                       }}
-                      style={{ padding: '6px 14px', borderRadius: '6px', background: 'rgba(34,197,94,0.15)', border: 'none', color: 'var(--color-success)', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
+                      style={{ padding: '6px 14px', borderRadius: '6px', background: 'rgba(34,197,94,0.15)', border: 'none', color: '#22c55e', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
                     >
                       Resolve
                     </button>
@@ -558,7 +546,7 @@ export default function AdminDashboard() {
                         await supabase.from('reports').update({ status: 'dismissed' }).eq('id', r.id)
                         setReports(reports.filter(rep => rep.id !== r.id))
                       }}
-                      style={{ padding: '6px 14px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#555555', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
+                      style={{ padding: '6px 14px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: '#6b7280', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
                     >
                       Dismiss
                     </button>
@@ -574,18 +562,18 @@ export default function AdminDashboard() {
       {activeTab === 'revenue' && stats && (
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '16px', marginBottom: '24px' }}>
-            <div className="glass" style={{ padding: '24px', textAlign: 'center', border: '1px solid rgba(95, 168, 221, 0.2)' }}>
-              <span style={{ fontSize: '11px', color: 'var(--color-link)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Monthly Revenue</span>
+            <div className="glass" style={{ padding: '24px', textAlign: 'center', border: '1px solid rgba(249,115,22,0.2)' }}>
+              <span style={{ fontSize: '11px', color: '#fb923c', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Monthly Revenue</span>
               <div className="text-neon-light font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>${monthlyRevenue}</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>{stats.premiumUsers} premium x $6.99</div>
             </div>
             <div className="glass" style={{ padding: '24px', textAlign: 'center' }}>
-              <span style={{ fontSize: '11px', color: 'var(--color-link)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Annual Projection</span>
+              <span style={{ fontSize: '11px', color: '#a78bfa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Annual Projection</span>
               <div className="text-purple-light font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>${annualProjection}</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>at current rate</div>
             </div>
             <div className="glass" style={{ padding: '24px', textAlign: 'center' }}>
-              <span style={{ fontSize: '11px', color: 'var(--color-success)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Conversion Rate</span>
+              <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Conversion Rate</span>
               <div className="text-success font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>{conversionRate}%</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>free to premium</div>
             </div>
@@ -612,8 +600,8 @@ export default function AdminDashboard() {
                       </span>
                       <span className="text-muted" style={{ fontSize: '12px' }}>{m.annual}</span>
                     </div>
-                    <div style={{ height: '6px', background: '#f5f5f5', borderRadius: '3px', overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${pct}%`, background: hit ? '#22c55e' : '#2c79c4', borderRadius: '3px', transition: 'width 0.5s ease' }} />
+                    <div style={{ height: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${pct}%`, background: hit ? '#22c55e' : '#7c3aed', borderRadius: '3px', transition: 'width 0.5s ease' }} />
                     </div>
                   </div>
                 )
