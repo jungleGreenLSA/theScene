@@ -50,7 +50,7 @@ export default function ShopsPage() {
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 className="text-3xl font-bold">Car <span style={{ color: '#22c55e' }}>Shops</span></h1>
+          <h1 className="text-3xl font-bold">Car <span style={{ color: 'var(--color-success)' }}>Shops</span></h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>Performance, detail, fab, tune — find the shops building your scene.</p>
         </div>
         <Link href="/shops/create" className="btn-primary text-xs">+ Add Shop</Link>
@@ -84,7 +84,7 @@ export default function ShopsPage() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {filtered.map((shop) => (
-            <Link key={shop.id} href={`/shops/${shop.slug}`} className="glass overflow-hidden card-hover group">
+            <Link key={shop.id} href={`/shops/${shop.slug}`} className="glass overflow-hidden card-hover group hover-lift press-fb">
               <div style={{ height: '120px', position: 'relative', overflow: 'hidden', background: '#e4e4e4' }}>
                 {shop.cover_image_url ? (
                   <img src={shop.cover_image_url} alt={shop.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -105,7 +105,7 @@ export default function ShopsPage() {
                 {shop.specialties && shop.specialties.length > 0 && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
                     {shop.specialties.slice(0, 3).map((t, i) => (
-                      <span key={i} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>{t}</span>
+                      <span key={i} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: 'var(--color-success)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>{t}</span>
                     ))}
                   </div>
                 )}

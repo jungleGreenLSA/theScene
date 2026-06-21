@@ -39,7 +39,7 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px', flexWrap: 'wrap' }}>
             {shop.logo_url && (
               <div style={{ width: '72px', height: '72px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(34,197,94,0.3)', marginTop: '-48px', position: 'relative', zIndex: 1, flexShrink: 0 }}>
-                <img src={shop.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={shop.logo_url} alt={`${shop.name} logo`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -57,15 +57,15 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
           {shop.specialties && shop.specialties.length > 0 && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '14px' }}>
               {shop.specialties.map((s: string) => (
-                <span key={s} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, padding: '4px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.2)' }}>{s}</span>
+                <span key={s} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, padding: '4px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', color: 'var(--color-success)', border: '1px solid rgba(34,197,94,0.2)' }}>{s}</span>
               ))}
             </div>
           )}
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid #e4e4e4', flexWrap: 'wrap' }}>
-            {shop.website && <a href={shop.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#5fa8dd' }}>Website</a>}
-            {shop.instagram_handle && <a href={`https://instagram.com/${shop.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#5fa8dd' }}>@{shop.instagram_handle}</a>}
-            {shop.phone && <a href={`tel:${shop.phone}`} style={{ fontSize: '13px', color: '#5fa8dd' }}>{shop.phone}</a>}
+            {shop.website && <a href={shop.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: 'var(--color-link)' }}>Website</a>}
+            {shop.instagram_handle && <a href={`https://instagram.com/${shop.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: 'var(--color-link)' }}>@{shop.instagram_handle}</a>}
+            {shop.phone && <a href={`tel:${shop.phone}`} style={{ fontSize: '13px', color: 'var(--color-link)' }}>{shop.phone}</a>}
           </div>
         </div>
       </div>
@@ -83,12 +83,12 @@ export default async function ShopDetailPage({ params }: { params: Promise<{ slu
                 <Link key={t.id} href={`/user/${v.owner.username}/${v.slug}`} style={{ display: 'block', padding: '12px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #e4e4e4' }}>
                   <div style={{ aspectRatio: '2 / 1', borderRadius: '6px', overflow: 'hidden', background: '#e4e4e4', marginBottom: '10px' }}>
                     {v.primary_image_url ? (
-                      <img src={v.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={v.primary_image_url} alt={`${v.year} ${v.make} ${v.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : null}
                   </div>
                   <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{v.year} {v.make} {v.model}</p>
                   {v.color && <p style={{ fontSize: '11px', color: '#555555' }}>{v.color}</p>}
-                  <p style={{ fontSize: '11px', color: '#5fa8dd', marginTop: '4px' }}>by {v.owner.display_name || v.owner.username}</p>
+                  <p style={{ fontSize: '11px', color: 'var(--color-link)', marginTop: '4px' }}>by {v.owner.display_name || v.owner.username}</p>
                   {t.note && <p style={{ fontSize: '11px', color: '#555555', marginTop: '6px', fontStyle: 'italic' }}>&ldquo;{t.note}&rdquo;</p>}
                 </Link>
               )

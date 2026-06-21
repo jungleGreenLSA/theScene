@@ -29,7 +29,7 @@ export default function LeaderboardPage() {
     fetch()
   }, [year])
 
-  const rankColors = ['#fbbf24', '#333333', '#d97706']
+  const rankColors = ['#8a6d00', '#333333', '#a05a00']
 
   return (
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
@@ -43,7 +43,7 @@ export default function LeaderboardPage() {
           <button key={y} onClick={() => setYear(y)} style={{
             padding: '8px 20px', borderRadius: '6px', fontSize: '13px', fontWeight: 600, border: 'none', cursor: 'pointer',
             background: year === y ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-            color: year === y ? '#5fa8dd' : '#555555',
+            color: year === y ? 'var(--color-link)' : '#555555',
             outline: year === y ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4',
           }}>{y}</button>
         ))}

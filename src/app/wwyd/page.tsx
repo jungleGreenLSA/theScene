@@ -151,7 +151,7 @@ export default function WWYDPage() {
           <div style={{ marginBottom: '12px' }}>
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Photo of your car (optional)</label>
             <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '13px' }} />
-            {imageFile && <p style={{ fontSize: '11px', color: '#22c55e', marginTop: '4px' }}>{imageFile.name}</p>}
+            {imageFile && <p style={{ fontSize: '11px', color: 'var(--color-success)', marginTop: '4px' }}>{imageFile.name}</p>}
           </div>
           <div style={{ marginBottom: '16px' }}>
             <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Options to Vote On <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(2–4 choices)</span></label>
@@ -159,12 +159,12 @@ export default function WWYDPage() {
               <div key={i} style={{ display: 'flex', gap: '6px', marginBottom: '6px' }}>
                 <input value={opt} onChange={(e) => { const o = [...form.options]; o[i] = e.target.value; setForm({ ...form, options: o }) }} className="input" placeholder={`Option ${i + 1}`} style={{ flex: 1 }} required={i < 2} />
                 {form.options.length > 2 && (
-                  <button type="button" onClick={() => setForm({ ...form, options: form.options.filter((_, idx) => idx !== i) })} style={{ padding: '0 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
+                  <button type="button" onClick={() => setForm({ ...form, options: form.options.filter((_, idx) => idx !== i) })} style={{ padding: '0 12px', borderRadius: '6px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: 'var(--color-danger)', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
                 )}
               </div>
             ))}
             {form.options.length < 4 && (
-              <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: '#5fa8dd', fontSize: '13px', cursor: 'pointer' }}>+ Add option ({4 - form.options.length} more)</button>
+              <button type="button" onClick={() => setForm({ ...form, options: [...form.options, ''] })} style={{ background: 'none', border: 'none', color: 'var(--color-link)', fontSize: '13px', cursor: 'pointer' }}>+ Add option ({4 - form.options.length} more)</button>
             )}
           </div>
           <button type="submit" disabled={submitting} className="btn-neon" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px' }}>
@@ -205,10 +205,10 @@ export default function WWYDPage() {
                 <h3 className="font-bold text-foreground" style={{ fontSize: '1.1rem', marginBottom: '6px' }}>{post.title}</h3>
                 {post.image_url && (
                   <div style={{ borderRadius: '8px', overflow: 'hidden', marginBottom: '12px', maxHeight: '360px', background: '#e4e4e4' }}>
-                    <img src={post.image_url} alt="" style={{ width: '100%', maxHeight: '360px', objectFit: 'cover' }} />
+                    <img src={post.image_url} alt={post.title} style={{ width: '100%', maxHeight: '360px', objectFit: 'cover' }} />
                   </div>
                 )}
-                {post.budget && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>Budget: {post.budget}</span>}
+                {post.budget && <span style={{ display: 'inline-block', padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: 'var(--color-success)', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>Budget: {post.budget}</span>}
                 {post.description && <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '14px', lineHeight: 1.5 }}>{post.description}</p>}
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

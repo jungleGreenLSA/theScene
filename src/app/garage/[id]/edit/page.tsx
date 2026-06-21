@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ShopTagger from '@/components/ShopTagger'
 import VehicleMods from '@/components/VehicleMods'
+import Skeleton from '@/components/Skeleton'
 
 const BODY_STYLES = ['Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Wagon', 'SUV', 'Truck', 'Van', 'Roadster', 'Other']
 const TRANSMISSIONS = ['Automatic', 'Manual', 'DCT / Dual Clutch', 'CVT', 'Other']
@@ -110,19 +111,19 @@ export default function EditVehiclePage() {
     router.push('/garage')
   }
 
-  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Loading...</div>
+  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px' }}><Skeleton variant="line" count={4} /></div>
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <Link href="/garage" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
 
       <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
-        Edit <span style={{ color: '#90caf9' }}>{form.year} {form.make} {form.model}</span>
+        Edit <span style={{ color: 'var(--color-link)' }}>{form.year} {form.make} {form.model}</span>
       </h1>
       <p style={{ fontSize: '14px', color: '#666666', marginBottom: '28px' }}>Update your vehicle details</p>
 
       {message && (
-        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e' }}>{message}</div>
+        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-success)' }}>{message}</div>
       )}
 
       <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: '20px' }}>
@@ -201,9 +202,9 @@ export default function EditVehiclePage() {
                 display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', borderRadius: '20px', cursor: 'pointer',
                 background: form.build_status === status.value ? 'rgba(44, 121, 196, 0.15)' : '#f0f0f0',
                 border: form.build_status === status.value ? '1px solid rgba(44, 121, 196, 0.4)' : '1px solid #e4e4e4',
-                fontSize: '12px', fontWeight: 600, color: form.build_status === status.value ? '#5fa8dd' : '#666666',
+                fontSize: '12px', fontWeight: 600, color: form.build_status === status.value ? 'var(--color-link)' : '#666666',
               }}>
-                <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
+                <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} className="sr-only" aria-label={`Build status: ${status.label}`} />
                 {status.label}
               </label>
             ))}
@@ -238,9 +239,9 @@ export default function EditVehiclePage() {
               background: form.is_public ? 'rgba(44, 121, 196, 0.1)' : '#f0f0f0',
               border: form.is_public ? '1px solid rgba(44, 121, 196, 0.4)' : '1px solid #e4e4e4',
             }}>
-              <input type="radio" name="is_public" value="true" checked={form.is_public === true} onChange={() => setForm({ ...form, is_public: true })} style={{ display: 'none' }} />
+              <input type="radio" name="is_public" value="true" checked={form.is_public === true} onChange={() => setForm({ ...form, is_public: true })} className="sr-only" aria-label="Visibility: Public, visible to everyone" />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.is_public ? '#5fa8dd' : '#666666', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.is_public ? 'var(--color-link)' : '#666666', display: 'block' }}>Public</span>
                 <span style={{ fontSize: '10px', color: '#555555' }}>Visible to everyone</span>
               </div>
             </label>
@@ -249,9 +250,9 @@ export default function EditVehiclePage() {
               background: !form.is_public ? 'rgba(44, 121, 196, 0.1)' : '#f0f0f0',
               border: !form.is_public ? '1px solid rgba(44, 121, 196, 0.4)' : '1px solid #e4e4e4',
             }}>
-              <input type="radio" name="is_public" value="false" checked={form.is_public === false} onChange={() => setForm({ ...form, is_public: false })} style={{ display: 'none' }} />
+              <input type="radio" name="is_public" value="false" checked={form.is_public === false} onChange={() => setForm({ ...form, is_public: false })} className="sr-only" aria-label="Visibility: Private, link only" />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: !form.is_public ? '#5fa8dd' : '#666666', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: !form.is_public ? 'var(--color-link)' : '#666666', display: 'block' }}>Private</span>
                 <span style={{ fontSize: '10px', color: '#555555' }}>Link only</span>
               </div>
             </label>
@@ -259,7 +260,7 @@ export default function EditVehiclePage() {
         </div>
 
         {error && (
-          <div style={{ gridColumn: '1 / -1', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: '#ef4444', fontSize: '13px' }}>{error}</div>
+          <div style={{ gridColumn: '1 / -1', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: 'var(--color-danger)', fontSize: '13px' }}>{error}</div>
         )}
 
         {/* Actions */}
@@ -273,7 +274,7 @@ export default function EditVehiclePage() {
           </button>
           <Link href={`/garage/${vehicleId}/photos`} style={{
             padding: '16px 24px', borderRadius: '12px',
-            background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: '#5fa8dd',
+            background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: 'var(--color-link)',
             fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             Photos
@@ -284,7 +285,7 @@ export default function EditVehiclePage() {
         <button type="button" onClick={handleDelete} style={{
           gridColumn: '1 / -1',
           width: '100%', padding: '12px', borderRadius: '8px',
-          background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444',
+          background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: 'var(--color-danger)',
           fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left',
         }}>
           Delete this vehicle permanently

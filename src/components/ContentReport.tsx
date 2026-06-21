@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useFocusTrap } from '@/lib/useFocusTrap'
 
 interface ContentReportProps {
   targetType: 'post' | 'comment' | 'event' | 'guestbook'
@@ -14,6 +15,8 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
   const [reason, setReason] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const popoverRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(open, popoverRef, () => { setOpen(false); setReason('') })
 
   const handleSubmit = async () => {
     if (!reason) return
@@ -36,6 +39,8 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <button
         onClick={() => setOpen(!open)}
+        aria-haspopup="dialog"
+        aria-expanded={open}
         style={{ background: 'none', border: 'none', color: '#2c3e50', fontSize: '14px', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px' }}
         onMouseEnter={(e) => (e.currentTarget.style.color = '#ef4444')}
         onMouseLeave={(e) => (e.currentTarget.style.color = '#555555')}
@@ -45,7 +50,7 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
       </button>
 
       {open && (
-        <div style={{
+        <div ref={popoverRef} role="dialog" aria-modal="true" aria-labelledby={`content-report-title-${targetId}`} className="menu-pop" style={{
           position: 'absolute',
           bottom: '100%',
           right: 0,
@@ -58,12 +63,13 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
           padding: '16px',
           zIndex: 50,
           boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
+          transformOrigin: 'bottom right',
         }}>
           {submitted ? (
-            <p style={{ fontSize: '13px', color: '#22c55e', fontWeight: 500 }}>Report submitted. Thank you.</p>
+            <p role="status" aria-live="polite" style={{ fontSize: '13px', color: 'var(--color-success)', fontWeight: 500 }}>Report submitted. Thank you.</p>
           ) : (
             <>
-              <p className="font-semibold text-foreground" style={{ fontSize: '13px', marginBottom: '8px' }}>Report this {targetType}</p>
+              <p id={`content-report-title-${targetId}`} className="font-semibold text-foreground" style={{ fontSize: '13px', marginBottom: '8px' }}>Report this {targetType}</p>
               <select
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}

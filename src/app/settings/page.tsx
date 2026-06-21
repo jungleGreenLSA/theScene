@@ -7,6 +7,7 @@ import Link from 'next/link'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
 import type { ParsedAddress } from '@/lib/mapbox'
 import { compressImage } from '@/lib/imageUpload'
+import Skeleton from '@/components/Skeleton'
 
 interface Vehicle {
   id: string
@@ -144,7 +145,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
-        <div className="text-center text-muted-light">Loading settings...</div>
+        <Skeleton variant="line" count={5} />
       </div>
     )
   }
@@ -157,7 +158,7 @@ export default function SettingsPage() {
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Manage your profile and privacy</p>
 
       {message && (
-        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: '#22c55e', fontSize: '0.85rem' }}>
+        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: 'var(--color-success)', fontSize: '0.85rem' }}>
           {message}
         </div>
       )}
@@ -189,7 +190,7 @@ export default function SettingsPage() {
               {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: '#555555', letterSpacing: '1px' }}>ADD</span>}
             </div>
             <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#2c79c4', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'white' }}>+</div>
-            <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={async (e) => {
+            <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" aria-label="Upload profile photo" onChange={async (e) => {
               const file = e.target.files?.[0]
               if (!file || !profile) return
 
@@ -402,7 +403,7 @@ export default function SettingsPage() {
           <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
             <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '4px' }}>Only Show Me What&apos;s Nearby</h2>
             <p className="text-muted-light text-sm" style={{ marginBottom: '8px' }}>
-              Scope listings to within <span style={{ color: '#5fa8dd', fontWeight: 600 }}>100 miles</span> of your city{userState ? ` (${userState})` : ''}. Crosses state lines — being in Sanger TX still catches Oklahoma if it&apos;s close enough.
+              Scope listings to within <span style={{ color: 'var(--color-link)', fontWeight: 600 }}>100 miles</span> of your city{userState ? ` (${userState})` : ''}. Crosses state lines — being in Sanger TX still catches Oklahoma if it&apos;s close enough.
               {!userState && ' Set your Location above to enable these.'}
             </p>
             <div style={{ opacity: userState ? 1 : 0.5, pointerEvents: userState ? 'auto' : 'none' }}>
@@ -427,7 +428,7 @@ export default function SettingsPage() {
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
               background: profile?.is_public ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-              color: profile?.is_public ? '#5fa8dd' : '#555555',
+              color: profile?.is_public ? 'var(--color-link)' : '#555555',
               fontWeight: 600, fontSize: '0.85rem',
               outline: profile?.is_public ? '2px solid #2c79c4' : '1px solid #e4e4e4',
             }}
@@ -440,7 +441,7 @@ export default function SettingsPage() {
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
               background: !profile?.is_public ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-              color: !profile?.is_public ? '#5fa8dd' : '#555555',
+              color: !profile?.is_public ? 'var(--color-link)' : '#555555',
               fontWeight: 600, fontSize: '0.85rem',
               outline: !profile?.is_public ? '2px solid #2c79c4' : '1px solid #e4e4e4',
             }}
@@ -469,7 +470,7 @@ export default function SettingsPage() {
                   style={{
                     padding: '8px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer',
                     background: v.is_public ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)',
-                    color: v.is_public ? '#22c55e' : '#ef4444',
+                    color: v.is_public ? 'var(--color-success)' : 'var(--color-danger)',
                     fontWeight: 600, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px',
                   }}
                 >
@@ -580,12 +581,12 @@ export default function SettingsPage() {
             await supabase.auth.signOut()
             window.location.href = '/auth/login?message=account_deleted'
           }}
-          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
+          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: 'var(--color-danger)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
         >
           Delete My Account
         </button>
         <p style={{ fontSize: '11px', color: '#555555', marginTop: '8px' }}>
-          Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" style={{ color: '#5fa8dd' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
+          Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" style={{ color: 'var(--color-link)' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
         </p>
       </div>
     </div>

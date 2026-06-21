@@ -62,7 +62,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', justifyContent: 'center' }}>
               <h1 className="text-2xl font-bold text-foreground">{profile.display_name || profile.username}</h1>
               {profile.subscription_tier === 'premium' && (
-                <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.2)', border: '1px solid rgba(44, 121, 196, 0.3)', color: '#5fa8dd' }}>Premium</span>
+                <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.2)', border: '1px solid rgba(44, 121, 196, 0.3)', color: 'var(--color-link)' }}>Premium</span>
               )}
             </div>
             <p className="text-purple-light" style={{ fontSize: '14px' }}>@{profile.username}</p>

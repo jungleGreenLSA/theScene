@@ -150,7 +150,7 @@ export default function GarageSetupPage() {
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
-          Build Your <span style={{ color: '#90caf9' }}>Garage</span>
+          Build Your <span style={{ color: 'var(--color-link)' }}>Garage</span>
         </h1>
         <p style={{ fontSize: '14px', color: '#666666' }}>Add your ride to The Scene</p>
       </div>
@@ -236,10 +236,10 @@ export default function GarageSetupPage() {
                   background: form.build_status === status.value ? 'rgba(44, 121, 196, 0.15)' : '#f0f0f0',
                   border: form.build_status === status.value ? '1px solid rgba(44, 121, 196, 0.4)' : '1px solid #e4e4e4',
                   fontSize: '12px', fontWeight: 600,
-                  color: form.build_status === status.value ? '#5fa8dd' : '#666666',
+                  color: form.build_status === status.value ? 'var(--color-link)' : '#666666',
                 }}
               >
-                <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
+                <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} className="sr-only" aria-label={`Build status: ${status.label}`} />
                 {status.label}
               </label>
             ))}
@@ -296,13 +296,13 @@ export default function GarageSetupPage() {
           <div style={sectionTitle}>Photos</div>
           <p style={hintStyle as React.CSSProperties}>Upload photos of your ride. The first photo will be your primary image.</p>
           <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '28px', border: '2px dashed #d4d4d4', borderRadius: '8px', cursor: 'pointer', marginTop: '10px' }}>
-            <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => setPhotoFiles(Array.from(e.target.files || []))} style={{ display: 'none' }} />
+            <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => setPhotoFiles(Array.from(e.target.files || []))} className="sr-only" aria-label="Upload vehicle photos" />
             <span style={{ fontSize: '14px', color: '#666666' }}>Click to select photos (JPEG, PNG, WebP)</span>
           </label>
           {photoFiles.length > 0 && (
             <div style={{ marginTop: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {photoFiles.map((f, i) => (
-                <div key={i} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', fontSize: '12px', color: '#22c55e', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div key={i} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', fontSize: '12px', color: 'var(--color-success)', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   {i === 0 && <span style={{ fontSize: '10px', fontWeight: 700 }}>PRIMARY</span>}
                   {f.name.length > 20 ? f.name.slice(0, 20) + '...' : f.name}
                 </div>
@@ -322,9 +322,9 @@ export default function GarageSetupPage() {
               background: form.visibility === 'public' ? 'rgba(44, 121, 196, 0.1)' : '#f0f0f0',
               border: form.visibility === 'public' ? '1px solid rgba(44, 121, 196, 0.4)' : '1px solid #e4e4e4',
             }}>
-              <input type="radio" name="visibility" value="public" checked={form.visibility === 'public'} onChange={handleChange} style={{ display: 'none' }} />
+              <input type="radio" name="visibility" value="public" checked={form.visibility === 'public'} onChange={handleChange} className="sr-only" aria-label="Visibility: Public, visible to everyone" />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? '#5fa8dd' : '#666666', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'public' ? 'var(--color-link)' : '#666666', display: 'block' }}>Public</span>
                 <span style={{ fontSize: '10px', color: '#555555' }}>Visible to everyone</span>
               </div>
             </label>
@@ -334,9 +334,9 @@ export default function GarageSetupPage() {
               background: form.visibility === 'private' ? 'rgba(44, 121, 196, 0.1)' : '#f0f0f0',
               border: form.visibility === 'private' ? '1px solid rgba(44, 121, 196, 0.4)' : '1px solid #e4e4e4',
             }}>
-              <input type="radio" name="visibility" value="private" checked={form.visibility === 'private'} onChange={handleChange} style={{ display: 'none' }} />
+              <input type="radio" name="visibility" value="private" checked={form.visibility === 'private'} onChange={handleChange} className="sr-only" aria-label="Visibility: Private, link only" />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? '#5fa8dd' : '#666666', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.visibility === 'private' ? 'var(--color-link)' : '#666666', display: 'block' }}>Private</span>
                 <span style={{ fontSize: '10px', color: '#555555' }}>Link only</span>
               </div>
             </label>
@@ -344,7 +344,7 @@ export default function GarageSetupPage() {
         </div>
 
         {error && (
-          <div style={{ gridColumn: '1 / -1', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: '#ef4444', fontSize: '13px' }}>
+          <div style={{ gridColumn: '1 / -1', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: 'var(--color-danger)', fontSize: '13px' }}>
             {error}
           </div>
         )}

@@ -18,6 +18,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
   const [loading, setLoading] = useState(false)
   const [isOwnProfile, setIsOwnProfile] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const checkStatus = async () => {
@@ -47,6 +48,19 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  useEffect(() => {
+    if (!open) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        setShowReport(false)
+        triggerRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [open])
 
   if (isOwnProfile) return null
 
@@ -93,7 +107,10 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
     <div ref={menuRef} style={{ position: 'relative' }}>
       {/* Trigger button */}
       <button
+        ref={triggerRef}
         onClick={() => setOpen(!open)}
+        aria-haspopup="menu"
+        aria-expanded={open}
         style={{
           background: '#f0f0f0',
           border: '1px solid #e4e4e4',
@@ -111,7 +128,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
 
       {/* Dropdown */}
       {open && !showReport && (
-        <div style={{
+        <div role="menu" aria-label="User actions" className="menu-pop" style={{
           position: 'absolute',
           top: '100%',
           right: 0,
@@ -126,6 +143,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
         }}>
           <button
+            role="menuitem"
             onClick={handleBlock}
             disabled={loading}
             style={{
@@ -134,7 +152,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               background: 'none',
               border: 'none',
               borderRadius: '6px',
-              color: isBlocked ? '#22c55e' : '#ef4444',
+              color: isBlocked ? 'var(--color-success)' : 'var(--color-danger)',
               fontSize: '13px',
               fontWeight: 600,
               textAlign: 'left',
@@ -150,6 +168,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           </button>
 
           <button
+            role="menuitem"
             onClick={() => setShowReport(true)}
             style={{
               width: '100%',
@@ -157,7 +176,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               background: 'none',
               border: 'none',
               borderRadius: '6px',
-              color: '#90caf9',
+              color: 'var(--color-link)',
               fontSize: '13px',
               fontWeight: 600,
               textAlign: 'left',
@@ -176,7 +195,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
 
       {/* Report form */}
       {open && showReport && (
-        <div style={{
+        <div role="dialog" aria-modal="false" aria-labelledby="useractions-report-title" className="menu-pop" style={{
           position: 'absolute',
           top: '100%',
           right: 0,
@@ -190,7 +209,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           zIndex: 50,
           boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
         }}>
-          <h4 className="font-bold text-foreground" style={{ fontSize: '14px', marginBottom: '4px' }}>
+          <h4 id="useractions-report-title" className="font-bold text-foreground" style={{ fontSize: '14px', marginBottom: '4px' }}>
             Report @{targetUsername}
           </h4>
           <p className="text-muted" style={{ fontSize: '12px', marginBottom: '12px' }}>
@@ -232,7 +251,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
 
       {/* Toast message */}
       {message && (
-        <div style={{
+        <div role="status" aria-live="polite" style={{
           position: 'fixed',
           bottom: '80px',
           left: '50%',

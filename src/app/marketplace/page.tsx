@@ -100,7 +100,7 @@ export default function MarketplacePage() {
       style={{
         padding: '10px 18px', borderRadius: '8px', border: 'none', cursor: 'pointer',
         background: tab === key ? 'rgba(95, 168, 221, 0.15)' : '#f0f0f0',
-        color: tab === key ? '#90caf9' : '#555555',
+        color: tab === key ? 'var(--color-link)' : '#555555',
         fontWeight: 700, fontSize: '13px',
         outline: tab === key ? '1px solid rgba(95, 168, 221, 0.35)' : '1px solid #e4e4e4',
         display: 'flex', alignItems: 'center', gap: '8px',
@@ -115,9 +115,9 @@ export default function MarketplacePage() {
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>Market<span style={{ color: '#90caf9' }}>place</span></h1>
+          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>Market<span style={{ color: 'var(--color-link)' }}>place</span></h1>
           <p style={{ fontSize: '14px', color: '#666666', marginTop: '4px' }}>
-            Buy and sell vehicles & parts, or find the shops working on builds{nearbyState && <> · filtered to <span style={{ color: '#90caf9' }}>{nearbyState}</span></>}
+            Buy and sell vehicles & parts, or find the shops working on builds{nearbyState && <> · filtered to <span style={{ color: 'var(--color-link)' }}>{nearbyState}</span></>}
           </p>
         </div>
         <Link
@@ -165,22 +165,22 @@ export default function MarketplacePage() {
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
-            {filteredListings.map(l => (
-              <Link key={l.id} href={`/marketplace/${l.id}`} className="glass card-hover" style={{ overflow: 'hidden' }}>
+            {filteredListings.map((l, i) => (
+              <Link key={l.id} href={`/marketplace/${l.id}`} className={`glass card-hover hover-lift press-fb${i < 8 ? ' stagger-item' : ''}`} style={i < 8 ? ({ overflow: 'hidden', '--i': i } as React.CSSProperties) : { overflow: 'hidden' }}>
                 <div style={{ aspectRatio: '2 / 1', background: '#e4e4e4', position: 'relative' }}>
                   {l.images && l.images.length > 0 ? (
-                    <img src={l.images[0].image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={l.images[0].image_url} alt={l.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
                   <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: '#ffffff', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: l.listing_type === 'vehicle' ? '#5fa8dd' : '#90caf9' }}>
                     {l.listing_type}
                   </span>
                   {l.is_obo && (
-                    <span style={{ position: 'absolute', top: '10px', right: '10px', padding: '4px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.2)', border: '1px solid rgba(34,197,94,0.3)', fontSize: '10px', fontWeight: 700, color: '#22c55e' }}>OBO</span>
+                    <span style={{ position: 'absolute', top: '10px', right: '10px', padding: '4px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.2)', border: '1px solid rgba(34,197,94,0.3)', fontSize: '10px', fontWeight: 700, color: 'var(--color-success)' }}>OBO</span>
                   )}
                 </div>
                 <div style={{ padding: '16px' }}>
                   <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#1a1a1a', marginBottom: '6px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{l.title}</h3>
-                  <p style={{ fontSize: '22px', fontWeight: 700, color: '#22c55e', marginBottom: '8px' }}>${l.price.toLocaleString()}</p>
+                  <p style={{ fontSize: '22px', fontWeight: 700, color: 'var(--color-success)', marginBottom: '8px' }}>${l.price.toLocaleString()}</p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: '#555555' }}>
                     <span>{l.seller?.location || `${l.city}, ${l.state}` || 'Location N/A'}</span>
                     <span>{l.comments?.length || 0} comments</span>
@@ -204,7 +204,7 @@ export default function MarketplacePage() {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
             {filteredShops.map(shop => (
-              <Link key={shop.id} href={`/shops/${shop.slug}`} className="glass card-hover" style={{ overflow: 'hidden' }}>
+              <Link key={shop.id} href={`/shops/${shop.slug}`} className="glass card-hover hover-lift press-fb" style={{ overflow: 'hidden' }}>
                 <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: '#e4e4e4' }}>
                   {shop.cover_image_url ? (
                     <img src={shop.cover_image_url} alt={shop.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -213,10 +213,10 @@ export default function MarketplacePage() {
                   )}
                   {shop.logo_url && (
                     <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid #e4e4e4' }}>
-                      <img src={shop.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={shop.logo_url} alt={`${shop.name} logo`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   )}
-                  <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: '#ffffff', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: '#22c55e' }}>
+                  <span style={{ position: 'absolute', top: '10px', left: '10px', padding: '4px 10px', borderRadius: '4px', background: '#ffffff', fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--color-success)' }}>
                     Shop
                   </span>
                 </div>
@@ -228,7 +228,7 @@ export default function MarketplacePage() {
                   {shop.specialties && shop.specialties.length > 0 && (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginBottom: '8px' }}>
                       {shop.specialties.slice(0, 3).map((t, i) => (
-                        <span key={i} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>{t}</span>
+                        <span key={i} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: 'var(--color-success)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>{t}</span>
                       ))}
                     </div>
                   )}

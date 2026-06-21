@@ -91,7 +91,7 @@ export default function CreateListingPage() {
       <Link href="/marketplace" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Marketplace</Link>
 
       <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
-        List an <span style={{ color: '#90caf9' }}>Item</span>
+        List an <span style={{ color: 'var(--color-link)' }}>Item</span>
       </h1>
       <p style={{ fontSize: '14px', color: '#666666', marginBottom: '28px' }}>All offers and questions are public for transparency</p>
 
@@ -135,7 +135,7 @@ export default function CreateListingPage() {
         </div>
 
         {error && (
-          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: '#ef4444', fontSize: '13px' }}>{error}</div>
+          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: 'var(--color-danger)', fontSize: '13px' }}>{error}</div>
         )}
 
         <button type="submit" disabled={loading} style={{

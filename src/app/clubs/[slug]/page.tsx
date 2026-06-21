@@ -64,14 +64,14 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px' }}>
             {club.logo_url && (
               <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', border: '2px solid rgba(44, 121, 196, 0.3)', flexShrink: 0, marginTop: '-48px', position: 'relative', zIndex: 1 }}>
-                <img src={club.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={club.logo_url} alt={`${club.name} logo`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}
             <div style={{ flex: 1 }}>
               <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>{club.name}</h1>
               {founder && (
                 <p style={{ fontSize: '14px', color: '#666666', marginTop: '4px' }}>
-                  Founded by <Link href={`/user/${founder.username}`} style={{ color: '#5fa8dd' }}>{founder.display_name || founder.username}</Link>
+                  Founded by <Link href={`/user/${founder.username}`} style={{ color: 'var(--color-link)' }}>{founder.display_name || founder.username}</Link>
                 </p>
               )}
             </div>
@@ -87,9 +87,9 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
 
           {/* Social Links */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px' }}>
-            {club.website && <a href={club.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#5fa8dd' }}>Website</a>}
-            {club.instagram_handle && <a href={`https://instagram.com/${club.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#5fa8dd' }}>Instagram</a>}
-            {club.facebook_url && <a href={club.facebook_url} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#5fa8dd' }}>Facebook</a>}
+            {club.website && <a href={club.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: 'var(--color-link)' }}>Website</a>}
+            {club.instagram_handle && <a href={`https://instagram.com/${club.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: 'var(--color-link)' }}>Instagram</a>}
+            {club.facebook_url && <a href={club.facebook_url} target="_blank" rel="noopener" style={{ fontSize: '13px', color: 'var(--color-link)' }}>Facebook</a>}
           </div>
         </div>
       </div>
@@ -102,9 +102,9 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
             {locations.map((loc) => (
               <div key={loc.id} style={{ padding: '14px', background: '#f0f0f0', borderRadius: '8px', border: '1px solid #e4e4e4' }}>
                 <p style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>{loc.city}, {loc.state}</p>
-                {loc.label && <p style={{ fontSize: '12px', color: '#5fa8dd', marginTop: '2px' }}>{loc.label}</p>}
+                {loc.label && <p style={{ fontSize: '12px', color: 'var(--color-link)', marginTop: '2px' }}>{loc.label}</p>}
                 {loc.zip_code && <p style={{ fontSize: '12px', color: '#555555', marginTop: '2px' }}>ZIP: {loc.zip_code}</p>}
-                {loc.is_primary && <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', color: '#90caf9', fontWeight: 700, display: 'block', marginTop: '4px' }}>Primary Chapter</span>}
+                {loc.is_primary && <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--color-link)', fontWeight: 700, display: 'block', marginTop: '4px' }}>Primary Chapter</span>}
               </div>
             ))}
           </div>

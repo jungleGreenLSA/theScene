@@ -44,7 +44,7 @@ export default function AvatarUpload({ userId, currentUrl, onUpdate }: { userId:
       }}>
         {uploading ? '...' : '+'}
       </div>
-      <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handleUpload} style={{ display: 'none' }} />
+      <input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Upload profile photo" onChange={handleUpload} className="sr-only" />
     </label>
   )
 }

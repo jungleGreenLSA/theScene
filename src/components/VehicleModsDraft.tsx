@@ -69,7 +69,7 @@ export default function VehicleModsDraft({ mods, onChange }: Props) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
       {MOD_CATEGORY_GROUPS.map(group => (
         <div key={group.section}>
-          <h3 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#5fa8dd', marginBottom: '10px' }}>
+          <h3 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--color-link)', marginBottom: '10px' }}>
             {group.section}
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -83,7 +83,7 @@ export default function VehicleModsDraft({ mods, onChange }: Props) {
                       <p style={{ fontSize: '11px', color: '#2c3e50' }}>{cat.hint}</p>
                     </div>
                     {openCategory !== cat.key && (
-                      <button type="button" onClick={() => openAdd(cat.key)} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: '#5fa8dd', fontSize: '11px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>+ Add</button>
+                      <button type="button" onClick={() => openAdd(cat.key)} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: 'var(--color-link)', fontSize: '11px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>+ Add</button>
                     )}
                   </div>
 
@@ -94,7 +94,7 @@ export default function VehicleModsDraft({ mods, onChange }: Props) {
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
                             <div style={{ minWidth: 0, flex: 1 }}>
                               <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{m.item}</p>
-                              {m.brand && <p style={{ fontSize: '11px', color: '#5fa8dd', marginTop: '2px' }}>{m.brand}</p>}
+                              {m.brand && <p style={{ fontSize: '11px', color: 'var(--color-link)', marginTop: '2px' }}>{m.brand}</p>}
                               {m.notes && <p style={{ fontSize: '12px', color: '#2c3e50', marginTop: '4px', whiteSpace: 'pre-wrap' }}>{m.notes}</p>}
                             </div>
                             <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>

@@ -335,7 +335,7 @@ export default async function Home() {
                     <strong style={{ color: '#1d4d7a' }}>{cat.label}</strong>
                     <span style={{ color: '#2c3e50', fontWeight: 400, fontSize: '11px', marginLeft: '8px' }}>{cat.desc}</span>
                   </span>
-                  <span style={{ color: '#6b8ba8', fontWeight: 400 }}>›</span>
+                  <span aria-hidden="true" style={{ color: '#6b8ba8', fontWeight: 400 }}>›</span>
                 </Link>
               ))}
             </div>

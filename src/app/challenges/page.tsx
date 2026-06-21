@@ -64,7 +64,7 @@ export default function ChallengesPage() {
                   ) : null}
                   {daysLeft > 0 && (
                     <div style={{ position: 'absolute', top: '12px', right: '12px', background: '#ffffff', borderRadius: '8px', padding: '6px 14px' }}>
-                      <span style={{ fontSize: '12px', color: daysLeft <= 3 ? '#ef4444' : '#90caf9', fontWeight: 700 }}>{daysLeft} day{daysLeft !== 1 ? 's' : ''} left</span>
+                      <span style={{ fontSize: '12px', color: daysLeft <= 3 ? 'var(--color-danger)' : 'var(--color-link)', fontWeight: 700 }}>{daysLeft} day{daysLeft !== 1 ? 's' : ''} left</span>
                     </div>
                   )}
                 </div>
@@ -74,7 +74,7 @@ export default function ChallengesPage() {
                       <h2 className="font-bold text-foreground" style={{ fontSize: '1.3rem', marginBottom: '6px' }}>{c.title}</h2>
                       <p className="text-muted-light" style={{ fontSize: '14px', lineHeight: 1.6, maxWidth: '600px' }}>{c.description}</p>
                       {c.category && (
-                        <span style={{ display: 'inline-block', marginTop: '8px', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.2)', color: '#5fa8dd' }}>{c.category}</span>
+                        <span style={{ display: 'inline-block', marginTop: '8px', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.2)', color: 'var(--color-link)' }}>{c.category}</span>
                       )}
                     </div>
                     <div style={{ textAlign: 'right' }}>
@@ -89,15 +89,16 @@ export default function ChallengesPage() {
                       {c.entries.slice(0, 8).map((entry) => (
                         <div key={entry.id} style={{ width: '80px', height: '80px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: '#e4e4e4', position: 'relative' }}>
                           <img src={entry.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          <div style={{ position: 'absolute', bottom: '2px', right: '4px', fontSize: '10px', color: '#90caf9', fontWeight: 700, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>{entry.vote_count}</div>
+                          <div style={{ position: 'absolute', bottom: '2px', right: '4px', fontSize: '10px', color: 'var(--color-link)', fontWeight: 700, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>{entry.vote_count}</div>
                         </div>
                       ))}
                     </div>
                   )}
 
+                  {/* TODO: wire up to a /challenges/[id] detail/entry route once it exists. Disabled + aria-disabled until then so SR/keyboard users aren't given phantom controls. */}
                   <div style={{ marginTop: '16px', display: 'flex', gap: '10px' }}>
-                    <button className="btn-neon" style={{ fontSize: '12px', padding: '10px 20px' }}>Enter Challenge</button>
-                    <button className="btn-outline" style={{ fontSize: '12px', padding: '10px 20px' }}>View All Entries</button>
+                    <button type="button" disabled aria-disabled="true" className="btn-neon" style={{ fontSize: '12px', padding: '10px 20px', opacity: 0.5, cursor: 'not-allowed' }}>Enter Challenge</button>
+                    <button type="button" disabled aria-disabled="true" className="btn-outline" style={{ fontSize: '12px', padding: '10px 20px', opacity: 0.5, cursor: 'not-allowed' }}>View All Entries</button>
                   </div>
                 </div>
               </div>

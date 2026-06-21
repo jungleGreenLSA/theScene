@@ -70,7 +70,7 @@ export default function CreateShopPage() {
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <Link href="/shops" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Shops</Link>
 
-      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Add a <span style={{ color: '#22c55e' }}>Shop</span></h1>
+      <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Add a <span style={{ color: 'var(--color-success)' }}>Shop</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '28px' }}>List a shop so other members can tag it on their builds.</p>
 
       <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px' }}>
@@ -142,7 +142,7 @@ export default function CreateShopPage() {
                 style={{
                   padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', border: 'none',
                   background: form.specialties.includes(s) ? 'rgba(34,197,94,0.2)' : '#f0f0f0',
-                  color: form.specialties.includes(s) ? '#22c55e' : '#555555',
+                  color: form.specialties.includes(s) ? 'var(--color-success)' : '#555555',
                   outline: form.specialties.includes(s) ? '1px solid rgba(34,197,94,0.3)' : '1px solid #e4e4e4',
                 }}
               >
@@ -153,7 +153,7 @@ export default function CreateShopPage() {
         </div>
 
         {error && (
-          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444', fontSize: '13px' }}>{error}</div>
+          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: 'var(--color-danger)', fontSize: '13px' }}>{error}</div>
         )}
 
         <button type="submit" disabled={loading} className="btn-neon" style={{ width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.5 : 1 }}>

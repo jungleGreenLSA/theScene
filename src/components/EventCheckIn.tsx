@@ -101,7 +101,7 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
       )}
 
       {alreadyCheckedIn && (
-        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', marginBottom: '16px', fontSize: '13px', color: '#22c55e', fontWeight: 600 }}>
+        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-success)', fontWeight: 600 }}>
           You&apos;re checked in at this event!
         </div>
       )}
@@ -119,7 +119,7 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
                   <p style={{ fontSize: '13px', color: '#1a1a1a' }}>
                     <Link href={`/user/${c.user?.username}`} style={{ fontWeight: 600, color: '#1a1a1a' }}>{c.user?.display_name || c.user?.username}</Link>
                     {' checked in'}
-                    {c.vehicle && <span style={{ color: '#5fa8dd' }}> with their {c.vehicle.year} {c.vehicle.make} {c.vehicle.model}</span>}
+                    {c.vehicle && <span style={{ color: 'var(--color-link)' }}> with their {c.vehicle.year} {c.vehicle.make} {c.vehicle.model}</span>}
                   </p>
                   <p style={{ fontSize: '11px', color: '#2c3e50' }}>
                     {new Date(c.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}

@@ -69,7 +69,7 @@ export default function ClubsPage() {
         <div>
           <h1 className="text-3xl font-bold">Car <span className="text-purple-light">Clubs</span></h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>
-            Find your crew. Join your local scene.{nearbyState && <> · filtered to <span style={{ color: '#5fa8dd' }}>{nearbyState}</span></>}
+            Find your crew. Join your local scene.{nearbyState && <> · filtered to <span style={{ color: 'var(--color-link)' }}>{nearbyState}</span></>}
           </p>
         </div>
         <Link href="/clubs/create" className="btn-primary text-xs">Start a Club</Link>
@@ -115,7 +115,7 @@ export default function ClubsPage() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {filteredClubs.map((club) => (
-            <Link key={club.id} href={`/clubs/${club.slug}`} className="glass overflow-hidden card-hover group">
+            <Link key={club.id} href={`/clubs/${club.slug}`} className="glass overflow-hidden card-hover group hover-lift press-fb">
               <div style={{ height: '120px', position: 'relative', overflow: 'hidden', background: '#e4e4e4' }}>
                 {club.cover_image_url ? (
                   <img src={club.cover_image_url} alt={club.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

@@ -48,6 +48,7 @@ export default function FollowButton({ targetUserId, targetUsername }: { targetU
     <button
       onClick={handleFollow}
       disabled={loading}
+      aria-pressed={isFollowing}
       style={{
         padding: '8px 20px', borderRadius: '8px', fontSize: '12px', fontWeight: 600,
         textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer', border: 'none',

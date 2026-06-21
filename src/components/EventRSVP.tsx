@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 const STATUSES = [
-  { value: 'going', label: "I'm Going", color: '#22c55e', bg: 'rgba(34,197,94,0.15)', border: 'rgba(34,197,94,0.3)' },
-  { value: 'maybe', label: 'Might Go', color: '#90caf9', bg: 'rgba(95, 168, 221, 0.1)', border: 'rgba(95, 168, 221, 0.2)' },
+  { value: 'going', label: "I'm Going", color: 'var(--color-success)', bg: 'rgba(34,197,94,0.15)', border: 'rgba(34,197,94,0.3)' },
+  { value: 'maybe', label: 'Might Go', color: 'var(--color-link)', bg: 'rgba(95, 168, 221, 0.1)', border: 'rgba(95, 168, 221, 0.2)' },
   { value: 'not_going', label: "Can't Make It", color: '#2c3e50', bg: '#f5f5f5', border: '#e4e4e4' },
 ]
 
@@ -55,12 +55,14 @@ export default function EventRSVP({ eventId }: { eventId: string }) {
   }
 
   return (
-    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+    <div role="radiogroup" aria-label="RSVP status" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
       {STATUSES.map(s => {
         const isSelected = currentStatus === s.value
         return (
           <button
             key={s.value}
+            role="radio"
+            aria-checked={isSelected}
             onClick={() => handleRSVP(s.value)}
             disabled={loading}
             style={{

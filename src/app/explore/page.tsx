@@ -144,7 +144,7 @@ export default function ExplorePage() {
       <div className="text-center" style={{ marginBottom: '24px' }}>
         <h1 className="text-3xl font-bold">Explore <span className="text-purple-light">The Scene</span></h1>
         <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>
-          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: '#5fa8dd' }}>{nearbyState}</span></> : ' across the country'}
+          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: 'var(--color-link)' }}>{nearbyState}</span></> : ' across the country'}
         </p>
       </div>
 
@@ -186,14 +186,14 @@ export default function ExplorePage() {
                   style={{
                     padding: '6px 12px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600,
                     background: radius === opt.miles ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-                    color: radius === opt.miles ? '#5fa8dd' : '#666666',
+                    color: radius === opt.miles ? 'var(--color-link)' : '#666666',
                   }}
                 >
                   {opt.label}
                 </button>
               ))}
             </div>
-            <span style={{ fontSize: '12px', color: '#666666' }}>of <span style={{ color: '#5fa8dd', fontWeight: 600 }}>{locationText}</span></span>
+            <span style={{ fontSize: '12px', color: '#666666' }}>of <span style={{ color: 'var(--color-link)', fontWeight: 600 }}>{locationText}</span></span>
             <button type="button" onClick={clearCity} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#555555', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
           </div>
         )}
@@ -229,7 +229,7 @@ export default function ExplorePage() {
             <Link
               key={vehicle.id}
               href={`/user/${vehicle.owner?.username}/${vehicle.slug}`}
-              className="glass overflow-hidden card-hover group"
+              className="glass overflow-hidden card-hover group hover-lift press-fb"
             >
               <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: '#e4e4e4' }}>
                 {vehicle.primary_image_url ? (

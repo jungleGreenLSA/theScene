@@ -73,7 +73,7 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
       <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }}>Comments ({comments.length})</h2>
 
       {message && (
-        <div style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{message}</div>
+        <div role="alert" style={{ fontSize: '12px', color: 'var(--color-danger)', marginBottom: '10px' }}>{message}</div>
       )}
 
       {loading ? (
@@ -120,7 +120,7 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
             style={{ resize: 'vertical', minHeight: '60px' }}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '11px', fontWeight: 600, color: draft.length > 450 ? '#90caf9' : '#555555' }}>{500 - draft.length}</span>
+            <span style={{ fontSize: '11px', fontWeight: 600, color: draft.length > 450 ? 'var(--color-link)' : '#555555' }}>{500 - draft.length}</span>
             <button type="submit" disabled={submitting || !draft.trim()} className="btn-primary" style={{ fontSize: '12px', padding: '8px 20px', opacity: (submitting || !draft.trim()) ? 0.5 : 1 }}>
               {submitting ? 'Posting...' : 'Post Comment'}
             </button>

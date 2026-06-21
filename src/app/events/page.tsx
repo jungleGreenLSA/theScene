@@ -77,7 +77,7 @@ export default function EventsPage() {
         <div>
           <h1 className="text-3xl font-bold">Events</h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.9rem' }}>
-            Car shows, meets, track days, and cruises{nearbyState && <> · filtered to <span style={{ color: '#90caf9' }}>{nearbyState}</span></>}
+            Car shows, meets, track days, and cruises{nearbyState && <> · filtered to <span style={{ color: 'var(--color-link)' }}>{nearbyState}</span></>}
           </p>
         </div>
         <Link href="/events/create" className="btn-primary text-xs">Create Event</Link>
@@ -129,13 +129,13 @@ export default function EventsPage() {
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
-          {filteredEvents.map((event) => {
+          {filteredEvents.map((event, i) => {
             const eventDate = new Date(event.event_date)
             const month = eventDate.toLocaleDateString('en-US', { month: 'short' })
             const day = eventDate.getDate()
 
             return (
-              <Link key={event.id} href={`/events/${event.slug}`} className="glass overflow-hidden card-hover group">
+              <Link key={event.id} href={`/events/${event.slug}`} className={`glass overflow-hidden card-hover group hover-lift press-fb${i < 8 ? ' stagger-item' : ''}`} style={i < 8 ? ({ '--i': i } as React.CSSProperties) : undefined}>
                 <div style={{ height: '160px', position: 'relative', overflow: 'hidden', background: '#e4e4e4' }}>
                   {event.cover_image_url ? (
                     <img src={event.cover_image_url} alt={event.title} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

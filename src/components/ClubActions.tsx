@@ -129,7 +129,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
         {membership === 'pending' ? (
           <>
-            <button disabled style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.2)', color: '#90caf9', fontSize: '12px', fontWeight: 600, cursor: 'default' }}>Pending Approval</button>
+            <button disabled style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.2)', color: 'var(--color-link)', fontSize: '12px', fontWeight: 600, cursor: 'default' }}>Pending Approval</button>
             <button onClick={handleCancelRequest} style={{ fontSize: '11px', color: '#2c3e50', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}>Cancel request</button>
           </>
         ) : (
@@ -137,7 +137,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
             {joining ? 'Sending...' : 'Request to Join'}
           </button>
         )}
-        {message && <span style={{ fontSize: '11px', color: '#22c55e' }}>{message}</span>}
+        {message && <span role="status" aria-live="polite" style={{ fontSize: '11px', color: 'var(--color-success)' }}>{message}</span>}
       </div>
     )
   }
@@ -149,7 +149,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
         <button
           onClick={() => setShowAddMember(!showAddMember)}
-          style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: '#5fa8dd', fontSize: '12px', fontWeight: 600, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px' }}
+          style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: 'var(--color-link)', fontSize: '12px', fontWeight: 600, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px' }}
         >
           {showAddMember ? 'Close' : '+ Add Member'}
         </button>
@@ -183,7 +183,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
             </select>
           </div>
           {message && (
-            <p style={{ fontSize: '12px', color: message.includes('Added') ? '#22c55e' : '#ef4444' }}>{message}</p>
+            <p role="status" aria-live="polite" style={{ fontSize: '12px', color: message.includes('Added') ? 'var(--color-success)' : 'var(--color-danger)' }}>{message}</p>
           )}
           <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '10px', fontSize: '12px', opacity: loading ? 0.5 : 1 }}>
             {loading ? 'Adding...' : 'Add to Club'}

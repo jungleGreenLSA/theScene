@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { compressImage } from '@/lib/imageUpload'
+import Skeleton from '@/components/Skeleton'
 
 const FREE_PHOTO_LIMIT = 5
 
@@ -103,7 +104,7 @@ export default function VehiclePhotosPage() {
     setTimeout(() => setMessage(''), 3000)
   }
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Loading...</div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px' }}><Skeleton variant="card" count={2} /></div>
   if (!vehicle) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Vehicle not found</div>
 
   return (
@@ -128,7 +129,7 @@ export default function VehiclePhotosPage() {
       {/* Upload */}
       <div className="glass" style={{ padding: '20px', marginBottom: '20px' }}>
         <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '24px', border: '2px dashed #d4d4d4', borderRadius: '8px', cursor: 'pointer', transition: 'border-color 0.2s' }}>
-          <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleUpload} style={{ display: 'none' }} disabled={uploading} />
+          <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handleUpload} className="sr-only" aria-label="Upload vehicle photos" disabled={uploading} />
           <span style={{ fontSize: '14px', color: '#666666' }}>{uploading ? 'Uploading...' : 'Click to upload photos (JPEG, PNG, WebP, max 5MB each)'}</span>
         </label>
       </div>
@@ -142,15 +143,15 @@ export default function VehiclePhotosPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '12px' }}>
           {images.map(img => (
             <div key={img.id} style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: '#e4e4e4', aspectRatio: '2 / 1' }}>
-              <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={img.image_url} alt={img.caption || `${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               {vehicle.primary_image_url === img.image_url && (
                 <span style={{ position: 'absolute', top: '6px', left: '6px', fontSize: '10px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.9)', color: 'white', fontWeight: 600 }}>Primary</span>
               )}
               <div style={{ position: 'absolute', bottom: '6px', right: '6px', display: 'flex', gap: '4px' }}>
                 {vehicle.primary_image_url !== img.image_url && (
-                  <button onClick={() => handleSetPrimary(img.image_url)} title="Set as primary" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#22c55e', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>SET PRIMARY</button>
+                  <button onClick={() => handleSetPrimary(img.image_url)} title="Set as primary" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: 'var(--color-success)', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>SET PRIMARY</button>
                 )}
-                <button onClick={() => handleDelete(img.id)} title="Delete" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>DELETE</button>
+                <button onClick={() => handleDelete(img.id)} title="Delete" style={{ padding: '4px 8px', borderRadius: '6px', background: 'rgba(0,0,0,0.7)', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '10px', fontWeight: 700 }}>DELETE</button>
               </div>
             </div>
           ))}

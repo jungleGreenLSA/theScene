@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import Skeleton from '@/components/Skeleton'
 
 interface Notification {
   id: string
@@ -83,42 +84,47 @@ export default function NotificationsPage() {
       <p style={{ fontSize: '13px', color: '#666666', marginBottom: '20px' }}>Join requests, guestbook signs, and mentions show up here.</p>
 
       {loading ? (
-        <p style={{ fontSize: '13px', color: '#555555' }}>Loading...</p>
+        <Skeleton variant="line" count={5} />
       ) : items.length === 0 ? (
         <div className="glass" style={{ padding: '32px', textAlign: 'center' }}>
           <p style={{ fontSize: '14px', color: '#666666' }}>Nothing new. Check back later.</p>
         </div>
       ) : (
         <div className="glass" style={{ padding: '8px' }}>
-          {items.map((n) => (
-            <Link
-              key={n.id}
-              href={targetHref(n)}
-              style={{
-                display: 'flex', gap: '12px', alignItems: 'flex-start',
-                padding: '14px', borderRadius: '8px',
-                background: n.is_read ? 'transparent' : 'rgba(44, 121, 196, 0.05)',
-                borderBottom: '1px solid #f5f5f5',
-              }}
-            >
-              <div style={{ fontSize: '22px', flexShrink: 0, width: '28px', textAlign: 'center' }}>
-                {TYPE_EMOJI[n.type] || '🔔'}
-              </div>
-              {n.actor?.avatar_url ? (
-                <img src={n.actor.avatar_url} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
-              ) : (
-                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#e4e4e4', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#555555' }}>
-                  {n.actor?.username?.charAt(0).toUpperCase() || '?'}
+          {items.map((n) => {
+            const href = targetHref(n)
+            const rowStyle = {
+              display: 'flex', gap: '12px', alignItems: 'flex-start',
+              padding: '14px', borderRadius: '8px',
+              background: n.is_read ? 'transparent' : 'rgba(44, 121, 196, 0.05)',
+              borderBottom: '1px solid #f5f5f5',
+            } as React.CSSProperties
+            const inner = (
+              <>
+                <div style={{ fontSize: '22px', flexShrink: 0, width: '28px', textAlign: 'center' }}>
+                  {TYPE_EMOJI[n.type] || '🔔'}
                 </div>
-              )}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '14px', color: '#1a1a1a', lineHeight: 1.4 }}>
-                  {n.message || 'New activity'}
-                </p>
-                <p style={{ fontSize: '11px', color: '#555555', marginTop: '4px' }}>{timeAgo(n.created_at)}</p>
-              </div>
-            </Link>
-          ))}
+                {n.actor?.avatar_url ? (
+                  <img src={n.actor.avatar_url} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
+                ) : (
+                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#e4e4e4', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#555555' }}>
+                    {n.actor?.username?.charAt(0).toUpperCase() || '?'}
+                  </div>
+                )}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: '14px', color: '#1a1a1a', lineHeight: 1.4 }}>
+                    {n.message || 'New activity'}
+                  </p>
+                  <p style={{ fontSize: '11px', color: '#555555', marginTop: '4px' }}>{timeAgo(n.created_at)}</p>
+                </div>
+              </>
+            )
+            return href === '#' ? (
+              <div key={n.id} style={rowStyle}>{inner}</div>
+            ) : (
+              <Link key={n.id} href={href} style={rowStyle}>{inner}</Link>
+            )
+          })}
         </div>
       )}
     </div>

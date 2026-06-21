@@ -59,7 +59,7 @@ export default function DailySuggestion() {
         <span style={{ fontSize: '28px', flexShrink: 0, marginTop: '2px' }}>{suggestion.emoji}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#90caf9' }}>Community Prompt</span>
+            <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--color-link)' }}>Community Prompt</span>
             <span style={{ fontSize: '10px', color: '#2c3e50' }}>New every day</span>
           </div>
           <h3 className="font-bold text-foreground" style={{ fontSize: '15px', marginBottom: '4px' }}>{suggestion.title}</h3>
@@ -73,7 +73,7 @@ export default function DailySuggestion() {
                 style={{
                   padding: '4px 10px', borderRadius: '4px',
                   background: 'rgba(44, 121, 196, 0.12)', border: '1px solid rgba(44, 121, 196, 0.3)',
-                  color: '#5fa8dd', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
+                  color: 'var(--color-link)', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
                 }}
               >
                 #{suggestion.hashtag}
@@ -84,7 +84,7 @@ export default function DailySuggestion() {
               >
                 See posts →
               </Link>
-              {copied && <span style={{ fontSize: '11px', color: '#22c55e' }}>Copied!</span>}
+              {copied && <span style={{ fontSize: '11px', color: 'var(--color-success)' }}>Copied!</span>}
             </div>
           )}
         </div>

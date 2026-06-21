@@ -135,8 +135,8 @@ const MentionTextarea = forwardRef<HTMLTextAreaElement, Props>(function MentionT
       {mentionRange && (matches.length > 0 || searching || mentionRange.q.length > 0) && (
         <div style={{
           position: 'absolute', zIndex: 20, left: 0, right: 0, top: '100%', marginTop: '4px',
-          background: '#12121e', border: '1px solid rgba(44, 121, 196, 0.35)', borderRadius: '8px',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden',
+          background: 'var(--color-surface)', border: '1px solid rgba(44, 121, 196, 0.35)', borderRadius: '8px',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.18)', overflow: 'hidden',
         }}>
           {searching && matches.length === 0 && (
             <div style={{ padding: '10px 12px', fontSize: '12px', color: '#2c3e50' }}>Searching…</div>

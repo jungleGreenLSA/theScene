@@ -39,11 +39,11 @@ export default function EventOrganizerActions({ eventId, organizerId, eventSlug 
   return (
     <div style={{ display: 'flex', gap: '8px', marginTop: '14px', flexWrap: 'wrap' }}>
       {eventSlug && (
-        <Link href={`/events/${eventSlug}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: '#5fa8dd', fontSize: '12px', fontWeight: 600 }}>
+        <Link href={`/events/${eventSlug}/edit`} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(44, 121, 196, 0.15)', border: '1px solid rgba(44, 121, 196, 0.3)', color: 'var(--color-link)', fontSize: '12px', fontWeight: 600 }}>
           Edit Event
         </Link>
       )}
-      <button onClick={handleClose} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.2)', color: '#90caf9', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>
+      <button onClick={handleClose} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.2)', color: 'var(--color-link)', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>
         Mark as Completed
       </button>
       <button onClick={handleDelete} className="btn-danger">

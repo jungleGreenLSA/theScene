@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useFocusTrap } from '@/lib/useFocusTrap'
 import AddressAutocomplete from '@/components/AddressAutocomplete'
 import { compressImage } from '@/lib/imageUpload'
 
@@ -27,6 +28,7 @@ export default function OnboardingWizard() {
   const [vehicle, setVehicle] = useState({ year: '', make: '', model: '', color: '' })
   const [vehicleFile, setVehicleFile] = useState<File | null>(null)
   const [hasVehicle, setHasVehicle] = useState<boolean | null>(null)
+  const dialogRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const check = async () => {
@@ -114,21 +116,23 @@ export default function OnboardingWizard() {
     if (profile) await finish(profile.id)
   }
 
+  useFocusTrap(open && !!profile, dialogRef, () => { skip() })
+
   if (!open || !profile) return null
 
   const stepColor = '#5fa8dd'
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-      <div className="glass" style={{ width: '100%', maxWidth: '480px', padding: '28px', position: 'relative' }}>
+      <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="onboarding-title" className="glass overlay-pop" style={{ width: '100%', maxWidth: '480px', padding: '28px', position: 'relative' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: stepColor }}>Step {step} of 3</span>
-          <button onClick={skip} style={{ background: 'none', border: 'none', color: '#2c3e50', fontSize: '12px', cursor: 'pointer' }}>Skip for now</button>
+          <button onClick={skip} aria-label="Skip onboarding for now" style={{ background: 'none', border: 'none', color: '#2c3e50', fontSize: '12px', cursor: 'pointer' }}>Skip for now</button>
         </div>
 
         {step === 1 && (
           <>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Where are you based?</h2>
+            <h2 id="onboarding-title" style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Where are you based?</h2>
             <p style={{ fontSize: '13px', color: '#2c3e50', marginBottom: '18px' }}>So we can show you nearby events, clubs, and shops.</p>
             <AddressAutocomplete
               defaultValue={location}
@@ -136,7 +140,7 @@ export default function OnboardingWizard() {
               mode="city"
               onChange={(a) => { const v = [a.city, a.state].filter(Boolean).join(', '); if (v) setLocation(v) }}
             />
-            {error && <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '8px' }}>{error}</p>}
+            {error && <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginTop: '8px' }}>{error}</p>}
             <button onClick={submitLocation} disabled={busy} className="btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: '16px', opacity: busy ? 0.5 : 1 }}>
               {busy ? 'Saving...' : 'Next →'}
             </button>
@@ -145,15 +149,15 @@ export default function OnboardingWizard() {
 
         {step === 2 && (
           <>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Add a profile photo</h2>
+            <h2 id="onboarding-title" style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Add a profile photo</h2>
             <p style={{ fontSize: '13px', color: '#2c3e50', marginBottom: '18px' }}>Optional — you can always add one later from Settings.</p>
             <label style={{ display: 'block', padding: '32px', borderRadius: '8px', border: '2px dashed #bdbdbd', textAlign: 'center', cursor: 'pointer', background: '#f0f0f0' }}>
-              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
-              <span style={{ fontSize: '13px', color: avatarFile ? '#22c55e' : '#666666' }}>
+              <input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Upload profile photo" onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} className="sr-only" />
+              <span style={{ fontSize: '13px', color: avatarFile ? 'var(--color-success)' : '#666666' }}>
                 {avatarFile ? avatarFile.name : 'Tap to upload'}
               </span>
             </label>
-            {error && <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '8px' }}>{error}</p>}
+            {error && <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginTop: '8px' }}>{error}</p>}
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
               <button onClick={() => setStep(1)} className="btn-outline" style={{ flex: 1, justifyContent: 'center', padding: '10px' }}>Back</button>
               <button onClick={submitAvatar} disabled={busy} className="btn-primary" style={{ flex: 2, justifyContent: 'center', padding: '10px', opacity: busy ? 0.5 : 1 }}>
@@ -165,7 +169,7 @@ export default function OnboardingWizard() {
 
         {step === 3 && (
           <>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
+            <h2 id="onboarding-title" style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
               {hasVehicle ? 'You\'re all set!' : 'Add your first ride'}
             </h2>
             <p style={{ fontSize: '13px', color: '#2c3e50', marginBottom: '18px' }}>
@@ -180,14 +184,14 @@ export default function OnboardingWizard() {
                 </div>
                 <input placeholder="Color (optional)" value={vehicle.color} onChange={(e) => setVehicle({ ...vehicle, color: e.target.value })} className="input" />
                 <label style={{ display: 'block', padding: '16px', borderRadius: '8px', border: '2px dashed #d4d4d4', textAlign: 'center', cursor: 'pointer', background: '#f0f0f0' }}>
-                  <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setVehicleFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
-                  <span style={{ fontSize: '12px', color: vehicleFile ? '#22c55e' : '#666666' }}>
+                  <input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Upload vehicle cover photo" onChange={(e) => setVehicleFile(e.target.files?.[0] || null)} className="sr-only" />
+                  <span style={{ fontSize: '12px', color: vehicleFile ? 'var(--color-success)' : '#666666' }}>
                     {vehicleFile ? vehicleFile.name : 'Cover photo (optional)'}
                   </span>
                 </label>
               </div>
             )}
-            {error && <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '8px' }}>{error}</p>}
+            {error && <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginTop: '8px' }}>{error}</p>}
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
               <button onClick={() => setStep(2)} className="btn-outline" style={{ flex: 1, justifyContent: 'center', padding: '10px' }}>Back</button>
               <button onClick={submitVehicle} disabled={busy} className="btn-neon" style={{ flex: 2, justifyContent: 'center', padding: '10px', opacity: busy ? 0.5 : 1 }}>

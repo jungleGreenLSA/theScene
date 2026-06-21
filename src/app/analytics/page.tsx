@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import Skeleton from '@/components/Skeleton'
 
 interface Vehicle {
   id: string
@@ -97,7 +98,7 @@ export default function AnalyticsPage() {
   }
 
   if (loading) {
-    return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }} className="text-muted-light">Loading analytics...</div>
+    return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}><Skeleton variant="card" count={3} /></div>
   }
 
   if (!isPremium) {
@@ -156,9 +157,9 @@ export default function AnalyticsPage() {
         <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Traffic Sources (Last 30 Days)</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {[
-            { label: 'Explore', count: stats.explore, color: '#5fa8dd' },
-            { label: 'Search', count: stats.search, color: '#90caf9' },
-            { label: 'Direct Link', count: stats.direct, color: '#22c55e' },
+            { label: 'Explore', count: stats.explore, color: 'var(--color-link)' },
+            { label: 'Search', count: stats.search, color: 'var(--color-link)' },
+            { label: 'Direct Link', count: stats.direct, color: 'var(--color-success)' },
             { label: 'QR Code', count: stats.qr, color: '#3b82f6' },
             { label: 'Feed', count: stats.feed, color: '#ec4899' },
           ].map((source) => {

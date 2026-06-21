@@ -132,7 +132,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
           {(vehicle.primary_image_url || (images && images.length > 0)) ? (
             <img src={vehicle.primary_image_url || images?.[0]?.image_url} alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : null}
-          <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: '#ffffff', color: '#90caf9', border: '1px solid rgba(95, 168, 221, 0.3)' }}>
+          <span style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: '#ffffff', color: 'var(--color-link)', border: '1px solid rgba(95, 168, 221, 0.3)' }}>
             {vehicle.build_status?.replace('_', ' ')}
           </span>
         </div>
@@ -143,7 +143,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
               <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a' }}>
                 {vehicle.year} {vehicle.make} {vehicle.model}
               </h1>
-              <p style={{ fontSize: '16px', color: '#5fa8dd', marginTop: '4px' }}>{vehicle.color}</p>
+              <p style={{ fontSize: '16px', color: 'var(--color-link)', marginTop: '4px' }}>{vehicle.color}</p>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
               <PropsButton targetType="vehicle" targetId={vehicle.id} initialCount={vehicle.props_count || 0} />
@@ -183,7 +183,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
             { label: 'Mileage', value: vehicle.mileage },
           ].filter(s => s.value).map((spec) => (
             <div key={spec.label} style={{ padding: '12px', background: '#f0f0f0', borderRadius: '8px' }}>
-              <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: '#5fa8dd', fontWeight: 600 }}>{spec.label}</p>
+              <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--color-link)', fontWeight: 600 }}>{spec.label}</p>
               <p style={{ fontSize: '14px', fontWeight: 500, color: '#1a1a1a', marginTop: '2px' }}>{spec.value}</p>
             </div>
           ))}
@@ -219,13 +219,13 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {Object.entries(modsByCategory).map(([category, items]) => (
               <div key={category}>
-                <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#90caf9', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '8px' }}>
+                <h3 style={{ fontSize: '12px', fontWeight: 700, color: 'var(--color-link)', textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '8px' }}>
                   {categoryLabels[category] || category}
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {items?.map((mod) => (
                     <div key={mod.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', color: '#555555' }}>
-                      <span style={{ color: '#5fa8dd', marginTop: '2px' }}>•</span>
+                      <span style={{ color: 'var(--color-link)', marginTop: '2px' }}>•</span>
                       <span>
                         {mod.brand && <strong style={{ color: '#1a1a1a' }}>{mod.brand}</strong>} {mod.item}
                         {mod.notes && <span style={{ color: '#555555', marginLeft: '4px' }}>— {mod.notes}</span>}
@@ -247,9 +247,9 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
             {taggedShops.map((t: any) => (
               t.shop && (
                 <Link key={t.id} href={`/shops/${t.shop.slug}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', borderRadius: '8px', background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
-                  {t.shop.logo_url && <img src={t.shop.logo_url} alt="" style={{ width: '28px', height: '28px', borderRadius: '4px', objectFit: 'cover' }} />}
+                  {t.shop.logo_url && <img src={t.shop.logo_url} alt={`${t.shop.name} logo`} style={{ width: '28px', height: '28px', borderRadius: '4px', objectFit: 'cover' }} />}
                   <div>
-                    <p style={{ fontSize: '13px', fontWeight: 600, color: '#22c55e' }}>{t.shop.name}</p>
+                    <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-success)' }}>{t.shop.name}</p>
                     {t.shop.city && <p style={{ fontSize: '11px', color: '#555555' }}>{t.shop.city}, {t.shop.state}</p>}
                   </div>
                 </Link>
@@ -274,7 +274,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
               <Link key={sim.id} href={`/user/${sim.owner?.username}/${sim.slug}`} className="glass card-hover" style={{ display: 'flex', overflow: 'hidden' }}>
                 <div style={{ width: '160px', aspectRatio: '2 / 1', background: '#e4e4e4', flexShrink: 0, overflow: 'hidden' }}>
                   {sim.primary_image_url ? (
-                    <img src={sim.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={sim.primary_image_url} alt={`${sim.year} ${sim.make} ${sim.model}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
                 </div>
                 <div style={{ padding: '14px', flex: 1, minWidth: 0 }}>
@@ -283,7 +283,7 @@ export default async function VehiclePage({ params }: { params: Promise<{ userna
                   <p style={{ fontSize: '11px', color: '#555555', marginTop: '4px' }}>by @{sim.owner?.username}</p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
                     <span style={{ fontSize: '11px', color: '#666666' }}>{sim.props_count || 0} Props</span>
-                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', color: '#5fa8dd' }}>{sim.build_status?.replace('_', ' ')}</span>
+                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', color: 'var(--color-link)' }}>{sim.build_status?.replace('_', ' ')}</span>
                   </div>
                 </div>
               </Link>

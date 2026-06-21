@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 import GlobalSearch from '@/components/GlobalSearch'
 import NotificationBell from '@/components/NotificationBell'
+import { useFocusTrap } from '@/lib/useFocusTrap'
 
 const PRIMARY_LINKS = [
   { href: '/feed', label: 'Feed', membersOnly: false },
@@ -43,6 +44,11 @@ export default function Navbar() {
   const supabase = createClient()
   const moreRef = useRef<HTMLDivElement>(null)
   const profileRef = useRef<HTMLDivElement>(null)
+  const moreTriggerRef = useRef<HTMLButtonElement>(null)
+  const profileTriggerRef = useRef<HTMLButtonElement>(null)
+  const drawerRef = useRef<HTMLDivElement>(null)
+
+  useFocusTrap(menuOpen, drawerRef, () => setMenuOpen(false))
 
   useEffect(() => {
     const loadUser = async () => {
@@ -73,6 +79,17 @@ export default function Navbar() {
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [])
+
+  useEffect(() => {
+    if (!moreOpen && !profileOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      if (moreOpen) { setMoreOpen(false); moreTriggerRef.current?.focus() }
+      if (profileOpen) { setProfileOpen(false); profileTriggerRef.current?.focus() }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [moreOpen, profileOpen])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -158,6 +175,7 @@ export default function Navbar() {
             {user && (
               <div ref={moreRef} style={{ position: 'relative', height: '100%' }}>
                 <button
+                  ref={moreTriggerRef}
                   onClick={() => setMoreOpen(!moreOpen)}
                   aria-haspopup="menu"
                   aria-expanded={moreOpen}
@@ -178,7 +196,7 @@ export default function Navbar() {
                   More <span aria-hidden="true" style={{ fontSize: '9px', opacity: 0.8 }}>▾</span>
                 </button>
                 {moreOpen && (
-                  <div style={{
+                  <div role="menu" aria-label="More navigation" className="menu-pop" style={{
                     position: 'absolute', top: '100%', left: 0, minWidth: '180px',
                     background: '#fff', border: '1px solid #888',
                     borderTop: 'none', boxShadow: '0 4px 10px rgba(0,0,0,0.25)',
@@ -187,6 +205,7 @@ export default function Navbar() {
                       <Link
                         key={l.href}
                         href={l.href}
+                        role="menuitem"
                         onClick={() => setMoreOpen(false)}
                         style={dropdownLinkStyle(isActive(l.href))}
                       >
@@ -210,6 +229,7 @@ export default function Navbar() {
             {user ? (
               <div ref={profileRef} style={{ position: 'relative' }}>
                 <button
+                  ref={profileTriggerRef}
                   onClick={() => setProfileOpen(!profileOpen)}
                   title="Profile menu"
                   aria-haspopup="menu"
@@ -231,15 +251,17 @@ export default function Navbar() {
                   <span style={{ fontSize: '12px', fontWeight: 700, color: '#fff' }}>Me ▾</span>
                 </button>
                 {profileOpen && (
-                  <div style={{
+                  <div role="menu" aria-label="Profile menu" className="menu-pop" style={{
                     position: 'absolute', top: '100%', right: 0, minWidth: '200px',
                     background: '#fff', border: '1px solid #888',
                     boxShadow: '0 4px 10px rgba(0,0,0,0.25)', marginTop: '2px',
+                    transformOrigin: 'top right',
                   }}>
                     {PROFILE_LINKS.map(l => (
                       <Link
                         key={l.href}
                         href={l.href}
+                        role="menuitem"
                         onClick={() => setProfileOpen(false)}
                         style={dropdownLinkStyle(isActive(l.href))}
                       >
@@ -248,6 +270,7 @@ export default function Navbar() {
                     ))}
                     <div style={{ borderTop: '1px solid #e4e4e4' }}>
                       <button
+                        role="menuitem"
                         onClick={handleSignOut}
                         style={{
                           width: '100%', textAlign: 'left', padding: '8px 14px',
@@ -320,8 +343,9 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {menuOpen && (
         <div
+          ref={drawerRef}
           id="mobile-menu"
-          className="nav-mobile-menu"
+          className="nav-mobile-menu drawer-in"
           role="navigation"
           aria-label="Mobile menu"
           style={{

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import Skeleton from '@/components/Skeleton'
 
 interface JournalEntry {
   id: string
@@ -117,7 +118,7 @@ export default function JournalPage() {
     await loadEntries(selectedVehicle)
   }
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }} className="text-muted-light">Loading...</div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}><Skeleton variant="card" count={3} /></div>
 
   if (!isPremium) {
     return (
@@ -224,12 +225,12 @@ export default function JournalPage() {
               <div className="glass card-hover" style={{ padding: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.12)', color: '#5fa8dd' }}>{MILESTONE_LABELS[entry.milestone_type] || 'NOTE'}</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.12)', color: 'var(--color-link)' }}>{MILESTONE_LABELS[entry.milestone_type] || 'NOTE'}</span>
                     <h3 className="font-bold text-foreground" style={{ fontSize: '15px' }}>{entry.title}</h3>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     {entry.cost && (
-                      <span style={{ fontSize: '13px', color: '#22c55e', fontWeight: 700 }}>${parseFloat(String(entry.cost)).toLocaleString()}</span>
+                      <span style={{ fontSize: '13px', color: 'var(--color-success)', fontWeight: 700 }}>${parseFloat(String(entry.cost)).toLocaleString()}</span>
                     )}
                     <span className="text-muted" style={{ fontSize: '12px' }}>
                       {new Date(entry.journal_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -239,7 +240,7 @@ export default function JournalPage() {
                 {entry.content && <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.6 }}>{entry.content}</p>}
                 {entry.image_url && (
                   <div style={{ marginTop: '12px', borderRadius: '8px', overflow: 'hidden', maxHeight: '250px', background: '#e4e4e4' }}>
-                    <img src={entry.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: '250px' }} />
+                    <img src={entry.image_url} alt={entry.title} style={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: '250px' }} />
                   </div>
                 )}
               </div>

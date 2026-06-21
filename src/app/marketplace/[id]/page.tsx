@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import Skeleton from '@/components/Skeleton'
 
 interface Comment {
   id: string
@@ -101,7 +102,7 @@ export default function ListingDetailPage() {
     window.location.reload()
   }
 
-  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Loading...</div>
+  if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px' }}><Skeleton variant="card" count={2} /></div>
   if (!listing) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Listing not found</div>
 
   const isSeller = currentUser === listing.seller_id
@@ -116,17 +117,17 @@ export default function ListingDetailPage() {
 
       {/* Status banner */}
       {isPending && (
-        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.3)', marginBottom: '16px', fontSize: '13px', color: '#90caf9', fontWeight: 600 }}>
+        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-link)', fontWeight: 600 }}>
           Offer accepted -- deal pending
         </div>
       )}
       {isSold && (
-        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e', fontWeight: 600 }}>
+        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-success)', fontWeight: 600 }}>
           This item has been sold
         </div>
       )}
       {isClosed && (
-        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', marginBottom: '16px', fontSize: '13px', color: '#ef4444', fontWeight: 600, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-danger)', fontWeight: 600, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span>Listing closed</span>
           {isSeller && <button onClick={handleRelistListing} style={{ background: '#2c79c4', border: 'none', color: 'white', padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Re-list</button>}
         </div>
@@ -136,13 +137,13 @@ export default function ListingDetailPage() {
       {images.length > 0 && (
         <div className="glass" style={{ overflow: 'hidden', marginBottom: '20px' }}>
           <div style={{ height: '350px', background: '#e4e4e4' }}>
-            <img src={images[mainImage]?.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain', background: '#0c0c14' }} />
+            <img src={images[mainImage]?.image_url} alt={listing.title} style={{ width: '100%', height: '100%', objectFit: 'contain', background: '#0c0c14' }} />
           </div>
           {images.length > 1 && (
             <div style={{ display: 'flex', gap: '6px', padding: '10px' }}>
               {images.map((img: any, i: number) => (
-                <button key={i} onClick={() => setMainImage(i)} style={{ width: '60px', height: '60px', borderRadius: '6px', overflow: 'hidden', border: mainImage === i ? '2px solid #5fa8dd' : '2px solid transparent', cursor: 'pointer', padding: 0, background: '#e4e4e4' }}>
-                  <img src={img.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <button key={i} onClick={() => setMainImage(i)} aria-label={`View photo ${i + 1} of ${listing.title}`} style={{ width: '60px', height: '60px', borderRadius: '6px', overflow: 'hidden', border: mainImage === i ? '2px solid #5fa8dd' : '2px solid transparent', cursor: 'pointer', padding: 0, background: '#e4e4e4' }}>
+                  <img src={img.image_url} alt={`${listing.title} photo ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </button>
               ))}
             </div>
@@ -156,11 +157,11 @@ export default function ListingDetailPage() {
           <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '4px', background: listing.listing_type === 'vehicle' ? 'rgba(44, 121, 196, 0.1)' : 'rgba(95, 168, 221, 0.1)', color: listing.listing_type === 'vehicle' ? '#5fa8dd' : '#90caf9', border: `1px solid ${listing.listing_type === 'vehicle' ? 'rgba(44, 121, 196, 0.2)' : 'rgba(95, 168, 221, 0.2)'}` }}>
             {listing.listing_type}
           </span>
-          {listing.is_obo && <span style={{ fontSize: '10px', fontWeight: 700, padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.2)' }}>OBO</span>}
+          {listing.is_obo && <span style={{ fontSize: '10px', fontWeight: 700, padding: '3px 10px', borderRadius: '4px', background: 'rgba(34,197,94,0.1)', color: 'var(--color-success)', border: '1px solid rgba(34,197,94,0.2)' }}>OBO</span>}
         </div>
 
         <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>{listing.title}</h1>
-        <p style={{ fontSize: '32px', fontWeight: 700, color: '#22c55e', marginBottom: '16px' }}>${parseFloat(listing.price).toLocaleString()}{listing.is_obo && <span style={{ fontSize: '14px', color: '#666666', marginLeft: '8px' }}>or best offer</span>}</p>
+        <p style={{ fontSize: '32px', fontWeight: 700, color: 'var(--color-success)', marginBottom: '16px' }}>${parseFloat(listing.price).toLocaleString()}{listing.is_obo && <span style={{ fontSize: '14px', color: '#666666', marginLeft: '8px' }}>or best offer</span>}</p>
 
         {listing.description && (
           <p style={{ fontSize: '14px', color: '#555555', lineHeight: 1.7, marginBottom: '16px', whiteSpace: 'pre-wrap' }}>{listing.description}</p>
@@ -179,8 +180,8 @@ export default function ListingDetailPage() {
         {/* Seller actions */}
         {isSeller && isActive && (
           <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-            <button onClick={handleCloseListing} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Close Listing</button>
-            <button onClick={handleMarkSold} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Mark as Sold</button>
+            <button onClick={handleCloseListing} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: 'var(--color-danger)', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Close Listing</button>
+            <button onClick={handleMarkSold} style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: 'var(--color-success)', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Mark as Sold</button>
           </div>
         )}
       </div>
@@ -194,11 +195,11 @@ export default function ListingDetailPage() {
           <div style={{ marginBottom: '20px', padding: '16px', background: '#f0f0f0', borderRadius: '8px', border: '1px solid #e4e4e4' }}>
             <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: !isOffer ? 'rgba(44, 121, 196, 0.15)' : '#f0f0f0', color: !isOffer ? '#5fa8dd' : '#555555', border: !isOffer ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4' }}>
-                <input type="radio" checked={!isOffer} onChange={() => setIsOffer(false)} style={{ display: 'none' }} />
+                <input type="radio" checked={!isOffer} onChange={() => setIsOffer(false)} className="sr-only" aria-label="Post a question" />
                 Question
               </label>
               <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '6px', background: isOffer ? 'rgba(34,197,94,0.15)' : '#f0f0f0', color: isOffer ? '#22c55e' : '#555555', border: isOffer ? '1px solid rgba(34,197,94,0.3)' : '1px solid #e4e4e4' }}>
-                <input type="radio" checked={isOffer} onChange={() => setIsOffer(true)} style={{ display: 'none' }} />
+                <input type="radio" checked={isOffer} onChange={() => setIsOffer(true)} className="sr-only" aria-label="Make an offer" />
                 Make Offer
               </label>
             </div>
@@ -230,12 +231,12 @@ export default function ListingDetailPage() {
                   </Link>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {c.is_offer && c.offer_amount && (
-                      <span style={{ fontSize: '16px', fontWeight: 700, color: c.offer_status === 'accepted' ? '#22c55e' : '#90caf9' }}>
+                      <span style={{ fontSize: '16px', fontWeight: 700, color: c.offer_status === 'accepted' ? 'var(--color-success)' : 'var(--color-link)' }}>
                         ${c.offer_amount.toLocaleString()}
                       </span>
                     )}
                     {c.is_offer && c.offer_status === 'accepted' && (
-                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.2)', color: '#22c55e' }}>ACCEPTED</span>
+                      <span style={{ fontSize: '10px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.2)', color: 'var(--color-success)' }}>ACCEPTED</span>
                     )}
                     <span style={{ fontSize: '11px', color: '#555555' }}>
                       {new Date(c.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
@@ -248,7 +249,7 @@ export default function ListingDetailPage() {
                 {isSeller && c.is_offer && c.offer_status === 'pending' && isActive && (
                   <div style={{ marginTop: '10px', display: 'flex', gap: '6px' }}>
                     <button onClick={() => handleAcceptOffer(c.id, c.author?.username)} style={{ padding: '6px 14px', borderRadius: '6px', background: '#22c55e', border: 'none', color: 'white', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Accept Offer</button>
-                    <button onClick={async () => { await supabase.from('listing_comments').update({ offer_status: 'declined' }).eq('id', c.id); window.location.reload() }} style={{ padding: '6px 14px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: '#ef4444', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Decline</button>
+                    <button onClick={async () => { await supabase.from('listing_comments').update({ offer_status: 'declined' }).eq('id', c.id); window.location.reload() }} style={{ padding: '6px 14px', borderRadius: '6px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', color: 'var(--color-danger)', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Decline</button>
                   </div>
                 )}
               </div>

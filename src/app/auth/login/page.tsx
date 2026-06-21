@@ -157,7 +157,7 @@ export default function LoginPage() {
                   if (error) setError(error.message)
                   else setError('')
                   alert(error ? error.message : 'Password reset link sent to ' + email)
-                }} style={{ background: 'none', border: 'none', color: '#5fa8dd', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
+                }} style={{ background: 'none', border: 'none', color: 'var(--color-link)', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
                   Forgot password?
                 </button>
               </div>

@@ -44,7 +44,7 @@ export default function WeeklyDigest() {
           { value: digest.new_followers_week, label: 'Followers' },
         ].map(s => (
           <div key={s.label} style={{ textAlign: 'center', padding: '8px', borderRadius: '6px', background: '#f0f0f0' }}>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: s.value > 0 ? '#22c55e' : '#555555' }}>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: s.value > 0 ? 'var(--color-success)' : '#555555' }}>
               {s.value > 0 ? `+${s.value}` : '0'}
             </div>
             <div style={{ fontSize: '9px', color: '#2c3e50', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{s.label}</div>

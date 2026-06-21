@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Skeleton from '@/components/Skeleton'
 
 interface GuestbookItem {
   id: string
@@ -191,7 +192,7 @@ export default function ActivityPage() {
       style={{
         padding: '10px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer',
         background: activeTab === key ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-        color: activeTab === key ? '#5fa8dd' : '#555555',
+        color: activeTab === key ? 'var(--color-link)' : '#555555',
         fontWeight: 600, fontSize: '13px',
         outline: activeTab === key ? '2px solid #2c79c4' : '1px solid #e4e4e4',
         display: 'flex', alignItems: 'center', gap: '8px',
@@ -215,7 +216,7 @@ export default function ActivityPage() {
   if (loading) {
     return (
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
-        <div className="text-center text-muted-light">Loading your activity...</div>
+        <Skeleton variant="line" count={5} />
       </div>
     )
   }
@@ -228,7 +229,7 @@ export default function ActivityPage() {
       </div>
 
       {message && (
-        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: '#22c55e', fontSize: '13px' }}>
+        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: 'var(--color-success)', fontSize: '13px' }}>
           {message}
         </div>
       )}
@@ -250,7 +251,7 @@ export default function ActivityPage() {
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/marketplace/${l.id}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{l.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  <span style={{ color: '#90caf9', fontWeight: 600 }}>${l.price}</span>
+                  <span style={{ color: 'var(--color-link)', fontWeight: 600 }}>${l.price}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.listing_type}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.status}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {fmtDate(l.created_at)}</span>
@@ -302,7 +303,7 @@ export default function ActivityPage() {
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/wwyd`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{p.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  {p.budget && <span style={{ color: '#22c55e' }}>{p.budget} · </span>}
+                  {p.budget && <span style={{ color: 'var(--color-success)' }}>{p.budget} · </span>}
                   <span className="text-muted">{fmtDate(p.created_at)}</span>
                 </p>
               </div>
@@ -348,7 +349,7 @@ export default function ActivityPage() {
                   <span className="text-muted" style={{ fontSize: '13px' }}>Post removed</span>
                 )}
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  You voted: <span style={{ color: '#5fa8dd', fontWeight: 600 }}>{v.option?.label || '—'}</span>
+                  You voted: <span style={{ color: 'var(--color-link)', fontWeight: 600 }}>{v.option?.label || '—'}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {fmtDate(v.created_at)}</span>
                 </p>
               </div>
@@ -365,7 +366,7 @@ export default function ActivityPage() {
               <div style={{ aspectRatio: '2 / 1', background: '#e4e4e4', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img
                   src={s.image_url}
-                  alt=""
+                  alt={s.description || `Sighting${s.location_name ? ` at ${s.location_name}` : ''}`}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   onError={(e) => {
                     const img = e.currentTarget

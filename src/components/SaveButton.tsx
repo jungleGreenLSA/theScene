@@ -44,9 +44,10 @@ export default function SaveButton({ targetType, targetId }: { targetType: strin
     <button
       onClick={handleSave}
       disabled={loading}
+      aria-pressed={saved}
       style={{
         background: 'none', border: 'none', cursor: 'pointer',
-        fontSize: '12px', fontWeight: 600, color: saved ? '#5fa8dd' : '#666666',
+        fontSize: '12px', fontWeight: 600, color: saved ? 'var(--color-link)' : '#666666',
         padding: '4px 8px',
         opacity: loading ? 0.5 : 1, transition: 'color 0.15s',
       }}

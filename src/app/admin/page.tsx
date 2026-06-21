@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import Skeleton from '@/components/Skeleton'
 
 interface Stats {
   totalUsers: number
@@ -222,7 +223,7 @@ export default function AdminDashboard() {
     setAnnouncements(announcements.map(a => a.id === id ? { ...a, is_published: !currentPublished } : a))
   }
 
-  if (loading) return <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px', textAlign: 'center' }} className="text-muted-light">Loading dashboard...</div>
+  if (loading) return <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px' }}><Skeleton variant="line" count={5} /></div>
 
   if (!authorized) {
     return (
@@ -276,7 +277,7 @@ export default function AdminDashboard() {
             style={{
               padding: '8px 18px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
               background: activeTab === t.id ? 'rgba(44, 121, 196, 0.2)' : '#f0f0f0',
-              color: activeTab === t.id ? '#5fa8dd' : '#555555',
+              color: activeTab === t.id ? 'var(--color-link)' : '#555555',
               outline: activeTab === t.id ? '1px solid rgba(44, 121, 196, 0.3)' : '1px solid #e4e4e4',
             }}
           >
@@ -341,9 +342,9 @@ export default function AdminDashboard() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.2)', color: '#5fa8dd' }}>{a.category}</span>
-                        {a.is_pinned && <span style={{ fontSize: '10px', color: '#90caf9', fontWeight: 600 }}>Pinned</span>}
-                        {!a.is_published && <span style={{ fontSize: '10px', color: '#ef4444', fontWeight: 600 }}>Draft</span>}
+                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(44, 121, 196, 0.1)', border: '1px solid rgba(44, 121, 196, 0.2)', color: 'var(--color-link)' }}>{a.category}</span>
+                        {a.is_pinned && <span style={{ fontSize: '10px', color: 'var(--color-link)', fontWeight: 600 }}>Pinned</span>}
+                        {!a.is_published && <span style={{ fontSize: '10px', color: 'var(--color-danger)', fontWeight: 600 }}>Draft</span>}
                         <span style={{ fontSize: '11px', color: '#555555' }}>{new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                       </div>
                       <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a', marginBottom: '4px' }}>{a.title}</h4>
@@ -352,7 +353,7 @@ export default function AdminDashboard() {
                     <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
                       <button onClick={() => handleTogglePin(a.id, a.is_pinned)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#555555' }} title={a.is_pinned ? 'Unpin' : 'Pin'}>{a.is_pinned ? 'Unpin' : 'Pin'}</button>
                       <button onClick={() => handleTogglePublish(a.id, a.is_published)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#555555' }} title={a.is_published ? 'Unpublish' : 'Publish'}>{a.is_published ? 'Hide' : 'Show'}</button>
-                      <button onClick={() => handleDeleteAnnouncement(a.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: '#ef4444' }} title="Delete">Delete</button>
+                      <button onClick={() => handleDeleteAnnouncement(a.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600, padding: '4px 8px', opacity: 0.6, color: 'var(--color-danger)' }} title="Delete">Delete</button>
                     </div>
                   </div>
                 </div>
@@ -368,9 +369,9 @@ export default function AdminDashboard() {
           {/* Key metrics */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px', marginBottom: '24px' }}>
             {[
-              { label: 'Total Members', value: stats.totalUsers, color: '#5fa8dd' },
-              { label: 'Online Now', value: stats.onlineNow, color: '#22c55e' },
-              { label: 'Premium', value: stats.premiumUsers, color: '#90caf9' },
+              { label: 'Total Members', value: stats.totalUsers, color: 'var(--color-link)' },
+              { label: 'Online Now', value: stats.onlineNow, color: 'var(--color-success)' },
+              { label: 'Premium', value: stats.premiumUsers, color: 'var(--color-link)' },
               { label: 'Vehicles', value: stats.totalVehicles, color: '#3b82f6' },
               { label: 'Events', value: stats.totalEvents, color: '#ec4899' },
               { label: 'Clubs', value: stats.totalClubs, color: '#14b8a6' },
@@ -452,7 +453,7 @@ export default function AdminDashboard() {
                       </span>
                     </td>
                     <td style={{ padding: '10px 12px' }}>
-                      {u.is_online ? <span style={{ color: '#22c55e', fontSize: '12px' }}>● Online</span> : <span style={{ color: '#555555', fontSize: '12px' }}>Offline</span>}
+                      {u.is_online ? <span style={{ color: 'var(--color-success)', fontSize: '12px' }}>● Online</span> : <span style={{ color: '#555555', fontSize: '12px' }}>Offline</span>}
                     </td>
                     <td style={{ padding: '10px 12px', color: '#555555' }}>
                       {new Date(u.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -548,7 +549,7 @@ export default function AdminDashboard() {
                         await supabase.from('reports').update({ status: 'resolved' }).eq('id', r.id)
                         setReports(reports.filter(rep => rep.id !== r.id))
                       }}
-                      style={{ padding: '6px 14px', borderRadius: '6px', background: 'rgba(34,197,94,0.15)', border: 'none', color: '#22c55e', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
+                      style={{ padding: '6px 14px', borderRadius: '6px', background: 'rgba(34,197,94,0.15)', border: 'none', color: 'var(--color-success)', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
                     >
                       Resolve
                     </button>
@@ -574,17 +575,17 @@ export default function AdminDashboard() {
         <div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '16px', marginBottom: '24px' }}>
             <div className="glass" style={{ padding: '24px', textAlign: 'center', border: '1px solid rgba(95, 168, 221, 0.2)' }}>
-              <span style={{ fontSize: '11px', color: '#90caf9', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Monthly Revenue</span>
+              <span style={{ fontSize: '11px', color: 'var(--color-link)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Monthly Revenue</span>
               <div className="text-neon-light font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>${monthlyRevenue}</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>{stats.premiumUsers} premium x $6.99</div>
             </div>
             <div className="glass" style={{ padding: '24px', textAlign: 'center' }}>
-              <span style={{ fontSize: '11px', color: '#5fa8dd', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Annual Projection</span>
+              <span style={{ fontSize: '11px', color: 'var(--color-link)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Annual Projection</span>
               <div className="text-purple-light font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>${annualProjection}</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>at current rate</div>
             </div>
             <div className="glass" style={{ padding: '24px', textAlign: 'center' }}>
-              <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Conversion Rate</span>
+              <span style={{ fontSize: '11px', color: 'var(--color-success)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px' }}>Conversion Rate</span>
               <div className="text-success font-bold" style={{ fontSize: '2.5rem', marginTop: '8px' }}>{conversionRate}%</div>
               <div className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>free to premium</div>
             </div>

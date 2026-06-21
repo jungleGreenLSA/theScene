@@ -48,7 +48,7 @@ export default function TrendingBuilds() {
           <Link key={b.vehicle_id} href={`/user/${b.owner_username}/${b.slug}`}
             style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #f5f5f5', transition: 'all 0.2s' }}
           >
-            <span style={{ fontSize: '14px', fontWeight: 700, color: i < 3 ? '#90caf9' : '#555555', width: '20px', textAlign: 'center' }}>{i + 1}</span>
+            <span style={{ fontSize: '14px', fontWeight: 700, color: i < 3 ? 'var(--color-link)' : '#555555', width: '20px', textAlign: 'center' }}>{i + 1}</span>
             <div style={{ width: '40px', height: '40px', borderRadius: '8px', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0 }}>
               {b.primary_image_url ? (
                 <img src={b.primary_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

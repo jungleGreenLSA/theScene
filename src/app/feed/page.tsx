@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import Skeleton from '@/components/Skeleton'
 import DailySuggestion from '@/components/DailySuggestion'
 import Announcements from '@/components/Announcements'
 import TrendingBuilds from '@/components/TrendingBuilds'
@@ -18,7 +19,7 @@ import Timeline from '@/components/Timeline'
 // under Suspense — the CSR bailout).
 export default function FeedPage() {
   return (
-    <Suspense fallback={<div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px', color: '#555555' }}>Loading feed...</div>}>
+    <Suspense fallback={<div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}><Skeleton variant="card" count={3} /></div>}>
       <FeedPageContent />
     </Suspense>
   )
@@ -129,7 +130,7 @@ function FeedPageContent() {
               <Link href="/explore" style={{ fontSize: '13px', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>Explore Builds</Link>
               <Link href="/events" style={{ fontSize: '13px', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>Events</Link>
               <Link href="/clubs" style={{ fontSize: '13px', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>Clubs</Link>
-              <Link href="/garage/setup" style={{ fontSize: '13px', color: '#90caf9', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
+              <Link href="/garage/setup" style={{ fontSize: '13px', color: 'var(--color-link)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
             </div>
           </div>
 

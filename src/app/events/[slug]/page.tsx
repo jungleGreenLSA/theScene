@@ -100,7 +100,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
           {/* Date badge */}
           <div style={{ position: 'absolute', bottom: '14px', left: '14px', background: '#ffffff', border: '1px solid #e4e4e4', borderRadius: '10px', padding: '10px 16px', textAlign: 'center' }}>
-            <div style={{ fontSize: '10px', color: '#90caf9', fontWeight: 700, textTransform: 'uppercase' }}>
+            <div style={{ fontSize: '10px', color: 'var(--color-link)', fontWeight: 700, textTransform: 'uppercase' }}>
               {eventDate.toLocaleDateString('en-US', { month: 'short' })}
             </div>
             <div style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', lineHeight: 1 }}>{eventDate.getDate()}</div>
@@ -114,14 +114,14 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           {/* Countdown */}
           {isUpcoming && diff > 0 && (
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(95, 168, 221, 0.1)', border: '1px solid rgba(95, 168, 221, 0.2)', marginBottom: '14px' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: '#90caf9' }}>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-link)' }}>
                 {daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? 's' : ''} ${hoursLeft}h` : `${hoursLeft} hours`} until showtime
               </span>
             </div>
           )}
           {isToday && (
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', marginBottom: '14px' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: '#22c55e' }}>Happening today!</span>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-success)' }}>Happening today!</span>
             </div>
           )}
 
@@ -144,7 +144,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             <p style={{ fontSize: '14px', color: '#666666', marginBottom: '8px' }}>
               {event.location_address}
               {event.map_url && (
-                <a href={event.map_url} target="_blank" rel="noopener" style={{ marginLeft: '8px', color: '#5fa8dd' }}>View Map &rarr;</a>
+                <a href={event.map_url} target="_blank" rel="noopener" style={{ marginLeft: '8px', color: 'var(--color-link)' }}>View Map &rarr;</a>
               )}
             </p>
           )}
@@ -182,7 +182,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
       {event.categories && event.categories.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
           {event.categories.map((cat: string) => (
-            <span key={cat} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, padding: '5px 14px', borderRadius: '20px', background: 'rgba(44, 121, 196, 0.1)', color: '#5fa8dd', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
+            <span key={cat} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, padding: '5px 14px', borderRadius: '20px', background: 'rgba(44, 121, 196, 0.1)', color: 'var(--color-link)', border: '1px solid rgba(44, 121, 196, 0.2)' }}>
               {cat}
             </span>
           ))}
@@ -200,7 +200,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   {!rsvp.user?.avatar_url && <span style={{ fontSize: '9px', color: '#555555' }}>{rsvp.user?.username?.charAt(0).toUpperCase()}</span>}
                 </div>
                 <span style={{ fontSize: '12px', color: '#666666' }}>{rsvp.user?.display_name || rsvp.user?.username}</span>
-                {rsvp.status === 'checked_in' && <span style={{ fontSize: '9px', color: '#22c55e', fontWeight: 700, letterSpacing: '0.5px' }}>HERE</span>}
+                {rsvp.status === 'checked_in' && <span style={{ fontSize: '9px', color: 'var(--color-success)', fontWeight: 700, letterSpacing: '0.5px' }}>HERE</span>}
               </Link>
             ))}
           </div>

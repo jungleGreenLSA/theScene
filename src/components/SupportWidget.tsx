@@ -1,9 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { useFocusTrap } from '@/lib/useFocusTrap'
 
 export default function SupportWidget() {
   const [open, setOpen] = useState(false)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  useFocusTrap(open, dialogRef, () => setOpen(false))
 
   return (
     <>
@@ -29,7 +32,9 @@ export default function SupportWidget() {
           boxShadow: '0 0 20px rgba(44, 121, 196, 0.3)',
           transition: 'all 0.2s',
         }}
-        aria-label="Support"
+        aria-label={open ? 'Close support' : 'Open support'}
+        aria-haspopup="dialog"
+        aria-expanded={open}
       >
         {open ? 'x' : '?'}
       </button>
@@ -37,6 +42,11 @@ export default function SupportWidget() {
       {/* Popup */}
       {open && (
         <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="support-title"
+          className="overlay-pop"
           style={{
             position: 'fixed',
             bottom: '84px',
@@ -49,9 +59,10 @@ export default function SupportWidget() {
             padding: '24px',
             zIndex: 999,
             boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+            transformOrigin: 'bottom left',
           }}
         >
-          <h3 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '12px' }}>Need Help?</h3>
+          <h3 id="support-title" className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '12px' }}>Need Help?</h3>
 
           <p className="text-muted-light" style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: '16px' }}>
             See an issue?{' '}

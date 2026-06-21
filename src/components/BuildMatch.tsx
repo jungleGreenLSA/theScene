@@ -57,7 +57,7 @@ export default function BuildMatch({ vehicleId }: { vehicleId: string }) {
                 </p>
               )}
             </div>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: '#90caf9', flexShrink: 0 }}>{m.common_mods}</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-link)', flexShrink: 0 }}>{m.common_mods}</span>
           </Link>
         ))}
       </div>
