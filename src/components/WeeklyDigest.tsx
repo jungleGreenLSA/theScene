@@ -32,7 +32,7 @@ export default function WeeklyDigest() {
   if (!hasActivity) return null
 
   return (
-    <div className="glass" style={{ padding: '16px', marginBottom: '16px', border: '1px solid rgba(45,212,191,0.15)' }}>
+    <div className="panel" style={{ padding: '16px', marginBottom: '16px', border: '1px solid rgba(242,169,0,0.15)' }}>
       <p className="eyebrow" style={{ marginBottom: '10px' }}>Your Week in Review</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 72px), 1fr))', gap: '8px' }}>
         {[
@@ -41,11 +41,11 @@ export default function WeeklyDigest() {
           { value: digest.guestbook_entries_week, label: 'Guestbook' },
           { value: digest.new_followers_week, label: 'Followers' },
         ].map(s => (
-          <div key={s.label} style={{ textAlign: 'center', padding: '8px', borderRadius: '6px', background: 'rgba(18,18,30,0.5)' }}>
-            <div className="spec" style={{ fontSize: '18px', fontWeight: 700, color: s.value > 0 ? '#2dd4bf' : '#6b7280' }}>
+          <div key={s.label} style={{ textAlign: 'center', padding: '8px', borderRadius: '6px', background: 'var(--color-surface-lowest)' }}>
+            <div className="spec" style={{ fontSize: '18px', fontWeight: 700, color: s.value > 0 ? 'var(--color-accent)' : 'var(--color-muted)' }}>
               {s.value > 0 ? `+${s.value}` : '0'}
             </div>
-            <div style={{ fontSize: '9px', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{s.label}</div>
+            <div style={{ fontSize: '9px', color: 'var(--color-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{s.label}</div>
           </div>
         ))}
       </div>

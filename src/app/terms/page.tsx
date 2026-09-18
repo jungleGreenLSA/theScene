@@ -19,7 +19,7 @@ export default function TermsPage() {
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Terms of <span className="gradient-text">Service</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Effective: <span className="spec">April 17, 2026</span> · These terms govern your use of thescene.fyi.</p>
 
-      <div className="glass" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
+      <div className="panel" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
           <Section title="1. Acceptance of terms">
@@ -63,7 +63,7 @@ export default function TermsPage() {
             <p>• Listings you post must accurately describe what you&apos;re selling and must be legal to sell (no stolen, counterfeit, or unsafe items).</p>
             <p>• Comments and offers are public — assume any message you send in the marketplace is visible to other members.</p>
             <p>• We don&apos;t offer buyer protection, escrow, or dispute resolution. Meet in person in a safe public location and verify items before payment.</p>
-            <p>• Premium membership unlocks listing-posting capability but does not grant any warranty on listings or transactions.</p>
+            <p>• Any member may post listings. Posting ability does not imply any warranty from The Scene on listings or transactions.</p>
           </Section>
 
           <Section title="7. Clubs, events, shops, and sightings">
@@ -71,9 +71,8 @@ export default function TermsPage() {
             <p>Event organizers are responsible for complying with local laws, venue permissions, insurance, and safety requirements. Claiming or attending an event is at your own risk.</p>
           </Section>
 
-          <Section title="8. Premium subscriptions">
-            <p>Premium is a recurring monthly or annual subscription billed through Stripe. Prices are listed on the Pricing page and may change on 30 days&apos; notice; any change applies at the next renewal.</p>
-            <p>Subscriptions auto-renew unless canceled. You can cancel anytime from Settings; access continues through the end of the current billing period. No pro-rated refunds except where required by law.</p>
+          <Section title="8. Membership is free">
+            <p>The Scene has one membership and it is free. There is no paid tier, no subscription, and no in-app purchase. We don&apos;t collect payment information. If that ever changes, we&apos;ll update these terms and give you notice before anything is billed.</p>
           </Section>
 
           <Section title="9. Intellectual property of the Service">

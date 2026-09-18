@@ -87,21 +87,21 @@ export default function GlobalSearch() {
         style={{ width: '100%', padding: '7px 12px', fontSize: '12px' }}
       />
       {open && query.trim().length >= 2 && (
-        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '6px', background: '#12121e', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', zIndex: 60, maxHeight: '360px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
+        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '6px', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '8px', overflow: 'hidden', zIndex: 60, maxHeight: '360px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.5)' }}>
           {loading && hits.length === 0 && (
-            <div style={{ padding: '14px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>Searching…</div>
+            <div style={{ padding: '14px', fontSize: '12px', color: 'var(--color-muted)', textAlign: 'center' }}>Searching…</div>
           )}
           {!loading && hits.length === 0 && (
-            <div style={{ padding: '14px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>No matches.</div>
+            <div style={{ padding: '14px', fontSize: '12px', color: 'var(--color-muted)', textAlign: 'center' }}>No matches.</div>
           )}
           {hits.map((h, i) => (
             <button
               key={i}
               onClick={() => pick(h)}
               className="card-hover"
-              style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '10px 12px', background: 'none', border: 'none', borderBottom: i < hits.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: 'pointer', textAlign: 'left' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '10px 12px', background: 'none', border: 'none', borderBottom: i < hits.length - 1 ? '1px solid var(--color-surface-light)' : 'none', cursor: 'pointer', textAlign: 'left' }}
             >
-              <span className="label-mono" style={{ fontSize: '9px', color: '#2dd4bf', flexShrink: 0, width: '40px' }}>{KIND_LABELS[h.kind]}</span>
+              <span className="label-mono" style={{ fontSize: '9px', color: 'var(--color-accent)', flexShrink: 0, width: '40px' }}>{KIND_LABELS[h.kind]}</span>
               <div style={{ minWidth: 0 }}>
                 <p className="text-foreground" style={{ fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.title}</p>
                 {h.subtitle && <p className="text-muted" style={{ fontSize: '11px' }}>{h.subtitle}</p>}

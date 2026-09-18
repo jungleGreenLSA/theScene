@@ -19,7 +19,7 @@ export default function PrivacyPage() {
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Privacy <span className="gradient-text">Policy</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Effective: <span className="spec">April 17, 2026</span> · Operated by The Scene (&quot;we&quot;, &quot;us&quot;) at thescene.fyi</p>
 
-      <div className="glass" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
+      <div className="panel" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
           <Section title="1. What this policy covers">
@@ -28,10 +28,9 @@ export default function PrivacyPage() {
           </Section>
 
           <Section title="2. Information you provide to us">
-            <p><strong>Account data.</strong> Email address (or phone number if phone auth is enabled), username, password (stored hashed by our auth provider), first and last name, avatar and cover photos, bio, location (&quot;City, ST&quot;), date of birth if provided, and subscription tier.</p>
+            <p><strong>Account data.</strong> Email address (or phone number if phone auth is enabled), username, password (stored hashed by our auth provider), first and last name, avatar and cover photos, bio, location (&quot;City, ST&quot;), and date of birth if provided.</p>
             <p><strong>Vehicle and build data.</strong> Year, make, model, color, engine specs, modifications you list, photos you upload, shop tags, guestbook entries you post on others&apos; vehicles.</p>
             <p><strong>Social data.</strong> Clubs you join or start, events you RSVP to or create, shops you add, marketplace listings you post, feed posts, hashtags, WWYD votes, comments, reactions (props, loves, hearts), follows, sightings.</p>
-            <p><strong>Payment data.</strong> If you subscribe to Premium, payment processing is handled by Stripe. We receive a tokenized reference and subscription status — we never see or store your full card number.</p>
             <p><strong>Communications.</strong> Emails you send to support@thescene.fyi and any feedback or reports you submit through the platform.</p>
           </Section>
 
@@ -57,7 +56,6 @@ export default function PrivacyPage() {
             <p><strong>Hostinger</strong> (web hosting) — servers that run the Next.js app and receive HTTP request data (including IP).</p>
             <p><strong>Cloudflare</strong> (CDN, security, DNS) — proxies traffic between you and our servers, caches public pages.</p>
             <p><strong>Google and Discord</strong> (OAuth sign-in) — if you choose to sign in with Google or Discord, they provide us your basic profile data (name, email, avatar) per your consent with them.</p>
-            <p><strong>Stripe</strong> (payments, Premium subscriptions) — handles card processing; we receive a customer reference.</p>
             <p><strong>Legal and safety.</strong> We may disclose information to comply with valid legal process, protect our rights or the safety of members, or enforce our terms.</p>
           </Section>
 

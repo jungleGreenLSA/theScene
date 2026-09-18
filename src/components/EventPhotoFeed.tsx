@@ -73,7 +73,7 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
 
   if (photoPosts.length === 0) {
     return (
-      <div className="glass p-8 text-center">
+      <div className="panel p-8 text-center">
         <p className="text-muted-light">No photos have been shared from this event yet. Be the first!</p>
       </div>
     )
@@ -82,7 +82,7 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
   return (
     <div className="space-y-6">
       {photoPosts.map((post) => (
-        <div key={post.id} className="glass overflow-hidden card-hover">
+        <div key={post.id} className="panel overflow-hidden card-hover">
           {/* Attribution header */}
           <div className="p-4 flex items-center gap-3 border-b border-border">
             <Link href={`/user/${post.author?.username}`} className="flex-shrink-0">

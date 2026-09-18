@@ -10,7 +10,7 @@ export default function GuidelinesPage() {
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Community <span className="gradient-text">Guidelines</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Last updated: <span className="spec">April 2026</span></p>
 
-      <div className="glass" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
+      <div className="panel" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <div>
             <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>1. Respect the Community</h2>

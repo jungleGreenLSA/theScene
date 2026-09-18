@@ -12,13 +12,6 @@ export default function SaveButton({ targetType, targetId }: { targetType: strin
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) { window.location.href = '/auth/login'; return }
 
-    // Check premium
-    const { data: profile } = await supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
-    if (profile?.subscription_tier !== 'premium') {
-      window.location.href = '/pricing'
-      return
-    }
-
     setLoading(true)
 
     // Get or create collection
@@ -47,7 +40,7 @@ export default function SaveButton({ targetType, targetId }: { targetType: strin
       style={{
         background: 'none', border: 'none', cursor: 'pointer',
         fontSize: '12px', fontWeight: 600,
-        color: saved ? '#2dd4bf' : '#9ca3af',
+        color: saved ? 'var(--color-accent)' : 'var(--color-muted-light)',
         padding: '8px 10px',
         minHeight: '44px',
         opacity: loading ? 0.5 : 1,
@@ -55,7 +48,7 @@ export default function SaveButton({ targetType, targetId }: { targetType: strin
         borderRadius: '6px',
       }}
       aria-pressed={saved}
-      title={saved ? 'Unsave' : 'Save to collection (Premium)'}
+      title={saved ? 'Unsave' : 'Save to collection'}
     >
       {saved ? '★ Saved' : '☆ Save'}
     </button>

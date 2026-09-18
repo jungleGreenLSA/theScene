@@ -33,7 +33,7 @@ export default function NotificationBell() {
         position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         width: '34px', height: '34px', borderRadius: '8px',
         background: 'transparent', border: 'none', cursor: 'pointer',
-        color: unread > 0 ? '#2dd4bf' : '#9ca3af',
+        color: unread > 0 ? 'var(--color-accent)' : 'var(--color-muted-light)',
         fontSize: '18px',
       }}
     >
@@ -42,7 +42,7 @@ export default function NotificationBell() {
         <span style={{
           position: 'absolute', top: '2px', right: '2px',
           minWidth: '16px', height: '16px', padding: '0 4px',
-          borderRadius: '8px', background: '#ef4444', color: 'white',
+          borderRadius: '8px', background: 'var(--color-danger)', color: 'white',
           fontSize: '10px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
           lineHeight: 1,
         }}>

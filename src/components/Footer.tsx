@@ -1,43 +1,62 @@
 import Link from 'next/link'
 
+const COLS = [
+  {
+    title: 'The site',
+    links: [
+      { href: '/explore', label: 'Explore builds' },
+      { href: '/feed', label: 'Feed' },
+      { href: '/events', label: 'Events' },
+      { href: '/clubs', label: 'Clubs' },
+      { href: '/marketplace', label: 'Marketplace' },
+    ],
+  },
+  {
+    title: 'Members',
+    links: [
+      { href: '/auth/register', label: 'Join — it’s free' },
+      { href: '/auth/login', label: 'Sign in' },
+      { href: '/guidelines', label: 'Community guidelines' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { href: '/privacy', label: 'Privacy' },
+      { href: '/terms', label: 'Terms' },
+      { href: '/cookies', label: 'Cookies' },
+    ],
+  },
+]
+
 export default function Footer() {
   return (
-    <footer style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: '48px' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 24px 32px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '32px', marginBottom: '24px', textAlign: 'center' }}>
-          <div>
-            <h4 className="eyebrow" style={{ marginBottom: '14px' }}>Platform</h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><Link href="/explore" style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'none' }}>Explore</Link></li>
-              <li><Link href="/feed" style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'none' }}>Feed</Link></li>
-              <li><Link href="/events" style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'none' }}>Events</Link></li>
-              <li><Link href="/clubs" style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'none' }}>Clubs</Link></li>
-            </ul>
+    <footer className="site-footer">
+      <div className="stripe" aria-hidden="true" />
+      <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '36px 20px 28px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '28px', alignItems: 'start' }}>
+          <div style={{ gridColumn: 'span 1' }}>
+            <p className="display" style={{ fontSize: '26px', lineHeight: 1 }}>The <span style={{ color: 'var(--color-accent)' }}>Scene</span></p>
+            <p className="spec" style={{ marginTop: '10px', fontSize: '12px', maxWidth: '28ch' }}>
+              Your car. Your page. Your people.<br />Free to join. Every feature, every member.
+            </p>
           </div>
-          <div>
-            <h4 className="eyebrow" style={{ marginBottom: '14px' }}>Community</h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><Link href="/auth/register" style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'none' }}>Join The Scene</Link></li>
-              <li><Link href="/guidelines" style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'none' }}>Guidelines</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="eyebrow" style={{ marginBottom: '14px' }}>Legal</h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><Link href="/privacy" style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'none' }}>Privacy Policy</Link></li>
-              <li><Link href="/terms" style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'none' }}>Terms of Service</Link></li>
-              <li><Link href="/cookies" style={{ fontSize: '14px', color: '#9ca3af', textDecoration: 'none' }}>Cookie Policy</Link></li>
-            </ul>
-          </div>
+          {COLS.map(col => (
+            <div key={col.title}>
+              <h4 className="label-mono" style={{ marginBottom: '12px', fontSize: '10px' }}>{col.title}</h4>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                {col.links.map(l => (
+                  <li key={l.href}><Link href={l.href} style={{ fontSize: '14px' }}>{l.label}</Link></li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', textAlign: 'center' }}>
-          <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>
-            &copy; {new Date().getFullYear()} The Scene. All rights reserved.
-          </p>
-          <p style={{ fontSize: '12px' }}>
-            <a href="mailto:support@thescene.fyi" style={{ color: '#2dd4bf', textDecoration: 'none' }}>Contact Support</a>
-            <span style={{ color: '#3a3a4a', margin: '0 8px' }}>|</span>
-            <span style={{ color: '#6b7280' }}>support@thescene.fyi</span>
+
+        <div style={{ borderTop: '1px solid var(--color-border)', marginTop: '28px', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
+          <p className="spec" style={{ fontSize: '11px' }}>&copy; {new Date().getFullYear()} The Scene. All rights reserved.</p>
+          <p className="spec" style={{ fontSize: '11px' }}>
+            <a href="mailto:support@thescene.fyi">support@thescene.fyi</a>
           </p>
         </div>
       </div>

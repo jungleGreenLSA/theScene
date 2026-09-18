@@ -30,17 +30,17 @@ export default function AvatarUpload({ userId, currentUrl, onUpdate }: { userId:
 
   return (
     <label style={{ cursor: 'pointer', position: 'relative', display: 'inline-block' }}>
-      <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(45,212,191,0.3)' }}>
+      <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', border: '2px solid rgba(242,169,0,0.3)' }}>
         {currentUrl ? (
           <img src={currentUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px' }}>ADD PHOTO</div>
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: 'var(--color-muted)', letterSpacing: '1px' }}>ADD PHOTO</div>
         )}
       </div>
       <div style={{
         position: 'absolute', bottom: -2, right: -2, width: '24px', height: '24px', borderRadius: '50%',
-        background: '#2dd4bf', border: '2px solid #0c0c14', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '10px', color: '#0c0c14',
+        background: 'var(--color-accent)', border: '2px solid var(--color-background)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '10px', color: 'var(--color-background)',
       }}>
         {uploading ? '...' : '+'}
       </div>

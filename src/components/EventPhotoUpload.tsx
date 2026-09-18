@@ -99,14 +99,14 @@ export default function EventPhotoUpload({ eventId, eventTitle }: { eventId: str
 
   if (!loggedIn) {
     return (
-      <div className="glass p-6 mb-6 text-center">
+      <div className="panel p-6 mb-6 text-center">
         <p className="text-muted-light">Sign in to share your photos from this event.</p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="glass p-6 mb-6">
+    <form onSubmit={handleSubmit} className="panel p-6 mb-6">
       <h3 className="eyebrow mb-3">Share a Photo from {eventTitle}</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">

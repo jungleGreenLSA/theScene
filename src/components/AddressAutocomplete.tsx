@@ -70,16 +70,16 @@ export default function AddressAutocomplete({
       />
       {warning && <p style={{ fontSize: '11px', color: '#eab308', marginTop: '4px' }}>{warning} — fill fields manually below.</p>}
       {open && suggestions.length > 0 && (
-        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: '#13131b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', overflow: 'hidden', zIndex: 50, maxHeight: '280px', overflowY: 'auto', boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(45,212,191,0.06)' }}>
+        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '8px', overflow: 'hidden', zIndex: 50, maxHeight: '280px', overflowY: 'auto', boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(242,169,0,0.06)' }}>
           {suggestions.map((s, i) => (
             <button
               key={i}
               type="button"
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => pick(s)}
-              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '11px 14px', background: 'none', border: 'none', borderBottom: i < suggestions.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none', cursor: 'pointer', color: '#e4e1ed', fontSize: '13px', minHeight: '44px', transition: 'background 0.15s, color 0.15s' }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(45,212,191,0.08)'; (e.currentTarget as HTMLButtonElement).style.color = '#2dd4bf' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; (e.currentTarget as HTMLButtonElement).style.color = '#e4e1ed' }}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '11px 14px', background: 'none', border: 'none', borderBottom: i < suggestions.length - 1 ? '1px solid var(--color-surface-light)' : 'none', cursor: 'pointer', color: 'var(--color-foreground)', fontSize: '13px', minHeight: '44px', transition: 'background 0.15s, color 0.15s' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(242,169,0,0.08)'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-accent)' }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-foreground)' }}
             >
               {s.formatted}
             </button>

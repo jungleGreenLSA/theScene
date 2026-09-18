@@ -28,7 +28,6 @@ interface Profile {
   location: string
   is_public: boolean
   avatar_url: string
-  subscription_tier: string
   username_changed_at: string | null
   filter_clubs_nearby: boolean
   filter_events_nearby: boolean
@@ -129,13 +128,13 @@ export default function SettingsPage() {
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Manage your profile and privacy</p>
 
       {message && (
-        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: '#22c55e', fontSize: '0.85rem' }}>
+        <div style={{ background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: 'var(--color-success)', fontSize: '0.85rem' }}>
           {message}
         </div>
       )}
 
       {/* My Activity */}
-      <Link href="/activity" className="glass" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', marginBottom: '20px', textDecoration: 'none' }}>
+      <Link href="/activity" className="panel" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', marginBottom: '20px', textDecoration: 'none' }}>
         <div>
           <h2 className="text-foreground font-bold" style={{ fontSize: '15px', marginBottom: '2px' }}>My Activity</h2>
           <p className="text-muted-light" style={{ fontSize: '12px' }}>Manage your guestbook comments, WWYD votes, and sightings</p>
@@ -144,7 +143,7 @@ export default function SettingsPage() {
       </Link>
 
       {/* Profile Settings */}
-      <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
+      <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
         <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '20px' }}>Profile</h2>
 
         {/* Avatar */}
@@ -152,15 +151,15 @@ export default function SettingsPage() {
           <label style={{ cursor: 'pointer', position: 'relative' }}>
             <div style={{
               width: '72px', height: '72px', borderRadius: '50%', flexShrink: 0,
-              border: '2px solid rgba(45,212,191,0.3)',
+              border: '2px solid rgba(242,169,0,0.3)',
               backgroundImage: profile?.avatar_url ? `url(${profile.avatar_url})` : 'none',
               backgroundSize: 'cover', backgroundPosition: 'center',
-              backgroundColor: 'rgba(26,26,46,0.5)',
+              backgroundColor: 'var(--color-surface-light)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px' }}>ADD</span>}
+              {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: 'var(--color-muted)', letterSpacing: '1px' }}>ADD</span>}
             </div>
-            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#2dd4bf', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#0d1117' }}>+</div>
+            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: 'var(--color-accent)', border: '2px solid var(--color-surface)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'var(--color-surface)' }}>+</div>
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={async (e) => {
               const file = e.target.files?.[0]
               if (!file || !profile) return
@@ -231,7 +230,7 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(optional)</span></label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name <span style={{ color: 'var(--color-muted)', fontWeight: 400, textTransform: 'none' }}>(optional)</span></label>
             <input
               type="text"
               defaultValue={profile?.last_name || ''}
@@ -258,7 +257,7 @@ export default function SettingsPage() {
 
         <div style={{ marginBottom: '16px' }}>
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-            Location <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(city autocompletes — your state powers the heatmaps)</span>
+            Location <span style={{ color: 'var(--color-muted)', fontWeight: 400, textTransform: 'none' }}>(city autocompletes — your state powers the heatmaps)</span>
           </label>
           <AddressAutocomplete
             defaultValue={profile?.location || ''}
@@ -284,10 +283,10 @@ export default function SettingsPage() {
         const toggleRow = (key: 'filter_clubs_nearby' | 'filter_events_nearby' | 'filter_people_nearby' | 'filter_marketplace_nearby', label: string, desc: string) => {
           const on = !!profile[key]
           return (
-            <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid var(--color-surface-light)' }}>
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: '#e2e4e9' }}>{label}</p>
-                <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>{desc}</p>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-foreground)' }}>{label}</p>
+                <p style={{ fontSize: '11px', color: 'var(--color-muted)', marginTop: '2px' }}>{desc}</p>
               </div>
               <button
                 onClick={async () => {
@@ -296,14 +295,14 @@ export default function SettingsPage() {
                 }}
                 style={{
                   width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
-                  background: on ? '#2dd4bf' : 'rgba(255,255,255,0.08)',
+                  background: on ? 'var(--color-accent)' : 'var(--color-border)',
                   position: 'relative', transition: 'background 0.2s',
                   flexShrink: 0, marginLeft: '16px',
                 }}
               >
                 <span style={{
                   position: 'absolute', top: '3px', left: on ? '23px' : '3px',
-                  width: '18px', height: '18px', borderRadius: '50%', background: on ? '#0d1117' : 'white',
+                  width: '18px', height: '18px', borderRadius: '50%', background: on ? 'var(--color-surface)' : 'white',
                   transition: 'left 0.2s',
                 }} />
               </button>
@@ -311,10 +310,10 @@ export default function SettingsPage() {
           )
         }
         return (
-          <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
+          <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
             <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '4px' }}>Only Show Me What&apos;s Nearby</h2>
             <p className="text-muted-light text-sm" style={{ marginBottom: '8px' }}>
-              Scope listings to within <span style={{ color: '#a78bfa', fontWeight: 600 }}>100 miles</span> of your city{userState ? ` (${userState})` : ''}. Crosses state lines — being in Sanger TX still catches Oklahoma if it&apos;s close enough.
+              Scope listings to within <span style={{ color: 'var(--color-steel-light)', fontWeight: 600 }}>100 miles</span> of your city{userState ? ` (${userState})` : ''}. Crosses state lines — being in Sanger TX still catches Oklahoma if it&apos;s close enough.
               {!userState && ' Set your Location above to enable these.'}
             </p>
             <div style={{ opacity: userState ? 1 : 0.5, pointerEvents: userState ? 'auto' : 'none' }}>
@@ -328,7 +327,7 @@ export default function SettingsPage() {
       })()}
 
       {/* Profile Visibility */}
-      <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
+      <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
         <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>Profile Visibility</h2>
         <p className="text-muted-light text-sm" style={{ marginBottom: '16px' }}>Control whether your profile appears in search and explore.</p>
 
@@ -338,10 +337,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: profile?.is_public ? 'rgba(45,212,191,0.15)' : 'rgba(18,18,30,0.5)',
-              color: profile?.is_public ? '#2dd4bf' : '#6b7280',
+              background: profile?.is_public ? 'rgba(242,169,0,0.15)' : 'var(--color-surface-lowest)',
+              color: profile?.is_public ? 'var(--color-accent)' : 'var(--color-muted)',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: profile?.is_public ? '2px solid rgba(45,212,191,0.5)' : '1px solid rgba(255,255,255,0.06)',
+              outline: profile?.is_public ? '2px solid rgba(242,169,0,0.5)' : '1px solid var(--color-border)',
             }}
           >
             Public
@@ -351,10 +350,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: !profile?.is_public ? 'rgba(45,212,191,0.15)' : 'rgba(18,18,30,0.5)',
-              color: !profile?.is_public ? '#2dd4bf' : '#6b7280',
+              background: !profile?.is_public ? 'rgba(242,169,0,0.15)' : 'var(--color-surface-lowest)',
+              color: !profile?.is_public ? 'var(--color-accent)' : 'var(--color-muted)',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: !profile?.is_public ? '2px solid rgba(45,212,191,0.5)' : '1px solid rgba(255,255,255,0.06)',
+              outline: !profile?.is_public ? '2px solid rgba(242,169,0,0.5)' : '1px solid var(--color-border)',
             }}
           >
             Private
@@ -364,13 +363,13 @@ export default function SettingsPage() {
 
       {/* Vehicle Visibility */}
       {vehicles.length > 0 && (
-        <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
+        <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
           <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>Vehicle Visibility</h2>
           <p className="text-muted-light text-sm" style={{ marginBottom: '16px' }}>Control whether each vehicle is visible to others. Private vehicles can still be shared via direct link.</p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {vehicles.map((v) => (
-              <div key={v.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
+              <div key={v.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: '8px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)' }}>
                 <div>
                   <span className="text-foreground font-semibold" style={{ fontSize: '0.9rem' }}>{v.year} {v.make} {v.model}</span>
                   <span className="text-muted-light" style={{ fontSize: '0.8rem', marginLeft: '8px' }}>{v.color}</span>
@@ -380,8 +379,8 @@ export default function SettingsPage() {
                   disabled={saving}
                   style={{
                     padding: '8px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer',
-                    background: v.is_public ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)',
-                    color: v.is_public ? '#22c55e' : '#ef4444',
+                    background: v.is_public ? 'rgba(86,194,113,0.15)' : 'rgba(229,72,77,0.15)',
+                    color: v.is_public ? 'var(--color-success)' : 'var(--color-danger)',
                     fontWeight: 600, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px',
                   }}
                 >
@@ -398,7 +397,7 @@ export default function SettingsPage() {
       )}
 
       {/* Account */}
-      <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
+      <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
         <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '16px' }}>Account</h2>
 
         {/* Username */}
@@ -411,10 +410,10 @@ export default function SettingsPage() {
           return (
             <div style={{ marginBottom: '20px' }}>
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-                Username {!canChange && <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(locked for {daysLeft} more day{daysLeft !== 1 ? 's' : ''})</span>}
+                Username {!canChange && <span style={{ color: 'var(--color-muted)', fontWeight: 400, textTransform: 'none' }}>(locked for {daysLeft} more day{daysLeft !== 1 ? 's' : ''})</span>}
               </label>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <span style={{ display: 'flex', alignItems: 'center', padding: '0 12px', color: '#6b7280', fontSize: '13px' }}>@</span>
+                <span style={{ display: 'flex', alignItems: 'center', padding: '0 12px', color: 'var(--color-muted)', fontSize: '13px' }}>@</span>
                 <input
                   type="text"
                   defaultValue={profile.username}
@@ -473,7 +472,7 @@ export default function SettingsPage() {
             else setMessage('Password reset link sent to ' + user.email)
             setTimeout(() => setMessage(''), 5000)
           }}
-          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', color: '#9ca3af', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', textAlign: 'left' }}
+          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'var(--color-surface-light)', border: '1px solid var(--color-border)', color: 'var(--color-muted-light)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', textAlign: 'left' }}
         >
           Reset Password
         </button>
@@ -492,11 +491,11 @@ export default function SettingsPage() {
             await supabase.auth.signOut()
             window.location.href = '/auth/login?message=account_deleted'
           }}
-          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
+          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(229,72,77,0.05)', border: '1px solid rgba(229,72,77,0.15)', color: 'var(--color-danger)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
         >
           Delete My Account
         </button>
-        <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '8px' }}>
+        <p style={{ fontSize: '11px', color: 'var(--color-muted)', marginTop: '8px' }}>
           Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" className="text-teal" style={{ textDecoration: 'none' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
         </p>
       </div>

@@ -3,206 +3,98 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import GoogleButton from '@/components/GoogleButton'
+
+// Where to send the member after sign-in. Honors ?redirect=/some/path from
+// the auth guard, but only same-origin paths.
+function safeRedirect(): string {
+  if (typeof window === 'undefined') return '/feed'
+  const r = new URLSearchParams(window.location.search).get('redirect')
+  return r && r.startsWith('/') && !r.startsWith('//') ? r : '/feed'
+}
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [phone, setPhone] = useState('')
-  const [otp, setOtp] = useState('')
   const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
   const [loading, setLoading] = useState(false)
-  const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
-  const [otpSent, setOtpSent] = useState(false)
   const supabase = createClient()
 
-  // Redirect if already logged in
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) window.location.href = '/feed'
+      if (session) window.location.href = safeRedirect()
     })
+    if (new URLSearchParams(window.location.search).get('error') === 'auth_failed') {
+      setError('That sign-in link didn’t work. Try again.')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
-
+    setNotice('')
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
       setError(error.message)
       setLoading(false)
     } else {
-      window.location.href = '/feed'
+      window.location.href = safeRedirect()
     }
   }
 
-  const handlePhoneSendOtp = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+  const handleForgot = async () => {
+    if (!email) { setError('Enter your email first, then tap “Forgot password”.'); return }
     setError('')
-
-    const { error } = await supabase.auth.signInWithOtp({ phone })
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-    } else {
-      setOtpSent(true)
-      setLoading(false)
-    }
-  }
-
-  const handlePhoneVerify = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-
-    const { error } = await supabase.auth.verifyOtp({ phone, token: otp, type: 'sms' })
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-    } else {
-      window.location.href = '/feed'
-    }
-  }
-
-  const handleOAuth = async (provider: 'google' | 'discord') => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback`,
-        queryParams: { prompt: 'select_account' },
-      },
-    })
+    const site = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${site}/auth/callback?next=/settings` })
     if (error) setError(error.message)
+    else setNotice(`Reset link sent to ${email}.`)
   }
 
   return (
-    <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
-      <div style={{ maxWidth: '440px', width: '100%' }}>
-        <div className="text-center" style={{ marginBottom: '32px' }}>
-          <h1 className="text-3xl font-bold">
-            Welcome Back to <span className="gradient-text">The Scene</span>
-          </h1>
-          <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>Sign in to access your garage, explore builds, events, and more</p>
+    <div style={{ minHeight: 'calc(100vh - 58px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <div style={{ width: '100%', maxWidth: '420px' }}>
+        <div style={{ marginBottom: '22px' }}>
+          <p className="eyebrow" style={{ marginBottom: '10px' }}>Welcome back</p>
+          <h1 style={{ fontSize: 'clamp(2.2rem, 6vw, 3rem)' }}>Sign in</h1>
+          <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '14px' }}>Your garage, your feed, your people — right where you left them.</p>
         </div>
 
-        <div className="glass" style={{ padding: '36px 32px' }}>
-          {/* OAuth Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
-            <button
-              onClick={() => handleOAuth('google')}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '12px 20px', borderRadius: '8px', fontSize: '0.85rem', fontWeight: 600, border: 'none', cursor: 'pointer', backgroundColor: 'white', color: '#333' }}
-            >
-              <svg style={{ width: '18px', height: '18px' }} viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-              Continue with Google
-            </button>
-            <button
-              onClick={() => handleOAuth('discord')}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '12px 20px', borderRadius: '8px', fontSize: '0.85rem', fontWeight: 600, border: 'none', cursor: 'pointer', backgroundColor: '#5865F2', color: 'white' }}
-            >
-              <svg style={{ width: '18px', height: '18px' }} viewBox="0 0 24 24" fill="white">
-                <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-              </svg>
-              Continue with Discord
-            </button>
-          </div>
+        <div className="panel panel-accent" style={{ padding: '28px 26px' }}>
+          <GoogleButton label="Continue with Google" next={safeRedirect()} onError={setError} />
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
-            <span className="text-xs text-muted uppercase tracking-wider">or</span>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
-          </div>
+          <div className="auth-divider"><span>or with email</span></div>
 
-          {/* Auth method toggle */}
-          <div style={{ display: 'flex', marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <button
-              type="button"
-              onClick={() => { setAuthMethod('email'); setOtpSent(false); setError('') }}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)', color: authMethod === 'email' ? '#2dd4bf' : '#6b7280' }}
-            >
-              Email
-            </button>
-            <button
-              type="button"
-              onClick={() => { setAuthMethod('phone'); setError('') }}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)', color: authMethod === 'phone' ? '#2dd4bf' : '#6b7280' }}
-            >
-              Phone
-            </button>
-          </div>
-
-          {authMethod === 'email' ? (
-            <form onSubmit={handleEmailLogin}>
-              <div style={{ marginBottom: '16px' }}>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Email</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="you@example.com" required />
-              </div>
-              <div style={{ marginBottom: '20px' }}>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Password</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="Your password" required />
-                <button type="button" onClick={async () => {
-                  if (!email) { setError('Enter your email first'); return }
-                  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback?next=/settings` })
-                  if (error) setError(error.message)
-                  else setError('')
-                  alert(error ? error.message : 'Password reset link sent to ' + email)
-                }} style={{ background: 'none', border: 'none', color: '#2dd4bf', fontSize: '12px', cursor: 'pointer', marginTop: '6px', padding: 0 }}>
+          <form onSubmit={handleEmailLogin}>
+            <div style={{ marginBottom: '14px' }}>
+              <label htmlFor="email" className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Email</label>
+              <input id="email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="you@example.com" required />
+            </div>
+            <div style={{ marginBottom: '18px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
+                <label htmlFor="password" className="eyebrow">Password</label>
+                <button type="button" onClick={handleForgot} style={{ background: 'none', border: 'none', color: 'var(--color-accent)', fontSize: '12px', cursor: 'pointer', padding: 0 }}>
                   Forgot password?
                 </button>
               </div>
+              <input id="password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="Your password" required />
+            </div>
 
-              {error && (
-                <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>{error}</div>
-              )}
+            {error && <div className="form-error" role="alert">{error}</div>}
+            {notice && <div className="form-error" role="status" style={{ background: 'rgba(86,194,113,0.08)', borderColor: 'rgba(86,194,113,0.35)', color: 'var(--color-success)' }}>{notice}</div>}
 
-              <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
-                {loading ? 'Signing in...' : 'Sign In'}
-              </button>
-            </form>
-          ) : !otpSent ? (
-            <form onSubmit={handlePhoneSendOtp}>
-              <div style={{ marginBottom: '20px' }}>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Phone Number</label>
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="input" placeholder="+1 (555) 123-4567" required />
-                <p className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>Include country code (e.g. +1 for US)</p>
-              </div>
-
-              {error && (
-                <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>{error}</div>
-              )}
-
-              <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
-                {loading ? 'Sending code...' : 'Send Verification Code'}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handlePhoneVerify}>
-              <p className="text-muted-light" style={{ fontSize: '0.85rem', marginBottom: '16px' }}>Enter the code sent to {phone}</p>
-              <div style={{ marginBottom: '20px' }}>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Verification Code</label>
-                <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} className="input" placeholder="123456" required style={{ textAlign: 'center', fontSize: '1.2rem', letterSpacing: '8px' }} />
-              </div>
-
-              {error && (
-                <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>{error}</div>
-              )}
-
-              <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
-                {loading ? 'Verifying...' : 'Verify & Sign In'}
-              </button>
-            </form>
-          )}
-
-          <p className="text-center text-sm text-muted-light" style={{ marginTop: '24px' }}>
-            Don&apos;t have an account?{' '}
-            <Link href="/auth/register" style={{ color: '#2dd4bf', fontWeight: 600 }}>Join The Scene</Link>
-          </p>
+            <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', padding: '14px 20px' }}>
+              {loading ? 'Signing in…' : 'Sign in'}
+            </button>
+          </form>
         </div>
+
+        <p className="text-muted-light" style={{ textAlign: 'center', marginTop: '18px', fontSize: '14px' }}>
+          New here? <Link href="/auth/register" style={{ fontWeight: 600 }}>Join free</Link>
+        </p>
       </div>
     </div>
   )

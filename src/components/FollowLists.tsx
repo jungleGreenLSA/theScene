@@ -63,22 +63,22 @@ export default function FollowLists({ userId }: { userId: string }) {
           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 0', fontSize: '14px', minHeight: '44px' }}
           aria-expanded={tab === 'followers'}
         >
-          <strong className="spec" style={{ color: tab === 'followers' ? '#2dd4bf' : '#e4e1ed' }}>{followerCount}</strong>
-          <span className="text-muted-light" style={{ marginLeft: '4px', color: tab === 'followers' ? '#2dd4bf' : undefined }}>followers</span>
+          <strong className="spec" style={{ color: tab === 'followers' ? 'var(--color-accent)' : 'var(--color-foreground)' }}>{followerCount}</strong>
+          <span className="text-muted-light" style={{ marginLeft: '4px', color: tab === 'followers' ? 'var(--color-accent)' : undefined }}>followers</span>
         </button>
         <button
           onClick={loadFollowing}
           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 0', fontSize: '14px', minHeight: '44px' }}
           aria-expanded={tab === 'following'}
         >
-          <strong className="spec" style={{ color: tab === 'following' ? '#2dd4bf' : '#e4e1ed' }}>{followingCount}</strong>
-          <span className="text-muted-light" style={{ marginLeft: '4px', color: tab === 'following' ? '#2dd4bf' : undefined }}>following</span>
+          <strong className="spec" style={{ color: tab === 'following' ? 'var(--color-accent)' : 'var(--color-foreground)' }}>{followingCount}</strong>
+          <span className="text-muted-light" style={{ marginLeft: '4px', color: tab === 'following' ? 'var(--color-accent)' : undefined }}>following</span>
         </button>
       </div>
 
       {/* Expanded list */}
       {tab && (
-        <div className="glass" style={{ marginTop: '12px', padding: '16px', maxHeight: '300px', overflowY: 'auto' }}>
+        <div className="panel" style={{ marginTop: '12px', padding: '16px', maxHeight: '300px', overflowY: 'auto' }}>
           <h4 className="eyebrow" style={{ marginBottom: '12px' }}>
             {tab === 'followers' ? 'Followers' : 'Following'}
           </h4>
@@ -89,11 +89,11 @@ export default function FollowLists({ userId }: { userId: string }) {
               {list.map((u) => (
                 <Link key={u.id} href={`/user/${u.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px', borderRadius: '6px', transition: 'background 0.15s' }} className="card-hover">
                   <div style={{ position: 'relative', flexShrink: 0 }}>
-                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: '#1b1b23', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
                       {u.avatar_url ? (
                         <img src={u.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (
-                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#2dd4bf', fontWeight: 700 }}>
+                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'var(--color-accent)', fontWeight: 700 }}>
                           {u.username?.charAt(0).toUpperCase()}
                         </div>
                       )}

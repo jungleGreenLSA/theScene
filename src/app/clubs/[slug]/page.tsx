@@ -50,12 +50,12 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
   return (
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 16px 40px' }}>
       {/* Club Header */}
-      <div className="glass glow-teal" style={{ overflow: 'hidden', marginBottom: '24px' }}>
-        <div style={{ height: '220px', background: 'rgba(26,26,46,0.5)', position: 'relative', overflow: 'hidden' }}>
+      <div className="panel glow-teal" style={{ overflow: 'hidden', marginBottom: '24px' }}>
+        <div style={{ height: '220px', background: 'var(--color-surface-light)', position: 'relative', overflow: 'hidden' }}>
           {club.cover_image_url ? (
             <img src={club.cover_image_url} alt={club.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(45,212,191,0.1), rgba(139,92,246,0.1))' }} />
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(242,169,0,0.1), rgba(142,163,184,0.1))' }} />
           )}
           <ClubCoverEditor clubId={club.id} currentCoverUrl={club.cover_image_url} currentLogoUrl={club.logo_url} />
         </div>
@@ -63,15 +63,15 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
         <div style={{ padding: '24px' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '16px' }}>
             {club.logo_url && (
-              <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(45,212,191,0.3)', flexShrink: 0, marginTop: '-48px', position: 'relative', zIndex: 1 }}>
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', border: '2px solid rgba(242,169,0,0.3)', flexShrink: 0, marginTop: '-48px', position: 'relative', zIndex: 1 }}>
                 <img src={club.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}
             <div style={{ flex: 1 }}>
-              <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#e4e1ed' }}>{club.name}</h1>
+              <h1 style={{ fontSize: '28px', fontWeight: 700, color: 'var(--color-foreground)' }}>{club.name}</h1>
               {founder && (
-                <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '4px' }}>
-                  Founded by <Link href={`/user/${founder.username}`} style={{ color: '#2dd4bf' }}>{founder.display_name || founder.username}</Link>
+                <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginTop: '4px' }}>
+                  Founded by <Link href={`/user/${founder.username}`} style={{ color: 'var(--color-accent)' }}>{founder.display_name || founder.username}</Link>
                 </p>
               )}
             </div>
@@ -82,28 +82,28 @@ export default async function ClubPage({ params }: { params: Promise<{ slug: str
           </div>
 
           {club.description && (
-            <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '14px', lineHeight: 1.7 }}>{club.description}</p>
+            <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginTop: '14px', lineHeight: 1.7 }}>{club.description}</p>
           )}
 
           {/* Social Links */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px' }}>
-            {club.website && <a href={club.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#2dd4bf' }}>Website</a>}
-            {club.instagram_handle && <a href={`https://instagram.com/${club.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#2dd4bf' }}>Instagram</a>}
-            {club.facebook_url && <a href={club.facebook_url} target="_blank" rel="noopener" style={{ fontSize: '13px', color: '#2dd4bf' }}>Facebook</a>}
+            {club.website && <a href={club.website} target="_blank" rel="noopener" style={{ fontSize: '13px', color: 'var(--color-accent)' }}>Website</a>}
+            {club.instagram_handle && <a href={`https://instagram.com/${club.instagram_handle}`} target="_blank" rel="noopener" style={{ fontSize: '13px', color: 'var(--color-accent)' }}>Instagram</a>}
+            {club.facebook_url && <a href={club.facebook_url} target="_blank" rel="noopener" style={{ fontSize: '13px', color: 'var(--color-accent)' }}>Facebook</a>}
           </div>
         </div>
       </div>
 
       {/* Locations / Chapters */}
       {locations && locations.length > 0 && (
-        <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+        <div className="panel" style={{ padding: '24px', marginBottom: '20px' }}>
           <p className="eyebrow" style={{ marginBottom: '12px' }}>Chapters &amp; Locations</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 200px), 1fr))', gap: '10px' }}>
             {locations.map((loc) => (
-              <div key={loc.id} style={{ padding: '14px', background: 'rgba(18,18,30,0.5)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
-                <p style={{ fontSize: '14px', fontWeight: 600, color: '#e4e1ed' }}>{loc.city}, {loc.state}</p>
+              <div key={loc.id} style={{ padding: '14px', background: 'var(--color-surface-lowest)', borderRadius: '8px', border: '1px solid var(--color-border)' }}>
+                <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-foreground)' }}>{loc.city}, {loc.state}</p>
                 {loc.label && <p className="label-mono" style={{ fontSize: '12px', marginTop: '2px' }}>{loc.label}</p>}
-                {loc.zip_code && <p className="spec" style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px' }}>ZIP: {loc.zip_code}</p>}
+                {loc.zip_code && <p className="spec" style={{ fontSize: '12px', color: 'var(--color-muted)', marginTop: '2px' }}>ZIP: {loc.zip_code}</p>}
                 {loc.is_primary && <span className="chip" style={{ display: 'inline-block', marginTop: '6px' }}>Primary</span>}
               </div>
             ))}

@@ -1,264 +1,371 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { createClient } from '@/lib/supabase/server'
 import MemberHeatmap from '@/components/MemberHeatmap'
-import LiveStats from '@/components/LiveStats'
 
-// Sample "Archive" entries — the carousel shows verified builds. On the live
-// site this is populated from real garages; here it sets the editorial tone.
-const ARCHIVE = [
-  { ymm: '2021 Porsche 911', tag: 'Euro Power', hp: '443 HP', grad: 'linear-gradient(135deg,#1e293b,#0f766e)' },
-  { ymm: '1998 Toyota Supra', tag: 'Import', hp: '700 HP', grad: 'linear-gradient(135deg,#2a1a3a,#7c3aed)' },
-  { ymm: '1969 Chevy Camaro', tag: 'Classic', hp: '525 HP', grad: 'linear-gradient(135deg,#3a1f12,#f97316)' },
-  { ymm: '2015 Subaru WRX STI', tag: 'Stance', hp: '380 HP', grad: 'linear-gradient(135deg,#0f2a3a,#2dd4bf)' },
-  { ymm: '2020 Ford Mustang GT', tag: 'Domestic', hp: '480 HP', grad: 'linear-gradient(135deg,#1a1a2e,#6366f1)' },
+type Ride = {
+  id: string
+  slug: string
+  year: number
+  make: string
+  model: string
+  color: string | null
+  primary_image_url: string | null
+  props_count: number | null
+  owner: { username: string } | { username: string }[] | null
+}
+
+type UpcomingEvent = {
+  slug: string
+  title: string
+  event_date: string
+  city: string | null
+  state: string | null
+}
+
+const HOW_IT_WORKS = [
+  { n: '01', title: 'Park your car', desc: 'Every ride gets its own page: year, make, model, specs, a categorized mod list, photo gallery, build status and a guestbook. Share it with a link or a QR card at the show.' },
+  { n: '02', title: 'Give & get props', desc: 'Props are the currency. Leave them on builds you respect, sign guestbooks, earn badges. The most-propped rides get featured as Ride of the Week.' },
+  { n: '03', title: 'Find your people', desc: 'Shows, meets, cruises and track days near you. Clubs to join or start. Local shops. A feed of who parked what this week, filtered to your radius.' },
 ]
 
-// Digital Museum timeline — a build documented bone-stock to masterpiece.
-const MUSEUM = [
-  { date: '2023.04.12', title: 'Bone Stock — Day One', spec: 'OEM // 379 HP @ 6500 RPM', desc: 'Where every story begins. Factory spec, logged and archived before the first wrench turns.' },
-  { date: '2023.09.30', title: 'Stage 2 Turbo Install', spec: 'GT2871R // +96 HP', desc: 'New hot side, intercooler, and a custom downpipe. Dyno-verified gains documented with sheets.' },
-  { date: '2024.03.18', title: 'Coilovers & Big Brakes', spec: 'KW V3 // 6-POT FRONT', desc: 'Stance dialed in, fade eliminated. Corner balanced and aligned for the canyon and the track.' },
-  { date: '2024.11.02', title: 'The Scene Verified', spec: 'STATUS // MASTERPIECE', desc: 'A complete, documented journey. Awarded the Verified badge for craftsmanship and presence.' },
+// Every one of these ships to every member. There is no premium tier.
+const INCLUDED = [
+  ['Unlimited vehicles', 'Park everything you own — or used to.'],
+  ['Unlimited photos', 'No per-car cap. Shoot the whole roll.'],
+  ['Build journal', 'Milestones, before/afters, and a running cost tracker.'],
+  ['Garage analytics', 'Views, unique visitors, and where they came from.'],
+  ['Saved collections', 'Bookmark builds, events and parts for the next project.'],
+  ['Marketplace listings', 'Sell parts or the whole car to people who get it.'],
+  ['Host events', 'Post shows, meets and track days. Check-ins and photo feeds included.'],
+  ['Start a club', 'Founders, admins, member rosters, club events and a cover.'],
+  ['Feed & @mentions', 'Post photos, tag builds, follow members, react.'],
+  ['Guestbook', 'Old-school. Every garage page has one.'],
+  ['Spotted & WWYD', 'Log sightings in the wild. Crowd-source your next mod.'],
+  ['QR garage card', 'Print it, stick it in the window at the show.'],
 ]
 
-export default function Home() {
+function ownerName(o: Ride['owner']) {
+  if (!o) return null
+  return Array.isArray(o) ? o[0]?.username : o.username
+}
+
+async function loadLanding() {
+  try {
+    const supabase = await createClient()
+    const nowIso = new Date().toISOString()
+    const [ridesRes, eventsRes, membersRes, vehiclesRes, eventsCountRes, guestbookRes] = await Promise.all([
+      supabase
+        .from('vehicles')
+        .select('id, slug, year, make, model, color, primary_image_url, props_count, owner:profiles!owner_id(username)')
+        .eq('is_public', true)
+        .not('primary_image_url', 'is', null)
+        .order('created_at', { ascending: false })
+        .limit(6),
+      supabase
+        .from('events')
+        .select('slug, title, event_date, city, state')
+        .eq('is_public', true)
+        .in('status', ['published', 'active'])
+        .gte('event_date', nowIso)
+        .order('event_date', { ascending: true })
+        .limit(5),
+      supabase.from('profiles').select('id', { count: 'exact', head: true }),
+      supabase.from('vehicles').select('id', { count: 'exact', head: true }),
+      supabase.from('events').select('id', { count: 'exact', head: true }),
+      supabase.from('guestbook_entries').select('id', { count: 'exact', head: true }),
+    ])
+    return {
+      rides: (ridesRes.data || []) as Ride[],
+      events: (eventsRes.data || []) as UpcomingEvent[],
+      counts: {
+        members: membersRes.count || 0,
+        vehicles: vehiclesRes.count || 0,
+        events: eventsCountRes.count || 0,
+        guestbook: guestbookRes.count || 0,
+      },
+    }
+  } catch {
+    return { rides: [] as Ride[], events: [] as UpcomingEvent[], counts: { members: 0, vehicles: 0, events: 0, guestbook: 0 } }
+  }
+}
+
+// The marquee runs on real rows when there are any, and on the house lines
+// when the place is still empty. Duplicated once so the loop is seamless.
+function tickerItems(rides: Ride[], events: UpcomingEvent[]) {
+  const items: { k: string; v: string }[] = []
+  rides.slice(0, 5).forEach(r => items.push({ k: 'Parked', v: `${r.year} ${r.make} ${r.model}` }))
+  events.slice(0, 3).forEach(e => items.push({
+    k: 'On the board',
+    v: `${e.title}${e.city ? ` — ${e.city}` : ''}`,
+  }))
+  if (items.length === 0) {
+    items.push(
+      { k: 'Status', v: 'Garage open — doors unlocked' },
+      { k: 'Cost', v: 'Free. All of it. Always' },
+      { k: 'Wanted', v: 'Your build, on its own page' },
+    )
+  }
+  items.push({ k: 'Members', v: 'No tiers, no paywall, no ads for your own data' })
+  return items
+}
+
+const CONTAINER: React.CSSProperties = { maxWidth: '1240px', margin: '0 auto', padding: '0 20px' }
+
+export default async function Home() {
+  const { rides, events, counts } = await loadLanding()
+  const marquee = tickerItems(rides, events)
+
   return (
     <>
-      {/* ===== HERO — full-bleed automotive photography ===== */}
-      <section className="relative overflow-hidden" style={{ minHeight: '88vh', display: 'flex', alignItems: 'flex-end' }}>
-        <Image
-          src="/images/hero-porsche.png"
-          alt="Midnight blue sports car under neon city lights"
-          fill
-          priority
-          sizes="100vw"
-          style={{ objectFit: 'cover', objectPosition: 'center 60%' }}
-        />
-        {/* Dark cinematic overlay to anchor text */}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(12,12,20,0.97) 0%, rgba(12,12,20,0.7) 35%, rgba(12,12,20,0.25) 70%, rgba(12,12,20,0.55) 100%)' }} />
+      {/* ===== HERO — metal under ink, headline on top of it ===== */}
+      <section className="hero">
+        <div className="hero-photo">
+          <Image
+            src="/images/hero-porsche.png"
+            alt="A member's car parked under streetlights at night"
+            fill
+            priority
+            sizes="100vw"
+            style={{ objectFit: 'cover', objectPosition: 'center 58%' }}
+          />
+        </div>
+        <div className="hero-wash" aria-hidden="true" />
 
-        <div className="relative z-10 w-full" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px 64px' }}>
-          <span className="eyebrow" style={{ display: 'block', marginBottom: '20px' }}>The Car Community, Reimagined</span>
-          <h1 className="font-extrabold tracking-tight" style={{ fontSize: 'clamp(2.5rem, 7vw, 5rem)', lineHeight: 1.04, letterSpacing: '-0.02em', maxWidth: '14ch' }}>
-            Your Ride Is Your <span className="gradient-text">Identity.</span>
-          </h1>
-          <p style={{ color: '#cbd2da', fontSize: 'clamp(1rem, 2vw, 1.25rem)', maxWidth: '560px', marginTop: '20px', lineHeight: 1.6 }}>
-            A digital museum for your build. Document every stage from bone-stock to masterpiece, then connect with the enthusiasts who get it.
+        <div className="hero-inner">
+          <p className="eyebrow" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', flexWrap: 'wrap' }}>
+            <span className="dot-live" aria-hidden="true" />
+            <span>Est. 2026</span>
+            <span style={{ color: 'var(--color-muted)' }}>/</span>
+            <span style={{ color: 'var(--color-steel-light)' }}>Free forever</span>
+            <span style={{ color: 'var(--color-muted)' }}>/</span>
+            <span style={{ color: 'var(--color-muted-light)' }}>No tiers, no paywall</span>
           </p>
-          <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginTop: '32px' }}>
-            <Link href="/auth/register" className="btn-primary" style={{ padding: '15px 38px', fontSize: '0.95rem' }}>
-              Join The Scene
-            </Link>
-            <Link href="/explore" className="btn-outline" style={{ padding: '15px 38px', fontSize: '0.95rem' }}>
-              Explore Garage
-            </Link>
+
+          <h1 className="hero-title">
+            <span className="lt">Your car.</span><br />
+            <span className="out">Your page.</span><br />
+            <span className="ac">Your people.</span>
+          </h1>
+
+          <p style={{ color: 'var(--color-foreground-soft)', fontSize: 'clamp(1.05rem, 1.6vw, 1.22rem)', maxWidth: '50ch', marginTop: '26px', lineHeight: 1.5 }}>
+            Give your build its own page — specs, mods, photos, a guestbook — then find the
+            shows, clubs and people around you. The car site a lot of us grew up on, rebuilt
+            for now and run by the people parked in it.
+          </p>
+
+          <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginTop: '30px' }}>
+            <Link href="/auth/register" className="btn-primary" style={{ padding: '16px 32px', fontSize: '17px' }}>Claim your garage</Link>
+            <Link href="/explore" className="btn-outline" style={{ padding: '16px 32px', fontSize: '17px' }}>Walk the lot</Link>
           </div>
+
+          <p className="spec" style={{ marginTop: '18px', fontSize: '12px', letterSpacing: '0.04em' }}>
+            SIGN UP WITH GOOGLE OR EMAIL · 60 SECONDS · NOTHING TO CANCEL
+          </p>
+        </div>
+
+        {/* Live numbers welded to the bottom of the hero */}
+        <div className="data-strip">
+          <div><div className="num">{counts.members.toLocaleString()}</div><div className="lbl">Members</div></div>
+          <div><div className="num">{counts.vehicles.toLocaleString()}</div><div className="lbl">Cars parked</div></div>
+          <div><div className="num">{counts.events.toLocaleString()}</div><div className="lbl">Events posted</div></div>
+          <div><div className="num">{counts.guestbook.toLocaleString()}</div><div className="lbl">Guestbook signs</div></div>
         </div>
       </section>
 
-      {/* ===== THE ARCHIVE — horizontal verified-build carousel ===== */}
-      <section style={{ padding: '56px 0' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px' }}>
-          <div className="flex items-end justify-between" style={{ marginBottom: '24px', gap: '16px', flexWrap: 'wrap' }}>
-            <div>
-              <span className="eyebrow" style={{ display: 'block', marginBottom: '10px' }}>The Archive</span>
-              <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.25rem)' }}>
-                Verified Builds, <span className="text-purple-light">Curated.</span>
-              </h2>
+      <div className="neon-rule" aria-hidden="true" />
+
+      {/* ===== TICKER — what's moving right now ===== */}
+      <div className="ticker" aria-hidden="true">
+        <div className="ticker-track">
+          {[0, 1].map(pass => (
+            <span key={pass} className="ticker-pass">
+              {marquee.map((m, i) => (
+                <span key={`${pass}-${i}`}>
+                  <i>{m.k}</i>
+                  <b>◆</b>
+                  <span style={{ color: 'var(--color-foreground-soft)' }}>{m.v}</span>
+                </span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ===== FRESH METAL + ON THE BOARD ===== */}
+      <section style={{ padding: 'clamp(44px, 6vw, 72px) 0 0' }}>
+        <div style={{ ...CONTAINER, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: '32px', alignItems: 'start' }}>
+          <div>
+            <div className="section-head">
+              <span className="idx">01</span>
+              <h2>Fresh metal</h2>
+              <span className="rule" />
+              <span className="meta">{rides.length ? `Latest ${rides.length}` : 'Open'}</span>
             </div>
-            <Link href="/explore" className="spec" style={{ color: 'var(--color-teal)', whiteSpace: 'nowrap' }}>View all →</Link>
-          </div>
-        </div>
-
-        {/* Edge-to-edge scroller with snap */}
-        <div style={{ overflowX: 'auto', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch', paddingBottom: '8px' }}>
-          <div style={{ display: 'flex', gap: '16px', padding: '0 24px', width: 'max-content', margin: '0 auto', maxWidth: '1280px' }}>
-            {ARCHIVE.map((c) => (
-              <div key={c.ymm} className="build-card card-hover" style={{ width: '280px', height: '340px', flexShrink: 0, scrollSnapAlign: 'start' }}>
-                <div style={{ position: 'absolute', inset: 0, background: c.grad }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(120% 80% at 50% 0%, transparent 40%, rgba(12,12,20,0.4) 100%)' }} />
-                <span className="chip" style={{ position: 'absolute', top: '14px', left: '14px' }}>✓ Verified</span>
-                <div className="overlay">
-                  <span className="label-mono" style={{ color: 'var(--color-purple-light)' }}>{c.tag}</span>
-                  <h3 className="font-bold text-foreground" style={{ fontSize: '1.1rem', margin: '6px 0 8px' }}>{c.ymm}</h3>
-                  <p className="spec" style={{ color: 'var(--color-teal-light)' }}>{c.hp}</p>
+            <div className="panel">
+              {rides.length === 0 ? (
+                <div style={{ padding: '40px 20px', textAlign: 'center' }}>
+                  <p className="display" style={{ fontSize: '26px', color: 'var(--color-foreground)', fontStyle: 'italic' }}>The garage is open.</p>
+                  <p className="text-muted-light" style={{ marginTop: '6px', fontSize: '14px', color: 'var(--color-muted-light)' }}>Be the first to park something here.</p>
+                  <Link href="/auth/register" className="btn-primary" style={{ marginTop: '20px', padding: '12px 22px', fontSize: '14px' }}>Add your car</Link>
                 </div>
-              </div>
-            ))}
+              ) : rides.map(r => {
+                const owner = ownerName(r.owner)
+                const href = owner ? `/user/${owner}/${r.slug}` : `/ride/${r.id}`
+                return (
+                  <Link key={r.id} href={href} className="ride-row">
+                    <div className="thumb">
+                      {r.primary_image_url && <img src={r.primary_image_url} alt={`${r.year} ${r.make} ${r.model}`} loading="lazy" />}
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <p className="display" style={{ fontSize: '20px', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <span style={{ color: 'var(--color-muted-light)', fontWeight: 600 }}>{r.year}</span> {r.make} {r.model}
+                      </p>
+                      <p className="spec" style={{ fontSize: '12px', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {r.color ? `${r.color} · ` : ''}{owner ? `@${owner}` : 'member build'}
+                      </p>
+                    </div>
+                    <div className="spec" style={{ textAlign: 'right', fontSize: '12px' }}>
+                      <span style={{ color: 'var(--color-accent)', fontWeight: 600 }}>{r.props_count || 0}</span> props
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* ===== DIGITAL MUSEUM — vertical build timeline ===== */}
-      <section className="border-y border-border" style={{ padding: '56px 0' }}>
-        <div style={{ maxWidth: '780px', margin: '0 auto', padding: '0 24px' }}>
-          <div style={{ marginBottom: '36px' }}>
-            <span className="eyebrow" style={{ display: 'block', marginBottom: '10px' }}>The Digital Museum</span>
-            <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.25rem)' }}>
-              From Bone-Stock to <span className="gradient-text">Masterpiece.</span>
-            </h2>
-            <p className="text-muted-light" style={{ marginTop: '12px', fontSize: '0.95rem', maxWidth: '52ch' }}>
-              Every car has a story. Log each milestone with photos, dyno sheets, and part numbers — a technical manual for your build.
-            </p>
-          </div>
-
-          <div className="timeline">
-            {MUSEUM.map((m) => (
-              <div key={m.date} style={{ position: 'relative', paddingBottom: '28px' }}>
-                <span className="timeline-dot" />
-                <div className="glass" style={{ padding: '20px 22px' }}>
-                  <div className="flex items-center justify-between" style={{ gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                    <span className="spec" style={{ color: 'var(--color-teal)' }}>{m.date}</span>
-                    <span className="label-mono" style={{ color: 'var(--color-muted)' }}>{m.spec}</span>
-                  </div>
-                  <h3 className="font-bold text-foreground" style={{ fontSize: '1.1rem', marginBottom: '6px' }}>{m.title}</h3>
-                  <p className="text-muted-light text-sm leading-relaxed">{m.desc}</p>
+          <div>
+            <div className="section-head">
+              <span className="idx">02</span>
+              <h2>On the board</h2>
+              <span className="rule" />
+              <span className="meta">Events</span>
+            </div>
+            <div className="panel">
+              {events.length === 0 ? (
+                <div style={{ padding: '40px 20px', textAlign: 'center' }}>
+                  <p className="display" style={{ fontSize: '26px', color: 'var(--color-foreground)', fontStyle: 'italic' }}>Nothing on the board.</p>
+                  <p style={{ marginTop: '6px', fontSize: '14px', color: 'var(--color-muted-light)' }}>Members post the shows, meets and track days.</p>
                 </div>
+              ) : events.map(e => {
+                const d = new Date(e.event_date)
+                return (
+                  <Link key={e.slug} href={`/events/${e.slug}`} className="ride-row" style={{ gridTemplateColumns: '58px 1fr' }}>
+                    <div className="panel-inset" style={{ textAlign: 'center', padding: '7px 4px' }}>
+                      <div className="display" style={{ fontSize: '23px', color: 'var(--color-accent)', lineHeight: 1, fontStyle: 'italic' }}>{d.getDate()}</div>
+                      <div className="spec" style={{ fontSize: '10px', letterSpacing: '0.14em', textTransform: 'uppercase' }}>{d.toLocaleDateString('en-US', { month: 'short' })}</div>
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <p style={{ fontSize: '15px', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{e.title}</p>
+                      <p className="spec" style={{ fontSize: '12px', marginTop: '2px' }}>
+                        {[e.city, e.state].filter(Boolean).join(', ') || 'Location TBA'} · {d.toLocaleDateString('en-US', { weekday: 'short' })}
+                      </p>
+                    </div>
+                  </Link>
+                )
+              })}
+              <div style={{ padding: '12px 14px', borderTop: events.length ? '1px solid var(--color-border)' : 'none' }}>
+                <Link href="/events" className="spec" style={{ color: 'var(--color-accent)', fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>All events →</Link>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section style={{ padding: '56px 0' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
-          <div className="text-center" style={{ marginBottom: '32px' }}>
-            <span className="eyebrow" style={{ color: 'var(--color-purple-light)' }}>How It Works</span>
-            <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '12px' }}>
-              More Than a Profile. <span className="text-purple-light">It&apos;s a Garage.</span>
-            </h2>
+      <section style={{ padding: 'clamp(44px, 6vw, 72px) 0 0' }}>
+        <div style={CONTAINER}>
+          <div className="section-head">
+            <span className="idx">03</span>
+            <h2>How it works</h2>
+            <span className="rule" />
+            <span className="meta">Three moves</span>
           </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '16px' }}>
-            {[
-              { n: '01', title: 'Build Your Garage', desc: 'Your car gets its own dedicated page with specs, mods, photos, build status, and a guestbook. The CarDomain spirit — rebuilt for today.' },
-              { n: '02', title: 'Give & Get Props', desc: 'Show love for builds you respect. Props, guestbook entries, and trophy badges. The more props, the higher you climb.' },
-              { n: '03', title: 'Discover & Connect', desc: 'Find car shows, meets, and track days near you. Browse builds by make, model, or location. Check in and share photos.' },
-            ].map((f) => (
-              <div key={f.title} className="glass card-hover" style={{ padding: '28px' }}>
-                <span className="label-mono" style={{ color: 'var(--color-teal)' }}>{f.n}</span>
-                <h3 className="font-bold text-foreground" style={{ fontSize: '1.05rem', margin: '12px 0' }}>{f.title}</h3>
-                <p className="text-muted-light text-sm leading-relaxed">{f.desc}</p>
+          <div className="feature-list">
+            {HOW_IT_WORKS.map(f => (
+              <div key={f.n}>
+                <span className="n" aria-hidden="true">{f.n}</span>
+                <h3>{f.title}</h3>
+                <p>{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ===== COMMUNITY HEATMAP ===== */}
-      <section style={{ padding: '56px 0' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-            <span className="eyebrow">Community Heatmap</span>
-            <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '8px' }}>
-              Where The <span className="text-glow-teal" style={{ color: 'var(--color-teal)' }}>Scene</span> Is Live
-            </h2>
-            <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem', maxWidth: '500px', marginLeft: 'auto', marginRight: 'auto' }}>
-              Pulsing markers show active meets and cruises. Click a hot spot to zoom in.
-            </p>
+      {/* ===== EVERYTHING'S INCLUDED ===== */}
+      <section style={{ padding: 'clamp(44px, 6vw, 72px) 0 0' }}>
+        <div style={CONTAINER}>
+          <div className="panel panel-accent crop" style={{ padding: 'clamp(26px, 4vw, 44px)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))', gap: '32px', alignItems: 'start' }}>
+              <div>
+                <p className="eyebrow" style={{ marginBottom: '14px' }}>The whole toolbox</p>
+                <h2 style={{ fontSize: 'clamp(2.1rem, 4.4vw, 3.2rem)', lineHeight: 0.92, fontStyle: 'italic', letterSpacing: '-0.025em' }}>
+                  Everything&apos;s<br />
+                  <span className="stencil">included.</span><br />
+                  <span style={{ color: 'var(--color-accent)' }}>Full stop.</span>
+                </h2>
+                <p style={{ marginTop: '18px', fontSize: '15px', maxWidth: '40ch', lineHeight: 1.55, color: 'var(--color-muted-light)' }}>
+                  There is no premium tier on The Scene and there won&apos;t be one. Sign up with
+                  Google or your email and every member gets every feature — the same garage,
+                  the same tools, the same voice.
+                </p>
+                <Link href="/auth/register" className="btn-primary" style={{ marginTop: '24px' }}>Create your garage</Link>
+                <div className="stripe stripe-thin" aria-hidden="true" style={{ marginTop: '30px', maxWidth: '260px' }} />
+                <p className="label-mono" style={{ marginTop: '12px', fontSize: '10px', lineHeight: 1.9 }}>
+                  No card · No trial · No tiers<br />
+                  Built and run by people with project cars
+                </p>
+              </div>
+              <ul className="spec-list">
+                {INCLUDED.map(([title, desc]) => (
+                  <li key={title}>
+                    <span className="tick" aria-hidden="true">[✓]</span>
+                    <span>
+                      <span className="t">{title}</span>
+                      <span className="d">{desc}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== WHERE THE SCENE IS ===== */}
+      <section style={{ padding: 'clamp(44px, 6vw, 72px) 0 0' }}>
+        <div style={CONTAINER}>
+          <div className="section-head">
+            <span className="idx">04</span>
+            <h2>Where the scene is</h2>
+            <span className="rule" />
+            <span className="meta">Members by city</span>
           </div>
           <MemberHeatmap />
         </div>
       </section>
 
-      {/* ===== PLATFORM FEATURES ===== */}
-      <section className="border-y border-border" style={{ padding: '56px 0' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
-          <div className="text-center" style={{ marginBottom: '32px' }}>
-            <span className="eyebrow" style={{ color: 'var(--color-purple-light)' }}>The Platform</span>
-            <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '12px' }}>
-              Everything Your Build <span className="text-purple-light">Deserves</span>
-            </h2>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: '16px' }}>
-            {[
-              { title: 'Structured Mod Lists', desc: 'Every mod categorized: engine, exhaust, suspension, wheels, exterior, interior, tuning. Browse other builds by specific parts.' },
-              { title: 'Guestbook', desc: 'Every garage page has a guestbook where visitors leave messages. Built-in profanity and spam filter keeps it clean.' },
-              { title: 'Ride of the Week', desc: 'The most-propped builds get featured on the homepage. Community-driven voting puts the best builds in the spotlight.' },
-              { title: 'Regional Discovery', desc: 'Find builds near you. Search by city, state, or zip code. Location-based browsing makes local connections easy.' },
-              { title: 'Event Check-In & Photos', desc: 'At a car show? Check in to tag your car. After the event, photos get tagged to both the event and the cars.' },
-              { title: 'Similar Builds', desc: 'Every garage page shows other builds of the same make and model. See how others built the same platform.' },
-            ].map((f) => (
-              <div key={f.title} className="glass card-hover" style={{ padding: '28px' }}>
-                <h3 className="font-bold text-foreground" style={{ marginBottom: '8px' }}>{f.title}</h3>
-                <p className="text-sm text-muted-light leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== BROWSE BY CATEGORY ===== */}
-      <section style={{ padding: '56px 0' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
-          <div className="text-center" style={{ marginBottom: '28px' }}>
-            <span className="eyebrow">Discover</span>
-            <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '12px' }}>
-              Find Your <span className="text-glow-teal" style={{ color: 'var(--color-teal)' }}>People</span>
-            </h2>
-            <p className="text-muted-light text-sm" style={{ marginTop: '16px' }}>Pick up to two tags when you sign up. Find your community.</p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '12px' }}>
-            {[
-              { label: 'Domestic', desc: 'American muscle & power' },
-              { label: 'Import', desc: 'JDM performance' },
-              { label: 'Euro Power', desc: 'European & exotic' },
-              { label: 'Trucks', desc: 'Built to work & play' },
-              { label: 'Classic', desc: 'Timeless machines' },
-              { label: 'Off-Road', desc: 'Trail-ready rigs' },
-              { label: 'Stance', desc: 'Low & wide' },
-              { label: 'Race', desc: 'Track-built weapons' },
-            ].map((cat) => (
-              <Link
-                key={cat.label}
-                href={`/explore?category=${cat.label.toLowerCase().replace(' ', '-')}`}
-                className="glass card-hover group text-center"
-                style={{ padding: '28px 16px' }}
-              >
-                <span className="text-xs font-semibold uppercase tracking-wider text-foreground group-hover:text-teal transition-colors block" style={{ letterSpacing: '0.1em' }}>
-                  {cat.label}
-                </span>
-                <span className="text-muted block" style={{ fontSize: '11px', marginTop: '6px' }}>{cat.desc}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== GARAGE STATS ===== */}
-      <section style={{ padding: '56px 0' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 24px' }}>
-          <div className="text-center" style={{ marginBottom: '28px' }}>
-            <span className="eyebrow" style={{ color: 'var(--color-purple-light)' }}>The Numbers</span>
-            <h2 className="font-bold text-foreground" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', marginTop: '12px' }}>
-              Growing Every <span className="text-purple-light">Day</span>
-            </h2>
-          </div>
-          <LiveStats />
-        </div>
-      </section>
-
       {/* ===== FINAL CTA ===== */}
-      <section className="relative overflow-hidden" style={{ padding: '72px 0' }}>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: '600px', height: '600px', background: 'rgba(45,212,191,0.08)', filter: 'blur(150px)' }} />
-
-        <div className="relative z-10 text-center" style={{ maxWidth: '760px', margin: '0 auto', padding: '0 24px' }}>
-          <h2 className="font-extrabold text-foreground" style={{ fontSize: 'clamp(1.9rem, 4vw, 3rem)', marginBottom: '20px', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-            Document your journey from <span className="gradient-text">bone-stock to masterpiece.</span>
-          </h2>
-          <p className="text-muted-light leading-relaxed" style={{ fontSize: '1.1rem', marginBottom: '32px', maxWidth: '560px', marginLeft: 'auto', marginRight: 'auto' }}>
-            Your build deserves more than a classified ad. Give it a home, archive its story, and connect with the community that gets it.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/auth/register" className="btn-primary" style={{ padding: '16px 42px', fontSize: '0.95rem' }}>
-              Start Your Build Log
-            </Link>
-            <Link href="/pricing" className="btn-outline" style={{ padding: '16px 42px', fontSize: '0.95rem' }}>
-              See Plans
-            </Link>
+      <section style={{ padding: 'clamp(44px, 6vw, 72px) 0 8px' }}>
+        <div style={CONTAINER}>
+          <div className="panel-ink scan" style={{ overflow: 'hidden' }}>
+            <div className="stripe" aria-hidden="true" />
+            <div style={{ position: 'relative', zIndex: 2, padding: 'clamp(34px, 6vw, 68px) clamp(20px, 4vw, 52px)', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '28px' }}>
+              <div>
+                <p className="eyebrow" style={{ marginBottom: '14px', color: 'var(--color-steel-light)' }}>Last call</p>
+                <h2 style={{ fontSize: 'clamp(2.4rem, 6.4vw, 4.4rem)', lineHeight: 0.9, fontStyle: 'italic', fontWeight: 800, letterSpacing: '-0.03em' }}>
+                  Free. No tiers.<br /><span style={{ color: 'var(--color-accent)' }}>Just cars.</span>
+                </h2>
+                <p style={{ marginTop: '16px', fontSize: '15px', maxWidth: '44ch', color: 'var(--color-muted-light)' }}>
+                  Your build deserves more than a classified ad and a camera roll. Give it a page.
+                </p>
+              </div>
+              <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+                <Link href="/auth/register" className="btn-primary" style={{ padding: '16px 32px', fontSize: '17px' }}>Join free</Link>
+                <Link href="/auth/login" className="btn-outline" style={{ padding: '16px 32px', fontSize: '17px' }}>Sign in</Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

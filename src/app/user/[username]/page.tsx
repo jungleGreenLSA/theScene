@@ -44,14 +44,14 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
         <div className="profile-grid-sidebar">
 
       {/* Profile header */}
-      <div className="glass" style={{ padding: '24px' }}>
+      <div className="panel" style={{ padding: '24px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '12px' }}>
           <div style={{ position: 'relative' }}>
-            <div style={{ width: '96px', height: '96px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', border: '2px solid rgba(45,212,191,0.3)' }}>
+            <div style={{ width: '96px', height: '96px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', border: '2px solid rgba(242,169,0,0.3)' }}>
               {profile.avatar_url ? (
                 <img src={profile.avatar_url} alt={profile.username} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
-                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', color: '#6b7280' }}>
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', color: 'var(--color-muted)' }}>
                   {profile.username.charAt(0).toUpperCase()}
                 </div>
               )}
@@ -61,9 +61,6 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', justifyContent: 'center' }}>
               <h1 className="text-2xl font-bold text-foreground">{profile.display_name || profile.username}</h1>
-              {profile.subscription_tier === 'premium' && (
-                <span className="chip-purple">Premium</span>
-              )}
             </div>
             <p className="text-teal" style={{ fontSize: '14px' }}>@{profile.username}</p>
           </div>
@@ -86,26 +83,26 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
         </div>
 
         {/* Stats grid — 2x2 in the narrow sidebar */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '18px', paddingTop: '18px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '18px', paddingTop: '18px', borderTop: '1px solid var(--color-border)' }}>
+          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'var(--color-surface-lowest)' }}>
             <div className="text-teal font-bold spec" style={{ fontSize: '1.1rem' }}>{totalProps}</div>
             <div className="label-mono text-muted">Props</div>
           </div>
-          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
+          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'var(--color-surface-lowest)' }}>
             <div className="text-teal font-bold spec" style={{ fontSize: '1.1rem' }}>{totalViews}</div>
             <div className="label-mono text-muted">Views</div>
           </div>
-          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
+          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'var(--color-surface-lowest)' }}>
             <div className="text-teal font-bold spec" style={{ fontSize: '1.1rem' }}>{eventsAttended?.length || 0}</div>
             <div className="label-mono text-muted">Events</div>
           </div>
-          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'rgba(18,18,30,0.4)' }}>
+          <div style={{ textAlign: 'center', padding: '10px', borderRadius: '8px', background: 'var(--color-surface-lowest)' }}>
             <div className="text-teal font-bold spec" style={{ fontSize: '1.1rem' }}>{vehicles?.length || 0}</div>
             <div className="label-mono text-muted">Rides</div>
           </div>
         </div>
 
-        <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--color-border)' }}>
           <FollowLists userId={profile.id} />
           <UserBadges userId={profile.id} />
         </div>
@@ -120,7 +117,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
       </h2>
 
       {(!vehicles || vehicles.length === 0) ? (
-        <div className="glass" style={{ padding: '40px 32px', textAlign: 'center' }}>
+        <div className="panel" style={{ padding: '40px 32px', textAlign: 'center' }}>
           <p className="text-muted-light">No vehicles in this garage yet.</p>
         </div>
       ) : (
@@ -129,9 +126,9 @@ export default async function UserProfilePage({ params }: { params: Promise<{ us
             <Link
               key={vehicle.id}
               href={`/user/${username}/${vehicle.slug}`}
-              className="glass overflow-hidden card-hover group"
+              className="panel overflow-hidden card-hover group"
             >
-              <div style={{ aspectRatio: '2 / 1', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+              <div style={{ aspectRatio: '2 / 1', overflow: 'hidden', background: 'var(--color-surface-light)' }}>
                 {vehicle.primary_image_url ? (
                   <img
                     src={vehicle.primary_image_url}

@@ -73,7 +73,7 @@ export default function CreateShopPage() {
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Add a <span className="gradient-text">Shop</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '28px' }}>List a shop so other members can tag it on their builds.</p>
 
-      <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px' }}>
+      <form onSubmit={handleSubmit} className="panel" style={{ padding: '28px' }}>
         <div style={{ marginBottom: '16px' }}>
           <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>Shop Name *</label>
           <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" placeholder='e.g. "Dallas Performance"' required maxLength={120} />
@@ -85,7 +85,7 @@ export default function CreateShopPage() {
         </div>
 
         <div style={{ marginBottom: '16px' }}>
-          <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(autocomplete via Google Maps)</span></label>
+          <label className="label-mono" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: 'var(--color-muted)', fontWeight: 400, textTransform: 'none' }}>(autocomplete via Google Maps)</span></label>
           <AddressAutocomplete
             placeholder="Start typing the shop's address..."
             onChange={(a: ParsedAddress) => setForm(f => ({
@@ -141,9 +141,9 @@ export default function CreateShopPage() {
                 onClick={() => toggleSpecialty(s)}
                 style={{
                   padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: form.specialties.includes(s) ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
-                  color: form.specialties.includes(s) ? '#2dd4bf' : '#6b7280',
-                  outline: form.specialties.includes(s) ? '1px solid rgba(45,212,191,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.specialties.includes(s) ? 'rgba(242,169,0,0.12)' : 'var(--color-surface-lowest)',
+                  color: form.specialties.includes(s) ? 'var(--color-accent)' : 'var(--color-muted)',
+                  outline: form.specialties.includes(s) ? '1px solid rgba(242,169,0,0.3)' : '1px solid var(--color-border)',
                 }}
               >
                 {s}
@@ -153,7 +153,7 @@ export default function CreateShopPage() {
         </div>
 
         {error && (
-          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444', fontSize: '13px' }}>{error}</div>
+          <div style={{ background: 'rgba(229,72,77,0.1)', border: '1px solid rgba(229,72,77,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: 'var(--color-danger)', fontSize: '13px' }}>{error}</div>
         )}
 
         <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.5 : 1 }}>

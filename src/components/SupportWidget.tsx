@@ -17,8 +17,8 @@ export default function SupportWidget() {
           width: '48px',
           height: '48px',
           borderRadius: '50%',
-          background: '#0f766e',
-          border: '1px solid #2dd4bf',
+          background: 'var(--color-accent-deep)',
+          border: '1px solid var(--color-accent)',
           color: 'white',
           fontSize: '20px',
           cursor: 'pointer',
@@ -26,7 +26,7 @@ export default function SupportWidget() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 0 20px rgba(45,212,191,0.3)',
+          boxShadow: '0 0 20px rgba(242,169,0,0.3)',
           transition: 'all 0.2s',
         }}
         aria-label="Support"
@@ -43,9 +43,9 @@ export default function SupportWidget() {
             left: '24px',
             width: '320px',
             borderRadius: '12px',
-            background: 'rgba(18,18,30,0.95)',
+            background: 'var(--color-surface-lowest)',
             backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(255,255,255,0.06)',
+            border: '1px solid var(--color-border)',
             padding: '24px',
             zIndex: 999,
             boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
@@ -58,17 +58,17 @@ export default function SupportWidget() {
             <a
               href="mailto:support@thescene.fyi?subject=Bug Report"
               className="font-semibold"
-              style={{ color: '#2dd4bf' }}
+              style={{ color: 'var(--color-accent)' }}
             >
               Report it here
             </a>
           </p>
 
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '12px' }}>
+          <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '12px' }}>
             <p className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>Or reach us directly:</p>
             <a
               href="mailto:support@thescene.fyi"
-              style={{ fontSize: '0.85rem', fontWeight: 600, color: '#2dd4bf' }}
+              style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-accent)' }}
             >
               support@thescene.fyi
             </a>

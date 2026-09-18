@@ -27,9 +27,9 @@ function project(lat: number, lng: number): { x: number; y: number } | null {
 type EntityType = 'events' | 'clubs' | 'shops'
 
 const CONFIG: Record<EntityType, { color: string; label: string }> = {
-  events: { color: '45,212,191', label: 'shows' },
-  clubs: { color: '167,139,250', label: 'clubs' },
-  shops: { color: '139,92,246', label: 'shops' },
+  events: { color: '242,169,0', label: 'shows' },
+  clubs: { color: '169,188,205', label: 'clubs' },
+  shops: { color: '142,163,184', label: 'shops' },
 }
 
 interface Dot { x: number; y: number; label: string; count: number; intensity: number }
@@ -124,10 +124,10 @@ export default function SceneHeatmap({ type, title }: Props) {
   }, [type])
 
   return (
-    <div className="glass" style={{ padding: '16px', overflow: 'hidden', borderRadius: '12px' }}>
+    <div className="panel" style={{ padding: '16px', overflow: 'hidden', borderRadius: '12px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
         <span className="eyebrow">{title}</span>
-        <span className="spec" style={{ fontSize: '11px', color: '#6b7280' }}>
+        <span className="spec" style={{ fontSize: '11px', color: 'var(--color-muted)' }}>
           {total} {total === 1 ? cfg.label.slice(0, -1) : cfg.label}
         </span>
       </div>
@@ -140,7 +140,7 @@ export default function SceneHeatmap({ type, title }: Props) {
           strokeLinejoin="round"
         />
         {dots.length === 0 && total === 0 && (
-          <text x="480" y="300" textAnchor="middle" fill="#6b7280" fontSize="14">
+          <text x="480" y="300" textAnchor="middle" fill="var(--color-muted)" fontSize="14">
             No {cfg.label} posted yet
           </text>
         )}
@@ -167,9 +167,9 @@ export default function SceneHeatmap({ type, title }: Props) {
           const textX = boxX + W / 2
           return (
             <g pointerEvents="none">
-              <rect x={boxX} y={boxY} width={W} height={H} rx="8" fill="rgba(12,12,20,0.96)" stroke={`rgba(${cfg.color},0.45)`} strokeWidth="1.5" />
+              <rect x={boxX} y={boxY} width={W} height={H} rx="8" fill="rgba(15,16,18,0.96)" stroke={`rgba(${cfg.color},0.45)`} strokeWidth="1.5" />
               <text x={textX} y={boxY + 22} textAnchor="middle" fill={`rgb(${cfg.color})`} fontSize="18" fontWeight="700">{tooltip.label}</text>
-              <text x={textX} y={boxY + 42} textAnchor="middle" fill="#cbd5e1" fontSize="14">
+              <text x={textX} y={boxY + 42} textAnchor="middle" fill="var(--color-foreground-soft)" fontSize="14">
                 {tooltip.count} {tooltip.count === 1 ? cfg.label.slice(0, -1) : cfg.label}
               </text>
             </g>
@@ -177,7 +177,7 @@ export default function SceneHeatmap({ type, title }: Props) {
         })()}
       </svg>
       {missing > 0 && (
-        <p style={{ fontSize: '10px', color: '#6b7280', marginTop: '8px', textAlign: 'center' }}>
+        <p style={{ fontSize: '10px', color: 'var(--color-muted)', marginTop: '8px', textAlign: 'center' }}>
           {missing} not geocoded yet — edit the record and re-save the address to drop a pin.
         </p>
       )}

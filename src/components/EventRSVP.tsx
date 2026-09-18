@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 const STATUSES = [
-  { value: 'going', label: "I'm Going", color: '#22c55e', bg: 'rgba(34,197,94,0.15)', border: 'rgba(34,197,94,0.3)' },
-  { value: 'maybe', label: 'Might Go', color: '#2dd4bf', bg: 'rgba(45,212,191,0.1)', border: 'rgba(45,212,191,0.2)' },
-  { value: 'not_going', label: "Can't Make It", color: '#6b7280', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.06)' },
+  { value: 'going', label: "I'm Going", color: 'var(--color-success)', bg: 'rgba(86,194,113,0.15)', border: 'rgba(86,194,113,0.3)' },
+  { value: 'maybe', label: 'Might Go', color: 'var(--color-accent)', bg: 'rgba(242,169,0,0.1)', border: 'rgba(242,169,0,0.2)' },
+  { value: 'not_going', label: "Can't Make It", color: 'var(--color-muted)', bg: 'var(--color-surface-light)', border: 'var(--color-border)' },
 ]
 
 export default function EventRSVP({ eventId }: { eventId: string }) {
@@ -66,9 +66,9 @@ export default function EventRSVP({ eventId }: { eventId: string }) {
             style={{
               padding: '8px 18px', borderRadius: '20px', cursor: 'pointer',
               fontSize: '12px', fontWeight: 600, transition: 'all 0.2s',
-              background: isSelected ? s.bg : 'rgba(18,18,30,0.5)',
-              border: `1px solid ${isSelected ? s.border : 'rgba(255,255,255,0.08)'}`,
-              color: isSelected ? s.color : '#9ca3af',
+              background: isSelected ? s.bg : 'var(--color-surface-lowest)',
+              border: `1px solid ${isSelected ? s.border : 'var(--color-border)'}`,
+              color: isSelected ? s.color : 'var(--color-muted-light)',
               opacity: loading ? 0.5 : 1,
               minHeight: '44px',
             }}

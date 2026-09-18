@@ -85,7 +85,7 @@ export default function EventsPage() {
       </div>
 
       {/* Search + date range */}
-      <div className="glass" style={{ padding: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div className="panel" style={{ padding: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <input
           type="text"
           value={locationFilter}
@@ -97,7 +97,7 @@ export default function EventsPage() {
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
           <span className="eyebrow">Date range</span>
           <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="input" style={{ flex: '1 1 140px', maxWidth: '200px', minHeight: '44px' }} />
-          <span style={{ fontSize: '12px', color: '#6b7280' }}>to</span>
+          <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>to</span>
           <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="input" style={{ flex: '1 1 140px', maxWidth: '200px', minHeight: '44px' }} />
           {(dateFrom || dateTo) && (
             <button onClick={() => { setDateFrom(''); setDateTo('') }} className="btn-outline" style={{ padding: '8px 14px', fontSize: '12px', minHeight: '44px' }}>Clear</button>
@@ -113,17 +113,17 @@ export default function EventsPage() {
       {loading ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {[1,2,3].map(i => (
-            <div key={i} className="glass overflow-hidden animate-pulse">
-              <div style={{ height: '160px', background: 'rgba(26,26,46,0.5)' }} />
+            <div key={i} className="panel overflow-hidden animate-pulse">
+              <div style={{ height: '160px', background: 'var(--color-surface-light)' }} />
               <div style={{ padding: '16px' }}>
-                <div style={{ height: '14px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
-                <div style={{ height: '12px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '50%' }} />
+                <div style={{ height: '14px', background: 'var(--color-surface-light)', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
+                <div style={{ height: '12px', background: 'var(--color-surface-light)', borderRadius: '4px', width: '50%' }} />
               </div>
             </div>
           ))}
         </div>
       ) : filteredEvents.length === 0 ? (
-        <div className="glass text-center" style={{ padding: '48px 32px' }}>
+        <div className="panel text-center" style={{ padding: '48px 32px' }}>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No upcoming events</h2>
           <p className="text-muted-light" style={{ marginBottom: '20px', fontSize: '0.9rem' }}>Be the first to list a car show or meet on The Scene.</p>
           <Link href="/events/create" className="btn-primary">Create an Event</Link>
@@ -136,17 +136,17 @@ export default function EventsPage() {
             const day = eventDate.getDate()
 
             return (
-              <Link key={event.id} href={`/events/${event.slug}`} className="glass overflow-hidden card-hover group">
-                <div style={{ height: '160px', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+              <Link key={event.id} href={`/events/${event.slug}`} className="panel overflow-hidden card-hover group">
+                <div style={{ height: '160px', position: 'relative', overflow: 'hidden', background: 'var(--color-surface-light)' }}>
                   {event.cover_image_url ? (
                     <img src={event.cover_image_url} alt={event.title} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(45,212,191,0.08), rgba(139,92,246,0.08))' }} />
+                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(242,169,0,0.08), rgba(142,163,184,0.08))' }} />
                   )}
                   {/* Date badge */}
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(12,12,20,0.9)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
-                    <div className="spec" style={{ fontSize: '10px', color: '#2dd4bf' }}>{month}</div>
-                    <div className="spec" style={{ fontSize: '20px', lineHeight: 1, color: '#e4e1ed' }}>{day}</div>
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(15,16,18,0.9)', border: '1px solid var(--color-border)', borderRadius: '8px', padding: '6px 12px', textAlign: 'center' }}>
+                    <div className="spec" style={{ fontSize: '10px', color: 'var(--color-accent)' }}>{month}</div>
+                    <div className="spec" style={{ fontSize: '20px', lineHeight: 1, color: 'var(--color-foreground)' }}>{day}</div>
                   </div>
                   {/* Live badge */}
                   {event.status === 'active' && (

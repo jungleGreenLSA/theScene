@@ -190,15 +190,15 @@ export default function ActivityPage() {
       onClick={() => setActiveTab(key)}
       style={{
         padding: '10px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-        background: activeTab === key ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
-        color: activeTab === key ? '#2dd4bf' : '#9ca3af',
+        background: activeTab === key ? 'rgba(242,169,0,0.12)' : 'var(--color-surface-lowest)',
+        color: activeTab === key ? 'var(--color-accent)' : 'var(--color-muted-light)',
         fontWeight: 600, fontSize: '13px',
-        outline: activeTab === key ? '2px solid #2dd4bf' : '1px solid rgba(255,255,255,0.06)',
+        outline: activeTab === key ? '2px solid var(--color-accent)' : '1px solid var(--color-border)',
         display: 'flex', alignItems: 'center', gap: '8px',
       }}
     >
       {label}
-      <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.08)', padding: '2px 8px', borderRadius: '10px' }}>{count}</span>
+      <span style={{ fontSize: '11px', background: 'var(--color-border)', padding: '2px 8px', borderRadius: '10px' }}>{count}</span>
     </button>
   )
 
@@ -207,7 +207,7 @@ export default function ActivityPage() {
   )
 
   const emptyState = (text: string) => (
-    <div className="glass" style={{ padding: '40px 24px', textAlign: 'center' }}>
+    <div className="panel" style={{ padding: '40px 24px', textAlign: 'center' }}>
       <p className="text-muted-light" style={{ fontSize: '13px' }}>{text}</p>
     </div>
   )
@@ -228,7 +228,7 @@ export default function ActivityPage() {
       </div>
 
       {message && (
-        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: '#22c55e', fontSize: '13px' }}>
+        <div style={{ background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: 'var(--color-success)', fontSize: '13px' }}>
           {message}
         </div>
       )}
@@ -246,11 +246,11 @@ export default function ActivityPage() {
       {activeTab === 'listings' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {listings.length === 0 ? emptyState("You haven't posted any marketplace listings yet.") : listings.map(l => (
-            <div key={l.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+            <div key={l.id} className="panel" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/marketplace/${l.id}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{l.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  <span className="spec" style={{ color: '#2dd4bf', fontWeight: 600 }}>${l.price}</span>
+                  <span className="spec" style={{ color: 'var(--color-accent)', fontWeight: 600 }}>${l.price}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.listing_type}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {l.status}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {fmtDate(l.created_at)}</span>
@@ -265,7 +265,7 @@ export default function ActivityPage() {
       {activeTab === 'events' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {events.length === 0 ? emptyState("You haven't created any events yet.") : events.map(e => (
-            <div key={e.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+            <div key={e.id} className="panel" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/events/${e.slug}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{e.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
@@ -283,7 +283,7 @@ export default function ActivityPage() {
       {activeTab === 'clubs' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {clubs.length === 0 ? emptyState("You haven't started any clubs yet.") : clubs.map(c => (
-            <div key={c.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+            <div key={c.id} className="panel" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/clubs/${c.slug}`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{c.name}</Link>
                 {c.description && <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.description}</p>}
@@ -298,11 +298,11 @@ export default function ActivityPage() {
       {activeTab === 'wwydPosts' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {wwydPosts.length === 0 ? emptyState("You haven't posted any WWYD questions yet.") : wwydPosts.map(p => (
-            <div key={p.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+            <div key={p.id} className="panel" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 <Link href={`/wwyd`} className="text-foreground" style={{ fontSize: '14px', fontWeight: 600, display: 'block' }}>{p.title}</Link>
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  {p.budget && <span style={{ color: '#22c55e' }}>{p.budget} · </span>}
+                  {p.budget && <span style={{ color: 'var(--color-success)' }}>{p.budget} · </span>}
                   <span className="text-muted">{fmtDate(p.created_at)}</span>
                 </p>
               </div>
@@ -315,7 +315,7 @@ export default function ActivityPage() {
       {activeTab === 'guestbook' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {guestbook.length === 0 ? emptyState("You haven't left any guestbook comments yet.") : guestbook.map(g => (
-            <div key={g.id} className="glass" style={{ padding: '16px 20px' }}>
+            <div key={g.id} className="panel" style={{ padding: '16px 20px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px', marginBottom: '8px' }}>
                 <div style={{ minWidth: 0, flex: 1 }}>
                   {g.vehicle ? (
@@ -338,7 +338,7 @@ export default function ActivityPage() {
       {activeTab === 'wwyd' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {votes.length === 0 ? emptyState("You haven't voted on any WWYD posts yet.") : votes.map(v => (
-            <div key={v.id} className="glass" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
+            <div key={v.id} className="panel" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
               <div style={{ minWidth: 0, flex: 1 }}>
                 {v.post ? (
                   <Link href={`/wwyd`} className="text-foreground" style={{ fontSize: '13px', fontWeight: 600, display: 'block' }}>
@@ -348,7 +348,7 @@ export default function ActivityPage() {
                   <span className="text-muted" style={{ fontSize: '13px' }}>Post removed</span>
                 )}
                 <p className="text-muted-light" style={{ fontSize: '12px', marginTop: '4px' }}>
-                  You voted: <span style={{ color: '#2dd4bf', fontWeight: 600 }}>{v.option?.label || '—'}</span>
+                  You voted: <span style={{ color: 'var(--color-accent)', fontWeight: 600 }}>{v.option?.label || '—'}</span>
                   <span className="text-muted" style={{ marginLeft: '8px' }}>· {fmtDate(v.created_at)}</span>
                 </p>
               </div>
@@ -361,8 +361,8 @@ export default function ActivityPage() {
       {activeTab === 'sightings' && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '14px' }}>
           {sightings.length === 0 ? <div style={{ gridColumn: '1/-1' }}>{emptyState("You haven't posted any sightings yet.")}</div> : sightings.map(s => (
-            <div key={s.id} className="glass overflow-hidden">
-              <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+            <div key={s.id} className="panel overflow-hidden">
+              <div style={{ aspectRatio: '2 / 1', background: 'var(--color-surface-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img
                   src={s.image_url}
                   alt=""
@@ -374,7 +374,7 @@ export default function ActivityPage() {
                     if (parent && !parent.querySelector('.img-fallback')) {
                       const fb = document.createElement('div')
                       fb.className = 'img-fallback'
-                      fb.style.cssText = 'color:#6b7280;font-size:36px'
+                      fb.style.cssText = 'color:var(--color-muted);font-size:36px'
                       fb.textContent = ''
                       parent.appendChild(fb)
                     }
@@ -384,7 +384,7 @@ export default function ActivityPage() {
               <div style={{ padding: '14px' }}>
                 {s.description && <p className="text-foreground" style={{ fontSize: '13px', marginBottom: '6px' }}>{s.description}</p>}
                 <p className="text-muted-light" style={{ fontSize: '11px' }}>{s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid var(--color-border)' }}>
                   <span className="text-muted" style={{ fontSize: '11px' }}>{fmtDate(s.created_at)}</span>
                   {deleteBtn(() => removeSighting(s.id))}
                 </div>

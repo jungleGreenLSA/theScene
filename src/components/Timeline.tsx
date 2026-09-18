@@ -54,10 +54,10 @@ function renderPostContent(text: string | null) {
     const tok = m[0]
     if (tok.startsWith('#')) {
       const tag = tok.slice(1).toLowerCase()
-      out.push(<Link key={i++} href={`/feed?tag=${tag}`} style={{ color: '#2dd4bf', fontWeight: 600 }}>#{tok.slice(1)}</Link>)
+      out.push(<Link key={i++} href={`/feed?tag=${tag}`} style={{ color: 'var(--color-accent)', fontWeight: 600 }}>#{tok.slice(1)}</Link>)
     } else {
       const uname = tok.slice(1)
-      out.push(<Link key={i++} href={`/user/${uname}`} style={{ color: '#2dd4bf', fontWeight: 600 }}>@{uname}</Link>)
+      out.push(<Link key={i++} href={`/user/${uname}`} style={{ color: 'var(--color-accent)', fontWeight: 600 }}>@{uname}</Link>)
     }
     last = start + tok.length
   }
@@ -78,18 +78,18 @@ function renderActivity(a: Activity) {
       const locationText = city && stateFull ? `${city}, ${stateFull}` : city
       return (
         <div>
-          <p style={{ fontSize: '14px', color: '#e2e4e9' }}>
-            <Link href={`/user/${username}`} style={{ fontWeight: 600, color: '#e2e4e9' }}>{name}</Link>
+          <p style={{ fontSize: '14px', color: 'var(--color-foreground)' }}>
+            <Link href={`/user/${username}`} style={{ fontWeight: 600, color: 'var(--color-foreground)' }}>{name}</Link>
             {locationText ? ` from ${locationText}` : ''} joined The Scene
           </p>
           {v && (
-            <Link href={`/user/${username}/${v.slug}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px', padding: '8px', borderRadius: '8px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)', maxWidth: '340px' }}>
-              <div style={{ width: '52px', height: '52px', borderRadius: '6px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0 }}>
+            <Link href={`/user/${username}/${v.slug}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px', padding: '8px', borderRadius: '8px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)', maxWidth: '340px' }}>
+              <div style={{ width: '52px', height: '52px', borderRadius: '6px', overflow: 'hidden', background: 'var(--color-surface-light)', flexShrink: 0 }}>
                 {v.image_url && <img src={v.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
               </div>
               <div style={{ minWidth: 0 }}>
-                <p style={{ fontSize: '12px', color: '#a78bfa', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.year} {v.make} {v.model}</p>
-                {v.color && <p style={{ fontSize: '11px', color: '#6b7280' }}>{v.color}</p>}
+                <p style={{ fontSize: '12px', color: 'var(--color-steel-light)', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.year} {v.make} {v.model}</p>
+                {v.color && <p style={{ fontSize: '11px', color: 'var(--color-muted)' }}>{v.color}</p>}
               </div>
             </Link>
           )}
@@ -98,21 +98,21 @@ function renderActivity(a: Activity) {
     }
     case 'added_vehicle':
       return (
-        <p style={{ fontSize: '14px', color: '#e2e4e9' }}>
-          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: '#e2e4e9' }}>{name}</Link>
-          {' added their '}<span style={{ color: '#a78bfa', fontWeight: 600 }}>{m.year} {m.make} {m.model}</span>
-          {m.color && <span style={{ color: '#9ca3af' }}> in {m.color}</span>}
+        <p style={{ fontSize: '14px', color: 'var(--color-foreground)' }}>
+          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: 'var(--color-foreground)' }}>{name}</Link>
+          {' added their '}<span style={{ color: 'var(--color-steel-light)', fontWeight: 600 }}>{m.year} {m.make} {m.model}</span>
+          {m.color && <span style={{ color: 'var(--color-muted-light)' }}> in {m.color}</span>}
         </p>
       )
     case 'added_photo':
       return (
         <div>
-          <p style={{ fontSize: '14px', color: '#e2e4e9', marginBottom: m.image_url ? '12px' : 0 }}>
-            <Link href={`/user/${username}`} style={{ fontWeight: 600, color: '#e2e4e9' }}>{name}</Link>
-            {' added a photo of their '}<span style={{ color: '#a78bfa', fontWeight: 600 }}>{m.year} {m.make} {m.model}</span>
+          <p style={{ fontSize: '14px', color: 'var(--color-foreground)', marginBottom: m.image_url ? '12px' : 0 }}>
+            <Link href={`/user/${username}`} style={{ fontWeight: 600, color: 'var(--color-foreground)' }}>{name}</Link>
+            {' added a photo of their '}<span style={{ color: 'var(--color-steel-light)', fontWeight: 600 }}>{m.year} {m.make} {m.model}</span>
           </p>
           {m.image_url && (
-            <div style={{ borderRadius: '8px', overflow: 'hidden', maxHeight: '300px', background: 'rgba(26,26,46,0.5)' }}>
+            <div style={{ borderRadius: '8px', overflow: 'hidden', maxHeight: '300px', background: 'var(--color-surface-light)' }}>
               <img src={m.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: '300px' }} />
             </div>
           )}
@@ -120,32 +120,32 @@ function renderActivity(a: Activity) {
       )
     case 'updated_vehicle':
       return (
-        <p style={{ fontSize: '14px', color: '#e2e4e9' }}>
-          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: '#e2e4e9' }}>{name}</Link>
-          {' updated their '}<span style={{ color: '#a78bfa', fontWeight: 600 }}>{m.year} {m.make} {m.model}</span>
+        <p style={{ fontSize: '14px', color: 'var(--color-foreground)' }}>
+          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: 'var(--color-foreground)' }}>{name}</Link>
+          {' updated their '}<span style={{ color: 'var(--color-steel-light)', fontWeight: 600 }}>{m.year} {m.make} {m.model}</span>
         </p>
       )
     case 'followed_user':
       return (
-        <p style={{ fontSize: '14px', color: '#e2e4e9' }}>
-          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: '#e2e4e9' }}>{name}</Link>
+        <p style={{ fontSize: '14px', color: 'var(--color-foreground)' }}>
+          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: 'var(--color-foreground)' }}>{name}</Link>
           {' started following '}
-          <Link href={`/user/${m.following_username}`} style={{ fontWeight: 600, color: '#2dd4bf' }}>@{m.following_username}</Link>
+          <Link href={`/user/${m.following_username}`} style={{ fontWeight: 600, color: 'var(--color-accent)' }}>@{m.following_username}</Link>
         </p>
       )
     case 'created_event':
     case 'posted_car_show':
       return (
-        <p style={{ fontSize: '14px', color: '#e2e4e9' }}>
-          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: '#e2e4e9' }}>{name}</Link>
+        <p style={{ fontSize: '14px', color: 'var(--color-foreground)' }}>
+          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: 'var(--color-foreground)' }}>{name}</Link>
           {' posted a car show: '}<span style={{ fontWeight: 600 }}>{m.title}</span>
-          {m.city && m.state && <span style={{ color: '#6b7280' }}> · {m.city}, {m.state}</span>}
+          {m.city && m.state && <span style={{ color: 'var(--color-muted)' }}> · {m.city}, {m.state}</span>}
         </p>
       )
     default:
       return (
-        <p style={{ fontSize: '14px', color: '#e2e4e9' }}>
-          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: '#e2e4e9' }}>{name}</Link>
+        <p style={{ fontSize: '14px', color: 'var(--color-foreground)' }}>
+          <Link href={`/user/${username}`} style={{ fontWeight: 600, color: 'var(--color-foreground)' }}>{name}</Link>
           {' was active on The Scene'}
         </p>
       )
@@ -303,11 +303,11 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
   }
 
   const toggle = !filterTag && (
-    <div style={{ display: 'inline-flex', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '3px', marginBottom: '16px' }}>
-      <button onClick={() => setMode('following')} style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'following' ? 'rgba(45,212,191,0.15)' : 'transparent', color: mode === 'following' ? '#2dd4bf' : '#6b7280' }}>
+    <div style={{ display: 'inline-flex', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)', borderRadius: '8px', padding: '3px', marginBottom: '16px' }}>
+      <button onClick={() => setMode('following')} style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'following' ? 'rgba(242,169,0,0.15)' : 'transparent', color: mode === 'following' ? 'var(--color-accent)' : 'var(--color-muted)' }}>
         Following {mode === 'following' && followingCount > 0 && `(${followingCount})`}
       </button>
-      <button onClick={() => setMode('all')} style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'all' ? 'rgba(45,212,191,0.15)' : 'transparent', color: mode === 'all' ? '#2dd4bf' : '#6b7280' }}>
+      <button onClick={() => setMode('all')} style={{ padding: '6px 14px', borderRadius: '6px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600, background: mode === 'all' ? 'rgba(242,169,0,0.15)' : 'transparent', color: mode === 'all' ? 'var(--color-accent)' : 'var(--color-muted)' }}>
         All
       </button>
     </div>
@@ -317,7 +317,7 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {[1, 2, 3].map(i => (
-          <div key={i} className="glass animate-pulse" style={{ padding: '20px', height: '100px' }} />
+          <div key={i} className="panel animate-pulse" style={{ padding: '20px', height: '100px' }} />
         ))}
       </div>
     )
@@ -327,11 +327,11 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
     return (
       <div>
         {toggle}
-        <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
+        <div className="panel" style={{ padding: '48px 32px', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '8px' }}>
             {filterTag ? `No posts tagged #${filterTag} yet` : mode === 'following' ? 'Quiet on your side of the scene' : 'No activity yet'}
           </h2>
-          <p style={{ fontSize: '13px', color: '#8892a4' }}>
+          <p style={{ fontSize: '13px', color: 'var(--color-muted-light)' }}>
             {filterTag ? 'Be the first to post with this hashtag.'
               : mode === 'following' ? (followingCount === 0 ? "You're not following anyone yet. Hit Explore to find people to follow." : "The people you follow haven't posted anything recently. Switch to All to see the wider scene.")
               : 'Share a photo of your build or a mod you just finished.'}
@@ -345,44 +345,44 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       {toggle}
       {filterTag && (
-        <div className="glass" style={{ padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <p style={{ fontSize: '13px', color: '#e2e4e9' }}>Showing posts tagged <span style={{ color: '#2dd4bf', fontWeight: 700 }}>#{filterTag}</span></p>
-          <Link href="/feed" style={{ fontSize: '12px', color: '#6b7280' }}>Clear filter</Link>
+        <div className="panel" style={{ padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <p style={{ fontSize: '13px', color: 'var(--color-foreground)' }}>Showing posts tagged <span style={{ color: 'var(--color-accent)', fontWeight: 700 }}>#{filterTag}</span></p>
+          <Link href="/feed" style={{ fontSize: '12px', color: 'var(--color-muted)' }}>Clear filter</Link>
         </div>
       )}
 
       {rows.map(r => {
         if (r.kind === 'post') {
           return (
-            <div key={`p-${r.id}`} className="glass" style={{ padding: '16px 18px' }}>
+            <div key={`p-${r.id}`} className="panel" style={{ padding: '16px 18px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
                 <Link href={`/user/${r.author?.username}`} style={{ position: 'relative', flexShrink: 0 }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {r.author?.avatar_url ? (
                       <img src={r.author.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
-                      <span style={{ fontSize: '14px', color: '#6b7280' }}>{r.author?.username?.charAt(0).toUpperCase()}</span>
+                      <span style={{ fontSize: '14px', color: 'var(--color-muted)' }}>{r.author?.username?.charAt(0).toUpperCase()}</span>
                     )}
                   </div>
                 </Link>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <Link href={`/user/${r.author?.username}`} style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9' }}>
+                  <Link href={`/user/${r.author?.username}`} style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-foreground)' }}>
                     {r.author?.display_name || r.author?.username}
                   </Link>
-                  <p style={{ fontSize: '11px', color: '#6b7280' }}>{timeAgo(r.created_at)}</p>
+                  <p style={{ fontSize: '11px', color: 'var(--color-muted)' }}>{timeAgo(r.created_at)}</p>
                 </div>
                 {currentUserId === r.author_id && (
-                  <button onClick={() => removePost(r.id)} style={{ background: 'none', border: 'none', color: '#6b7280', fontSize: '11px', cursor: 'pointer' }}>Delete</button>
+                  <button onClick={() => removePost(r.id)} style={{ background: 'none', border: 'none', color: 'var(--color-muted)', fontSize: '11px', cursor: 'pointer' }}>Delete</button>
                 )}
               </div>
 
               {r.content && (
-                <p style={{ fontSize: '14px', color: '#d1d5db', whiteSpace: 'pre-wrap', lineHeight: 1.5, marginBottom: r.image_url ? '10px' : '6px' }}>
+                <p style={{ fontSize: '14px', color: 'var(--color-foreground-soft)', whiteSpace: 'pre-wrap', lineHeight: 1.5, marginBottom: r.image_url ? '10px' : '6px' }}>
                   {renderPostContent(r.content)}
                 </p>
               )}
               {r.image_url && (
-                <div style={{ borderRadius: '8px', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', marginBottom: '8px', maxHeight: '500px' }}>
+                <div style={{ borderRadius: '8px', overflow: 'hidden', background: 'var(--color-surface-light)', marginBottom: '8px', maxHeight: '500px' }}>
                   <img src={r.image_url} alt="" style={{ width: '100%', maxHeight: '500px', objectFit: 'cover' }} />
                 </div>
               )}
@@ -390,7 +390,7 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '14px', paddingTop: '6px' }}>
                 <button
                   onClick={() => toggleLove(r)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', padding: 0, fontSize: '13px', fontWeight: 600, color: loved.has(r.id) ? '#ef4444' : '#8892a4' }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', padding: 0, fontSize: '13px', fontWeight: 600, color: loved.has(r.id) ? 'var(--color-danger)' : 'var(--color-muted-light)' }}
                 >
                   {loved.has(r.id) ? '❤️' : '🤍'} <span>{r.love_count || 0}</span>
                 </button>
@@ -402,13 +402,13 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
         // activity row
         const a = r
         return (
-          <div key={`a-${a.id}`} className="glass" style={{ padding: '16px 20px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+          <div key={`a-${a.id}`} className="panel" style={{ padding: '16px 20px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
             <Link href={`/user/${a.actor?.username}`} style={{ position: 'relative', flexShrink: 0 }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {a.actor?.avatar_url ? (
                   <img src={a.actor.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <span style={{ fontSize: '14px', color: '#6b7280' }}>{a.actor?.username?.charAt(0).toUpperCase() || '?'}</span>
+                  <span style={{ fontSize: '14px', color: 'var(--color-muted)' }}>{a.actor?.username?.charAt(0).toUpperCase() || '?'}</span>
                 )}
               </div>
             </Link>
@@ -417,11 +417,11 @@ export default function Timeline({ refreshKey, filterTag }: Props) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginTop: '8px' }}>
                 <button
                   onClick={() => toggleActivityHeart(a.id)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', padding: 0, fontSize: '12px', fontWeight: 600, color: heartedActivities.has(a.id) ? '#ef4444' : '#8892a4' }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', padding: 0, fontSize: '12px', fontWeight: 600, color: heartedActivities.has(a.id) ? 'var(--color-danger)' : 'var(--color-muted-light)' }}
                 >
                   {heartedActivities.has(a.id) ? '❤️' : '🤍'} <span>{activityHeartCounts[a.id] || 0}</span>
                 </button>
-                <span style={{ fontSize: '11px', color: '#6b7280' }}>{timeAgo(a.created_at)}</span>
+                <span style={{ fontSize: '11px', color: 'var(--color-muted)' }}>{timeAgo(a.created_at)}</span>
               </div>
             </div>
           </div>

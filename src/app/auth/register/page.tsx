@@ -3,62 +3,53 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import GoogleButton from '@/components/GoogleButton'
+
+const PERKS = [
+  'Free. There’s no paid tier — every member gets every feature.',
+  'Unlimited cars and photos in your garage.',
+  'Build journal, analytics, collections, marketplace, events, clubs.',
+]
 
 export default function RegisterPage() {
-  const supabaseCheck = createClient()
-  useEffect(() => {
-    supabaseCheck.auth.getSession().then(({ data: { session } }) => {
-      if (session) window.location.href = '/feed'
-    })
-  }, [])
-
+  const supabase = createClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [phone, setPhone] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
-  const supabase = createClient()
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) window.location.href = '/feed'
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     setError('')
 
-    if (username.length < 3) {
-      setError('Username must be at least 3 characters')
-      setLoading(false)
-      return
-    }
-    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-      setError('Username can only contain letters, numbers, and underscores')
-      setLoading(false)
-      return
-    }
+    const handle = username.trim().toLowerCase()
+    if (handle.length < 3) { setError('Username must be at least 3 characters'); return }
+    if (!/^[a-z0-9_]+$/.test(handle)) { setError('Username can only contain letters, numbers, and underscores'); return }
 
-    let result
-    if (authMethod === 'phone') {
-      result = await supabase.auth.signInWithOtp({
-        phone,
-        options: { data: { username: username.toLowerCase() } },
-      })
-    } else {
-      result = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { username: username.toLowerCase(), first_name: firstName, last_name: lastName, full_name: `${firstName} ${lastName}`.trim() },
-          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback`,
-        },
-      })
-    }
+    setLoading(true)
+    const site = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { username: handle, first_name: firstName.trim(), last_name: lastName.trim(), full_name: `${firstName} ${lastName}`.trim() },
+        emailRedirectTo: `${site}/auth/callback`,
+      },
+    })
 
-    if (result.error) {
-      setError(result.error.message)
+    if (error) {
+      setError(error.message)
       setLoading(false)
     } else {
       setSuccess(true)
@@ -66,154 +57,89 @@ export default function RegisterPage() {
     }
   }
 
-  function RedirectToHome() {
-    useEffect(() => {
-      const t = setTimeout(() => { window.location.href = 'https://thescene.fyi' }, 2500)
-      return () => clearTimeout(t)
-    }, [])
-    return null
-  }
-
-  const handleOAuth = async (provider: 'google' | 'discord') => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://thescene.fyi'}/auth/callback`,
-        queryParams: { prompt: 'select_account' },
-      },
-    })
-    if (error) setError(error.message)
-  }
-
-  // A tiny toast appears and the page redirects to the homepage — no
-  // full-screen "Check Your Email" interstitial.
   if (success) {
     return (
-      <>
-        <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
-          <div className="glass" style={{ padding: '20px 24px', maxWidth: '380px', width: '100%', display: 'flex', alignItems: 'center', gap: '14px', borderColor: 'rgba(34,197,94,0.25)' }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: '14px', fontWeight: 700, color: '#e2e4e9' }}>Check your email!</p>
-              <p style={{ fontSize: '12px', color: '#8892a4', marginTop: '2px' }}>Verification link sent to {email}. Redirecting home...</p>
-            </div>
-          </div>
+      <div style={{ minHeight: 'calc(100vh - 58px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+        <div className="panel panel-accent" style={{ padding: '32px 28px', maxWidth: '440px', width: '100%' }}>
+          <p className="eyebrow" style={{ marginBottom: '10px' }}>One more step</p>
+          <h1 style={{ fontSize: '2.2rem' }}>Check your email</h1>
+          <p className="text-muted-light" style={{ marginTop: '10px', fontSize: '14px', lineHeight: 1.55 }}>
+            We sent a confirmation link to <span style={{ color: 'var(--color-foreground)', fontWeight: 600 }}>{email}</span>. Tap it and you&apos;ll land straight in your garage.
+          </p>
+          <p className="spec" style={{ marginTop: '18px', fontSize: '12px' }}>Nothing there? Check spam, or <Link href="/auth/login">sign in</Link> once you&apos;ve confirmed.</p>
         </div>
-        <RedirectToHome />
-      </>
+      </div>
     )
   }
 
   return (
-    <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 64px)', padding: '80px 32px 32px' }}>
-      <div style={{ maxWidth: '440px', width: '100%' }}>
-        <div className="text-center" style={{ marginBottom: '32px' }}>
-          <h1 className="text-3xl font-bold">
-            Join <span className="gradient-text">The Scene</span>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: 'clamp(32px, 6vw, 72px) 20px 48px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '36px', alignItems: 'start' }}>
+        {/* Pitch */}
+        <div>
+          <p className="eyebrow" style={{ marginBottom: '14px' }}>Membership · Free</p>
+          <h1 style={{ fontSize: 'clamp(2.6rem, 7vw, 4.4rem)', lineHeight: 0.92, fontStyle: 'italic', fontWeight: 800 }}>
+            Get your car<br />its own <span style={{ color: 'var(--color-accent)' }}>page.</span>
           </h1>
-          <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>Create your garage and show off your build</p>
+          <ul style={{ listStyle: 'none', marginTop: '26px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {PERKS.map(p => (
+              <li key={p} style={{ display: 'grid', gridTemplateColumns: '18px 1fr', gap: '10px', fontSize: '15px', color: 'var(--color-foreground-soft)' }}>
+                <span className="spec" style={{ color: 'var(--color-accent)' }}>✓</span>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="spec" style={{ marginTop: '26px', fontSize: '12px', maxWidth: '44ch' }}>
+            Takes about a minute. Sign up with Google and we&apos;ll pull your name and photo; you pick your handle next.
+          </p>
         </div>
 
-        <div className="glass" style={{ padding: '36px 32px' }}>
-          {/* OAuth Buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
-            <button
-              onClick={() => handleOAuth('google')}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '12px 20px', borderRadius: '8px', fontSize: '0.85rem', fontWeight: 600, border: 'none', cursor: 'pointer', backgroundColor: 'white', color: '#333' }}
-            >
-              <svg style={{ width: '18px', height: '18px' }} viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-              Sign up with Google
-            </button>
-            <button
-              onClick={() => handleOAuth('discord')}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '12px 20px', borderRadius: '8px', fontSize: '0.85rem', fontWeight: 600, border: 'none', cursor: 'pointer', backgroundColor: '#5865F2', color: 'white' }}
-            >
-              <svg style={{ width: '18px', height: '18px' }} viewBox="0 0 24 24" fill="white">
-                <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-              </svg>
-              Sign up with Discord
-            </button>
-          </div>
+        {/* Form */}
+        <div className="panel panel-accent" style={{ padding: '28px 26px' }}>
+          <GoogleButton label="Sign up with Google" onError={setError} />
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
-            <span className="text-xs text-muted uppercase tracking-wider">or</span>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
-          </div>
-
-          {/* Auth method toggle */}
-          <div style={{ display: 'flex', marginBottom: '20px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <button
-              type="button"
-              onClick={() => setAuthMethod('email')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'email' ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)', color: authMethod === 'email' ? '#2dd4bf' : '#6b7280' }}
-            >
-              Email
-            </button>
-            <button
-              type="button"
-              onClick={() => setAuthMethod('phone')}
-              style={{ flex: 1, padding: '10px', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer', background: authMethod === 'phone' ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)', color: authMethod === 'phone' ? '#2dd4bf' : '#6b7280' }}
-            >
-              Phone
-            </button>
-          </div>
+          <div className="auth-divider"><span>or with email</span></div>
 
           <form onSubmit={handleRegister}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>First Name *</label>
-                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input" placeholder="Jeff" required />
+                <label htmlFor="first" className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>First name</label>
+                <input id="first" type="text" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input" placeholder="Jeff" required />
               </div>
               <div>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name</label>
-                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className="input" placeholder="Optional" />
+                <label htmlFor="last" className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Last name</label>
+                <input id="last" type="text" autoComplete="family-name" value={lastName} onChange={(e) => setLastName(e.target.value)} className="input" placeholder="Optional" />
               </div>
             </div>
 
-            <div style={{ marginBottom: '16px' }}>
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Username</label>
-              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="input" placeholder="ex: chevyGuy95" required minLength={3} />
-              <p className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>This will be your profile URL</p>
+            <div style={{ marginBottom: '14px' }}>
+              <label htmlFor="username" className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Username</label>
+              <input id="username" type="text" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} className="input" placeholder="ex: chevyguy95" required minLength={3} />
+              <p className="spec" style={{ fontSize: '11px', marginTop: '5px' }}>thescene.fyi/user/<span style={{ color: 'var(--color-foreground)' }}>{username.trim().toLowerCase() || 'yourname'}</span></p>
             </div>
 
-            {authMethod === 'email' ? (
-              <>
-                <div style={{ marginBottom: '16px' }}>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Email</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="you@example.com" required />
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Password</label>
-                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="Min 8 characters" required minLength={8} />
-                </div>
-              </>
-            ) : (
-              <div style={{ marginBottom: '20px' }}>
-                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Phone Number</label>
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="input" placeholder="+1 (555) 123-4567" required />
-                <p className="text-muted" style={{ fontSize: '11px', marginTop: '4px' }}>Include country code (e.g. +1 for US)</p>
-              </div>
-            )}
+            <div style={{ marginBottom: '14px' }}>
+              <label htmlFor="email" className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Email</label>
+              <input id="email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" placeholder="you@example.com" required />
+            </div>
+            <div style={{ marginBottom: '18px' }}>
+              <label htmlFor="password" className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Password</label>
+              <input id="password" type="password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="At least 8 characters" required minLength={8} />
+            </div>
 
-            {error && (
-              <div className="text-sm" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444' }}>
-                {error}
-              </div>
-            )}
+            {error && <div className="form-error" role="alert">{error}</div>}
 
-            <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', opacity: loading ? 0.5 : 1 }}>
-              {loading ? 'Creating account...' : 'Create Account'}
+            <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', padding: '14px 20px' }}>
+              {loading ? 'Creating your garage…' : 'Create account'}
             </button>
+
+            <p className="spec" style={{ fontSize: '11px', marginTop: '14px', textAlign: 'center' }}>
+              By joining you agree to the <Link href="/terms">terms</Link> and <Link href="/privacy">privacy policy</Link>.
+            </p>
           </form>
 
-          <p className="text-center text-sm text-muted-light" style={{ marginTop: '24px' }}>
-            Already have an account?{' '}
-            <Link href="/auth/login" style={{ color: '#2dd4bf', fontWeight: 600 }}>Sign In</Link>
+          <p className="text-muted-light" style={{ textAlign: 'center', marginTop: '18px', fontSize: '14px', paddingTop: '16px', borderTop: '1px solid var(--color-border)' }}>
+            Already a member? <Link href="/auth/login" style={{ fontWeight: 600 }}>Sign in</Link>
           </p>
         </div>
       </div>

@@ -52,7 +52,7 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="glass" style={{ padding: '16px', marginBottom: '16px' }}>
+    <form onSubmit={submit} className="panel" style={{ padding: '16px', marginBottom: '16px' }}>
       <div style={{ marginBottom: '10px' }}>
         <MentionTextarea
           value={content}
@@ -73,17 +73,17 @@ export default function FeedComposer({ onPosted }: { onPosted: () => void }) {
       {file && (
         <div style={{ marginBottom: '10px', position: 'relative', borderRadius: '8px', overflow: 'hidden', maxHeight: '240px' }}>
           <img src={URL.createObjectURL(file)} alt="" style={{ width: '100%', maxHeight: '240px', objectFit: 'cover' }} />
-          <button type="button" onClick={() => setFile(null)} style={{ position: 'absolute', top: '8px', right: '8px', padding: '4px 10px', borderRadius: '6px', background: 'rgba(12,12,20,0.9)', border: 'none', color: '#e2e4e9', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
+          <button type="button" onClick={() => setFile(null)} style={{ position: 'absolute', top: '8px', right: '8px', padding: '4px 10px', borderRadius: '6px', background: 'rgba(15,16,18,0.9)', border: 'none', color: 'var(--color-foreground)', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Remove</button>
         </div>
       )}
-      {error && <p style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{error}</p>}
+      {error && <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginBottom: '10px' }}>{error}</p>}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-        <label style={{ cursor: 'pointer', fontSize: '12px', fontWeight: 600, color: '#2dd4bf', padding: '6px 12px', borderRadius: '6px', background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.25)' }}>
+        <label style={{ cursor: 'pointer', fontSize: '12px', fontWeight: 600, color: 'var(--color-accent)', padding: '6px 12px', borderRadius: '6px', background: 'rgba(242,169,0,0.1)', border: '1px solid rgba(242,169,0,0.25)' }}>
           Add Photo
           <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </label>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: content.length > 100 ? (content.length > 115 ? '#ef4444' : '#fb923c') : '#6b7280' }}>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: content.length > 100 ? (content.length > 115 ? 'var(--color-danger)' : 'var(--color-accent-light)') : 'var(--color-muted)' }}>
             {120 - content.length}
           </span>
           <button type="submit" disabled={posting || (!content.trim() && !file)} className="btn-primary" style={{ fontSize: '12px', padding: '8px 18px', opacity: (posting || (!content.trim() && !file)) ? 0.4 : 1 }}>

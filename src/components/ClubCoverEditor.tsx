@@ -63,24 +63,24 @@ export default function ClubCoverEditor({ clubId, currentCoverUrl, currentLogoUr
     <>
       {noCover && (
         <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '10px', pointerEvents: 'none' }}>
-          <label style={{ pointerEvents: 'auto', cursor: 'pointer', padding: '14px 28px', borderRadius: '10px', background: 'rgba(45,212,191,0.15)', border: '1px solid rgba(45,212,191,0.5)', color: '#2dd4bf', fontSize: '14px', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)', opacity: uploading === 'cover' ? 0.6 : 1 }}>
+          <label style={{ pointerEvents: 'auto', cursor: 'pointer', padding: '14px 28px', borderRadius: '10px', background: 'rgba(242,169,0,0.15)', border: '1px solid rgba(242,169,0,0.5)', color: 'var(--color-accent)', fontSize: '14px', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '8px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)', opacity: uploading === 'cover' ? 0.6 : 1 }}>
             {uploading === 'cover' ? 'Uploading...' : 'Upload a Banner Image'}
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} disabled={uploading !== null}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, 'cover') }} />
           </label>
-          <p style={{ fontSize: '11px', color: '#9ca3af' }}>JPEG, PNG, or WebP · up to 5 MB</p>
+          <p style={{ fontSize: '11px', color: 'var(--color-muted-light)' }}>JPEG, PNG, or WebP · up to 5 MB</p>
         </div>
       )}
 
       {/* Compact top-left controls when the cover already exists */}
       {!noCover && (
         <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '8px', zIndex: 2 }}>
-          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: 'rgba(12,12,20,0.92)', border: '1px solid rgba(45,212,191,0.35)', color: '#2dd4bf', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(8px)', opacity: uploading === 'cover' ? 0.6 : 1 }}>
+          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: 'rgba(15,16,18,0.92)', border: '1px solid rgba(242,169,0,0.35)', color: 'var(--color-accent)', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(8px)', opacity: uploading === 'cover' ? 0.6 : 1 }}>
             Change Banner
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} disabled={uploading !== null}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, 'cover') }} />
           </label>
-          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: 'rgba(12,12,20,0.92)', border: '1px solid rgba(45,212,191,0.35)', color: '#2dd4bf', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(8px)', opacity: uploading === 'logo' ? 0.6 : 1 }}>
+          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: 'rgba(15,16,18,0.92)', border: '1px solid rgba(242,169,0,0.35)', color: 'var(--color-accent)', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(8px)', opacity: uploading === 'logo' ? 0.6 : 1 }}>
             {noLogo ? 'Add Logo' : 'Change Logo'}
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} disabled={uploading !== null}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, 'logo') }} />
@@ -91,7 +91,7 @@ export default function ClubCoverEditor({ clubId, currentCoverUrl, currentLogoUr
       {/* Logo-specific CTA when banner exists but logo doesn't — shows in cover bottom-right */}
       {!noCover && noLogo && (
         <div style={{ position: 'absolute', bottom: '12px', right: '12px', zIndex: 2 }}>
-          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: 'rgba(45,212,191,0.15)', border: '1px solid rgba(45,212,191,0.5)', color: '#2dd4bf', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', boxShadow: '0 4px 16px rgba(0,0,0,0.4)', opacity: uploading === 'logo' ? 0.6 : 1 }}>
+          <label style={{ cursor: 'pointer', padding: '8px 14px', borderRadius: '6px', background: 'rgba(242,169,0,0.15)', border: '1px solid rgba(242,169,0,0.5)', color: 'var(--color-accent)', fontSize: '12px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px', boxShadow: '0 4px 16px rgba(0,0,0,0.4)', opacity: uploading === 'logo' ? 0.6 : 1 }}>
             {uploading === 'logo' ? 'Uploading...' : 'Upload a Logo'}
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} disabled={uploading !== null}
               onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(f, 'logo') }} />
@@ -100,7 +100,7 @@ export default function ClubCoverEditor({ clubId, currentCoverUrl, currentLogoUr
       )}
 
       {message && (
-        <div style={{ position: 'absolute', top: '12px', right: '12px', zIndex: 3, padding: '8px 14px', borderRadius: '6px', background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', color: '#22c55e', fontSize: '12px', fontWeight: 600 }}>
+        <div style={{ position: 'absolute', top: '12px', right: '12px', zIndex: 3, padding: '8px 14px', borderRadius: '6px', background: 'rgba(86,194,113,0.15)', border: '1px solid rgba(86,194,113,0.3)', color: 'var(--color-success)', fontSize: '12px', fontWeight: 600 }}>
           {message}
         </div>
       )}

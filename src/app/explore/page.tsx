@@ -145,12 +145,12 @@ export default function ExplorePage() {
         <p className="eyebrow" style={{ marginBottom: '8px' }}>Discovery</p>
         <h1 className="text-3xl font-bold">Explore <span className="gradient-text">The Scene</span></h1>
         <p className="text-muted-light" style={{ marginTop: '8px', fontSize: '0.9rem' }}>
-          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: '#2dd4bf' }}>{nearbyState}</span></> : ' across the country'}
+          Discover builds from enthusiasts{nearbyState ? <> in <span style={{ color: 'var(--color-accent)' }}>{nearbyState}</span></> : ' across the country'}
         </p>
       </div>
 
       {/* Search Bar */}
-      <form onSubmit={handleSearch} className="glass" style={{ padding: '16px 20px', marginBottom: '12px' }}>
+      <form onSubmit={handleSearch} className="panel" style={{ padding: '16px 20px', marginBottom: '12px' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'stretch' }}>
           <input
             type="text"
@@ -178,7 +178,7 @@ export default function ExplorePage() {
         {searchCoords && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '12px', flexWrap: 'wrap' }}>
             <span className="eyebrow">Within</span>
-            <div style={{ display: 'inline-flex', borderRadius: '6px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ display: 'inline-flex', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--color-border)' }}>
               {RADIUS_OPTIONS.map(opt => (
                 <button
                   key={opt.miles}
@@ -186,16 +186,16 @@ export default function ExplorePage() {
                   onClick={() => setRadius(opt.miles)}
                   style={{
                     padding: '6px 12px', border: 'none', cursor: 'pointer', fontSize: '12px', fontWeight: 600,
-                    background: radius === opt.miles ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
-                    color: radius === opt.miles ? '#2dd4bf' : '#8892a4',
+                    background: radius === opt.miles ? 'rgba(242,169,0,0.12)' : 'var(--color-surface-lowest)',
+                    color: radius === opt.miles ? 'var(--color-accent)' : 'var(--color-muted-light)',
                   }}
                 >
                   {opt.label}
                 </button>
               ))}
             </div>
-            <span style={{ fontSize: '12px', color: '#8892a4' }}>of <span style={{ color: '#2dd4bf', fontWeight: 600 }}>{locationText}</span></span>
-            <button type="button" onClick={clearCity} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#6b7280', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
+            <span style={{ fontSize: '12px', color: 'var(--color-muted-light)' }}>of <span style={{ color: 'var(--color-accent)', fontWeight: 600 }}>{locationText}</span></span>
+            <button type="button" onClick={clearCity} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'var(--color-muted)', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Clear</button>
           </div>
         )}
       </form>
@@ -209,17 +209,17 @@ export default function ExplorePage() {
       {loading ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {[1,2,3].map(i => (
-            <div key={i} className="glass overflow-hidden animate-pulse">
-              <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)' }} />
+            <div key={i} className="panel overflow-hidden animate-pulse">
+              <div style={{ aspectRatio: '2 / 1', background: 'var(--color-surface-light)' }} />
               <div style={{ padding: '16px' }}>
-                <div style={{ height: '14px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
-                <div style={{ height: '12px', background: 'rgba(26,26,46,0.5)', borderRadius: '4px', width: '50%' }} />
+                <div style={{ height: '14px', background: 'var(--color-surface-light)', borderRadius: '4px', width: '75%', marginBottom: '8px' }} />
+                <div style={{ height: '12px', background: 'var(--color-surface-light)', borderRadius: '4px', width: '50%' }} />
               </div>
             </div>
           ))}
         </div>
       ) : vehicles.length === 0 ? (
-        <div className="glass text-center" style={{ padding: '48px 32px' }}>
+        <div className="panel text-center" style={{ padding: '48px 32px' }}>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No builds found</h2>
           <p className="text-muted-light" style={{ marginBottom: '20px', fontSize: '0.9rem' }}>Try adjusting your filters or be the first to add this type of build.</p>
           <Link href="/auth/register" className="btn-neon">Create Your Garage</Link>
@@ -230,9 +230,9 @@ export default function ExplorePage() {
             <Link
               key={vehicle.id}
               href={`/user/${vehicle.owner?.username}/${vehicle.slug}`}
-              className="glass overflow-hidden card-hover group"
+              className="panel overflow-hidden card-hover group"
             >
-              <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+              <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: 'var(--color-surface-light)' }}>
                 {vehicle.primary_image_url ? (
                   <img
                     src={vehicle.primary_image_url}
@@ -241,7 +241,7 @@ export default function ExplorePage() {
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 ) : null}
-                <span className="eyebrow" style={{ position: 'absolute', top: '10px', right: '10px', padding: '4px 8px', borderRadius: '4px', background: 'rgba(12,12,20,0.8)', border: '1px solid rgba(45,212,191,0.25)' }}>
+                <span className="eyebrow" style={{ position: 'absolute', top: '10px', right: '10px', padding: '4px 8px', borderRadius: '4px', background: 'rgba(15,16,18,0.8)', border: '1px solid rgba(242,169,0,0.25)' }}>
                   {vehicle.build_status?.replace('_', ' ')}
                 </span>
               </div>
@@ -258,9 +258,9 @@ export default function ExplorePage() {
                   <p className="text-muted" style={{ fontSize: '12px', marginTop: '4px' }}>{vehicle.owner.location}</p>
                 )}
 
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid var(--color-border)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)' }}>
                       {vehicle.owner?.avatar_url ? (
                         <img src={vehicle.owner.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (

@@ -73,15 +73,15 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
 
   return (
     <div style={{ marginBottom: '20px' }}>
-      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e4e1ed', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <h2 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
         Check-Ins
         <span className="spec" style={{ fontWeight: 400 }}>{checkins.length} member{checkins.length !== 1 ? 's' : ''} checked in</span>
       </h2>
 
       {/* Check-in form */}
       {loggedIn && !alreadyCheckedIn && (
-        <div className="glass" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(45,212,191,0.2)' }}>
-          <p style={{ fontSize: '14px', fontWeight: 600, color: '#e4e1ed', marginBottom: '12px' }}>I&apos;m at {eventTitle}!</p>
+        <div className="panel" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(242,169,0,0.2)' }}>
+          <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '12px' }}>I&apos;m at {eventTitle}!</p>
           {vehicles.length > 1 && (
             <div style={{ marginBottom: '10px' }}>
               <label className="eyebrow" style={{ display: 'block', marginBottom: '4px' }}>Which ride did you bring?</label>
@@ -101,7 +101,7 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
       )}
 
       {alreadyCheckedIn && (
-        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', marginBottom: '16px', fontSize: '13px', color: '#22c55e', fontWeight: 600 }}>
+        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.2)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-success)', fontWeight: 600 }}>
           You&apos;re checked in at this event!
         </div>
       )}
@@ -110,25 +110,25 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
       {checkins.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {checkins.map(c => (
-            <div key={c.id} className="glass" style={{ padding: '14px 18px' }}>
+            <div key={c.id} className="panel" style={{ padding: '14px 18px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: c.note || c.image_url ? '10px' : 0 }}>
                 <Link href={`/user/${c.user?.username}`}>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(26,26,46,0.5)', backgroundImage: c.user?.avatar_url ? `url(${c.user.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--color-surface-light)', backgroundImage: c.user?.avatar_url ? `url(${c.user.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
                 </Link>
                 <div>
-                  <p style={{ fontSize: '13px', color: '#e4e1ed' }}>
-                    <Link href={`/user/${c.user?.username}`} style={{ fontWeight: 600, color: '#e4e1ed' }}>{c.user?.display_name || c.user?.username}</Link>
+                  <p style={{ fontSize: '13px', color: 'var(--color-foreground)' }}>
+                    <Link href={`/user/${c.user?.username}`} style={{ fontWeight: 600, color: 'var(--color-foreground)' }}>{c.user?.display_name || c.user?.username}</Link>
                     {' checked in'}
-                    {c.vehicle && <span style={{ color: '#2dd4bf' }}> with their <span className="spec">{c.vehicle.year} {c.vehicle.make} {c.vehicle.model}</span></span>}
+                    {c.vehicle && <span style={{ color: 'var(--color-accent)' }}> with their <span className="spec">{c.vehicle.year} {c.vehicle.make} {c.vehicle.model}</span></span>}
                   </p>
-                  <p style={{ fontSize: '11px', color: '#6b7280' }}>
+                  <p style={{ fontSize: '11px', color: 'var(--color-muted)' }}>
                     {new Date(c.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                   </p>
                 </div>
               </div>
-              {c.note && <p style={{ fontSize: '13px', color: '#9ca3af', marginBottom: c.image_url ? '10px' : 0 }}>{c.note}</p>}
+              {c.note && <p style={{ fontSize: '13px', color: 'var(--color-muted-light)', marginBottom: c.image_url ? '10px' : 0 }}>{c.note}</p>}
               {c.image_url && (
-                <div style={{ borderRadius: '8px', overflow: 'hidden', maxHeight: '200px', background: 'rgba(26,26,46,0.5)' }}>
+                <div style={{ borderRadius: '8px', overflow: 'hidden', maxHeight: '200px', background: 'var(--color-surface-light)' }}>
                   <img src={c.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: '200px' }} />
                 </div>
               )}

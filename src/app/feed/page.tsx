@@ -79,7 +79,7 @@ function FeedPageContent() {
             hidden on mobile via the feed-sidebar media query above. */}
         <div className="feed-sidebar" style={{ flex: '0 0 280px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {/* Latest rides */}
-          <div className="glass" style={{ padding: '20px' }}>
+          <div className="panel" style={{ padding: '20px' }}>
             <h3 className="eyebrow" style={{ marginBottom: '14px' }}>
               Latest Rides
             </h3>
@@ -89,15 +89,15 @@ function FeedPageContent() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {latestMembers.map((m) => (
                   <Link key={m.username} href={`/user/${m.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px', borderRadius: '6px', transition: 'background 0.2s' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.03)')}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-surface-light)')}
                     onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
                   >
                     <div style={{ position: 'relative', flexShrink: 0 }}>
-                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)' }}>
                         {m.avatar_url ? (
                           <img src={m.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         ) : (
-                          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#6b7280' }}>
+                          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: 'var(--color-muted)' }}>
                             {m.username?.charAt(0).toUpperCase()}
                           </div>
                         )}
@@ -121,26 +121,32 @@ function FeedPageContent() {
           <TrendingBuilds />
 
           {/* Quick links */}
-          <div className="glass" style={{ padding: '20px' }}>
+          <div className="panel" style={{ padding: '20px' }}>
             <h3 className="eyebrow" style={{ marginBottom: '14px' }}>
               Quick Links
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Link href="/explore" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>Explore Builds</Link>
-              <Link href="/events" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>Events</Link>
-              <Link href="/clubs" style={{ fontSize: '13px', color: '#9ca3af', display: 'flex', alignItems: 'center', gap: '8px' }}>Clubs</Link>
-              <Link href="/garage/setup" style={{ fontSize: '13px', color: '#2dd4bf', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
+              <Link href="/explore" style={{ fontSize: '13px', color: 'var(--color-muted-light)', display: 'flex', alignItems: 'center', gap: '8px' }}>Explore Builds</Link>
+              <Link href="/events" style={{ fontSize: '13px', color: 'var(--color-muted-light)', display: 'flex', alignItems: 'center', gap: '8px' }}>Events</Link>
+              <Link href="/clubs" style={{ fontSize: '13px', color: 'var(--color-muted-light)', display: 'flex', alignItems: 'center', gap: '8px' }}>Clubs</Link>
+              <Link href="/garage/setup" style={{ fontSize: '13px', color: 'var(--color-accent)', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>Build Your Garage</Link>
             </div>
           </div>
 
-          {/* CTA */}
-          <div className="glass" style={{ padding: '20px', textAlign: 'center', border: '1px solid rgba(45,212,191,0.2)' }}>
-            <p className="text-foreground font-semibold" style={{ fontSize: '14px', marginBottom: '8px' }}>Unlock More with Premium</p>
-            <p className="text-muted" style={{ fontSize: '12px', marginBottom: '12px' }}>Unlimited garage, analytics, and more.</p>
-            <Link href="/pricing" className="btn-primary" style={{ fontSize: '11px', padding: '8px 16px', width: '100%', justifyContent: 'center', display: 'flex' }}>
-              Upgrade
-            </Link>
+          {/* Member tools — every one of these is included */}
+          <div className="panel" style={{ padding: '20px' }}>
+            <h3 className="eyebrow" style={{ marginBottom: '14px' }}>
+              Your Tools
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Link href="/journal" style={{ fontSize: '13px', color: 'var(--color-foreground-soft)' }}>Build Journal</Link>
+              <Link href="/analytics" style={{ fontSize: '13px', color: 'var(--color-foreground-soft)' }}>Garage Analytics</Link>
+              <Link href="/collections" style={{ fontSize: '13px', color: 'var(--color-foreground-soft)' }}>Saved Collections</Link>
+              <Link href="/marketplace/create" style={{ fontSize: '13px', color: 'var(--color-foreground-soft)' }}>Sell a Part or Car</Link>
+              <Link href="/events/create" style={{ fontSize: '13px', color: 'var(--color-foreground-soft)' }}>Host an Event</Link>
+            </div>
           </div>
+
         </div>
       </div>
     </div>

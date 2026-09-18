@@ -29,15 +29,11 @@ export default function AnalyticsPage() {
   const [viewers, setViewers] = useState<Viewer[]>([])
   const [stats, setStats] = useState({ total: 0, unique: 0, explore: 0, search: 0, direct: 0, qr: 0, feed: 0 })
   const [loading, setLoading] = useState(true)
-  const [isPremium, setIsPremium] = useState(false)
 
   useEffect(() => {
     const load = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
-
-      const { data: profile } = await supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
-      setIsPremium(profile?.subscription_tier === 'premium')
 
       const { data: v } = await supabase.from('vehicles').select('id, year, make, model, props_count, view_count').eq('owner_id', user.id)
       setVehicles(v || [])
@@ -100,19 +96,6 @@ export default function AnalyticsPage() {
     return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }} className="text-muted-light">Loading analytics...</div>
   }
 
-  if (!isPremium) {
-    return (
-      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }}>
-        <div className="glass" style={{ padding: '48px 32px' }}>
-          <h1 className="text-2xl font-bold" style={{ marginBottom: '8px' }}>Garage Analytics</h1>
-          <p className="text-muted-light" style={{ marginBottom: '24px', lineHeight: 1.6 }}>
-            See who&apos;s viewing your garage, where your traffic comes from, and how your props trend over time. Upgrade to Premium to unlock analytics.
-          </p>
-          <Link href="/pricing" className="btn-neon" style={{ fontSize: '13px' }}>Upgrade to Premium</Link>
-        </div>
-      </div>
-    )
-  }
 
   const selectedV = vehicles.find(v => v.id === selectedVehicle)
 
@@ -137,30 +120,30 @@ export default function AnalyticsPage() {
 
       {/* Overview stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '12px', marginBottom: '24px' }}>
-        <div className="glass" style={{ padding: '20px', textAlign: 'center' }}>
-          <div className="spec" style={{ fontSize: '2rem', fontWeight: 700, color: '#2dd4bf' }}>{selectedV?.view_count || 0}</div>
+        <div className="panel" style={{ padding: '20px', textAlign: 'center' }}>
+          <div className="spec" style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-accent)' }}>{selectedV?.view_count || 0}</div>
           <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Total Views</div>
         </div>
-        <div className="glass" style={{ padding: '20px', textAlign: 'center' }}>
-          <div className="spec" style={{ fontSize: '2rem', fontWeight: 700, color: '#2dd4bf' }}>{selectedV?.props_count || 0}</div>
+        <div className="panel" style={{ padding: '20px', textAlign: 'center' }}>
+          <div className="spec" style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-accent)' }}>{selectedV?.props_count || 0}</div>
           <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Props</div>
         </div>
-        <div className="glass" style={{ padding: '20px', textAlign: 'center' }}>
+        <div className="panel" style={{ padding: '20px', textAlign: 'center' }}>
           <div className="text-foreground font-bold" style={{ fontSize: '2rem' }}>{stats.unique}</div>
           <div className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>Unique Viewers</div>
         </div>
       </div>
 
       {/* Traffic sources */}
-      <div className="glass" style={{ padding: '24px', marginBottom: '24px' }}>
+      <div className="panel" style={{ padding: '24px', marginBottom: '24px' }}>
         <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Traffic Sources (Last 30 Days)</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {[
-            { label: 'Explore', count: stats.explore, color: '#a78bfa' },
-            { label: 'Search', count: stats.search, color: '#fb923c' },
-            { label: 'Direct Link', count: stats.direct, color: '#22c55e' },
-            { label: 'QR Code', count: stats.qr, color: '#3b82f6' },
-            { label: 'Feed', count: stats.feed, color: '#ec4899' },
+            { label: 'Explore', count: stats.explore, color: 'var(--color-steel-light)' },
+            { label: 'Search', count: stats.search, color: 'var(--color-accent-light)' },
+            { label: 'Direct Link', count: stats.direct, color: 'var(--color-success)' },
+            { label: 'QR Code', count: stats.qr, color: 'var(--color-steel)' },
+            { label: 'Feed', count: stats.feed, color: 'var(--color-accent)' },
           ].map((source) => {
             const pct = stats.total > 0 ? (source.count / stats.total) * 100 : 0
             return (
@@ -169,7 +152,7 @@ export default function AnalyticsPage() {
                   <span className="text-muted-light" style={{ fontSize: '13px' }}>{source.label}</span>
                   <span className="text-foreground font-semibold" style={{ fontSize: '13px' }}>{source.count} ({Math.round(pct)}%)</span>
                 </div>
-                <div style={{ height: '6px', background: 'rgba(255,255,255,0.04)', borderRadius: '3px', overflow: 'hidden' }}>
+                <div style={{ height: '6px', background: 'var(--color-surface-light)', borderRadius: '3px', overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: `${pct}%`, background: source.color, borderRadius: '3px', transition: 'width 0.5s ease' }} />
                 </div>
               </div>
@@ -179,7 +162,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Recent viewers */}
-      <div className="glass" style={{ padding: '24px' }}>
+      <div className="panel" style={{ padding: '24px' }}>
         <h2 className="font-bold text-foreground" style={{ fontSize: '1rem', marginBottom: '16px' }}>Who Viewed Your Garage</h2>
         {viewers.length === 0 ? (
           <p className="text-muted" style={{ fontSize: '13px' }}>No tracked views yet. Views from logged-in members will appear here.</p>
@@ -187,14 +170,14 @@ export default function AnalyticsPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {viewers.slice(0, 20).map((v) => (
               <Link key={v.viewer_id} href={`/user/${v.username}`} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '8px', transition: 'background 0.2s' }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.02)')}
+                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-surface-light)')}
                 onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
               >
-                <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', flexShrink: 0 }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', flexShrink: 0 }}>
                   {v.avatar_url ? (
                     <img src={v.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', color: '#6b7280' }}>{v.username?.charAt(0).toUpperCase()}</div>
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', color: 'var(--color-muted)' }}>{v.username?.charAt(0).toUpperCase()}</div>
                   )}
                 </div>
                 <div style={{ flex: 1 }}>
@@ -202,7 +185,7 @@ export default function AnalyticsPage() {
                   <p className="text-muted" style={{ fontSize: '11px' }}>@{v.username}</p>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <p className="spec" style={{ fontSize: '14px', color: '#2dd4bf', fontWeight: 700 }}>{v.view_count}x</p>
+                  <p className="spec" style={{ fontSize: '14px', color: 'var(--color-accent)', fontWeight: 700 }}>{v.view_count}x</p>
                   <p className="text-muted" style={{ fontSize: '10px' }}>last {new Date(v.last_viewed).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                 </div>
               </Link>

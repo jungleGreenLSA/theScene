@@ -106,7 +106,7 @@ export default function SpotPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <p className="eyebrow" style={{ marginBottom: '4px' }}>The Scene</p>
-          <h1 className="text-3xl font-bold">Spot a <span style={{ color: '#2dd4bf' }}>Ride</span></h1>
+          <h1 className="text-3xl font-bold">Spot a <span style={{ color: 'var(--color-accent)' }}>Ride</span></h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>See a cool car? Snap it. Share it. The owner might be on The Scene.</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} className={showForm ? 'btn-outline' : 'btn-teal'} style={{ fontSize: '12px', minHeight: '44px' }}>
@@ -115,11 +115,11 @@ export default function SpotPage() {
       </div>
 
       {message && (
-        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#22c55e', fontSize: '13px' }}>{message}</div>
+        <div style={{ background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: 'var(--color-success)', fontSize: '13px' }}>{message}</div>
       )}
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+        <form onSubmit={handleSubmit} className="panel" style={{ padding: '24px', marginBottom: '20px' }}>
           <p className="eyebrow" style={{ marginBottom: '14px' }}>Post a Sighting</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '12px', marginBottom: '12px' }}>
             <input value={form.location_name} onChange={(e) => setForm({ ...form, location_name: e.target.value })} className="input" placeholder="Where? (e.g. Starbucks on Elm St)" required />
@@ -130,7 +130,7 @@ export default function SpotPage() {
           </div>
           <input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input" placeholder="What did you spot? (e.g. Jungle Green Chevy SS, heavily modified)" style={{ marginBottom: '12px' }} />
           <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '12px' }}>
-            <span style={{ padding: '0 10px', color: '#6b7280', fontSize: '13px' }}>@</span>
+            <span style={{ padding: '0 10px', color: 'var(--color-muted)', fontSize: '13px' }}>@</span>
             <input
               value={form.instagram_handle}
               onChange={(e) => setForm({ ...form, instagram_handle: e.target.value.replace(/^@/, '').trim() })}
@@ -149,18 +149,18 @@ export default function SpotPage() {
 
       {loading ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
-          {[1,2,3].map(i => <div key={i} className="glass animate-pulse" style={{ height: '300px' }} />)}
+          {[1,2,3].map(i => <div key={i} className="panel animate-pulse" style={{ height: '300px' }} />)}
         </div>
       ) : sightings.length === 0 ? (
-        <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
+        <div className="panel" style={{ padding: '48px 32px', textAlign: 'center' }}>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No sightings yet</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Be the first to spot a cool ride in the wild!</p>
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
           {sightings.map((s) => (
-            <div key={s.id} className="glass overflow-hidden card-hover">
-              <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+            <div key={s.id} className="panel overflow-hidden card-hover">
+              <div style={{ aspectRatio: '2 / 1', background: 'var(--color-surface-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                 <img
                   src={s.image_url}
                   alt=""
@@ -172,7 +172,7 @@ export default function SpotPage() {
                     if (parent && !parent.querySelector('.img-fallback')) {
                       const fb = document.createElement('div')
                       fb.className = 'img-fallback'
-                      fb.style.cssText = 'color:#6b7280;font-size:36px'
+                      fb.style.cssText = 'color:var(--color-muted);font-size:36px'
                       fb.textContent = ''
                       parent.appendChild(fb)
                     }
@@ -183,11 +183,11 @@ export default function SpotPage() {
                 {s.description && <p className="text-foreground" style={{ fontSize: '14px', marginBottom: '8px' }}>{s.description}</p>}
                 <p className="text-muted-light" style={{ fontSize: '12px' }}>{s.location_name}{s.city && `, ${s.city}`}{s.state && `, ${s.state}`}</p>
                 {s.instagram_handle && (
-                  <a href={`https://instagram.com/${s.instagram_handle}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '6px', fontSize: '12px', color: '#a78bfa' }}>
+                  <a href={`https://instagram.com/${s.instagram_handle}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: '6px', fontSize: '12px', color: 'var(--color-steel-light)' }}>
                     @{s.instagram_handle} on IG
                   </a>
                 )}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid var(--color-border)' }}>
                   <PropsButton targetType="sighting" targetId={s.id} initialCount={s.props_count || 0} size="sm" />
                   <Link href={`/user/${s.spotter?.username}`} className="text-muted" style={{ fontSize: '12px' }}>by @{s.spotter?.username}</Link>
                 </div>
@@ -201,8 +201,8 @@ export default function SpotPage() {
                   )}
                 </div>
                 {s.claimed_vehicle_id && (
-                  <div style={{ marginTop: '8px', padding: '6px 10px', borderRadius: '6px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)' }}>
-                    <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600 }}>Owner claimed this sighting!</span>
+                  <div style={{ marginTop: '8px', padding: '6px 10px', borderRadius: '6px', background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.2)' }}>
+                    <span style={{ fontSize: '11px', color: 'var(--color-success)', fontWeight: 600 }}>Owner claimed this sighting!</span>
                   </div>
                 )}
               </div>

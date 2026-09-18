@@ -21,7 +21,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: `${data.year} ${data.make} ${data.model}`,
       subhead: `${data.color ? data.color + ' · ' : ''}by ${owner?.display_name || owner?.username || 'a Scene member'}`,
       tag: 'BUILD',
-      accent: '#2dd4bf',
+      accent: '#f97316',
       image: data.primary_image_url,
     }
   }
@@ -33,7 +33,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: data.title,
       subhead: `${when}${data.city ? ` · ${data.city}, ${data.state}` : ''}`,
       tag: 'CAR SHOW',
-      accent: '#fb923c',
+      accent: '#f97316',
       image: data.cover_image_url,
     }
   }
@@ -45,7 +45,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: data.description || 'Spotted in the wild',
       subhead: `${[data.city, data.state].filter(Boolean).join(', ') || 'Somewhere'} · spotted by @${spotter?.username || 'member'}`,
       tag: 'SPOTTED',
-      accent: '#22c55e',
+      accent: '#a78bfa',
       image: data.image_url,
     }
   }
@@ -56,7 +56,7 @@ async function lookup(type: string, id: string): Promise<Data | null> {
       headline: data.name,
       subhead: data.description || 'A car club on The Scene',
       tag: 'CLUB',
-      accent: '#2dd4bf',
+      accent: '#f97316',
       image: data.cover_image_url,
     }
   }
@@ -70,24 +70,24 @@ export async function GET(_req: Request, { params }: { params: Promise<{ type: s
 
   return new ImageResponse(
     (
-      <div style={{ display: 'flex', width: '100%', height: '100%', background: '#0c0c14' }}>
+      <div style={{ display: 'flex', width: '100%', height: '100%', background: '#08080d' }}>
         {/* Left — content */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '60px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <span style={{ fontSize: 22, fontWeight: 700, color: data.accent, letterSpacing: 4 }}>{data.tag}</span>
-            <span style={{ fontSize: 64, fontWeight: 800, color: '#e2e4e9', lineHeight: 1.1 }}>{data.headline}</span>
-            <span style={{ fontSize: 28, color: '#9ca3af' }}>{data.subhead}</span>
+            <span style={{ fontSize: 64, fontWeight: 800, color: '#eceaf2', lineHeight: 1.1 }}>{data.headline}</span>
+            <span style={{ fontSize: 28, color: '#adaac1' }}>{data.subhead}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 4, color: '#e2e4e9' }}>THE<span style={{ color: '#2dd4bf' }}>SCENE</span></span>
-            <span style={{ fontSize: 20, color: '#6b7280' }}>· thescene.fyi</span>
+            <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: 4, color: '#eceaf2' }}>THE<span style={{ color: '#f97316' }}>SCENE</span></span>
+            <span style={{ fontSize: 20, color: '#8b87a0' }}>· thescene.fyi</span>
           </div>
         </div>
         {/* Right — image */}
         {data.image && (
           <div style={{ width: 500, display: 'flex', position: 'relative' }}>
             <img src={data.image} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" />
-            <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(90deg, #0c0c14 0%, transparent 40%)` }} />
+            <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(90deg, #08080d 0%, transparent 42%)` }} />
           </div>
         )}
         {!data.image && (

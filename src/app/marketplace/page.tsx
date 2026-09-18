@@ -99,15 +99,15 @@ export default function MarketplacePage() {
       onClick={() => setTab(key)}
       style={{
         padding: '10px 18px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-        background: tab === key ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
-        color: tab === key ? '#2dd4bf' : '#9ca3af',
+        background: tab === key ? 'rgba(242,169,0,0.12)' : 'var(--color-surface-lowest)',
+        color: tab === key ? 'var(--color-accent)' : 'var(--color-muted-light)',
         fontWeight: 700, fontSize: '13px',
-        outline: tab === key ? '1px solid rgba(45,212,191,0.35)' : '1px solid rgba(255,255,255,0.06)',
+        outline: tab === key ? '1px solid rgba(242,169,0,0.35)' : '1px solid var(--color-border)',
         display: 'flex', alignItems: 'center', gap: '8px',
       }}
     >
       {label}
-      <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.08)', padding: '2px 8px', borderRadius: '10px' }}>{count}</span>
+      <span style={{ fontSize: '11px', background: 'var(--color-border)', padding: '2px 8px', borderRadius: '10px' }}>{count}</span>
     </button>
   )
 
@@ -116,9 +116,9 @@ export default function MarketplacePage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <p className="eyebrow" style={{ marginBottom: '6px' }}>The Scene</p>
-          <h1 style={{ fontSize: 'clamp(22px, 5vw, 28px)', fontWeight: 700, color: '#e4e1ed' }}>Market<span className="gradient-text">place</span></h1>
-          <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '4px' }}>
-            Buy and sell vehicles & parts, or find the shops working on builds{nearbyState && <> · filtered to <span style={{ color: '#2dd4bf' }}>{nearbyState}</span></>}
+          <h1 style={{ fontSize: 'clamp(22px, 5vw, 28px)', fontWeight: 700, color: 'var(--color-foreground)' }}>Market<span className="gradient-text">place</span></h1>
+          <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginTop: '4px' }}>
+            Buy and sell vehicles & parts, or find the shops working on builds{nearbyState && <> · filtered to <span style={{ color: 'var(--color-accent)' }}>{nearbyState}</span></>}
           </p>
         </div>
         <Link
@@ -137,7 +137,7 @@ export default function MarketplacePage() {
       </div>
 
       {/* Filters */}
-      <div className="glass" style={{ padding: '16px', marginBottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+      <div className="panel" style={{ padding: '16px', marginBottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
         <input
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -156,20 +156,20 @@ export default function MarketplacePage() {
 
       {loading ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
-          {[1,2,3].map(i => <div key={i} className="glass animate-pulse" style={{ height: '300px' }} />)}
+          {[1,2,3].map(i => <div key={i} className="panel animate-pulse" style={{ height: '300px' }} />)}
         </div>
       ) : tab === 'items' ? (
         filteredListings.length === 0 ? (
-          <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e4e1ed', marginBottom: '8px' }}>No listings yet</h2>
-            <p style={{ fontSize: '14px', color: '#9ca3af', marginBottom: '20px' }}>Be the first to list something for sale!</p>
+          <div className="panel" style={{ padding: '48px 32px', textAlign: 'center' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '8px' }}>No listings yet</h2>
+            <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '20px' }}>Be the first to list something for sale!</p>
             <Link href="/marketplace/create" className="btn-teal" style={{ fontSize: '13px', fontWeight: 700 }}>List an Item</Link>
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
             {filteredListings.map(l => (
-              <Link key={l.id} href={`/marketplace/${l.id}`} className="glass card-hover" style={{ overflow: 'hidden' }}>
-                <div style={{ aspectRatio: '2 / 1', background: 'rgba(26,26,46,0.5)', position: 'relative' }}>
+              <Link key={l.id} href={`/marketplace/${l.id}`} className="panel card-hover" style={{ overflow: 'hidden' }}>
+                <div style={{ aspectRatio: '2 / 1', background: 'var(--color-surface-light)', position: 'relative' }}>
                   {l.images && l.images.length > 0 ? (
                     <img src={l.images[0].image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
@@ -177,19 +177,19 @@ export default function MarketplacePage() {
                     {l.listing_type}
                   </span>
                   {l.is_obo && (
-                    <span style={{ position: 'absolute', top: '10px', right: '10px', padding: '4px 8px', borderRadius: '4px', background: 'rgba(34,197,94,0.2)', border: '1px solid rgba(34,197,94,0.3)', fontSize: '10px', fontWeight: 700, color: '#22c55e' }}>OBO</span>
+                    <span style={{ position: 'absolute', top: '10px', right: '10px', padding: '4px 8px', borderRadius: '4px', background: 'rgba(86,194,113,0.2)', border: '1px solid rgba(86,194,113,0.3)', fontSize: '10px', fontWeight: 700, color: 'var(--color-success)' }}>OBO</span>
                   )}
                 </div>
                 <div style={{ padding: '16px' }}>
-                  <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#e2e4e9', marginBottom: '6px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{l.title}</h3>
-                  <p className="spec" style={{ fontSize: '22px', fontWeight: 700, color: '#2dd4bf', marginBottom: '8px' }}>${l.price.toLocaleString()}</p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: '#6b7280' }}>
+                  <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '6px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{l.title}</h3>
+                  <p className="spec" style={{ fontSize: '22px', fontWeight: 700, color: 'var(--color-accent)', marginBottom: '8px' }}>${l.price.toLocaleString()}</p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: 'var(--color-muted)' }}>
                     <span>{l.seller?.location || `${l.city}, ${l.state}` || 'Location N/A'}</span>
                     <span className="spec">{l.comments?.length || 0} comments</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(26,26,46,0.5)', backgroundImage: l.seller?.avatar_url ? `url(${l.seller.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
-                    <span style={{ fontSize: '12px', color: '#8892a4' }}>@{l.seller?.username}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid var(--color-border)' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--color-surface-light)', backgroundImage: l.seller?.avatar_url ? `url(${l.seller.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+                    <span style={{ fontSize: '12px', color: 'var(--color-muted-light)' }}>@{l.seller?.username}</span>
                   </div>
                 </div>
               </Link>
@@ -198,23 +198,23 @@ export default function MarketplacePage() {
         )
       ) : (
         filteredShops.length === 0 ? (
-          <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#e4e1ed', marginBottom: '8px' }}>No shops yet</h2>
-            <p style={{ fontSize: '14px', color: '#9ca3af', marginBottom: '20px' }}>Be the first to add a shop to The Scene.</p>
+          <div className="panel" style={{ padding: '48px 32px', textAlign: 'center' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '8px' }}>No shops yet</h2>
+            <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '20px' }}>Be the first to add a shop to The Scene.</p>
             <Link href="/shops/create" className="btn-teal" style={{ fontSize: '13px', fontWeight: 700 }}>Add a Shop</Link>
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '16px' }}>
             {filteredShops.map(shop => (
-              <Link key={shop.id} href={`/shops/${shop.slug}`} className="glass card-hover" style={{ overflow: 'hidden' }}>
-                <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+              <Link key={shop.id} href={`/shops/${shop.slug}`} className="panel card-hover" style={{ overflow: 'hidden' }}>
+                <div style={{ aspectRatio: '2 / 1', position: 'relative', overflow: 'hidden', background: 'var(--color-surface-light)' }}>
                   {shop.cover_image_url ? (
                     <img src={shop.cover_image_url} alt={shop.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(45,212,191,0.1), rgba(139,92,246,0.08))' }} />
+                    <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(242,169,0,0.1), rgba(142,163,184,0.08))' }} />
                   )}
                   {shop.logo_url && (
-                    <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-background)', border: '2px solid var(--color-border)' }}>
                       <img src={shop.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   )}
@@ -223,9 +223,9 @@ export default function MarketplacePage() {
                   </span>
                 </div>
                 <div style={{ padding: '16px' }}>
-                  <h3 style={{ fontSize: '15px', fontWeight: 600, color: '#e2e4e9', marginBottom: '4px' }}>{shop.name}</h3>
+                  <h3 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '4px' }}>{shop.name}</h3>
                   {shop.city && shop.state && (
-                    <p style={{ fontSize: '12px', color: '#8892a4', marginBottom: '8px' }}>{shop.city}, {shop.state}</p>
+                    <p style={{ fontSize: '12px', color: 'var(--color-muted-light)', marginBottom: '8px' }}>{shop.city}, {shop.state}</p>
                   )}
                   {shop.specialties && shop.specialties.length > 0 && (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginBottom: '8px' }}>
@@ -234,7 +234,7 @@ export default function MarketplacePage() {
                       ))}
                     </div>
                   )}
-                  <div style={{ fontSize: '12px', color: '#6b7280', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontSize: '12px', color: 'var(--color-muted)', paddingTop: '8px', borderTop: '1px solid var(--color-border)' }}>
                     <span className="spec">{shop.tag_count}</span> {shop.tag_count === 1 ? 'build' : 'builds'} tagged
                   </div>
                 </div>

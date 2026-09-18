@@ -121,21 +121,21 @@ export default function EditEventPage() {
   }
 
   // labelStyle replaced by eyebrow class — see JSX below
-  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#9ca3af' }}>Loading...</div>
+  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: 'var(--color-muted-light)' }}>Loading...</div>
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 16px 40px' }}>
-      <Link href={`/events/${slug}`} style={{ fontSize: '13px', color: '#2dd4bf', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', textDecoration: 'none' }}>&larr; Back to Event</Link>
+      <Link href={`/events/${slug}`} style={{ fontSize: '13px', color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', textDecoration: 'none' }}>&larr; Back to Event</Link>
 
-      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#e4e1ed', marginBottom: '28px' }}>
-        Edit <span style={{ color: '#2dd4bf' }}>Event</span>
+      <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '28px' }}>
+        Edit <span style={{ color: 'var(--color-accent)' }}>Event</span>
       </h1>
 
-      {message && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e' }}>{message}</div>}
-      {error && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', marginBottom: '16px', fontSize: '13px', color: '#ef4444' }}>{error}</div>}
+      {message && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-success)' }}>{message}</div>}
+      {error && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(229,72,77,0.1)', border: '1px solid rgba(229,72,77,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-danger)' }}>{error}</div>}
 
       <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        <div className="glass" style={{ padding: '24px' }}>
+        <div className="panel" style={{ padding: '24px' }}>
           <div style={{ marginBottom: '12px' }}>
             <label className="eyebrow" style={{ marginBottom: '6px' }}>Title</label>
             <input name="title" value={form.title} onChange={handleChange} className="input" required maxLength={128} />
@@ -160,7 +160,7 @@ export default function EditEventPage() {
               }))}
             />
             {form.city && form.state && (
-              <p className="spec" style={{ fontSize: '11px', color: form.lat && form.lng ? '#22c55e' : '#2dd4bf', marginTop: '6px' }}>
+              <p className="spec" style={{ fontSize: '11px', color: form.lat && form.lng ? 'var(--color-success)' : 'var(--color-accent)', marginTop: '6px' }}>
                 {form.city}, {form.state}{form.lat && form.lng ? ' · geocoded ✓' : ' · geocoding on save'}
               </p>
             )}
@@ -174,9 +174,9 @@ export default function EditEventPage() {
               {CATEGORIES.map(cat => (
                 <button key={cat} type="button" onClick={() => toggleCategory(cat)} style={{
                   padding: '5px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: form.categories.includes(cat) ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
-                  color: form.categories.includes(cat) ? '#2dd4bf' : '#6b7280',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(45,212,191,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.categories.includes(cat) ? 'rgba(242,169,0,0.12)' : 'var(--color-surface-lowest)',
+                  color: form.categories.includes(cat) ? 'var(--color-accent)' : 'var(--color-muted)',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(242,169,0,0.3)' : '1px solid var(--color-border)',
                 }}>{cat}</button>
               ))}
             </div>
@@ -184,9 +184,9 @@ export default function EditEventPage() {
         </div>
 
         {/* Co-chairs */}
-        <div className="glass" style={{ padding: '24px' }}>
+        <div className="panel" style={{ padding: '24px' }}>
           <p className="eyebrow" style={{ marginBottom: '8px' }}>Co-Chairs</p>
-          <p style={{ fontSize: '12px', color: '#6b7280', marginBottom: '12px' }}>Co-chairs can also manage this event.</p>
+          <p style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '12px' }}>Co-chairs can also manage this event.</p>
 
           <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
             <input value={cochairUsername} onChange={(e) => setCochairUsername(e.target.value)} className="input" placeholder="Enter username" maxLength={64} style={{ flex: 1 }} />
@@ -196,9 +196,9 @@ export default function EditEventPage() {
           {cochairs.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {cochairs.map(c => (
-                <div key={c.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', borderRadius: '6px', background: 'rgba(18,18,30,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span style={{ fontSize: '13px', color: '#e2e4e9' }}>@{c.user?.username || 'unknown'} <span style={{ color: '#6b7280' }}>({c.user?.display_name || ''})</span></span>
-                  <button type="button" onClick={() => handleRemoveCochair(c.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Remove</button>
+                <div key={c.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', borderRadius: '6px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)' }}>
+                  <span style={{ fontSize: '13px', color: 'var(--color-foreground)' }}>@{c.user?.username || 'unknown'} <span style={{ color: 'var(--color-muted)' }}>({c.user?.display_name || ''})</span></span>
+                  <button type="button" onClick={() => handleRemoveCochair(c.id)} style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Remove</button>
                 </div>
               ))}
             </div>

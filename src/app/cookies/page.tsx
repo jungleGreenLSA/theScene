@@ -19,7 +19,7 @@ export default function CookiePage() {
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>Cookie <span className="gradient-text">Policy</span></h1>
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Effective: <span className="spec">April 17, 2026</span></p>
 
-      <div className="glass" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
+      <div className="panel" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
           <Section title="1. What cookies are">
@@ -39,7 +39,6 @@ export default function CookiePage() {
             <p>• <strong>Google</strong> — if you sign in with Google OAuth, Google sets cookies on your browser to manage that sign-in. Controlled by your Google account preferences.</p>
             <p>• <strong>Discord</strong> — same as Google, if you choose Discord sign-in.</p>
             <p>• <strong>Cloudflare</strong> — our CDN sets a small security cookie (<code>__cf_bm</code>) that helps detect bots. It contains no personal information.</p>
-            <p>• <strong>Stripe</strong> — if you reach a payment page, Stripe sets cookies to prevent fraud. You won&apos;t see Stripe cookies unless you actually open a checkout.</p>
             <p>• <strong>Mapbox</strong> — sets no tracking cookies; it&apos;s an API we call server-side, no third-party cookies are placed in your browser.</p>
           </Section>
 

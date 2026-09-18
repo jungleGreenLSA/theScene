@@ -85,11 +85,11 @@ export default function NotificationsPage() {
       {loading ? (
         <p className="text-muted" style={{ fontSize: '13px' }}>Loading...</p>
       ) : items.length === 0 ? (
-        <div className="glass" style={{ padding: '32px', textAlign: 'center' }}>
+        <div className="panel" style={{ padding: '32px', textAlign: 'center' }}>
           <p className="text-muted-light" style={{ fontSize: '14px' }}>Nothing new. Check back later.</p>
         </div>
       ) : (
-        <div className="glass" style={{ padding: '8px' }}>
+        <div className="panel" style={{ padding: '8px' }}>
           {items.map((n) => (
             <Link
               key={n.id}
@@ -97,9 +97,9 @@ export default function NotificationsPage() {
               style={{
                 display: 'flex', gap: '12px', alignItems: 'flex-start',
                 padding: '14px', borderRadius: '8px',
-                background: n.is_read ? 'transparent' : 'rgba(45,212,191,0.05)',
-                borderBottom: '1px solid rgba(255,255,255,0.04)',
-                borderLeft: n.is_read ? '2px solid transparent' : '2px solid rgba(45,212,191,0.4)',
+                background: n.is_read ? 'transparent' : 'rgba(242,169,0,0.05)',
+                borderBottom: '1px solid var(--color-surface-light)',
+                borderLeft: n.is_read ? '2px solid transparent' : '2px solid rgba(242,169,0,0.4)',
               }}
             >
               <div style={{ fontSize: '22px', flexShrink: 0, width: '28px', textAlign: 'center' }}>
@@ -108,7 +108,7 @@ export default function NotificationsPage() {
               {n.actor?.avatar_url ? (
                 <img src={n.actor.avatar_url} alt="" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
               ) : (
-                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(26,26,46,0.6)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#6b7280' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--color-surface-light)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'var(--color-muted)' }}>
                   {n.actor?.username?.charAt(0).toUpperCase() || '?'}
                 </div>
               )}

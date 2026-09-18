@@ -41,9 +41,9 @@ export default function ShareButton({ url, title, text, label = 'Share', small =
       style={{
         padding,
         borderRadius: '6px',
-        background: 'rgba(45,212,191,0.08)',
-        border: '1px solid rgba(45,212,191,0.25)',
-        color: copied ? '#2dd4bf' : '#9ca3af',
+        background: 'rgba(242,169,0,0.08)',
+        border: '1px solid rgba(242,169,0,0.25)',
+        color: copied ? 'var(--color-accent)' : 'var(--color-muted-light)',
         fontSize,
         fontWeight: 600,
         cursor: 'pointer',

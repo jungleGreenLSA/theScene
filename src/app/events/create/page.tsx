@@ -45,11 +45,8 @@ export default function CreateEventPage() {
     const loadClubs = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
-
-      // Check event limits
-      const { data: profile } = await supabase.from('profiles').select('subscription_tier, role').eq('id', user.id).single()
-      const isPremium = profile?.subscription_tier === 'premium' || profile?.role === 'admin'
-      const limit = isPremium ? 10 : 2
+      // Every member can have up to 10 active events (a spam guard, not a tier).
+      const limit = 10
       setMaxEvents(limit)
 
       const { count } = await supabase.from('events').select('id', { count: 'exact', head: true }).eq('organizer_id', user.id).in('status', ['published', 'active', 'draft'])
@@ -152,22 +149,22 @@ export default function CreateEventPage() {
 
   return (
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 16px 40px' }}>
-      <Link href="/events" style={{ fontSize: '13px', color: '#2dd4bf', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', textDecoration: 'none' }}>&larr; Back to Events</Link>
+      <Link href="/events" style={{ fontSize: '13px', color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', textDecoration: 'none' }}>&larr; Back to Events</Link>
 
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>
-        Create an <span style={{ color: '#2dd4bf' }}>Event</span>
+        Create an <span style={{ color: 'var(--color-accent)' }}>Event</span>
       </h1>
-      <p style={{ fontSize: '14px', color: '#9ca3af', marginBottom: '12px' }}>List a car show, meet, track day, or cruise</p>
-      <p className="spec" style={{ fontSize: '12px', color: '#6b7280', marginBottom: '28px' }}>{eventCount} of {maxEvents} events used {maxEvents <= 2 && '· Upgrade to premium for up to 10'}</p>
+      <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '12px' }}>List a car show, meet, track day, or cruise</p>
+      <p className="spec" style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '28px' }}>{eventCount} of {maxEvents} active events</p>
 
       {!canCreate ? (
-        <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#e4e1ed', marginBottom: '8px' }}>Event limit reached</h2>
-          <p style={{ fontSize: '14px', color: '#9ca3af', marginBottom: '20px' }}>Free members can create up to {maxEvents} events. Upgrade for more.</p>
-          <Link href="/pricing" className="btn-primary">Upgrade to Premium</Link>
+        <div className="panel" style={{ padding: '40px', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '8px' }}>Event limit reached</h2>
+          <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '20px' }}>Members can have up to {maxEvents} active events at a time. Complete or archive an older one to open a slot.</p>
+          <Link href="/events" className="btn-primary">Back to events</Link>
         </div>
       ) : (
-      <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px' }}>
+      <form onSubmit={handleSubmit} className="panel" style={{ padding: '28px' }}>
         {/* Title */}
         <div style={{ marginBottom: '16px' }}>
           <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Event Title *</label>
@@ -204,7 +201,7 @@ export default function CreateEventPage() {
           <input name="location_name" value={form.location_name} onChange={handleChange} className="input" placeholder="e.g. Dallas Convention Center" />
         </div>
         <div style={{ marginBottom: '16px' }}>
-          <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#6b7280', fontWeight: 400, textTransform: 'none' }}>(start typing — we&apos;ll fill in the rest)</span></label>
+          <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: 'var(--color-muted)', fontWeight: 400, textTransform: 'none' }}>(start typing — we&apos;ll fill in the rest)</span></label>
           <AddressAutocomplete
             defaultValue={form.location_address}
             placeholder="Start typing a venue address..."
@@ -257,9 +254,9 @@ export default function CreateEventPage() {
                 onClick={() => toggleCategory(cat)}
                 style={{
                   padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', border: 'none', transition: 'all 0.2s',
-                  background: form.categories.includes(cat) ? 'rgba(45,212,191,0.12)' : 'rgba(18,18,30,0.5)',
-                  color: form.categories.includes(cat) ? '#2dd4bf' : '#6b7280',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(45,212,191,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  background: form.categories.includes(cat) ? 'rgba(242,169,0,0.12)' : 'var(--color-surface-lowest)',
+                  color: form.categories.includes(cat) ? 'var(--color-accent)' : 'var(--color-muted)',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(242,169,0,0.3)' : '1px solid var(--color-border)',
                 }}
               >
                 {cat}
@@ -282,7 +279,7 @@ export default function CreateEventPage() {
         </div>
 
         {error && (
-          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444', fontSize: '13px' }}>
+          <div style={{ background: 'rgba(229,72,77,0.1)', border: '1px solid rgba(229,72,77,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: 'var(--color-danger)', fontSize: '13px' }}>
             {error}
           </div>
         )}

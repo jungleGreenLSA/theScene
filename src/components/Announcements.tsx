@@ -14,12 +14,12 @@ interface Announcement {
 }
 
 const CATEGORY_STYLES: Record<string, { color: string; bg: string; border: string; label: string }> = {
-  update: { color: '#2dd4bf', bg: 'rgba(45,212,191,0.08)', border: 'rgba(45,212,191,0.2)', label: 'Update' },
-  feature: { color: '#fb923c', bg: 'rgba(249,115,22,0.08)', border: 'rgba(249,115,22,0.2)', label: 'New Feature' },
-  maintenance: { color: '#3b82f6', bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.2)', label: 'Maintenance' },
-  outage: { color: '#ef4444', bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.2)', label: 'Outage' },
-  news: { color: '#22c55e', bg: 'rgba(34,197,94,0.08)', border: 'rgba(34,197,94,0.2)', label: 'News' },
-  event: { color: '#ec4899', bg: 'rgba(236,72,153,0.08)', border: 'rgba(236,72,153,0.2)', label: 'Event' },
+  update: { color: 'var(--color-accent)', bg: 'rgba(242,169,0,0.08)', border: 'rgba(242,169,0,0.2)', label: 'Update' },
+  feature: { color: 'var(--color-accent-light)', bg: 'rgba(242,169,0,0.08)', border: 'rgba(242,169,0,0.2)', label: 'New Feature' },
+  maintenance: { color: 'var(--color-steel)', bg: 'rgba(142,163,184,0.08)', border: 'rgba(142,163,184,0.2)', label: 'Maintenance' },
+  outage: { color: 'var(--color-danger)', bg: 'rgba(229,72,77,0.08)', border: 'rgba(229,72,77,0.2)', label: 'Outage' },
+  news: { color: 'var(--color-success)', bg: 'rgba(86,194,113,0.08)', border: 'rgba(86,194,113,0.2)', label: 'News' },
+  event: { color: 'var(--color-accent)', bg: 'rgba(242,169,0,0.08)', border: 'rgba(242,169,0,0.2)', label: 'Event' },
 }
 
 function timeAgo(date: string) {
@@ -60,7 +60,7 @@ export default function Announcements() {
   }
 
   return (
-    <div className="glass" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(45,212,191,0.15)' }}>
+    <div className="panel" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(242,169,0,0.15)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
         <p className="eyebrow" style={{ marginBottom: 0 }}>News &amp; Updates</p>
       </div>
@@ -89,16 +89,16 @@ export default function Announcements() {
                   {style.label}
                 </span>
                 {a.is_pinned && (
-                  <span style={{ fontSize: '10px', color: '#fb923c', fontWeight: 600 }}>Pinned</span>
+                  <span style={{ fontSize: '10px', color: 'var(--color-accent-light)', fontWeight: 600 }}>Pinned</span>
                 )}
-                <span style={{ fontSize: '11px', color: '#6b7280', marginLeft: 'auto' }}>{timeAgo(a.created_at)}</span>
+                <span style={{ fontSize: '11px', color: 'var(--color-muted)', marginLeft: 'auto' }}>{timeAgo(a.created_at)}</span>
               </div>
 
               {/* Title */}
-              <h4 style={{ fontSize: '14px', fontWeight: 600, color: '#e2e4e9', marginBottom: '6px' }}>{a.title}</h4>
+              <h4 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '6px' }}>{a.title}</h4>
 
               {/* Content */}
-              <p style={{ fontSize: '13px', color: '#9ca3af', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+              <p style={{ fontSize: '13px', color: 'var(--color-muted-light)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
                 {isLong && !isExpanded ? a.content.slice(0, 200) + '...' : a.content}
               </p>
 
@@ -112,7 +112,7 @@ export default function Announcements() {
               )}
 
               {/* Author */}
-              <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '8px' }}>
+              <p style={{ fontSize: '11px', color: 'var(--color-muted)', marginTop: '8px' }}>
                 Posted by {a.author?.display_name || a.author?.username || 'Admin'}
               </p>
             </div>

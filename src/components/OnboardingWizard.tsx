@@ -13,15 +13,24 @@ interface Profile {
   onboarded_at: string | null
 }
 
+// Google sign-ups arrive with a placeholder handle from the DB trigger
+// (user_ + first 8 chars of the uuid). Those members pick a real one first.
+const PLACEHOLDER_HANDLE = /^user_[0-9a-f]{8}$/i
+
+// 0 = handle (OAuth only), 1 = location, 2 = avatar, 3 = first ride
+type Step = 0 | 1 | 2 | 3
+
 export default function OnboardingWizard() {
   const supabase = createClient()
   const [profile, setProfile] = useState<Profile | null>(null)
-  const [step, setStep] = useState<1 | 2 | 3>(1)
+  const [needsHandle, setNeedsHandle] = useState(false)
+  const [step, setStep] = useState<Step>(1)
   const [open, setOpen] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
   // Step state
+  const [handle, setHandle] = useState('')
   const [location, setLocation] = useState('')
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [vehicle, setVehicle] = useState({ year: '', make: '', model: '', color: '' })
@@ -35,11 +44,14 @@ export default function OnboardingWizard() {
       const { data: p } = await supabase.from('profiles').select('id, username, location, avatar_url, onboarded_at').eq('id', user.id).maybeSingle()
       if (!p || p.onboarded_at) return
       const { data: v } = await supabase.from('vehicles').select('id').eq('owner_id', user.id).limit(1)
-      setHasVehicle((v || []).length > 0)
+      const owns = (v || []).length > 0
+      const placeholder = PLACEHOLDER_HANDLE.test(p.username || '')
+      setHasVehicle(owns)
+      setNeedsHandle(placeholder)
       setProfile(p as Profile)
       setLocation(p.location || '')
       // Skip steps that are already done
-      const startStep = !p.location ? 1 : !p.avatar_url ? 2 : (v && v.length > 0) ? null : 3
+      const startStep: Step | null = placeholder ? 0 : !p.location ? 1 : !p.avatar_url ? 2 : owns ? null : 3
       if (startStep === null) { finish(p.id); return }
       setStep(startStep)
       setOpen(true)
@@ -51,6 +63,24 @@ export default function OnboardingWizard() {
   const finish = async (id: string) => {
     await supabase.from('profiles').update({ onboarded_at: new Date().toISOString() }).eq('id', id)
     setOpen(false)
+  }
+
+  const submitHandle = async () => {
+    if (!profile) return
+    const h = handle.trim().toLowerCase()
+    if (h.length < 3) { setError('At least 3 characters'); return }
+    if (!/^[a-z0-9_]+$/.test(h)) { setError('Letters, numbers and underscores only'); return }
+    if (PLACEHOLDER_HANDLE.test(h)) { setError('Pick something a little more you'); return }
+    setBusy(true)
+    const { error: upErr } = await supabase.from('profiles').update({ username: h }).eq('id', profile.id)
+    setBusy(false)
+    if (upErr) {
+      setError(upErr.code === '23505' ? 'That handle is taken — try another' : upErr.message)
+      return
+    }
+    setProfile({ ...profile, username: h })
+    setError('')
+    setStep(profile.location ? (profile.avatar_url ? 3 : 2) : 1)
   }
 
   const submitLocation = async () => {
@@ -116,48 +146,74 @@ export default function OnboardingWizard() {
 
   if (!open || !profile) return null
 
-  const stepColor = '#2dd4bf'
+  const total = needsHandle ? 4 : 3
+  const current = needsHandle ? step + 1 : step
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-      <div className="glass" style={{ width: '100%', maxWidth: '480px', padding: '28px', position: 'relative' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: stepColor }}>Step {step} of 3</span>
-          <button onClick={skip} style={{ background: 'none', border: 'none', color: '#6b7280', fontSize: '12px', cursor: 'pointer' }}>Skip for now</button>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.78)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+      <div role="dialog" aria-modal="true" aria-labelledby="onboarding-title" className="panel panel-accent" style={{ width: '100%', maxWidth: '480px', padding: '26px', position: 'relative' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+          <span className="eyebrow">Step {current} of {total}</span>
+          {/* The handle step can't be skipped — everything else can. */}
+          {step !== 0 && (
+            <button type="button" onClick={skip} style={{ background: 'none', border: 'none', color: 'var(--color-muted)', fontSize: '12px', cursor: 'pointer' }}>Skip for now</button>
+          )}
         </div>
+
+        {step === 0 && (
+          <>
+            <h2 id="onboarding-title" style={{ fontSize: '30px', marginBottom: '6px' }}>Pick your handle</h2>
+            <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '16px' }}>This is your garage&apos;s address. You can change it later from Settings.</p>
+            <input
+              value={handle}
+              onChange={(e) => setHandle(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') submitHandle() }}
+              className="input"
+              placeholder="ex: chevyguy95"
+              autoFocus
+              autoComplete="username"
+              minLength={3}
+            />
+            <p className="spec" style={{ fontSize: '11px', marginTop: '6px' }}>thescene.fyi/user/<span style={{ color: 'var(--color-foreground)' }}>{handle.trim().toLowerCase() || 'yourname'}</span></p>
+            {error && <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginTop: '8px' }}>{error}</p>}
+            <button type="button" onClick={submitHandle} disabled={busy} className="btn-primary" style={{ width: '100%', marginTop: '16px' }}>
+              {busy ? 'Saving…' : 'Claim it →'}
+            </button>
+          </>
+        )}
 
         {step === 1 && (
           <>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Where are you based?</h2>
-            <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '18px' }}>So we can show you nearby events, clubs, and shops.</p>
+            <h2 id="onboarding-title" style={{ fontSize: '30px', marginBottom: '6px' }}>Where are you based?</h2>
+            <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '16px' }}>So we can show you nearby events, clubs, and shops.</p>
             <AddressAutocomplete
               defaultValue={location}
               placeholder="Start typing your city..."
               mode="city"
               onChange={(a) => { const v = [a.city, a.state].filter(Boolean).join(', '); if (v) setLocation(v) }}
             />
-            {error && <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '8px' }}>{error}</p>}
-            <button onClick={submitLocation} disabled={busy} className="btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: '16px', opacity: busy ? 0.5 : 1 }}>
-              {busy ? 'Saving...' : 'Next →'}
+            {error && <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginTop: '8px' }}>{error}</p>}
+            <button type="button" onClick={submitLocation} disabled={busy} className="btn-primary" style={{ width: '100%', marginTop: '16px' }}>
+              {busy ? 'Saving…' : 'Next →'}
             </button>
           </>
         )}
 
         {step === 2 && (
           <>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>Add a profile photo</h2>
-            <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '18px' }}>Optional — you can always add one later from Settings.</p>
-            <label style={{ display: 'block', padding: '32px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.15)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.5)' }}>
+            <h2 id="onboarding-title" style={{ fontSize: '30px', marginBottom: '6px' }}>Add a profile photo</h2>
+            <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '16px' }}>Optional — you can always add one later from Settings.</p>
+            <label className="panel-inset" style={{ display: 'block', padding: '30px', borderStyle: 'dashed', borderColor: 'var(--color-border-hover)', textAlign: 'center', cursor: 'pointer' }}>
               <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
-              <span style={{ fontSize: '13px', color: avatarFile ? '#22c55e' : '#8892a4' }}>
+              <span style={{ fontSize: '13px', color: avatarFile ? 'var(--color-success)' : 'var(--color-muted-light)' }}>
                 {avatarFile ? avatarFile.name : 'Tap to upload'}
               </span>
             </label>
-            {error && <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '8px' }}>{error}</p>}
+            {error && <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginTop: '8px' }}>{error}</p>}
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-              <button onClick={() => setStep(1)} className="btn-outline" style={{ flex: 1, justifyContent: 'center', padding: '10px' }}>Back</button>
-              <button onClick={submitAvatar} disabled={busy} className="btn-primary" style={{ flex: 2, justifyContent: 'center', padding: '10px', opacity: busy ? 0.5 : 1 }}>
-                {busy ? 'Uploading...' : avatarFile ? 'Next →' : 'Skip →'}
+              <button type="button" onClick={() => setStep(1)} className="btn-outline" style={{ flex: 1 }}>Back</button>
+              <button type="button" onClick={submitAvatar} disabled={busy} className="btn-primary" style={{ flex: 2 }}>
+                {busy ? 'Uploading…' : avatarFile ? 'Next →' : 'Skip →'}
               </button>
             </div>
           </>
@@ -165,11 +221,11 @@ export default function OnboardingWizard() {
 
         {step === 3 && (
           <>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#e2e4e9', marginBottom: '8px' }}>
-              {hasVehicle ? 'You\'re all set!' : 'Add your first ride'}
+            <h2 id="onboarding-title" style={{ fontSize: '30px', marginBottom: '6px' }}>
+              {hasVehicle ? 'You\'re all set' : 'Park your first ride'}
             </h2>
-            <p style={{ fontSize: '13px', color: '#8892a4', marginBottom: '18px' }}>
-              {hasVehicle ? 'Welcome to The Scene. Start exploring.' : 'You can add more vehicles and mods later from your Garage.'}
+            <p className="text-muted-light" style={{ fontSize: '13px', marginBottom: '16px' }}>
+              {hasVehicle ? 'Welcome to The Scene. Go find your people.' : 'You can add more cars, photos and mods later from your Garage.'}
             </p>
             {!hasVehicle && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -179,19 +235,19 @@ export default function OnboardingWizard() {
                   <input placeholder="Model" value={vehicle.model} onChange={(e) => setVehicle({ ...vehicle, model: e.target.value })} className="input" style={{ flex: 1 }} />
                 </div>
                 <input placeholder="Color (optional)" value={vehicle.color} onChange={(e) => setVehicle({ ...vehicle, color: e.target.value })} className="input" />
-                <label style={{ display: 'block', padding: '16px', borderRadius: '8px', border: '2px dashed rgba(255,255,255,0.1)', textAlign: 'center', cursor: 'pointer', background: 'rgba(18,18,30,0.4)' }}>
+                <label className="panel-inset" style={{ display: 'block', padding: '16px', borderStyle: 'dashed', borderColor: 'var(--color-border-hover)', textAlign: 'center', cursor: 'pointer' }}>
                   <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setVehicleFile(e.target.files?.[0] || null)} style={{ display: 'none' }} />
-                  <span style={{ fontSize: '12px', color: vehicleFile ? '#22c55e' : '#8892a4' }}>
+                  <span style={{ fontSize: '12px', color: vehicleFile ? 'var(--color-success)' : 'var(--color-muted-light)' }}>
                     {vehicleFile ? vehicleFile.name : 'Cover photo (optional)'}
                   </span>
                 </label>
               </div>
             )}
-            {error && <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '8px' }}>{error}</p>}
+            {error && <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginTop: '8px' }}>{error}</p>}
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-              <button onClick={() => setStep(2)} className="btn-outline" style={{ flex: 1, justifyContent: 'center', padding: '10px' }}>Back</button>
-              <button onClick={submitVehicle} disabled={busy} className="btn-neon" style={{ flex: 2, justifyContent: 'center', padding: '10px', opacity: busy ? 0.5 : 1 }}>
-                {busy ? 'Saving...' : hasVehicle ? 'Finish' : 'Add & Finish'}
+              <button type="button" onClick={() => setStep(2)} className="btn-outline" style={{ flex: 1 }}>Back</button>
+              <button type="button" onClick={submitVehicle} disabled={busy} className="btn-primary" style={{ flex: 2 }}>
+                {busy ? 'Saving…' : hasVehicle ? 'Finish' : 'Add & finish'}
               </button>
             </div>
           </>

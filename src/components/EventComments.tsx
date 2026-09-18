@@ -69,40 +69,40 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
   }
 
   return (
-    <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
-      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#e4e1ed', marginBottom: '14px' }}>
+    <div className="panel" style={{ padding: '24px', marginBottom: '20px' }}>
+      <h2 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '14px' }}>
         Comments <span className="spec">({comments.length})</span>
       </h2>
 
       {message && (
-        <div style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{message}</div>
+        <div style={{ fontSize: '12px', color: 'var(--color-danger)', marginBottom: '10px' }}>{message}</div>
       )}
 
       {loading ? (
-        <p style={{ fontSize: '13px', color: '#6b7280' }}>Loading...</p>
+        <p style={{ fontSize: '13px', color: 'var(--color-muted)' }}>Loading...</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: currentUserId ? '16px' : 0 }}>
-          {comments.length === 0 && <p style={{ fontSize: '13px', color: '#6b7280' }}>No comments yet. Kick it off.</p>}
+          {comments.length === 0 && <p style={{ fontSize: '13px', color: 'var(--color-muted)' }}>No comments yet. Kick it off.</p>}
           {comments.map(c => {
             const canRemove = currentUserId && (currentUserId === c.author_id || currentUserId === organizerId)
             return (
               <div key={c.id} style={{ display: 'flex', gap: '12px' }}>
                 <Link href={`/user/${c.author?.username}`} style={{ flexShrink: 0 }}>
-                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'rgba(26,26,46,0.5)', backgroundImage: c.author?.avatar_url ? `url(${c.author.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {!c.author?.avatar_url && <span style={{ fontSize: '12px', color: '#6b7280' }}>{c.author?.username?.charAt(0).toUpperCase()}</span>}
+                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', backgroundImage: c.author?.avatar_url ? `url(${c.author.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {!c.author?.avatar_url && <span style={{ fontSize: '12px', color: 'var(--color-muted)' }}>{c.author?.username?.charAt(0).toUpperCase()}</span>}
                   </div>
                 </Link>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px', flexWrap: 'wrap' }}>
-                    <Link href={`/user/${c.author?.username}`} style={{ fontSize: '13px', fontWeight: 600, color: '#e4e1ed' }}>
+                    <Link href={`/user/${c.author?.username}`} style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-foreground)' }}>
                       {c.author?.display_name || c.author?.username}
                     </Link>
-                    <span style={{ fontSize: '11px', color: '#6b7280' }}>{timeAgo(c.created_at)}</span>
+                    <span style={{ fontSize: '11px', color: 'var(--color-muted)' }}>{timeAgo(c.created_at)}</span>
                     {canRemove && (
-                      <button onClick={() => remove(c.id)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: '#6b7280', fontSize: '11px', cursor: 'pointer', padding: '2px 6px' }}>Delete</button>
+                      <button onClick={() => remove(c.id)} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'var(--color-muted)', fontSize: '11px', cursor: 'pointer', padding: '2px 6px' }}>Delete</button>
                     )}
                   </div>
-                  <p style={{ fontSize: '14px', color: '#d1d5db', whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{c.content}</p>
+                  <p style={{ fontSize: '14px', color: 'var(--color-foreground-soft)', whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{c.content}</p>
                 </div>
               </div>
             )
@@ -111,7 +111,7 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
       )}
 
       {currentUserId && (
-        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', paddingTop: comments.length > 0 ? '16px' : '4px', marginTop: comments.length > 0 ? '2px' : 0, borderTop: comments.length > 0 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', paddingTop: comments.length > 0 ? '16px' : '4px', marginTop: comments.length > 0 ? '2px' : 0, borderTop: comments.length > 0 ? '1px solid var(--color-border)' : 'none' }}>
           <textarea
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
@@ -122,7 +122,7 @@ export default function EventComments({ eventId, organizerId }: { eventId: strin
             style={{ resize: 'vertical', minHeight: '60px' }}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px' }}>
-            <span className="spec" style={{ color: draft.length > 450 ? '#f97316' : '#6b7280' }}>{500 - draft.length}</span>
+            <span className="spec" style={{ color: draft.length > 450 ? 'var(--color-accent)' : 'var(--color-muted)' }}>{500 - draft.length}</span>
             <button type="submit" disabled={submitting || !draft.trim()} className="btn-primary" style={{ fontSize: '12px', padding: '8px 20px', opacity: (submitting || !draft.trim()) ? 0.5 : 1 }}>
               {submitting ? 'Posting...' : 'Post Comment'}
             </button>

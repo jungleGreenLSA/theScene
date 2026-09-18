@@ -57,7 +57,7 @@ export default function ShopsPage() {
         <Link href="/shops/create" className="btn-primary text-xs">+ Add Shop</Link>
       </div>
 
-      <div className="glass" style={{ padding: '20px', marginBottom: '20px' }}>
+      <div className="panel" style={{ padding: '20px', marginBottom: '20px' }}>
         <input
           type="text"
           value={search}
@@ -74,10 +74,10 @@ export default function ShopsPage() {
 
       {loading ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
-          {[1,2,3].map(i => <div key={i} className="glass animate-pulse" style={{ height: '200px' }} />)}
+          {[1,2,3].map(i => <div key={i} className="panel animate-pulse" style={{ height: '200px' }} />)}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="glass text-center" style={{ padding: '48px 32px' }}>
+        <div className="panel text-center" style={{ padding: '48px 32px' }}>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No shops yet</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '20px' }}>Be the first to add a shop to The Scene.</p>
           <Link href="/shops/create" className="btn-primary">+ Add a Shop</Link>
@@ -85,15 +85,15 @@ export default function ShopsPage() {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
           {filtered.map((shop) => (
-            <Link key={shop.id} href={`/shops/${shop.slug}`} className="glass overflow-hidden card-hover group">
-              <div style={{ height: '120px', position: 'relative', overflow: 'hidden', background: 'rgba(26,26,46,0.5)' }}>
+            <Link key={shop.id} href={`/shops/${shop.slug}`} className="panel overflow-hidden card-hover group">
+              <div style={{ height: '120px', position: 'relative', overflow: 'hidden', background: 'var(--color-surface-light)' }}>
                 {shop.cover_image_url ? (
                   <img src={shop.cover_image_url} alt={shop.name} className="group-hover:scale-105 transition-transform duration-500" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(45,212,191,0.08), rgba(139,92,246,0.08))' }} />
+                  <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(242,169,0,0.08), rgba(142,163,184,0.08))' }} />
                 )}
                 {shop.logo_url && (
-                  <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: '#0c0c14', border: '2px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ position: 'absolute', bottom: '8px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-background)', border: '2px solid var(--color-border)' }}>
                     <img src={shop.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </div>
                 )}
@@ -106,11 +106,11 @@ export default function ShopsPage() {
                 {shop.specialties && shop.specialties.length > 0 && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
                     {shop.specialties.slice(0, 3).map((t, i) => (
-                      <span key={i} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(45,212,191,0.08)', border: '1px solid rgba(45,212,191,0.2)', color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>{t}</span>
+                      <span key={i} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '4px', background: 'rgba(242,169,0,0.08)', border: '1px solid rgba(242,169,0,0.2)', color: 'var(--color-accent)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>{t}</span>
                     ))}
                   </div>
                 )}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid var(--color-border)' }}>
                   <span className="text-muted spec" style={{ fontSize: '12px' }}>{shop.tag_count} {shop.tag_count === 1 ? 'build' : 'builds'}</span>
                 </div>
               </div>
