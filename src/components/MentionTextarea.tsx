@@ -135,14 +135,14 @@ const MentionTextarea = forwardRef<HTMLTextAreaElement, Props>(function MentionT
       {mentionRange && (matches.length > 0 || searching || mentionRange.q.length > 0) && (
         <div style={{
           position: 'absolute', zIndex: 20, left: 0, right: 0, top: '100%', marginTop: '4px',
-          background: 'var(--color-surface)', border: '1px solid rgba(242,169,0,0.35)', borderRadius: '8px',
+          background: '#12121e', border: '1px solid rgba(232,120,23,0.35)', borderRadius: '8px',
           boxShadow: '0 8px 24px rgba(0,0,0,0.5)', overflow: 'hidden',
         }}>
           {searching && matches.length === 0 && (
-            <div style={{ padding: '10px 12px', fontSize: '12px', color: 'var(--color-muted-light)' }}>Searching…</div>
+            <div style={{ padding: '10px 12px', fontSize: '12px', color: '#666666' }}>Searching…</div>
           )}
           {!searching && matches.length === 0 && mentionRange.q.length > 0 && (
-            <div style={{ padding: '10px 12px', fontSize: '12px', color: 'var(--color-muted-light)' }}>No users matching &ldquo;@{mentionRange.q}&rdquo;</div>
+            <div style={{ padding: '10px 12px', fontSize: '12px', color: '#666666' }}>No users matching &ldquo;@{mentionRange.q}&rdquo;</div>
           )}
           {matches.map((m, i) => (
             <button
@@ -153,15 +153,15 @@ const MentionTextarea = forwardRef<HTMLTextAreaElement, Props>(function MentionT
               style={{
                 display: 'flex', alignItems: 'center', gap: '10px', width: '100%',
                 padding: '8px 12px', cursor: 'pointer', border: 'none', textAlign: 'left',
-                background: i === activeIdx ? 'rgba(242,169,0,0.12)' : 'transparent',
+                background: i === activeIdx ? 'rgba(232,120,23,0.15)' : 'transparent',
               }}
             >
-              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', backgroundImage: m.avatar_url ? `url(${m.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {!m.avatar_url && <span style={{ fontSize: '11px', color: 'var(--color-muted)' }}>{m.username.charAt(0).toUpperCase()}</span>}
+              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', backgroundImage: m.avatar_url ? `url(${m.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {!m.avatar_url && <span style={{ fontSize: '11px', color: '#555555' }}>{m.username.charAt(0).toUpperCase()}</span>}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-foreground)' }}>@{m.username}</p>
-                {m.display_name && <p style={{ fontSize: '11px', color: 'var(--color-muted-light)' }}>{m.display_name}</p>}
+                <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>@{m.username}</p>
+                {m.display_name && <p style={{ fontSize: '11px', color: '#666666' }}>{m.display_name}</p>}
               </div>
             </button>
           ))}

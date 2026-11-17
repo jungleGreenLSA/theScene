@@ -36,11 +36,9 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <button
         onClick={() => setOpen(!open)}
-        style={{ background: 'none', border: 'none', color: 'var(--color-muted)', fontSize: '12px', fontWeight: 600, cursor: 'pointer', padding: '8px 10px', borderRadius: '4px', minHeight: '44px', transition: 'color 0.15s' }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-muted-light)')}
-        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--color-muted)')}
-        aria-expanded={open}
-        aria-label="Report content"
+        style={{ background: 'none', border: 'none', color: '#555555', fontSize: '14px', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px' }}
+        onMouseEnter={(e) => (e.currentTarget.style.color = '#ef4444')}
+        onMouseLeave={(e) => (e.currentTarget.style.color = '#555555')}
         title="Report content"
       >
         Report
@@ -52,17 +50,17 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
           bottom: '100%',
           right: 0,
           marginBottom: '8px',
-          width: 'min(240px, calc(100vw - 32px))',
-          background: 'var(--color-surface-lowest)',
+          width: '240px',
+          background: '#f0f0f0',
           backdropFilter: 'blur(16px)',
-          border: '1px solid var(--color-border)',
+          border: '1px solid #e4e4e4',
           borderRadius: '10px',
           padding: '16px',
           zIndex: 50,
           boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
         }}>
           {submitted ? (
-            <p style={{ fontSize: '13px', color: 'var(--color-success)', fontWeight: 500 }}>Report submitted. Thank you.</p>
+            <p style={{ fontSize: '13px', color: '#22c55e', fontWeight: 500 }}>Report submitted. Thank you.</p>
           ) : (
             <>
               <p className="font-semibold text-foreground" style={{ fontSize: '13px', marginBottom: '8px' }}>Report this {targetType}</p>
@@ -82,14 +80,14 @@ export default function ContentReport({ targetType, targetId }: ContentReportPro
               <div style={{ display: 'flex', gap: '6px' }}>
                 <button
                   onClick={() => { setOpen(false); setReason('') }}
-                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: 'var(--color-surface-light)', border: '1px solid var(--color-border)', color: 'var(--color-muted-light)', fontSize: '11px', fontWeight: 600, cursor: 'pointer', minHeight: '44px' }}
+                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#555555', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSubmit}
                   disabled={!reason || loading}
-                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: reason ? 'var(--color-danger)' : 'rgba(229,72,77,0.2)', border: 'none', color: reason ? 'white' : 'var(--color-muted)', fontSize: '11px', fontWeight: 700, cursor: reason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1, minHeight: '44px' }}
+                  style={{ flex: 1, padding: '8px', borderRadius: '6px', background: reason ? '#ef4444' : 'rgba(239,68,68,0.3)', border: 'none', color: 'white', fontSize: '11px', fontWeight: 600, cursor: reason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1 }}
                 >
                   Report
                 </button>

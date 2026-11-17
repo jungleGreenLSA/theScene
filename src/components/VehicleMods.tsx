@@ -98,42 +98,42 @@ export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
     setMods(ms => ms.filter(m => m.id !== id))
   }
 
-  if (loading) return <p style={{ fontSize: '13px', color: 'var(--color-muted)' }}>Loading mods...</p>
+  if (loading) return <p style={{ fontSize: '13px', color: '#555555' }}>Loading mods...</p>
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
       {CATEGORY_GROUPS.map(group => (
         <div key={group.section}>
-          <h3 className="eyebrow" style={{ marginBottom: '10px' }}>
+          <h3 style={{ fontSize: '12px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#f97316', marginBottom: '10px' }}>
             {group.section}
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {group.categories.map(cat => {
               const items = byCategory(cat.key)
               return (
-                <div key={cat.key} style={{ padding: '14px', borderRadius: '8px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)' }}>
+                <div key={cat.key} style={{ padding: '14px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid rgba(255,255,255,0.05)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: items.length > 0 ? '10px' : 0 }}>
                     <div style={{ minWidth: 0 }}>
-                      <p style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-foreground)' }}>{cat.label}</p>
-                      <p style={{ fontSize: '11px', color: 'var(--color-muted)' }}>{cat.hint}</p>
+                      <p style={{ fontSize: '13px', fontWeight: 700, color: '#1a1a1a' }}>{cat.label}</p>
+                      <p style={{ fontSize: '11px', color: '#555555' }}>{cat.hint}</p>
                     </div>
                     {openCategory !== cat.key && (
-                      <button type="button" onClick={() => openAdd(cat.key)} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(242,169,0,0.1)', border: '1px solid rgba(242,169,0,0.3)', color: 'var(--color-accent)', fontSize: '11px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '32px' }}>+ Add</button>
+                      <button type="button" onClick={() => openAdd(cat.key)} style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(232,120,23,0.15)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316', fontSize: '11px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>+ Add</button>
                     )}
                   </div>
 
                   {items.length > 0 && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                       {items.map(m => (
-                        <div key={m.id} style={{ padding: '10px 12px', borderRadius: '6px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)' }}>
+                        <div key={m.id} style={{ padding: '10px 12px', borderRadius: '6px', background: '#f0f0f0', border: '1px solid #f5f5f5' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
                             <div style={{ minWidth: 0, flex: 1 }}>
-                              <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-foreground)' }}>{m.item}</p>
-                              {m.brand && <p className="spec" style={{ fontSize: '11px', color: 'var(--color-accent)', marginTop: '2px' }}>{m.brand}</p>}
-                              {m.notes && <p style={{ fontSize: '12px', color: 'var(--color-muted-light)', marginTop: '4px', whiteSpace: 'pre-wrap' }}>{m.notes}</p>}
+                              <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{m.item}</p>
+                              {m.brand && <p style={{ fontSize: '11px', color: '#f97316', marginTop: '2px' }}>{m.brand}</p>}
+                              {m.notes && <p style={{ fontSize: '12px', color: '#666666', marginTop: '4px', whiteSpace: 'pre-wrap' }}>{m.notes}</p>}
                             </div>
                             <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
-                              <button type="button" onClick={() => openEdit(m)} style={{ padding: '4px 10px', borderRadius: '4px', background: 'var(--color-surface-light)', border: '1px solid var(--color-border)', color: 'var(--color-muted-light)', fontSize: '11px', fontWeight: 600, cursor: 'pointer', minHeight: '32px' }}>Edit</button>
+                              <button type="button" onClick={() => openEdit(m)} style={{ padding: '4px 10px', borderRadius: '4px', background: '#f5f5f5', border: '1px solid #d4d4d4', color: '#555555', fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>Edit</button>
                               <button type="button" onClick={() => remove(m.id)} className="btn-danger-sm">Remove</button>
                             </div>
                           </div>
@@ -143,14 +143,14 @@ export default function VehicleMods({ vehicleId }: { vehicleId: string }) {
                   )}
 
                   {openCategory === cat.key && (
-                    <div style={{ marginTop: items.length > 0 ? '10px' : '12px', padding: '12px', borderRadius: '6px', background: 'rgba(242,169,0,0.05)', border: '1px solid rgba(242,169,0,0.2)' }}>
+                    <div style={{ marginTop: items.length > 0 ? '10px' : '12px', padding: '12px', borderRadius: '6px', background: 'rgba(232,120,23,0.05)', border: '1px solid rgba(232,120,23,0.2)' }}>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         <input value={draft.item} onChange={(e) => setDraft({ ...draft, item: e.target.value })} className="input" placeholder={`Part / mod (e.g. "Kooks Long Tube Headers")`} maxLength={200} autoFocus />
                         <input value={draft.brand} onChange={(e) => setDraft({ ...draft, brand: e.target.value })} className="input" placeholder="Brand (optional)" maxLength={100} />
                         <textarea value={draft.notes} onChange={(e) => setDraft({ ...draft, notes: e.target.value })} className="input" rows={2} placeholder="Notes (optional)" maxLength={500} />
-                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
-                          <button type="button" onClick={cancel} style={{ padding: '8px 14px', borderRadius: '6px', background: 'var(--color-surface-light)', border: '1px solid var(--color-border)', color: 'var(--color-muted-light)', fontSize: '12px', fontWeight: 600, cursor: 'pointer', minHeight: '36px' }}>Cancel</button>
-                          <button type="button" onClick={save} disabled={saving || !draft.item.trim()} className="btn-teal" style={{ fontSize: '12px', padding: '8px 16px', opacity: (saving || !draft.item.trim()) ? 0.5 : 1, minHeight: '36px' }}>
+                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                          <button type="button" onClick={cancel} style={{ padding: '8px 14px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #d4d4d4', color: '#555555', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
+                          <button type="button" onClick={save} disabled={saving || !draft.item.trim()} className="btn-primary" style={{ fontSize: '12px', padding: '8px 16px', opacity: (saving || !draft.item.trim()) ? 0.5 : 1 }}>
                             {saving ? 'Saving...' : (editingId ? 'Save' : 'Add mod')}
                           </button>
                         </div>

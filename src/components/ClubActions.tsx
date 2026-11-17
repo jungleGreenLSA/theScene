@@ -129,15 +129,15 @@ export default function ClubActions({ clubId }: { clubId: string }) {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
         {membership === 'pending' ? (
           <>
-            <span className="chip" style={{ cursor: 'default', padding: '8px 14px', borderRadius: '6px', fontSize: '11px' }}>Pending Approval</span>
-            <button onClick={handleCancelRequest} style={{ fontSize: '11px', color: 'var(--color-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}>Cancel request</button>
+            <button disabled style={{ padding: '8px 14px', borderRadius: '6px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', color: '#fb923c', fontSize: '12px', fontWeight: 600, cursor: 'default' }}>Pending Approval</button>
+            <button onClick={handleCancelRequest} style={{ fontSize: '11px', color: '#555555', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}>Cancel request</button>
           </>
         ) : (
-          <button onClick={handleJoin} disabled={joining} className="btn-teal text-xs" style={{ opacity: joining ? 0.5 : 1 }}>
+          <button onClick={handleJoin} disabled={joining} className="btn-neon text-xs" style={{ opacity: joining ? 0.5 : 1 }}>
             {joining ? 'Sending...' : 'Request to Join'}
           </button>
         )}
-        {message && <span style={{ fontSize: '11px', color: 'var(--color-accent)' }}>{message}</span>}
+        {message && <span style={{ fontSize: '11px', color: '#22c55e' }}>{message}</span>}
       </div>
     )
   }
@@ -149,8 +149,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
         <button
           onClick={() => setShowAddMember(!showAddMember)}
-          className="btn-teal"
-          style={{ fontSize: '12px' }}
+          style={{ padding: '8px 16px', borderRadius: '6px', background: 'rgba(232,120,23,0.15)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316', fontSize: '12px', fontWeight: 600, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px' }}
         >
           {showAddMember ? 'Close' : '+ Add Member'}
         </button>
@@ -162,10 +161,10 @@ export default function ClubActions({ clubId }: { clubId: string }) {
       </div>
 
       {showAddMember && (
-        <form onSubmit={handleAddMember} style={{ width: '300px', maxWidth: '100%', padding: '16px', borderRadius: '8px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <p style={{ fontSize: '11px', color: 'var(--color-muted-light)' }}>Add a user to this club by username.</p>
+        <form onSubmit={handleAddMember} style={{ width: '300px', maxWidth: '100%', padding: '16px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #e4e4e4', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <p style={{ fontSize: '11px', color: '#666666' }}>Add a user to this club by username.</p>
           <div>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '4px' }}>Username</label>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#666666', marginBottom: '4px' }}>Username</label>
             <input
               type="text"
               value={memberUsername}
@@ -176,7 +175,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
             />
           </div>
           <div>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '4px' }}>Role</label>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#666666', marginBottom: '4px' }}>Role</label>
             <select value={memberRole} onChange={(e) => setMemberRole(e.target.value)} className="input">
               <option value="member">Member</option>
               <option value="officer">Officer</option>
@@ -184,7 +183,7 @@ export default function ClubActions({ clubId }: { clubId: string }) {
             </select>
           </div>
           {message && (
-            <p style={{ fontSize: '12px', color: message.includes('Added') ? 'var(--color-accent)' : 'var(--color-danger)' }}>{message}</p>
+            <p style={{ fontSize: '12px', color: message.includes('Added') ? '#22c55e' : '#ef4444' }}>{message}</p>
           )}
           <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '10px', fontSize: '12px', opacity: loading ? 0.5 : 1 }}>
             {loading ? 'Adding...' : 'Add to Club'}

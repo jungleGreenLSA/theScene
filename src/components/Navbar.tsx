@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -8,7 +9,6 @@ import type { User } from '@supabase/supabase-js'
 import GlobalSearch from '@/components/GlobalSearch'
 import NotificationBell from '@/components/NotificationBell'
 
-// Primary nav — what shows directly in the bar. Keep it tight.
 const PRIMARY_LINKS = [
   { href: '/feed', label: 'Feed', membersOnly: false },
   { href: '/garage', label: 'Garage', membersOnly: true },
@@ -19,19 +19,16 @@ const PRIMARY_LINKS = [
   { href: '/wwyd', label: 'WWYD', membersOnly: true },
 ]
 
-// Rest live in a "More" dropdown. Shops lives inside Market now.
 const MORE_LINKS = [
   { href: '/challenges', label: 'Challenges' },
   { href: '/leaderboard', label: 'Leaderboard' },
-  { href: '/spot', label: 'Spotted' },
 ]
 
-// Profile dropdown — every tool is available to every member.
 const PROFILE_LINKS = [
   { href: '/activity', label: 'My Activity' },
+  { href: '/analytics', label: 'Analytics' },
   { href: '/journal', label: 'Build Journal' },
-  { href: '/analytics', label: 'Garage Analytics' },
-  { href: '/collections', label: 'Saved' },
+  { href: '/collections', label: 'Collections' },
   { href: '/settings', label: 'Settings' },
 ]
 
@@ -41,35 +38,32 @@ export default function Navbar() {
   const [moreOpen, setMoreOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
-  const [initial, setInitial] = useState('ME')
   const pathname = usePathname()
   const supabase = createClient()
   const moreRef = useRef<HTMLDivElement>(null)
   const profileRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const loadProfile = async (uid: string) => {
-      const { data: profile } = await supabase.from('profiles').select('avatar_url, username').eq('id', uid).single()
-      if (profile?.avatar_url) setAvatarUrl(profile.avatar_url)
-      if (profile?.username) setInitial(profile.username.slice(0, 2).toUpperCase())
-    }
     const loadUser = async () => {
       const { data: { session } } = await supabase.auth.getSession()
       if (session?.user) {
         setUser(session.user)
-        loadProfile(session.user.id)
+        const { data: profile } = await supabase.from('profiles').select('avatar_url').eq('id', session.user.id).single()
+        if (profile?.avatar_url) setAvatarUrl(profile.avatar_url)
       }
     }
     loadUser()
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
-      if (session?.user) loadProfile(session.user.id)
+      if (session?.user) {
+        supabase.from('profiles').select('avatar_url').eq('id', session.user.id).single().then(({ data }) => {
+          if (data?.avatar_url) setAvatarUrl(data.avatar_url)
+        })
+      }
     })
     return () => { subscription.unsubscribe() }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Close dropdowns on click-outside
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false)
@@ -79,9 +73,6 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  // Close the mobile drawer on route change
-  useEffect(() => { setMenuOpen(false) }, [pathname])
-
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     window.location.href = '/'
@@ -90,136 +81,337 @@ export default function Navbar() {
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
   const moreActive = MORE_LINKS.some(l => isActive(l.href))
 
+  const tabStyle = (active: boolean): React.CSSProperties => ({
+    padding: '10px 16px',
+    fontSize: '13px',
+    fontWeight: 700,
+    color: active ? '#fff' : '#d4d4d4',
+    background: active
+      ? 'linear-gradient(180deg, #e87817 0%, #c46209 100%)'
+      : 'transparent',
+    borderRight: '1px solid #1a1a1a',
+    borderLeft: '1px solid #4a4a4a',
+    textDecoration: 'none',
+    whiteSpace: 'nowrap',
+    transition: 'background 0.1s, color 0.1s',
+  })
+
+  const dropdownLinkStyle = (active: boolean): React.CSSProperties => ({
+    display: 'block',
+    padding: '8px 14px',
+    fontSize: '12px',
+    fontWeight: 600,
+    color: active ? '#e87817' : '#222',
+    background: active ? '#fff3e6' : 'transparent',
+    textDecoration: 'none',
+    transition: 'background 0.1s',
+  })
+
   return (
-    <nav className="site-nav">
-      <div className="nav-inner">
-        {/* Wordmark */}
-        <Link href="/" className="nav-logo" aria-label="The Scene — home">
-          <span className="plate" aria-hidden="true">TS</span>
-          <span>The<span className="word-b"> Scene</span></span>
-        </Link>
+    <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
+      {/* Top row — dark bar with logo + tabs + auth */}
+      <div style={{
+        background: 'linear-gradient(180deg, #3a3a3a 0%, #222222 100%)',
+        borderBottom: '1px solid #111',
+        height: '44px',
+      }}>
+        <div style={{
+          maxWidth: '1200px', margin: '0 auto', height: '100%',
+          display: 'flex', alignItems: 'center', padding: '0 12px',
+        }}>
+          {/* Logo */}
+          <Link href="/" style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            textDecoration: 'none', paddingRight: '18px', flexShrink: 0,
+          }}>
+            <Image
+              src="/images/logo.png"
+              alt="The Scene"
+              width={28}
+              height={28}
+              style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }}
+              priority
+            />
+            <span style={{
+              fontSize: '17px', fontWeight: 800, letterSpacing: '0.5px',
+              color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,0.4)',
+            }}>
+              theScene
+            </span>
+          </Link>
 
-        {/* Search (desktop only) */}
-        {user && (
-          <div className="nav-desktop" style={{ flex: 1, maxWidth: '280px', marginLeft: '8px' }}>
-            <GlobalSearch />
-          </div>
-        )}
-
-        {/* Desktop nav */}
-        <div className="nav-desktop" style={{ marginLeft: 'auto' }}>
-          {PRIMARY_LINKS.filter(link => !link.membersOnly || user).map(link => (
-            <Link key={link.href} href={link.href} className={`nav-link${isActive(link.href) ? ' active' : ''}`}>{link.label}</Link>
-          ))}
-
-          {user && (
-            <div ref={moreRef} style={{ position: 'relative' }}>
-              <button
-                type="button"
-                onClick={() => setMoreOpen(!moreOpen)}
-                className={`nav-link${moreActive ? ' active' : ''}`}
-                aria-haspopup="menu"
-                aria-expanded={moreOpen}
+          {/* Desktop tabs */}
+          <div className="nav-desktop" style={{ marginLeft: 0, height: '100%', borderLeft: '1px solid #4a4a4a' }}>
+            {PRIMARY_LINKS.filter(link => !link.membersOnly || user).map(link => (
+              <Link
+                key={link.href}
+                href={link.href}
+                style={{ ...tabStyle(isActive(link.href)), height: '100%', display: 'inline-flex', alignItems: 'center' }}
               >
-                More <span aria-hidden="true" style={{ fontSize: '9px', marginLeft: '4px', opacity: 0.7 }}>▼</span>
-              </button>
-              {moreOpen && (
-                <div className="nav-menu" role="menu">
-                  {MORE_LINKS.map(l => (
-                    <Link key={l.href} href={l.href} role="menuitem" onClick={() => setMoreOpen(false)} className={isActive(l.href) ? 'active' : ''}>{l.label}</Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {user && <div style={{ marginLeft: '6px' }}><NotificationBell /></div>}
-
-          {user ? (
-            <div ref={profileRef} style={{ position: 'relative', marginLeft: '8px' }}>
-              <button
-                type="button"
-                onClick={() => setProfileOpen(!profileOpen)}
-                title="Profile menu"
-                aria-haspopup="menu"
-                aria-expanded={profileOpen}
-                className="nav-avatar"
-                style={{ backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none' }}
-              >
-                {!avatarUrl && <span>{initial}</span>}
-              </button>
-              {profileOpen && (
-                <div className="nav-menu" role="menu" style={{ minWidth: '210px' }}>
-                  {PROFILE_LINKS.map(l => (
-                    <Link key={l.href} href={l.href} role="menuitem" onClick={() => setProfileOpen(false)} className={isActive(l.href) ? 'active' : ''}>{l.label}</Link>
-                  ))}
-                  <div className="sep" />
-                  <button type="button" onClick={handleSignOut} className="danger">Sign out</button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div style={{ display: 'flex', gap: '8px', marginLeft: '12px', alignItems: 'center' }}>
-              <Link href="/auth/login" className="btn-outline" style={{ padding: '9px 16px', fontSize: '13px' }}>Sign in</Link>
-              <Link href="/auth/register" className="btn-primary" style={{ padding: '9px 18px', fontSize: '13px' }}>Join free</Link>
-            </div>
-          )}
-        </div>
-
-        {/* Mobile hamburger */}
-        <button className="nav-mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen}>
-          <span style={{ transform: menuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
-          <span style={{ opacity: menuOpen ? 0 : 1 }} />
-          <span style={{ transform: menuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
-        </button>
-      </div>
-
-      {/* Mobile drawer */}
-      {menuOpen && (
-        <div className="nav-mobile-menu">
-          <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid var(--color-border)' }}>
-            {user ? (
-              <Link href="/settings" onClick={() => setMenuOpen(false)} className="panel" style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 12px', color: 'var(--color-foreground)' }}>
-                <div className="nav-avatar" style={{ width: '42px', height: '42px', backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none' }}>
-                  {!avatarUrl && <span>{initial}</span>}
-                </div>
-                <div style={{ minWidth: 0, flex: 1 }}>
-                  <p style={{ fontSize: '15px', fontWeight: 600 }}>My profile</p>
-                  <p className="spec" style={{ fontSize: '12px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.email || 'Open settings'}</p>
-                </div>
-                <span aria-hidden="true" style={{ color: 'var(--color-muted)' }}>›</span>
+                {link.label}
               </Link>
-            ) : (
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="btn-outline" style={{ flex: 1, padding: '14px' }}>Sign in</Link>
-                <Link href="/auth/register" onClick={() => setMenuOpen(false)} className="btn-primary" style={{ flex: 1, padding: '14px' }}>Join free</Link>
+            ))}
+
+            {user && (
+              <div ref={moreRef} style={{ position: 'relative', height: '100%' }}>
+                <button
+                  onClick={() => setMoreOpen(!moreOpen)}
+                  style={{
+                    ...tabStyle(moreActive || moreOpen),
+                    height: '100%',
+                    border: 'none',
+                    borderRight: '1px solid #1a1a1a',
+                    borderLeft: '1px solid #4a4a4a',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  More <span style={{ fontSize: '9px', opacity: 0.8 }}>▾</span>
+                </button>
+                {moreOpen && (
+                  <div style={{
+                    position: 'absolute', top: '100%', left: 0, minWidth: '180px',
+                    background: '#fff', border: '1px solid #888',
+                    borderTop: 'none', boxShadow: '0 4px 10px rgba(0,0,0,0.25)',
+                  }}>
+                    {MORE_LINKS.map(l => (
+                      <Link
+                        key={l.href}
+                        href={l.href}
+                        onClick={() => setMoreOpen(false)}
+                        style={dropdownLinkStyle(isActive(l.href))}
+                      >
+                        {l.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
 
-          <div style={{ padding: '4px 8px 12px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            <p className="group-label">Main</p>
+          {/* Right side — search + notifications + auth/profile */}
+          <div className="nav-desktop" style={{ marginLeft: 'auto', gap: '10px', alignItems: 'center' }}>
+            {user && (
+              <div style={{ width: '220px' }}>
+                <GlobalSearch />
+              </div>
+            )}
+            {user && <NotificationBell />}
+            {user ? (
+              <div ref={profileRef} style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  title="Profile menu"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    padding: '3px 8px 3px 3px', background: 'rgba(255,255,255,0.08)',
+                    border: '1px solid #555', borderRadius: '3px', cursor: 'pointer',
+                  }}
+                >
+                  <span style={{
+                    width: '26px', height: '26px', borderRadius: '2px', overflow: 'hidden',
+                    background: '#555', display: 'inline-block',
+                    backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none',
+                    backgroundSize: 'cover', backgroundPosition: 'center',
+                  }} />
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#fff' }}>Me ▾</span>
+                </button>
+                {profileOpen && (
+                  <div style={{
+                    position: 'absolute', top: '100%', right: 0, minWidth: '200px',
+                    background: '#fff', border: '1px solid #888',
+                    boxShadow: '0 4px 10px rgba(0,0,0,0.25)', marginTop: '2px',
+                  }}>
+                    {PROFILE_LINKS.map(l => (
+                      <Link
+                        key={l.href}
+                        href={l.href}
+                        onClick={() => setProfileOpen(false)}
+                        style={dropdownLinkStyle(isActive(l.href))}
+                      >
+                        {l.label}
+                      </Link>
+                    ))}
+                    <div style={{ borderTop: '1px solid #e4e4e4' }}>
+                      <button
+                        onClick={handleSignOut}
+                        style={{
+                          width: '100%', textAlign: 'left', padding: '8px 14px',
+                          fontSize: '12px', fontWeight: 600, color: '#c02b2b',
+                          background: 'none', border: 'none', cursor: 'pointer',
+                          fontFamily: 'inherit',
+                        }}
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <Link href="/auth/login" style={{
+                  padding: '5px 12px', fontSize: '12px', fontWeight: 700,
+                  color: '#fff', background: 'rgba(255,255,255,0.08)',
+                  border: '1px solid #555', borderRadius: '3px', textDecoration: 'none',
+                }}>
+                  Sign In
+                </Link>
+                <Link href="/auth/register" className="btn-neon" style={{ padding: '5px 14px', fontSize: '12px' }}>
+                  Join
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            className="nav-mobile-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+            style={{ marginLeft: 'auto' }}
+          >
+            <span style={{ transform: menuOpen ? 'rotate(45deg) translateY(6px)' : 'none' }} />
+            <span style={{ opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ transform: menuOpen ? 'rotate(-45deg) translateY(-6px)' : 'none' }} />
+          </button>
+        </div>
+      </div>
+
+      {/* Accent orange rule beneath the nav */}
+      <div className="accent-rule" style={{ height: '2px' }} />
+
+      {/* Sub-bar — "Home" breadcrumb + quick search on desktop */}
+      <div style={{
+        background: 'linear-gradient(180deg, #ebebeb 0%, #d5d5d5 100%)',
+        borderBottom: '1px solid #b5b5b5',
+        height: '22px',
+      }}>
+        <div style={{
+          maxWidth: '1200px', margin: '0 auto', height: '100%',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0 14px', fontSize: '11px', color: '#444',
+        }}>
+          <span style={{ fontWeight: 600 }}>
+            <Link href="/" style={{ color: '#444', fontWeight: 600 }}>Home</Link>
+          </span>
+          <span style={{ color: '#666' }}>
+            the car community · since 2026
+          </span>
+        </div>
+      </div>
+
+      {/* Mobile drawer */}
+      {menuOpen && (
+        <div
+          className="nav-mobile-menu"
+          style={{
+            position: 'fixed', top: '66px', left: 0, right: 0, bottom: 0,
+            background: '#f0f0f0', borderTop: '1px solid #b5b5b5',
+            overflowY: 'auto', display: 'flex', flexDirection: 'column',
+          }}
+        >
+          {/* Profile / auth block */}
+          <div style={{ padding: '14px', borderBottom: '1px solid #c4c4c4', background: '#fff' }}>
+            {user ? (
+              <Link
+                href="/settings"
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '12px',
+                  padding: '8px', background: '#fff3e6',
+                  border: '1px solid #e87817', borderRadius: '2px',
+                  color: '#222',
+                }}
+              >
+                <div style={{
+                  width: '44px', height: '44px', borderRadius: '2px', overflow: 'hidden',
+                  background: '#ddd', border: '1px solid #888',
+                  backgroundImage: avatarUrl ? `url(${avatarUrl})` : 'none',
+                  backgroundSize: 'cover', backgroundPosition: 'center',
+                }} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: '14px', fontWeight: 700 }}>My Profile</p>
+                  <p style={{ fontSize: '12px', color: '#555', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {user.email || 'Tap to open settings'}
+                  </p>
+                </div>
+                <span style={{ color: '#888' }}>›</span>
+              </Link>
+            ) : (
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="btn-outline" style={{ flex: 1, justifyContent: 'center', padding: '10px' }}>Sign In</Link>
+                <Link href="/auth/register" onClick={() => setMenuOpen(false)} className="btn-neon" style={{ flex: 1, justifyContent: 'center', padding: '10px' }}>Join</Link>
+              </div>
+            )}
+          </div>
+
+          <div style={{ padding: '8px 10px' }}>
+            <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666', padding: '10px 6px 6px' }}>Main</p>
             {PRIMARY_LINKS.filter(link => !link.membersOnly || user).map(link => (
-              <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className={`m-link${isActive(link.href) ? ' active' : ''}`}>{link.label}</Link>
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: 'block', padding: '12px 10px', fontSize: '14px', fontWeight: 600,
+                  color: isActive(link.href) ? '#e87817' : '#222',
+                  background: isActive(link.href) ? '#fff3e6' : 'transparent',
+                  borderBottom: '1px solid #e4e4e4',
+                }}
+              >
+                {link.label}
+              </Link>
             ))}
 
             {user && (
               <>
-                <p className="group-label">More</p>
+                <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666', padding: '16px 6px 6px' }}>More</p>
                 {MORE_LINKS.map(l => (
-                  <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className={`m-link${isActive(l.href) ? ' active' : ''}`}>{l.label}</Link>
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: 'block', padding: '12px 10px', fontSize: '14px', fontWeight: 600,
+                      color: isActive(l.href) ? '#e87817' : '#222',
+                      background: isActive(l.href) ? '#fff3e6' : 'transparent',
+                      borderBottom: '1px solid #e4e4e4',
+                    }}
+                  >
+                    {l.label}
+                  </Link>
                 ))}
-                <p className="group-label">You</p>
+
+                <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#666', padding: '16px 6px 6px' }}>You</p>
                 {PROFILE_LINKS.map(l => (
-                  <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} className={`m-link${isActive(l.href) ? ' active' : ''}`}>{l.label}</Link>
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: 'block', padding: '12px 10px', fontSize: '14px', fontWeight: 600,
+                      color: isActive(l.href) ? '#e87817' : '#222',
+                      background: isActive(l.href) ? '#fff3e6' : 'transparent',
+                      borderBottom: '1px solid #e4e4e4',
+                    }}
+                  >
+                    {l.label}
+                  </Link>
                 ))}
               </>
             )}
           </div>
 
           {user && (
-            <div style={{ marginTop: 'auto', padding: '16px 16px 24px', borderTop: '1px solid var(--color-border)' }}>
-              <button type="button" onClick={handleSignOut} className="btn-danger" style={{ width: '100%', justifyContent: 'center', padding: '14px' }}>Sign out</button>
+            <div style={{ marginTop: 'auto', padding: '14px', borderTop: '1px solid #c4c4c4', background: '#fff' }}>
+              <button onClick={handleSignOut} className="btn-danger" style={{ width: '100%', justifyContent: 'center', padding: '10px' }}>
+                Sign Out
+              </button>
             </div>
           )}
         </div>

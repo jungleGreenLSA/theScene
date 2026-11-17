@@ -57,29 +57,21 @@ export default function FollowLists({ userId }: { userId: string }) {
   return (
     <div>
       {/* Counts as clickable buttons */}
-      <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-        <button
-          onClick={loadFollowers}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 0', fontSize: '14px', minHeight: '44px' }}
-          aria-expanded={tab === 'followers'}
-        >
-          <strong className="spec" style={{ color: tab === 'followers' ? 'var(--color-accent)' : 'var(--color-foreground)' }}>{followerCount}</strong>
-          <span className="text-muted-light" style={{ marginLeft: '4px', color: tab === 'followers' ? 'var(--color-accent)' : undefined }}>followers</span>
+      <div style={{ display: 'flex', gap: '16px' }}>
+        <button onClick={loadFollowers} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontSize: '14px' }}>
+          <strong className="text-foreground">{followerCount}</strong>
+          <span className="text-muted-light" style={{ marginLeft: '4px' }}>followers</span>
         </button>
-        <button
-          onClick={loadFollowing}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 0', fontSize: '14px', minHeight: '44px' }}
-          aria-expanded={tab === 'following'}
-        >
-          <strong className="spec" style={{ color: tab === 'following' ? 'var(--color-accent)' : 'var(--color-foreground)' }}>{followingCount}</strong>
-          <span className="text-muted-light" style={{ marginLeft: '4px', color: tab === 'following' ? 'var(--color-accent)' : undefined }}>following</span>
+        <button onClick={loadFollowing} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontSize: '14px' }}>
+          <strong className="text-foreground">{followingCount}</strong>
+          <span className="text-muted-light" style={{ marginLeft: '4px' }}>following</span>
         </button>
       </div>
 
       {/* Expanded list */}
       {tab && (
-        <div className="panel" style={{ marginTop: '12px', padding: '16px', maxHeight: '300px', overflowY: 'auto' }}>
-          <h4 className="eyebrow" style={{ marginBottom: '12px' }}>
+        <div className="glass" style={{ marginTop: '12px', padding: '16px', maxHeight: '300px', overflowY: 'auto' }}>
+          <h4 className="font-semibold text-foreground" style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
             {tab === 'followers' ? 'Followers' : 'Following'}
           </h4>
           {list.length === 0 ? (
@@ -87,13 +79,13 @@ export default function FollowLists({ userId }: { userId: string }) {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {list.map((u) => (
-                <Link key={u.id} href={`/user/${u.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px', borderRadius: '6px', transition: 'background 0.15s' }} className="card-hover">
+                <Link key={u.id} href={`/user/${u.username}`} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px', borderRadius: '6px' }}>
                   <div style={{ position: 'relative', flexShrink: 0 }}>
-                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4' }}>
                       {u.avatar_url ? (
                         <img src={u.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (
-                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'var(--color-accent)', fontWeight: 700 }}>
+                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#555555' }}>
                           {u.username?.charAt(0).toUpperCase()}
                         </div>
                       )}

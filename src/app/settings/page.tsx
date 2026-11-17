@@ -28,11 +28,40 @@ interface Profile {
   location: string
   is_public: boolean
   avatar_url: string
+  subscription_tier: string
   username_changed_at: string | null
   filter_clubs_nearby: boolean
   filter_events_nearby: boolean
   filter_people_nearby: boolean
   filter_marketplace_nearby: boolean
+  tiktok_url: string | null
+  twitch_url: string | null
+  website_url: string | null
+  forum_signature: string | null
+}
+
+// Keep this list in sync with migration 024's sanitize_social_url().
+// We block it client-side too so we can show a friendly message instead
+// of silently nulling the field on save.
+const BLOCKED_LINK_HOSTS = [
+  'beacons.ai',
+  'linktr.ee',
+  'linktree.com',
+  'bio.link',
+  'lnk.bio',
+  'about.me',
+  'snipfeed.co',
+  'allmylinks.com',
+  'carrd.co',
+  'komi.io',
+  'stan.store',
+  'koji.to',
+]
+
+function isBlockedLink(url: string): boolean {
+  if (!url) return false
+  const lower = url.toLowerCase()
+  return BLOCKED_LINK_HOSTS.some(h => lower.includes(h))
 }
 
 const USERNAME_COOLDOWN_DAYS = 60
@@ -102,11 +131,11 @@ export default function SettingsPage() {
     setTimeout(() => setMessage(''), 3000)
   }
 
-  const updateProfile = async (field: string, value: string) => {
+  const updateProfile = async (field: string, value: string | null) => {
     if (!profile) return
     setSaving(true)
     await supabase.from('profiles').update({ [field]: value }).eq('id', profile.id)
-    setProfile({ ...profile, [field]: value })
+    setProfile({ ...profile, [field]: value } as Profile)
     setMessage('Profile updated.')
     setSaving(false)
     setTimeout(() => setMessage(''), 3000)
@@ -128,13 +157,13 @@ export default function SettingsPage() {
       <p className="text-muted-light" style={{ fontSize: '0.9rem', marginBottom: '32px' }}>Manage your profile and privacy</p>
 
       {message && (
-        <div style={{ background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: 'var(--color-success)', fontSize: '0.85rem' }}>
+        <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px', color: '#22c55e', fontSize: '0.85rem' }}>
           {message}
         </div>
       )}
 
       {/* My Activity */}
-      <Link href="/activity" className="panel" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', marginBottom: '20px', textDecoration: 'none' }}>
+      <Link href="/activity" className="glass" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', marginBottom: '20px', textDecoration: 'none' }}>
         <div>
           <h2 className="text-foreground font-bold" style={{ fontSize: '15px', marginBottom: '2px' }}>My Activity</h2>
           <p className="text-muted-light" style={{ fontSize: '12px' }}>Manage your guestbook comments, WWYD votes, and sightings</p>
@@ -143,7 +172,7 @@ export default function SettingsPage() {
       </Link>
 
       {/* Profile Settings */}
-      <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
+      <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
         <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '20px' }}>Profile</h2>
 
         {/* Avatar */}
@@ -151,15 +180,15 @@ export default function SettingsPage() {
           <label style={{ cursor: 'pointer', position: 'relative' }}>
             <div style={{
               width: '72px', height: '72px', borderRadius: '50%', flexShrink: 0,
-              border: '2px solid rgba(242,169,0,0.3)',
+              border: '2px solid rgba(232,120,23,0.3)',
               backgroundImage: profile?.avatar_url ? `url(${profile.avatar_url})` : 'none',
               backgroundSize: 'cover', backgroundPosition: 'center',
-              backgroundColor: 'var(--color-surface-light)',
+              backgroundColor: '#e4e4e4',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: 'var(--color-muted)', letterSpacing: '1px' }}>ADD</span>}
+              {!profile?.avatar_url && <span style={{ fontSize: '10px', fontWeight: 700, color: '#555555', letterSpacing: '1px' }}>ADD</span>}
             </div>
-            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: 'var(--color-accent)', border: '2px solid var(--color-surface)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'var(--color-surface)' }}>+</div>
+            <div style={{ position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px', borderRadius: '50%', background: '#e87817', border: '2px solid #12121e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'white' }}>+</div>
             <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={async (e) => {
               const file = e.target.files?.[0]
               if (!file || !profile) return
@@ -230,7 +259,7 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name <span style={{ color: 'var(--color-muted)', fontWeight: 400, textTransform: 'none' }}>(optional)</span></label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Last Name <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(optional)</span></label>
             <input
               type="text"
               defaultValue={profile?.last_name || ''}
@@ -257,7 +286,7 @@ export default function SettingsPage() {
 
         <div style={{ marginBottom: '16px' }}>
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-            Location <span style={{ color: 'var(--color-muted)', fontWeight: 400, textTransform: 'none' }}>(city autocompletes — your state powers the heatmaps)</span>
+            Location <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(city autocompletes — your state powers the heatmaps)</span>
           </label>
           <AddressAutocomplete
             defaultValue={profile?.location || ''}
@@ -270,8 +299,68 @@ export default function SettingsPage() {
           />
         </div>
 
+        {/* Forum signature — rendered at the bottom of each forum post. */}
+        <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e4e4e4' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 700, marginBottom: '10px', color: '#1a1a1a' }}>Forum Signature</h3>
+          <p style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '10px' }}>
+            Appears under every forum post. Up to 200 characters. Good for your ride, Instagram handle, or a tagline.
+          </p>
+          <textarea
+            defaultValue={profile?.forum_signature || ''}
+            onBlur={(e) => updateProfile('forum_signature', e.target.value.trim() || null)}
+            className="input"
+            rows={3}
+            maxLength={200}
+            placeholder={`2010 Chevy SS — cold air + cam\nIG: @yourhandle`}
+            style={{ fontFamily: 'inherit', fontSize: '13px', lineHeight: 1.5 }}
+          />
+        </div>
+
+        {/* Social Links — TikTok / Twitch / Website. We reject any URL
+            pointing to a link-in-bio aggregator so the platform stays
+            focused on enthusiast content, not paid promo funnels. */}
+        <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e4e4e4' }}>
+          <h3 style={{ fontSize: '14px', fontWeight: 700, marginBottom: '10px', color: '#1a1a1a' }}>Social Links</h3>
+          <p style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '14px' }}>
+            Share where you post. Aggregator links (linktree, beacons, bio.link, etc.) are not allowed.
+          </p>
+
+          {(['tiktok_url', 'twitch_url', 'website_url'] as const).map((field) => {
+            const labelMap = { tiktok_url: 'TikTok', twitch_url: 'Twitch', website_url: 'Personal Website' }
+            const placeholderMap = {
+              tiktok_url: 'https://tiktok.com/@yourhandle',
+              twitch_url: 'https://twitch.tv/yourhandle',
+              website_url: 'https://yourdomain.com',
+            }
+            return (
+              <div key={field} style={{ marginBottom: '10px' }}>
+                <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '4px' }}>
+                  {labelMap[field]}
+                </label>
+                <input
+                  type="url"
+                  defaultValue={profile?.[field] || ''}
+                  onBlur={(e) => {
+                    const val = e.target.value.trim()
+                    if (val && isBlockedLink(val)) {
+                      setMessage(`${labelMap[field]}: link-in-bio aggregators are not allowed.`)
+                      setTimeout(() => setMessage(''), 4000)
+                      e.target.value = profile?.[field] || ''
+                      return
+                    }
+                    updateProfile(field, val || null)
+                  }}
+                  className="input"
+                  placeholder={placeholderMap[field]}
+                  maxLength={256}
+                />
+              </div>
+            )
+          })}
+        </div>
+
         <div style={{ textAlign: 'right', marginTop: '8px' }}>
-          <button onClick={() => { setMessage('Profile saved!'); setTimeout(() => setMessage(''), 3000) }} className="btn-teal" style={{ padding: '10px 24px', fontSize: '13px', cursor: 'pointer' }}>
+          <button onClick={() => { setMessage('Profile saved!'); setTimeout(() => setMessage(''), 3000) }} style={{ padding: '10px 24px', borderRadius: '8px', background: '#e87817', border: '1px solid #f97316', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
             Save Changes
           </button>
         </div>
@@ -283,10 +372,10 @@ export default function SettingsPage() {
         const toggleRow = (key: 'filter_clubs_nearby' | 'filter_events_nearby' | 'filter_people_nearby' | 'filter_marketplace_nearby', label: string, desc: string) => {
           const on = !!profile[key]
           return (
-            <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid var(--color-surface-light)' }}>
+            <div key={key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid #f5f5f5' }}>
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-foreground)' }}>{label}</p>
-                <p style={{ fontSize: '11px', color: 'var(--color-muted)', marginTop: '2px' }}>{desc}</p>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{label}</p>
+                <p style={{ fontSize: '11px', color: '#555555', marginTop: '2px' }}>{desc}</p>
               </div>
               <button
                 onClick={async () => {
@@ -295,14 +384,14 @@ export default function SettingsPage() {
                 }}
                 style={{
                   width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
-                  background: on ? 'var(--color-accent)' : 'var(--color-border)',
+                  background: on ? '#e87817' : '#d4d4d4',
                   position: 'relative', transition: 'background 0.2s',
                   flexShrink: 0, marginLeft: '16px',
                 }}
               >
                 <span style={{
                   position: 'absolute', top: '3px', left: on ? '23px' : '3px',
-                  width: '18px', height: '18px', borderRadius: '50%', background: on ? 'var(--color-surface)' : 'white',
+                  width: '18px', height: '18px', borderRadius: '50%', background: 'white',
                   transition: 'left 0.2s',
                 }} />
               </button>
@@ -310,10 +399,10 @@ export default function SettingsPage() {
           )
         }
         return (
-          <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
+          <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
             <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '4px' }}>Only Show Me What&apos;s Nearby</h2>
             <p className="text-muted-light text-sm" style={{ marginBottom: '8px' }}>
-              Scope listings to within <span style={{ color: 'var(--color-steel-light)', fontWeight: 600 }}>100 miles</span> of your city{userState ? ` (${userState})` : ''}. Crosses state lines — being in Sanger TX still catches Oklahoma if it&apos;s close enough.
+              Scope listings to within <span style={{ color: '#f97316', fontWeight: 600 }}>100 miles</span> of your city{userState ? ` (${userState})` : ''}. Crosses state lines — being in Sanger TX still catches Oklahoma if it&apos;s close enough.
               {!userState && ' Set your Location above to enable these.'}
             </p>
             <div style={{ opacity: userState ? 1 : 0.5, pointerEvents: userState ? 'auto' : 'none' }}>
@@ -327,7 +416,7 @@ export default function SettingsPage() {
       })()}
 
       {/* Profile Visibility */}
-      <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
+      <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
         <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>Profile Visibility</h2>
         <p className="text-muted-light text-sm" style={{ marginBottom: '16px' }}>Control whether your profile appears in search and explore.</p>
 
@@ -337,10 +426,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: profile?.is_public ? 'rgba(242,169,0,0.15)' : 'var(--color-surface-lowest)',
-              color: profile?.is_public ? 'var(--color-accent)' : 'var(--color-muted)',
+              background: profile?.is_public ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+              color: profile?.is_public ? '#f97316' : '#555555',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: profile?.is_public ? '2px solid rgba(242,169,0,0.5)' : '1px solid var(--color-border)',
+              outline: profile?.is_public ? '2px solid #e87817' : '1px solid #e4e4e4',
             }}
           >
             Public
@@ -350,10 +439,10 @@ export default function SettingsPage() {
             disabled={saving}
             style={{
               flex: 1, padding: '14px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-              background: !profile?.is_public ? 'rgba(242,169,0,0.15)' : 'var(--color-surface-lowest)',
-              color: !profile?.is_public ? 'var(--color-accent)' : 'var(--color-muted)',
+              background: !profile?.is_public ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+              color: !profile?.is_public ? '#f97316' : '#555555',
               fontWeight: 600, fontSize: '0.85rem',
-              outline: !profile?.is_public ? '2px solid rgba(242,169,0,0.5)' : '1px solid var(--color-border)',
+              outline: !profile?.is_public ? '2px solid #e87817' : '1px solid #e4e4e4',
             }}
           >
             Private
@@ -363,13 +452,13 @@ export default function SettingsPage() {
 
       {/* Vehicle Visibility */}
       {vehicles.length > 0 && (
-        <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
+        <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
           <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '8px' }}>Vehicle Visibility</h2>
           <p className="text-muted-light text-sm" style={{ marginBottom: '16px' }}>Control whether each vehicle is visible to others. Private vehicles can still be shared via direct link.</p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {vehicles.map((v) => (
-              <div key={v.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: '8px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)' }}>
+              <div key={v.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #e4e4e4' }}>
                 <div>
                   <span className="text-foreground font-semibold" style={{ fontSize: '0.9rem' }}>{v.year} {v.make} {v.model}</span>
                   <span className="text-muted-light" style={{ fontSize: '0.8rem', marginLeft: '8px' }}>{v.color}</span>
@@ -379,8 +468,8 @@ export default function SettingsPage() {
                   disabled={saving}
                   style={{
                     padding: '8px 16px', borderRadius: '6px', border: 'none', cursor: 'pointer',
-                    background: v.is_public ? 'rgba(86,194,113,0.15)' : 'rgba(229,72,77,0.15)',
-                    color: v.is_public ? 'var(--color-success)' : 'var(--color-danger)',
+                    background: v.is_public ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)',
+                    color: v.is_public ? '#22c55e' : '#ef4444',
                     fontWeight: 600, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px',
                   }}
                 >
@@ -397,7 +486,7 @@ export default function SettingsPage() {
       )}
 
       {/* Account */}
-      <div className="panel" style={{ padding: '28px', marginBottom: '20px' }}>
+      <div className="glass" style={{ padding: '28px', marginBottom: '20px' }}>
         <h2 className="text-lg font-bold text-foreground" style={{ marginBottom: '16px' }}>Account</h2>
 
         {/* Username */}
@@ -410,10 +499,10 @@ export default function SettingsPage() {
           return (
             <div style={{ marginBottom: '20px' }}>
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>
-                Username {!canChange && <span style={{ color: 'var(--color-muted)', fontWeight: 400, textTransform: 'none' }}>(locked for {daysLeft} more day{daysLeft !== 1 ? 's' : ''})</span>}
+                Username {!canChange && <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(locked for {daysLeft} more day{daysLeft !== 1 ? 's' : ''})</span>}
               </label>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <span style={{ display: 'flex', alignItems: 'center', padding: '0 12px', color: 'var(--color-muted)', fontSize: '13px' }}>@</span>
+                <span style={{ display: 'flex', alignItems: 'center', padding: '0 12px', color: '#555555', fontSize: '13px' }}>@</span>
                 <input
                   type="text"
                   defaultValue={profile.username}
@@ -472,7 +561,7 @@ export default function SettingsPage() {
             else setMessage('Password reset link sent to ' + user.email)
             setTimeout(() => setMessage(''), 5000)
           }}
-          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'var(--color-surface-light)', border: '1px solid var(--color-border)', color: 'var(--color-muted-light)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', textAlign: 'left' }}
+          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: '#f5f5f5', border: '1px solid #d4d4d4', color: '#555555', fontSize: '13px', fontWeight: 600, cursor: 'pointer', marginBottom: '10px', textAlign: 'left' }}
         >
           Reset Password
         </button>
@@ -491,12 +580,12 @@ export default function SettingsPage() {
             await supabase.auth.signOut()
             window.location.href = '/auth/login?message=account_deleted'
           }}
-          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(229,72,77,0.05)', border: '1px solid rgba(229,72,77,0.15)', color: 'var(--color-danger)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
+          style={{ display: 'block', width: '100%', padding: '12px', borderRadius: '8px', background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
         >
           Delete My Account
         </button>
-        <p style={{ fontSize: '11px', color: 'var(--color-muted)', marginTop: '8px' }}>
-          Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" className="text-teal" style={{ textDecoration: 'none' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
+        <p style={{ fontSize: '11px', color: '#555555', marginTop: '8px' }}>
+          Account deletion is permanent. To complete deletion, contact <a href="mailto:support@thescene.fyi" style={{ color: '#f97316' }}>support@thescene.fyi</a> and we will process your request and send a confirmation.
         </p>
       </div>
     </div>

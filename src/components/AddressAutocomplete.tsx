@@ -68,18 +68,16 @@ export default function AddressAutocomplete({
         required={required}
         autoComplete="off"
       />
-      {warning && <p style={{ fontSize: '11px', color: '#eab308', marginTop: '4px' }}>{warning} — fill fields manually below.</p>}
+      {warning && <p style={{ fontSize: '11px', color: '#f59e0b', marginTop: '4px' }}>{warning} — fill fields manually below.</p>}
       {open && suggestions.length > 0 && (
-        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: '8px', overflow: 'hidden', zIndex: 50, maxHeight: '280px', overflowY: 'auto', boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(242,169,0,0.06)' }}>
+        <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', background: '#12121e', border: '1px solid #d4d4d4', borderRadius: '8px', overflow: 'hidden', zIndex: 50, maxHeight: '280px', overflowY: 'auto', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
           {suggestions.map((s, i) => (
             <button
               key={i}
               type="button"
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => pick(s)}
-              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '11px 14px', background: 'none', border: 'none', borderBottom: i < suggestions.length - 1 ? '1px solid var(--color-surface-light)' : 'none', cursor: 'pointer', color: 'var(--color-foreground)', fontSize: '13px', minHeight: '44px', transition: 'background 0.15s, color 0.15s' }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(242,169,0,0.08)'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-accent)' }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'none'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-foreground)' }}
+              style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px', background: 'none', border: 'none', borderBottom: i < suggestions.length - 1 ? '1px solid #f5f5f5' : 'none', cursor: 'pointer', color: '#1a1a1a', fontSize: '13px' }}
             >
               {s.formatted}
             </button>

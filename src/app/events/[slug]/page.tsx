@@ -75,60 +75,60 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
   const isToday = daysLeft === 0 && diff > 0
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 16px 40px' }}>
-      <Link href="/events" style={{ fontSize: '13px', color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', textDecoration: 'none' }}>&larr; Back to Events</Link>
+    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <Link href="/events" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Events</Link>
 
       {/* Event Header */}
-      <div className="panel glow-teal" style={{ overflow: 'hidden', marginBottom: '24px' }}>
-        <div style={{ height: '280px', background: 'var(--color-surface-light)', position: 'relative', overflow: 'hidden' }}>
+      <div className="glass glow-purple" style={{ overflow: 'hidden', marginBottom: '24px' }}>
+        <div style={{ height: '280px', background: '#e4e4e4', position: 'relative', overflow: 'hidden' }}>
           {event.cover_image_url ? (
-            <img src={event.cover_image_url} alt={event.title} style={{ width: '100%', height: '100%', objectFit: 'cover', maxWidth: '100%' }} />
+            <img src={event.cover_image_url} alt={event.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(242,169,0,0.1), rgba(142,163,184,0.1))' }} />
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, rgba(232,120,23,0.15), rgba(249,115,22,0.1))' }} />
           )}
 
           {/* Status badge */}
           <div style={{ position: 'absolute', top: '14px', right: '14px' }}>
             {isCompleted ? (
-              <span className="chip" style={{ borderRadius: '20px', background: 'rgba(15,16,18,0.8)', color: 'var(--color-muted-light)', borderColor: 'var(--color-border)' }}>Completed</span>
+              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: '#ffffff', color: '#666666', border: '1px solid #e4e4e4' }}>Completed</span>
             ) : isActive || isToday ? (
-              <span className="chip chip-neon" style={{ borderRadius: '20px' }}>Live Now</span>
+              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(249,115,22,0.9)', color: '#0c0c14' }}>Live Now</span>
             ) : (
-              <span className="chip chip-purple" style={{ borderRadius: '20px' }}>Upcoming</span>
+              <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700, padding: '6px 14px', borderRadius: '20px', background: 'rgba(232,120,23,0.8)', color: 'white' }}>Upcoming</span>
             )}
           </div>
 
           {/* Date badge */}
-          <div style={{ position: 'absolute', bottom: '14px', left: '14px', background: 'rgba(15,16,18,0.9)', border: '1px solid var(--color-border)', borderRadius: '10px', padding: '10px 16px', textAlign: 'center' }}>
-            <div className="spec" style={{ fontSize: '10px', color: 'var(--color-accent)' }}>
+          <div style={{ position: 'absolute', bottom: '14px', left: '14px', background: '#ffffff', border: '1px solid #e4e4e4', borderRadius: '10px', padding: '10px 16px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', color: '#fb923c', fontWeight: 700, textTransform: 'uppercase' }}>
               {eventDate.toLocaleDateString('en-US', { month: 'short' })}
             </div>
-            <div className="spec" style={{ fontSize: '28px', color: 'var(--color-foreground)', lineHeight: 1 }}>{eventDate.getDate()}</div>
-            <div className="spec" style={{ fontSize: '11px', color: 'var(--color-muted)', marginTop: '2px' }}>{eventDate.getFullYear()}</div>
+            <div style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', lineHeight: 1 }}>{eventDate.getDate()}</div>
+            <div style={{ fontSize: '11px', color: '#555555', marginTop: '2px' }}>{eventDate.getFullYear()}</div>
           </div>
         </div>
 
         <div style={{ padding: '24px' }}>
-          <h1 style={{ fontSize: '28px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '8px' }}>{event.title}</h1>
+          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>{event.title}</h1>
 
           {/* Countdown */}
           {isUpcoming && diff > 0 && (
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(242,169,0,0.08)', border: '1px solid rgba(242,169,0,0.2)', marginBottom: '14px' }}>
-              <span className="spec" style={{ fontSize: '13px', color: 'var(--color-accent)' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', marginBottom: '14px' }}>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: '#fb923c' }}>
                 {daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? 's' : ''} ${hoursLeft}h` : `${hoursLeft} hours`} until showtime
               </span>
             </div>
           )}
           {isToday && (
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.2)', marginBottom: '14px' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-success)' }}>Happening today!</span>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', marginBottom: '14px' }}>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: '#22c55e' }}>Happening today!</span>
             </div>
           )}
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '14px', alignItems: 'center' }}>
-            <span className="spec" style={{ fontSize: '14px', color: 'var(--color-muted-light)' }}>{eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} at {eventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', fontSize: '14px', color: '#666666', marginBottom: '14px', alignItems: 'center' }}>
+            <span>{eventDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} at {eventDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
             {event.location_name && <span>{event.location_name}</span>}
-            <span><span className="spec">{event.rsvp_count || 0}</span> interested</span>
+            <span>{event.rsvp_count || 0} interested</span>
             <PropsButton targetType="event" targetId={event.id} size="sm" />
             <ShareButton url={`/events/${slug}`} title={event.title} text={`${event.title} on The Scene`} small />
           </div>
@@ -141,26 +141,26 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           )}
 
           {event.location_address && (
-            <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '8px' }}>
+            <p style={{ fontSize: '14px', color: '#666666', marginBottom: '8px' }}>
               {event.location_address}
               {event.map_url && (
-                <a href={event.map_url} target="_blank" rel="noopener" style={{ marginLeft: '8px', color: 'var(--color-accent)' }}>View Map &rarr;</a>
+                <a href={event.map_url} target="_blank" rel="noopener" style={{ marginLeft: '8px', color: '#f97316' }}>View Map &rarr;</a>
               )}
             </p>
           )}
 
           {event.admission_info && (
-            <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '14px' }}>{event.admission_info}</p>
+            <p style={{ fontSize: '14px', color: '#666666', marginBottom: '14px' }}>{event.admission_info}</p>
           )}
 
           {/* Organizer */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '14px', borderTop: '1px solid var(--color-border)' }}>
-            <div style={{ width: '36px', height: '36px', minWidth: '36px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', backgroundImage: event.organizer?.avatar_url ? `url(${event.organizer.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--color-border)' }}>
-              {!event.organizer?.avatar_url && <span style={{ fontSize: '12px', color: 'var(--color-muted-light)' }}>{event.organizer?.username?.charAt(0).toUpperCase()}</span>}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingTop: '14px', borderTop: '1px solid #e4e4e4' }}>
+            <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', backgroundImage: event.organizer?.avatar_url ? `url(${event.organizer.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {!event.organizer?.avatar_url && <span style={{ fontSize: '11px', color: '#555555' }}>{event.organizer?.username?.charAt(0).toUpperCase()}</span>}
             </div>
             <div>
-              <p className="eyebrow" style={{ marginBottom: '2px', fontSize: '9px' }}>Organized by</p>
-              <Link href={`/user/${event.organizer?.username}`} style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-foreground)', textDecoration: 'none' }}>
+              <p style={{ fontSize: '11px', color: '#555555' }}>Organized by</p>
+              <Link href={`/user/${event.organizer?.username}`} style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>
                 {event.organizer?.display_name || event.organizer?.username}
               </Link>
             </div>
@@ -172,9 +172,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
       {/* Description */}
       {event.description && (
-        <div className="panel" style={{ padding: '24px', marginBottom: '20px' }}>
-          <p className="eyebrow" style={{ marginBottom: '10px' }}>About This Event</p>
-          <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{event.description}</p>
+        <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '12px' }}>About This Event</h2>
+          <p style={{ fontSize: '14px', color: '#555555', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{event.description}</p>
         </div>
       )}
 
@@ -182,7 +182,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
       {event.categories && event.categories.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
           {event.categories.map((cat: string) => (
-            <span key={cat} className="chip chip-purple" style={{ borderRadius: '20px', padding: '5px 14px' }}>
+            <span key={cat} style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600, padding: '5px 14px', borderRadius: '20px', background: 'rgba(232,120,23,0.1)', color: '#f97316', border: '1px solid rgba(232,120,23,0.2)' }}>
               {cat}
             </span>
           ))}
@@ -191,16 +191,16 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
       {/* Attendees / RSVPs */}
       {rsvps && rsvps.length > 0 && (
-        <div className="panel" style={{ padding: '24px', marginBottom: '20px' }}>
-          <p className="eyebrow" style={{ marginBottom: '12px' }}>Who&apos;s Going</p>
+        <div className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }}>Who&apos;s Going</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {rsvps.map((rsvp) => (
-              <Link key={rsvp.id} href={`/user/${rsvp.user?.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 12px 5px 5px', borderRadius: '20px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)', textDecoration: 'none', minHeight: '36px' }}>
-                <div style={{ width: '26px', height: '26px', minWidth: '26px', borderRadius: '50%', overflow: 'hidden', background: 'var(--color-surface-light)', backgroundImage: rsvp.user?.avatar_url ? `url(${rsvp.user.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {!rsvp.user?.avatar_url && <span style={{ fontSize: '9px', color: 'var(--color-muted-light)' }}>{rsvp.user?.username?.charAt(0).toUpperCase()}</span>}
+              <Link key={rsvp.id} href={`/user/${rsvp.user?.username}`} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '5px 12px 5px 5px', borderRadius: '20px', background: '#f0f0f0', border: '1px solid #e4e4e4' }}>
+                <div style={{ width: '24px', height: '24px', borderRadius: '50%', overflow: 'hidden', background: '#e4e4e4', backgroundImage: rsvp.user?.avatar_url ? `url(${rsvp.user.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {!rsvp.user?.avatar_url && <span style={{ fontSize: '9px', color: '#555555' }}>{rsvp.user?.username?.charAt(0).toUpperCase()}</span>}
                 </div>
-                <span style={{ fontSize: '12px', color: 'var(--color-muted-light)' }}>{rsvp.user?.display_name || rsvp.user?.username}</span>
-                {rsvp.status === 'checked_in' && <span className="spec" style={{ fontSize: '9px', color: 'var(--color-success)', fontWeight: 700, letterSpacing: '0.5px' }}>HERE</span>}
+                <span style={{ fontSize: '12px', color: '#666666' }}>{rsvp.user?.display_name || rsvp.user?.username}</span>
+                {rsvp.status === 'checked_in' && <span style={{ fontSize: '9px', color: '#22c55e', fontWeight: 700, letterSpacing: '0.5px' }}>HERE</span>}
               </Link>
             ))}
           </div>
@@ -217,12 +217,11 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
       {/* Post-Event Photo Section */}
       {isCompleted && (
-        <div style={{ marginBottom: '32px' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '8px' }}>
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <p className="eyebrow" style={{ marginBottom: '4px' }}>Event Gallery</p>
               <h2 className="text-xl font-bold text-foreground">Photos from {event.title}</h2>
-              <p className="text-muted-light" style={{ fontSize: '13px', marginTop: '4px' }}>Share your photos and relive the event with the community.</p>
+              <p className="text-sm text-muted-light mt-1">Share your photos and relive the event with the community.</p>
             </div>
           </div>
 

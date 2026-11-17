@@ -32,20 +32,22 @@ export default function WeeklyDigest() {
   if (!hasActivity) return null
 
   return (
-    <div className="panel" style={{ padding: '16px', marginBottom: '16px', border: '1px solid rgba(242,169,0,0.15)' }}>
-      <p className="eyebrow" style={{ marginBottom: '10px' }}>Your Week in Review</p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 72px), 1fr))', gap: '8px' }}>
+    <div className="glass" style={{ padding: '16px', marginBottom: '16px', border: '1px solid rgba(34,197,94,0.15)' }}>
+      <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#1a1a1a', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        Your Week in Review
+      </h3>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
         {[
           { value: digest.garage_views_week, label: 'Views' },
           { value: digest.props_received_week, label: 'Props' },
           { value: digest.guestbook_entries_week, label: 'Guestbook' },
           { value: digest.new_followers_week, label: 'Followers' },
         ].map(s => (
-          <div key={s.label} style={{ textAlign: 'center', padding: '8px', borderRadius: '6px', background: 'var(--color-surface-lowest)' }}>
-            <div className="spec" style={{ fontSize: '18px', fontWeight: 700, color: s.value > 0 ? 'var(--color-accent)' : 'var(--color-muted)' }}>
+          <div key={s.label} style={{ textAlign: 'center', padding: '8px', borderRadius: '6px', background: '#f0f0f0' }}>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: s.value > 0 ? '#22c55e' : '#555555' }}>
               {s.value > 0 ? `+${s.value}` : '0'}
             </div>
-            <div style={{ fontSize: '9px', color: 'var(--color-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{s.label}</div>
+            <div style={{ fontSize: '9px', color: '#555555', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{s.label}</div>
           </div>
         ))}
       </div>

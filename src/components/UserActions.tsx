@@ -95,20 +95,16 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
       <button
         onClick={() => setOpen(!open)}
         style={{
-          background: 'var(--color-surface-lowest)',
-          border: '1px solid var(--color-border)',
+          background: '#f0f0f0',
+          border: '1px solid #e4e4e4',
           borderRadius: '8px',
-          padding: '10px 14px',
-          color: 'var(--color-muted-light)',
+          padding: '8px 12px',
+          color: '#555555',
           fontSize: '16px',
           cursor: 'pointer',
           lineHeight: 1,
-          minHeight: '44px',
-          minWidth: '44px',
-          transition: 'border-color 0.15s, color 0.15s',
         }}
         aria-label="User actions"
-        aria-expanded={open}
       >
         ···
       </button>
@@ -120,10 +116,10 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           top: '100%',
           right: 0,
           marginTop: '8px',
-          width: 'min(220px, calc(100vw - 32px))',
-          background: 'var(--color-surface-lowest)',
+          width: '220px',
+          background: '#f0f0f0',
           backdropFilter: 'blur(16px)',
-          border: '1px solid var(--color-border)',
+          border: '1px solid #e4e4e4',
           borderRadius: '10px',
           padding: '6px',
           zIndex: 50,
@@ -138,7 +134,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               background: 'none',
               border: 'none',
               borderRadius: '6px',
-              color: isBlocked ? 'var(--color-success)' : 'var(--color-danger)',
+              color: isBlocked ? '#22c55e' : '#ef4444',
               fontSize: '13px',
               fontWeight: 600,
               textAlign: 'left',
@@ -146,9 +142,8 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
-              minHeight: '44px',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-surface-light)')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f5f5')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
           >
             {isBlocked ? 'Unblock' : 'Block'} @{targetUsername}
@@ -162,7 +157,7 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               background: 'none',
               border: 'none',
               borderRadius: '6px',
-              color: 'var(--color-muted-light)',
+              color: '#fb923c',
               fontSize: '13px',
               fontWeight: 600,
               textAlign: 'left',
@@ -170,9 +165,8 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
-              minHeight: '44px',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--color-surface-light)')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f5f5')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'none')}
           >
             Report @{targetUsername}
@@ -187,10 +181,10 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           top: '100%',
           right: 0,
           marginTop: '8px',
-          width: 'min(300px, calc(100vw - 32px))',
-          background: 'var(--color-surface-lowest)',
+          width: '300px',
+          background: '#f0f0f0',
           backdropFilter: 'blur(16px)',
-          border: '1px solid var(--color-border)',
+          border: '1px solid #e4e4e4',
           borderRadius: '10px',
           padding: '20px',
           zIndex: 50,
@@ -221,14 +215,14 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           <div style={{ display: 'flex', gap: '8px' }}>
             <button
               onClick={() => { setShowReport(false); setReportReason('') }}
-              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: 'var(--color-surface-light)', border: '1px solid var(--color-border)', color: 'var(--color-muted-light)', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#555555', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
             >
               Cancel
             </button>
             <button
               onClick={handleReport}
               disabled={loading || !reportReason}
-              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: reportReason ? 'var(--color-accent)' : 'rgba(242,169,0,0.2)', border: 'none', color: reportReason ? 'var(--color-surface)' : 'var(--color-muted)', fontSize: '12px', fontWeight: 700, cursor: reportReason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1, minHeight: '44px' }}
+              style={{ flex: 1, padding: '10px', borderRadius: '6px', background: reportReason ? '#e87817' : 'rgba(232,120,23,0.3)', border: 'none', color: 'white', fontSize: '12px', fontWeight: 600, cursor: reportReason ? 'pointer' : 'default', opacity: loading ? 0.5 : 1 }}
             >
               {loading ? 'Sending...' : 'Submit Report'}
             </button>
@@ -243,13 +237,13 @@ export default function UserActions({ targetUserId, targetUsername }: UserAction
           bottom: '80px',
           left: '50%',
           transform: 'translateX(-50%)',
-          background: 'var(--color-surface-lowest)',
-          border: '1px solid rgba(242,169,0,0.3)',
+          background: '#f0f0f0',
+          border: '1px solid rgba(232,120,23,0.3)',
           borderRadius: '10px',
           padding: '14px 24px',
           zIndex: 1000,
           boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
-          maxWidth: 'min(400px, calc(100vw - 32px))',
+          maxWidth: '400px',
         }}>
           <p className="text-foreground" style={{ fontSize: '13px', fontWeight: 500 }}>{message}</p>
         </div>

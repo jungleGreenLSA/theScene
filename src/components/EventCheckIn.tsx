@@ -73,27 +73,27 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
 
   return (
     <div style={{ marginBottom: '20px' }}>
-      <h2 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <h2 style={{ fontSize: '16px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
         Check-Ins
-        <span className="spec" style={{ fontWeight: 400 }}>{checkins.length} member{checkins.length !== 1 ? 's' : ''} checked in</span>
+        <span style={{ fontSize: '13px', color: '#555555', fontWeight: 400 }}>{checkins.length} member{checkins.length !== 1 ? 's' : ''} checked in</span>
       </h2>
 
       {/* Check-in form */}
       {loggedIn && !alreadyCheckedIn && (
-        <div className="panel" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(242,169,0,0.2)' }}>
-          <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-foreground)', marginBottom: '12px' }}>I&apos;m at {eventTitle}!</p>
+        <div className="glass" style={{ padding: '20px', marginBottom: '16px', border: '1px solid rgba(34,197,94,0.15)' }}>
+          <p style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a', marginBottom: '12px' }}>I&apos;m at {eventTitle}!</p>
           {vehicles.length > 1 && (
             <div style={{ marginBottom: '10px' }}>
-              <label className="eyebrow" style={{ display: 'block', marginBottom: '4px' }}>Which ride did you bring?</label>
+              <label style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', color: '#666666', display: 'block', marginBottom: '4px' }}>Which ride did you bring?</label>
               <select value={selectedVehicle} onChange={(e) => setSelectedVehicle(e.target.value)} className="input">
                 {vehicles.map(v => <option key={v.id} value={v.id}>{v.year} {v.make} {v.model} — {v.color}</option>)}
               </select>
             </div>
           )}
           <input value={note} onChange={(e) => setNote(e.target.value)} className="input" placeholder="How's the show? (optional)" maxLength={280} style={{ marginBottom: '10px' }} />
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-            <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '12px', flex: 1, minWidth: 0 }} />
-            <button onClick={handleCheckIn} disabled={loading} className="btn-teal" style={{ whiteSpace: 'nowrap', opacity: loading ? 0.5 : 1, fontSize: '13px' }}>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '12px', flex: 1 }} />
+            <button onClick={handleCheckIn} disabled={loading} style={{ padding: '10px 20px', borderRadius: '8px', background: '#22c55e', border: 'none', color: 'white', fontSize: '13px', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap', opacity: loading ? 0.5 : 1 }}>
               {loading ? 'Checking in...' : 'Check In'}
             </button>
           </div>
@@ -101,7 +101,7 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
       )}
 
       {alreadyCheckedIn && (
-        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.2)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-success)', fontWeight: 600 }}>
+        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', marginBottom: '16px', fontSize: '13px', color: '#22c55e', fontWeight: 600 }}>
           You&apos;re checked in at this event!
         </div>
       )}
@@ -110,25 +110,25 @@ export default function EventCheckIn({ eventId, eventTitle }: { eventId: string;
       {checkins.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {checkins.map(c => (
-            <div key={c.id} className="panel" style={{ padding: '14px 18px' }}>
+            <div key={c.id} className="glass" style={{ padding: '14px 18px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: c.note || c.image_url ? '10px' : 0 }}>
                 <Link href={`/user/${c.user?.username}`}>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--color-surface-light)', backgroundImage: c.user?.avatar_url ? `url(${c.user.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e4e4e4', backgroundImage: c.user?.avatar_url ? `url(${c.user.avatar_url})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }} />
                 </Link>
                 <div>
-                  <p style={{ fontSize: '13px', color: 'var(--color-foreground)' }}>
-                    <Link href={`/user/${c.user?.username}`} style={{ fontWeight: 600, color: 'var(--color-foreground)' }}>{c.user?.display_name || c.user?.username}</Link>
+                  <p style={{ fontSize: '13px', color: '#1a1a1a' }}>
+                    <Link href={`/user/${c.user?.username}`} style={{ fontWeight: 600, color: '#1a1a1a' }}>{c.user?.display_name || c.user?.username}</Link>
                     {' checked in'}
-                    {c.vehicle && <span style={{ color: 'var(--color-accent)' }}> with their <span className="spec">{c.vehicle.year} {c.vehicle.make} {c.vehicle.model}</span></span>}
+                    {c.vehicle && <span style={{ color: '#f97316' }}> with their {c.vehicle.year} {c.vehicle.make} {c.vehicle.model}</span>}
                   </p>
-                  <p style={{ fontSize: '11px', color: 'var(--color-muted)' }}>
+                  <p style={{ fontSize: '11px', color: '#555555' }}>
                     {new Date(c.created_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                   </p>
                 </div>
               </div>
-              {c.note && <p style={{ fontSize: '13px', color: 'var(--color-muted-light)', marginBottom: c.image_url ? '10px' : 0 }}>{c.note}</p>}
+              {c.note && <p style={{ fontSize: '13px', color: '#555555', marginBottom: c.image_url ? '10px' : 0 }}>{c.note}</p>}
               {c.image_url && (
-                <div style={{ borderRadius: '8px', overflow: 'hidden', maxHeight: '200px', background: 'var(--color-surface-light)' }}>
+                <div style={{ borderRadius: '8px', overflow: 'hidden', maxHeight: '200px', background: '#e4e4e4' }}>
                   <img src={c.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: '200px' }} />
                 </div>
               )}

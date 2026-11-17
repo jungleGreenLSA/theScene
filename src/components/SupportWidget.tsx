@@ -17,8 +17,8 @@ export default function SupportWidget() {
           width: '48px',
           height: '48px',
           borderRadius: '50%',
-          background: 'var(--color-accent-deep)',
-          border: '1px solid var(--color-accent)',
+          background: '#e87817',
+          border: '1px solid #f97316',
           color: 'white',
           fontSize: '20px',
           cursor: 'pointer',
@@ -26,7 +26,7 @@ export default function SupportWidget() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 0 20px rgba(242,169,0,0.3)',
+          boxShadow: '0 0 20px rgba(232,120,23,0.3)',
           transition: 'all 0.2s',
         }}
         aria-label="Support"
@@ -43,9 +43,9 @@ export default function SupportWidget() {
             left: '24px',
             width: '320px',
             borderRadius: '12px',
-            background: 'var(--color-surface-lowest)',
+            background: '#f0f0f0',
             backdropFilter: 'blur(16px)',
-            border: '1px solid var(--color-border)',
+            border: '1px solid #e4e4e4',
             padding: '24px',
             zIndex: 999,
             boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
@@ -57,18 +57,18 @@ export default function SupportWidget() {
             See an issue?{' '}
             <a
               href="mailto:support@thescene.fyi?subject=Bug Report"
-              className="font-semibold"
-              style={{ color: 'var(--color-accent)' }}
+              className="text-purple-light hover:text-neon-light font-semibold"
             >
               Report it here
             </a>
           </p>
 
-          <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '12px' }}>
+          <div style={{ borderTop: '1px solid #e4e4e4', paddingTop: '12px' }}>
             <p className="text-muted" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>Or reach us directly:</p>
             <a
               href="mailto:support@thescene.fyi"
-              style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-accent)' }}
+              className="text-purple-light hover:text-neon-light"
+              style={{ fontSize: '0.85rem', fontWeight: 600 }}
             >
               support@thescene.fyi
             </a>

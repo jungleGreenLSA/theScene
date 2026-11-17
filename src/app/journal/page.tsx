@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import Link from 'next/link'
 
 interface JournalEntry {
   id: string
@@ -34,6 +35,7 @@ export default function JournalPage() {
   const [selectedVehicle, setSelectedVehicle] = useState('')
   const [entries, setEntries] = useState<JournalEntry[]>([])
   const [loading, setLoading] = useState(true)
+  const [isPremium, setIsPremium] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [totalCost, setTotalCost] = useState(0)
   const [form, setForm] = useState({ title: '', content: '', milestone_type: 'mod_install', cost: '', journal_date: new Date().toISOString().split('T')[0] })
@@ -44,6 +46,9 @@ export default function JournalPage() {
     const load = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
+
+      const { data: profile } = await supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
+      setIsPremium(profile?.subscription_tier === 'premium')
 
       const { data: v } = await supabase.from('vehicles').select('id, year, make, model').eq('owner_id', user.id)
       setVehicles(v || [])
@@ -114,15 +119,29 @@ export default function JournalPage() {
 
   if (loading) return <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }} className="text-muted-light">Loading...</div>
 
+  if (!isPremium) {
+    return (
+      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '80px 32px 40px', textAlign: 'center' }}>
+        <div className="glass" style={{ padding: '48px 32px' }}>
+          <h1 className="text-2xl font-bold" style={{ marginBottom: '8px' }}>Build Journal</h1>
+          <p className="text-muted-light" style={{ marginBottom: '12px', lineHeight: 1.6 }}>
+            Document your build from Day 1. Track every mod, every milestone, every dollar spent. Before and after photos, cost tracking, and a full timeline of your build journey.
+          </p>
+          <p className="text-muted" style={{ marginBottom: '24px', fontSize: '13px' }}>Premium feature -- upgrade to start your build journal.</p>
+          <Link href="/pricing" className="btn-neon" style={{ fontSize: '13px' }}>Upgrade to Premium</Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <h1 className="text-3xl font-bold">Build <span className="gradient-text">Journal</span></h1>
+          <h1 className="text-3xl font-bold">Build <span className="text-neon-light">Journal</span></h1>
           <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>Your build story, one entry at a time</p>
         </div>
-        <button onClick={() => setShowForm(!showForm)} className="btn-teal" style={{ fontSize: '12px' }}>
+        <button onClick={() => setShowForm(!showForm)} className="btn-neon" style={{ fontSize: '12px' }}>
           {showForm ? 'Cancel' : 'New Entry'}
         </button>
       </div>
@@ -134,22 +153,22 @@ export default function JournalPage() {
             {vehicles.map(v => <option key={v.id} value={v.id}>{v.year} {v.make} {v.model}</option>)}
           </select>
         )}
-        <div className="panel" style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span className="spec text-foreground font-bold" style={{ fontSize: '16px' }}>${totalCost.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+        <div className="glass" style={{ padding: '10px 20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span className="text-foreground font-bold" style={{ fontSize: '16px' }}>${totalCost.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
           <span className="text-muted" style={{ fontSize: '11px' }}>total invested</span>
         </div>
       </div>
 
       {/* New entry form */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="panel" style={{ padding: '24px', marginBottom: '20px' }}>
+        <form onSubmit={handleSubmit} className="glass" style={{ padding: '24px', marginBottom: '20px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
             <div>
-              <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Title *</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Title *</label>
               <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input" placeholder="Installed headers" required />
             </div>
             <div>
-              <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Type</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Type</label>
               <select value={form.milestone_type} onChange={(e) => setForm({ ...form, milestone_type: e.target.value })} className="input">
                 <option value="mod_install">Mod Install</option>
                 <option value="maintenance">Maintenance</option>
@@ -164,23 +183,23 @@ export default function JournalPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
             <div>
-              <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Date</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Date</label>
               <input type="date" value={form.journal_date} onChange={(e) => setForm({ ...form, journal_date: e.target.value })} className="input" />
             </div>
             <div>
-              <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Cost ($)</label>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Cost ($)</label>
               <input type="number" step="0.01" value={form.cost} onChange={(e) => setForm({ ...form, cost: e.target.value })} className="input" placeholder="0.00" />
             </div>
           </div>
           <div style={{ marginBottom: '12px' }}>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Notes</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Notes</label>
             <textarea value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} className="input" rows={3} placeholder="What did you do? How did it go?" />
           </div>
           <div style={{ marginBottom: '16px' }}>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Photo</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Photo</label>
             <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="input" style={{ fontSize: '13px' }} />
           </div>
-          <button type="submit" disabled={submitting} className="btn-teal" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px' }}>
+          <button type="submit" disabled={submitting} className="btn-neon" style={{ opacity: submitting ? 0.5 : 1, fontSize: '12px' }}>
             {submitting ? 'Saving...' : 'Add Entry'}
           </button>
         </form>
@@ -188,29 +207,29 @@ export default function JournalPage() {
 
       {/* Timeline */}
       {entries.length === 0 ? (
-        <div className="panel" style={{ padding: '48px 32px', textAlign: 'center' }}>
+        <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No entries yet</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Start documenting your build journey!</p>
         </div>
       ) : (
         <div style={{ position: 'relative', paddingLeft: '32px' }}>
           {/* Timeline line */}
-          <div style={{ position: 'absolute', left: '11px', top: 0, bottom: 0, width: '2px', background: 'rgba(242,169,0,0.2)' }} />
+          <div style={{ position: 'absolute', left: '11px', top: 0, bottom: 0, width: '2px', background: 'rgba(232,120,23,0.2)' }} />
 
           {entries.map((entry, i) => (
             <div key={entry.id} style={{ position: 'relative', marginBottom: '20px' }}>
               {/* Timeline dot */}
-              <div style={{ position: 'absolute', left: '-27px', top: '20px', width: '14px', height: '14px', borderRadius: '50%', background: 'var(--color-accent)', border: '3px solid var(--color-background)', zIndex: 1 }} />
+              <div style={{ position: 'absolute', left: '-27px', top: '20px', width: '14px', height: '14px', borderRadius: '50%', background: '#e87817', border: '3px solid #0c0c14', zIndex: 1 }} />
 
-              <div className="panel card-hover" style={{ padding: '20px' }}>
+              <div className="glass card-hover" style={{ padding: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span className="chip chip-purple" style={{ fontSize: '9px' }}>{MILESTONE_LABELS[entry.milestone_type] || 'NOTE'}</span>
+                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '1px', padding: '3px 8px', borderRadius: '4px', background: 'rgba(232,120,23,0.12)', color: '#f97316' }}>{MILESTONE_LABELS[entry.milestone_type] || 'NOTE'}</span>
                     <h3 className="font-bold text-foreground" style={{ fontSize: '15px' }}>{entry.title}</h3>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     {entry.cost && (
-                      <span className="spec" style={{ fontSize: '13px', color: 'var(--color-success)', fontWeight: 700 }}>${parseFloat(String(entry.cost)).toLocaleString()}</span>
+                      <span style={{ fontSize: '13px', color: '#22c55e', fontWeight: 700 }}>${parseFloat(String(entry.cost)).toLocaleString()}</span>
                     )}
                     <span className="text-muted" style={{ fontSize: '12px' }}>
                       {new Date(entry.journal_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -219,7 +238,7 @@ export default function JournalPage() {
                 </div>
                 {entry.content && <p className="text-muted-light" style={{ fontSize: '13px', lineHeight: 1.6 }}>{entry.content}</p>}
                 {entry.image_url && (
-                  <div style={{ marginTop: '12px', borderRadius: '8px', overflow: 'hidden', maxHeight: '250px', background: 'var(--color-surface-light)' }}>
+                  <div style={{ marginTop: '12px', borderRadius: '8px', overflow: 'hidden', maxHeight: '250px', background: '#e4e4e4' }}>
                     <img src={entry.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', maxHeight: '250px' }} />
                   </div>
                 )}

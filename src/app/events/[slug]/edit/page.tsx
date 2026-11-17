@@ -120,33 +120,34 @@ export default function EditEventPage() {
     setCochairs(cochairs.filter(c => c.id !== cochairId))
   }
 
-  // labelStyle replaced by eyebrow class — see JSX below
-  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: 'var(--color-muted-light)' }}>Loading...</div>
+  const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }
+
+  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Loading...</div>
 
   return (
-    <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 16px 40px' }}>
-      <Link href={`/events/${slug}`} style={{ fontSize: '13px', color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', textDecoration: 'none' }}>&larr; Back to Event</Link>
+    <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <Link href={`/events/${slug}`} style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Event</Link>
 
-      <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '28px' }}>
-        Edit <span style={{ color: 'var(--color-accent)' }}>Event</span>
+      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '28px' }}>
+        Edit <span style={{ color: '#fb923c' }}>Event</span>
       </h1>
 
-      {message && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-success)' }}>{message}</div>}
-      {error && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(229,72,77,0.1)', border: '1px solid rgba(229,72,77,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-danger)' }}>{error}</div>}
+      {message && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e' }}>{message}</div>}
+      {error && <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', marginBottom: '16px', fontSize: '13px', color: '#ef4444' }}>{error}</div>}
 
       <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        <div className="panel" style={{ padding: '24px' }}>
+        <div className="glass" style={{ padding: '24px' }}>
           <div style={{ marginBottom: '12px' }}>
-            <label className="eyebrow" style={{ marginBottom: '6px' }}>Title</label>
+            <label style={labelStyle}>Title</label>
             <input name="title" value={form.title} onChange={handleChange} className="input" required maxLength={128} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px', marginBottom: '12px' }}>
-            <div><label className="eyebrow" style={{ marginBottom: '6px' }}>Date</label><input type="date" name="event_date" value={form.event_date} onChange={handleChange} className="input" required /></div>
-            <div><label className="eyebrow" style={{ marginBottom: '6px' }}>Time</label><input type="time" name="event_time" value={form.event_time} onChange={handleChange} className="input" /></div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+            <div><label style={labelStyle}>Date</label><input type="date" name="event_date" value={form.event_date} onChange={handleChange} className="input" required /></div>
+            <div><label style={labelStyle}>Time</label><input type="time" name="event_time" value={form.event_time} onChange={handleChange} className="input" /></div>
           </div>
-          <div style={{ marginBottom: '12px' }}><label className="eyebrow" style={{ marginBottom: '6px' }}>Venue</label><input name="location_name" value={form.location_name} onChange={handleChange} className="input" maxLength={128} /></div>
+          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Venue</label><input name="location_name" value={form.location_name} onChange={handleChange} className="input" maxLength={128} /></div>
           <div style={{ marginBottom: '12px' }}>
-            <label className="eyebrow" style={{ marginBottom: '6px' }}>City / State — pick from dropdown to drop a pin on the heatmap</label>
+            <label style={labelStyle}>City / State — pick from dropdown to drop a pin on the heatmap</label>
             <AddressAutocomplete
               defaultValue={form.city && form.state ? `${form.city}, ${form.state}` : ''}
               placeholder="Start typing a city..."
@@ -160,23 +161,23 @@ export default function EditEventPage() {
               }))}
             />
             {form.city && form.state && (
-              <p className="spec" style={{ fontSize: '11px', color: form.lat && form.lng ? 'var(--color-success)' : 'var(--color-accent)', marginTop: '6px' }}>
+              <p style={{ fontSize: '11px', color: form.lat && form.lng ? '#22c55e' : '#fb923c', marginTop: '6px' }}>
                 {form.city}, {form.state}{form.lat && form.lng ? ' · geocoded ✓' : ' · geocoding on save'}
               </p>
             )}
           </div>
-          <div style={{ marginBottom: '12px' }}><label className="eyebrow" style={{ marginBottom: '6px' }}>Address (optional)</label><input name="location_address" value={form.location_address} onChange={handleChange} className="input" maxLength={128} /></div>
-          <div style={{ marginBottom: '12px' }}><label className="eyebrow" style={{ marginBottom: '6px' }}>Description</label><textarea name="description" value={form.description} onChange={handleChange} className="input" rows={4} maxLength={2000} /></div>
-          <div style={{ marginBottom: '12px' }}><label className="eyebrow" style={{ marginBottom: '6px' }}>Admission</label><input name="admission_info" value={form.admission_info} onChange={handleChange} className="input" maxLength={128} /></div>
+          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Address (optional)</label><input name="location_address" value={form.location_address} onChange={handleChange} className="input" maxLength={128} /></div>
+          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Description</label><textarea name="description" value={form.description} onChange={handleChange} className="input" rows={4} maxLength={2000} /></div>
+          <div style={{ marginBottom: '12px' }}><label style={labelStyle}>Admission</label><input name="admission_info" value={form.admission_info} onChange={handleChange} className="input" maxLength={128} /></div>
           <div>
-            <label className="eyebrow" style={{ marginBottom: '6px' }}>Categories</label>
+            <label style={labelStyle}>Categories</label>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
               {CATEGORIES.map(cat => (
                 <button key={cat} type="button" onClick={() => toggleCategory(cat)} style={{
                   padding: '5px 12px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: form.categories.includes(cat) ? 'rgba(242,169,0,0.12)' : 'var(--color-surface-lowest)',
-                  color: form.categories.includes(cat) ? 'var(--color-accent)' : 'var(--color-muted)',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(242,169,0,0.3)' : '1px solid var(--color-border)',
+                  background: form.categories.includes(cat) ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+                  color: form.categories.includes(cat) ? '#f97316' : '#555555',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(232,120,23,0.3)' : '1px solid #e4e4e4',
                 }}>{cat}</button>
               ))}
             </div>
@@ -184,29 +185,31 @@ export default function EditEventPage() {
         </div>
 
         {/* Co-chairs */}
-        <div className="panel" style={{ padding: '24px' }}>
-          <p className="eyebrow" style={{ marginBottom: '8px' }}>Co-Chairs</p>
-          <p style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '12px' }}>Co-chairs can also manage this event.</p>
+        <div className="glass" style={{ padding: '24px' }}>
+          <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#1a1a1a', marginBottom: '12px' }}>Co-Chairs</h3>
+          <p style={{ fontSize: '12px', color: '#555555', marginBottom: '12px' }}>Co-chairs can also manage this event.</p>
 
           <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
             <input value={cochairUsername} onChange={(e) => setCochairUsername(e.target.value)} className="input" placeholder="Enter username" maxLength={64} style={{ flex: 1 }} />
-            <button type="button" onClick={handleAddCochair} className="btn-teal" style={{ whiteSpace: 'nowrap', fontSize: '12px' }}>Add</button>
+            <button type="button" onClick={handleAddCochair} style={{ padding: '10px 16px', borderRadius: '8px', background: '#e87817', border: '1px solid #f97316', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Add</button>
           </div>
 
           {cochairs.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {cochairs.map(c => (
-                <div key={c.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', borderRadius: '6px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '13px', color: 'var(--color-foreground)' }}>@{c.user?.username || 'unknown'} <span style={{ color: 'var(--color-muted)' }}>({c.user?.display_name || ''})</span></span>
-                  <button type="button" onClick={() => handleRemoveCochair(c.id)} style={{ background: 'none', border: 'none', color: 'var(--color-danger)', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Remove</button>
+                <div key={c.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', borderRadius: '6px', background: '#f0f0f0', border: '1px solid #e4e4e4' }}>
+                  <span style={{ fontSize: '13px', color: '#1a1a1a' }}>@{c.user?.username || 'unknown'} <span style={{ color: '#555555' }}>({c.user?.display_name || ''})</span></span>
+                  <button type="button" onClick={() => handleRemoveCochair(c.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>Remove</button>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        <button type="submit" disabled={saving} className="btn-primary" style={{
-          width: '100%', padding: '16px', fontSize: '15px', opacity: saving ? 0.5 : 1,
+        <button type="submit" disabled={saving} style={{
+          width: '100%', padding: '16px', borderRadius: '12px',
+          background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
+          fontSize: '15px', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.5 : 1,
         }}>
           {saving ? 'Saving...' : 'Save Changes'}
         </button>

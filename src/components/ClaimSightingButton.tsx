@@ -47,30 +47,30 @@ export default function ClaimSightingButton({ sightingId, spotterId, alreadyClai
     <>
       <button
         onClick={() => setOpen(true)}
-        style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(242,169,0,0.1)', border: '1px solid rgba(242,169,0,0.3)', color: 'var(--color-accent)', fontSize: '11px', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap', minHeight: '44px' }}
+        style={{ padding: '6px 12px', borderRadius: '6px', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.3)', color: '#fb923c', fontSize: '11px', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}
       >
         Claim this ride
       </button>
 
       {open && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }} onClick={() => setOpen(false)}>
-          <div className="panel" style={{ width: '100%', maxWidth: '420px', padding: '24px' }} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '6px' }}>Is this one of your rides?</h3>
-            <p style={{ fontSize: '12px', color: 'var(--color-muted-light)', marginBottom: '16px' }}>Pick the vehicle in this sighting. Only you (as the owner) can claim it.</p>
+          <div className="glass" style={{ width: '100%', maxWidth: '420px', padding: '24px' }} onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', marginBottom: '6px' }}>Is this one of your rides?</h3>
+            <p style={{ fontSize: '12px', color: '#666666', marginBottom: '16px' }}>Pick the vehicle in this sighting. Only you (as the owner) can claim it.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
               {vehicles.map(v => (
                 <button
                   key={v.id}
                   disabled={busy}
                   onClick={() => claim(v.id)}
-                  style={{ padding: '12px 14px', borderRadius: '8px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)', color: 'var(--color-foreground)', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left', minHeight: '44px', transition: 'border-color 0.2s' }}
+                  style={{ padding: '12px 14px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #d4d4d4', color: '#1a1a1a', fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left' }}
                 >
                   {v.year} {v.make} {v.model}{v.color ? ` · ${v.color}` : ''}
                 </button>
               ))}
             </div>
-            {message && <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginBottom: '10px' }}>{message}</p>}
-            <button onClick={() => setOpen(false)} style={{ width: '100%', padding: '10px', borderRadius: '6px', background: 'var(--color-surface-light)', border: '1px solid var(--color-border)', color: 'var(--color-muted-light)', fontSize: '12px', fontWeight: 600, cursor: 'pointer', minHeight: '44px' }}>Cancel</button>
+            {message && <p style={{ fontSize: '12px', color: '#ef4444', marginBottom: '10px' }}>{message}</p>}
+            <button onClick={() => setOpen(false)} style={{ width: '100%', padding: '10px', borderRadius: '6px', background: '#f5f5f5', border: '1px solid #e4e4e4', color: '#666666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
           </div>
         </div>
       )}

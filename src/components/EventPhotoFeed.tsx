@@ -73,7 +73,7 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
 
   if (photoPosts.length === 0) {
     return (
-      <div className="panel p-8 text-center">
+      <div className="glass p-8 text-center">
         <p className="text-muted-light">No photos have been shared from this event yet. Be the first!</p>
       </div>
     )
@@ -82,7 +82,7 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
   return (
     <div className="space-y-6">
       {photoPosts.map((post) => (
-        <div key={post.id} className="panel overflow-hidden card-hover">
+        <div key={post.id} className="glass overflow-hidden card-hover">
           {/* Attribution header */}
           <div className="p-4 flex items-center gap-3 border-b border-border">
             <Link href={`/user/${post.author?.username}`} className="flex-shrink-0">
@@ -96,7 +96,7 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
             </Link>
             <div className="flex-1 min-w-0">
               <p className="text-sm text-foreground">
-                <Link href={`/user/${post.author?.username}`} className="font-semibold hover:text-teal-light">
+                <Link href={`/user/${post.author?.username}`} className="font-semibold hover:text-purple-light">
                   {post.author?.display_name || post.author?.username}
                 </Link>
                 {post.vehicle && (
@@ -104,8 +104,8 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
                     {' '}
                     <span className="text-muted-light">—</span>
                     {' '}
-                    <Link href={`/user/${post.author?.username}/${post.vehicle.slug}`} className="text-teal hover:text-teal-light">
-                      <span className="spec">{post.vehicle.year} {post.vehicle.make} {post.vehicle.model}</span>
+                    <Link href={`/user/${post.author?.username}/${post.vehicle.slug}`} className="text-purple-light hover:text-neon-light">
+                      {post.vehicle.year} {post.vehicle.make} {post.vehicle.model}
                     </Link>
                   </>
                 )}
@@ -137,15 +137,14 @@ export default function EventPhotoFeed({ photoPosts }: { photoPosts: PhotoPost[]
             )}
 
             <div className="flex items-center gap-5 pt-2 border-t border-border">
-              <button onClick={() => handleProp(post.id)} className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-teal py-1" style={{ minHeight: '44px' }}>
-                <span><span className="spec">{propCounts[post.id] || 0}</span> Props</span>
+              <button onClick={() => handleProp(post.id)} className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-neon-light py-1">
+                <span>{propCounts[post.id] || 0} Props</span>
               </button>
               <button
                 onClick={() => setExpandedPhoto(expandedPhoto === post.id ? null : post.id)}
-                className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-teal py-1"
-                style={{ minHeight: '44px' }}
+                className="reaction flex items-center gap-2 text-sm text-muted-light hover:text-purple-light py-1"
               >
-                <span><span className="spec">{post.comment_count || 0}</span> Comments</span>
+                <span>{post.comment_count || 0} Comments</span>
               </button>
             </div>
 

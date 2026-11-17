@@ -20,8 +20,8 @@ const BUILD_STATUSES = [
 ]
 const YEARS = Array.from({ length: new Date().getFullYear() - 1919 }, (_, i) => new Date().getFullYear() + 1 - i)
 
-const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: 'var(--color-muted)', marginBottom: '6px', fontFamily: 'var(--font-mono, monospace)' }
-const sectionTitle = { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '14px', borderLeft: '3px solid var(--color-accent)', paddingLeft: '10px' }
+const labelStyle = { display: 'block' as const, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: '1.5px', color: '#666666', marginBottom: '6px' }
+const sectionTitle = { display: 'flex', alignItems: 'center', gap: '8px', fontSize: '15px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px' }
 
 export default function EditVehiclePage() {
   const supabase = createClient()
@@ -110,24 +110,24 @@ export default function EditVehiclePage() {
     router.push('/garage')
   }
 
-  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: 'var(--color-muted-light)' }}>Loading…</div>
+  if (loading) return <div style={{ maxWidth: '640px', margin: '0 auto', padding: '80px 32px', textAlign: 'center', color: '#666666' }}>Loading...</div>
 
   return (
-    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 24px 40px' }}>
-      <Link href="/garage" style={{ fontSize: '13px', color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', opacity: 0.8 }}>&larr; Back to Garage</Link>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <Link href="/garage" style={{ fontSize: '13px', color: '#666666', display: 'block', marginBottom: '20px' }}>&larr; Back to Garage</Link>
 
-      <h1 style={{ fontSize: 'clamp(20px, 4vw, 24px)', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '8px' }}>
-        Edit <span className="gradient-text">{form.year} {form.make} {form.model}</span>
+      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>
+        Edit <span style={{ color: '#fb923c' }}>{form.year} {form.make} {form.model}</span>
       </h1>
-      <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '28px' }}>Update your vehicle details</p>
+      <p style={{ fontSize: '14px', color: '#666666', marginBottom: '28px' }}>Update your vehicle details</p>
 
       {message && (
-        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(86,194,113,0.1)', border: '1px solid rgba(86,194,113,0.3)', marginBottom: '16px', fontSize: '13px', color: 'var(--color-success)' }}>{message}</div>
+        <div style={{ padding: '12px 16px', borderRadius: '8px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', marginBottom: '16px', fontSize: '13px', color: '#22c55e' }}>{message}</div>
       )}
 
       <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))', gap: '20px' }}>
         {/* Vehicle Info */}
-        <div className="panel" style={{ padding: '24px' }}>
+        <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Vehicle Info</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px' }}>
             <div>
@@ -164,7 +164,7 @@ export default function EditVehiclePage() {
         </div>
 
         {/* Powertrain */}
-        <div className="panel" style={{ padding: '24px' }}>
+        <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Powertrain</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '12px' }}>
             <div>
@@ -193,16 +193,15 @@ export default function EditVehiclePage() {
         </div>
 
         {/* Build Status */}
-        <div className="panel" style={{ padding: '24px' }}>
+        <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Build Status</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))', gap: '8px' }}>
             {BUILD_STATUSES.map((status) => (
               <label key={status.value} style={{
                 display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', borderRadius: '20px', cursor: 'pointer',
-                background: form.build_status === status.value ? 'rgba(242,169,0,0.12)' : 'var(--color-surface-lowest)',
-                border: form.build_status === status.value ? '1px solid rgba(242,169,0,0.4)' : '1px solid var(--color-border)',
-                fontSize: '12px', fontWeight: 600, color: form.build_status === status.value ? 'var(--color-accent)' : 'var(--color-muted-light)',
-                minHeight: '44px',
+                background: form.build_status === status.value ? 'rgba(232,120,23,0.15)' : '#f0f0f0',
+                border: form.build_status === status.value ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
+                fontSize: '12px', fontWeight: 600, color: form.build_status === status.value ? '#f97316' : '#666666',
               }}>
                 <input type="radio" name="build_status" value={status.value} checked={form.build_status === status.value} onChange={handleChange} style={{ display: 'none' }} />
                 {status.label}
@@ -212,67 +211,69 @@ export default function EditVehiclePage() {
         </div>
 
         {/* About */}
-        <div className="panel" style={{ padding: '24px' }}>
+        <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>About This Build</div>
           <textarea name="bio" value={form.bio} onChange={handleChange} className="input" rows={4} maxLength={2000} placeholder="Tell the story of your build..." />
         </div>
 
         {/* Modifications — full width for its categorized sub-layout */}
-        <div className="panel" style={{ padding: '24px', gridColumn: '1 / -1' }}>
+        <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
           <div style={sectionTitle}>Modifications</div>
-          <p style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '16px' }}>List what you&apos;ve done to your build. Categorized so visitors can scan quickly.</p>
+          <p style={{ fontSize: '12px', color: '#555555', marginBottom: '16px' }}>List what you&apos;ve done to your build. Categorized so visitors can scan quickly.</p>
           <VehicleMods vehicleId={vehicleId} />
         </div>
 
         {/* Shops — full width */}
-        <div className="panel" style={{ padding: '24px', gridColumn: '1 / -1' }}>
+        <div className="glass" style={{ padding: '24px', gridColumn: '1 / -1' }}>
           <div style={sectionTitle}>Shops That Worked On This Build</div>
           <ShopTagger vehicleId={vehicleId} />
         </div>
 
         {/* Visibility */}
-        <div className="panel" style={{ padding: '24px' }}>
+        <div className="glass" style={{ padding: '24px' }}>
           <div style={sectionTitle}>Visibility</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
             <label style={{
-              display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', borderRadius: '12px', cursor: 'pointer', minHeight: '44px',
-              background: form.is_public ? 'rgba(242,169,0,0.10)' : 'var(--color-surface-lowest)',
-              border: form.is_public ? '1px solid rgba(242,169,0,0.35)' : '1px solid var(--color-border)',
+              display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', borderRadius: '12px', cursor: 'pointer',
+              background: form.is_public ? 'rgba(232,120,23,0.1)' : '#f0f0f0',
+              border: form.is_public ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
             }}>
               <input type="radio" name="is_public" value="true" checked={form.is_public === true} onChange={() => setForm({ ...form, is_public: true })} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: form.is_public ? 'var(--color-accent)' : 'var(--color-muted-light)', display: 'block' }}>Public</span>
-                <span style={{ fontSize: '10px', color: 'var(--color-muted)' }}>Visible to everyone</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: form.is_public ? '#f97316' : '#666666', display: 'block' }}>Public</span>
+                <span style={{ fontSize: '10px', color: '#555555' }}>Visible to everyone</span>
               </div>
             </label>
             <label style={{
-              display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', borderRadius: '12px', cursor: 'pointer', minHeight: '44px',
-              background: !form.is_public ? 'rgba(242,169,0,0.10)' : 'var(--color-surface-lowest)',
-              border: !form.is_public ? '1px solid rgba(242,169,0,0.35)' : '1px solid var(--color-border)',
+              display: 'flex', alignItems: 'center', gap: '10px', padding: '14px', borderRadius: '12px', cursor: 'pointer',
+              background: !form.is_public ? 'rgba(232,120,23,0.1)' : '#f0f0f0',
+              border: !form.is_public ? '1px solid rgba(232,120,23,0.4)' : '1px solid #e4e4e4',
             }}>
               <input type="radio" name="is_public" value="false" checked={form.is_public === false} onChange={() => setForm({ ...form, is_public: false })} style={{ display: 'none' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 600, color: !form.is_public ? 'var(--color-accent)' : 'var(--color-muted-light)', display: 'block' }}>Private</span>
-                <span style={{ fontSize: '10px', color: 'var(--color-muted)' }}>Link only</span>
+                <span style={{ fontSize: '13px', fontWeight: 600, color: !form.is_public ? '#f97316' : '#666666', display: 'block' }}>Private</span>
+                <span style={{ fontSize: '10px', color: '#555555' }}>Link only</span>
               </div>
             </label>
           </div>
         </div>
 
         {error && (
-          <div style={{ gridColumn: '1 / -1', background: 'rgba(229,72,77,0.1)', border: '1px solid rgba(229,72,77,0.3)', borderRadius: '8px', padding: '12px 16px', color: 'var(--color-danger)', fontSize: '13px' }}>{error}</div>
+          <div style={{ gridColumn: '1 / -1', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', color: '#ef4444', fontSize: '13px' }}>{error}</div>
         )}
 
         {/* Actions */}
-        <div style={{ gridColumn: '1 / -1', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <button type="submit" disabled={saving} className="btn-primary" style={{
-            flex: 1, minWidth: '160px', padding: '16px', borderRadius: '12px',
+        <div style={{ gridColumn: '1 / -1', display: 'flex', gap: '12px' }}>
+          <button type="submit" disabled={saving} style={{
+            flex: 1, padding: '16px', borderRadius: '12px',
+            background: '#f97316', border: '1px solid #fb923c', color: '#0c0c14',
             fontSize: '15px', fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.5 : 1,
           }}>
             {saving ? 'Saving...' : 'Save Changes'}
           </button>
-          <Link href={`/garage/${vehicleId}/photos`} className="btn-teal" style={{
+          <Link href={`/garage/${vehicleId}/photos`} style={{
             padding: '16px 24px', borderRadius: '12px',
+            background: 'rgba(232,120,23,0.15)', border: '1px solid rgba(232,120,23,0.3)', color: '#f97316',
             fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             Photos
@@ -283,7 +284,7 @@ export default function EditVehiclePage() {
         <button type="button" onClick={handleDelete} style={{
           gridColumn: '1 / -1',
           width: '100%', padding: '12px', borderRadius: '8px',
-          background: 'rgba(229,72,77,0.05)', border: '1px solid rgba(229,72,77,0.15)', color: 'var(--color-danger)',
+          background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)', color: '#ef4444',
           fontSize: '13px', fontWeight: 600, cursor: 'pointer', textAlign: 'left',
         }}>
           Delete this vehicle permanently

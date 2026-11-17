@@ -45,8 +45,11 @@ export default function CreateEventPage() {
     const loadClubs = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
-      // Every member can have up to 10 active events (a spam guard, not a tier).
-      const limit = 10
+
+      // Check event limits
+      const { data: profile } = await supabase.from('profiles').select('subscription_tier, role').eq('id', user.id).single()
+      const isPremium = profile?.subscription_tier === 'premium' || profile?.role === 'admin'
+      const limit = isPremium ? 10 : 2
       setMaxEvents(limit)
 
       const { count } = await supabase.from('events').select('id', { count: 'exact', head: true }).eq('organizer_id', user.id).in('status', ['published', 'active', 'draft'])
@@ -148,33 +151,33 @@ export default function CreateEventPage() {
   const CATEGORIES = ['Car Show', 'Car Meet', 'Track Day', 'Cruise', 'Swap Meet', 'Drag Race', 'Autocross', 'Dyno Day', 'Charity Event']
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 16px 40px' }}>
-      <Link href="/events" style={{ fontSize: '13px', color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', gap: '4px', marginBottom: '20px', textDecoration: 'none' }}>&larr; Back to Events</Link>
+    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '80px 32px 40px' }}>
+      <Link href="/events" className="text-muted-light hover:text-purple-light" style={{ fontSize: '13px', display: 'block', marginBottom: '20px' }}>&larr; Back to Events</Link>
 
       <h1 className="text-3xl font-bold" style={{ marginBottom: '8px' }}>
-        Create an <span style={{ color: 'var(--color-accent)' }}>Event</span>
+        Create an <span className="text-neon-light">Event</span>
       </h1>
-      <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '12px' }}>List a car show, meet, track day, or cruise</p>
-      <p className="spec" style={{ fontSize: '12px', color: 'var(--color-muted)', marginBottom: '28px' }}>{eventCount} of {maxEvents} active events</p>
+      <p style={{ fontSize: '14px', color: '#666666', marginBottom: '12px' }}>List a car show, meet, track day, or cruise</p>
+      <p style={{ fontSize: '12px', color: '#555555', marginBottom: '28px' }}>{eventCount} of {maxEvents} events used {maxEvents <= 2 && '· Upgrade to premium for up to 10'}</p>
 
       {!canCreate ? (
-        <div className="panel" style={{ padding: '40px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-foreground)', marginBottom: '8px' }}>Event limit reached</h2>
-          <p style={{ fontSize: '14px', color: 'var(--color-muted-light)', marginBottom: '20px' }}>Members can have up to {maxEvents} active events at a time. Complete or archive an older one to open a slot.</p>
-          <Link href="/events" className="btn-primary">Back to events</Link>
+        <div className="glass" style={{ padding: '40px', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>Event limit reached</h2>
+          <p style={{ fontSize: '14px', color: '#666666', marginBottom: '20px' }}>Free members can create up to {maxEvents} events. Upgrade for more.</p>
+          <Link href="/pricing" style={{ padding: '10px 24px', borderRadius: '8px', background: '#f97316', color: '#0c0c14', fontSize: '13px', fontWeight: 700 }}>Upgrade to Premium</Link>
         </div>
       ) : (
-      <form onSubmit={handleSubmit} className="panel" style={{ padding: '28px' }}>
+      <form onSubmit={handleSubmit} className="glass" style={{ padding: '28px' }}>
         {/* Title */}
         <div style={{ marginBottom: '16px' }}>
-          <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Event Title *</label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Event Title *</label>
           <input name="title" value={form.title} onChange={handleChange} className="input" placeholder='e.g. "Smooth Rides 2026 Car Show" or "Tom Smith&apos;s Annual Meet"' required />
         </div>
 
         {/* Club association (optional) */}
         {clubs.length > 0 && (
           <div style={{ marginBottom: '16px' }}>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Hosting as Club (optional)</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Hosting as Club (optional)</label>
             <select name="club_id" value={form.club_id} onChange={handleChange} className="input">
               <option value="">Personal event (not a club)</option>
               {clubs.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -184,24 +187,24 @@ export default function CreateEventPage() {
         )}
 
         {/* Date & Time */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 160px), 1fr))', gap: '12px', marginBottom: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
           <div>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Date *</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Date *</label>
             <input type="date" name="event_date" value={form.event_date} onChange={handleChange} className="input" required />
           </div>
           <div>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Time</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Time</label>
             <input type="time" name="event_time" value={form.event_time} onChange={handleChange} className="input" />
           </div>
         </div>
 
         {/* Location */}
         <div style={{ marginBottom: '16px' }}>
-          <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Venue Name</label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Venue Name</label>
           <input name="location_name" value={form.location_name} onChange={handleChange} className="input" placeholder="e.g. Dallas Convention Center" />
         </div>
         <div style={{ marginBottom: '16px' }}>
-          <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: 'var(--color-muted)', fontWeight: 400, textTransform: 'none' }}>(start typing — we&apos;ll fill in the rest)</span></label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Address <span style={{ color: '#555555', fontWeight: 400, textTransform: 'none' }}>(start typing — we&apos;ll fill in the rest)</span></label>
           <AddressAutocomplete
             defaultValue={form.location_address}
             placeholder="Start typing a venue address..."
@@ -216,36 +219,36 @@ export default function CreateEventPage() {
             }))}
           />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 100px), 1fr))', gap: '12px', marginBottom: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '12px', marginBottom: '16px' }}>
           <div>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>City *</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>City *</label>
             <input name="city" value={form.city} onChange={handleChange} className="input" placeholder="Dallas" required />
           </div>
           <div>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>State *</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>State *</label>
             <input name="state" value={form.state} onChange={handleChange} className="input" placeholder="TX" required maxLength={2} style={{ textTransform: 'uppercase' }} />
           </div>
           <div>
-            <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>ZIP</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>ZIP</label>
             <input name="zip_code" value={form.zip_code} onChange={handleChange} className="input" placeholder="75201" maxLength={10} />
           </div>
         </div>
 
         {/* Description */}
         <div style={{ marginBottom: '16px' }}>
-          <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Description</label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Description</label>
           <textarea name="description" value={form.description} onChange={handleChange} className="input" rows={4} placeholder="Tell people about the event..." />
         </div>
 
         {/* Admission */}
         <div style={{ marginBottom: '16px' }}>
-          <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Admission Info</label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Admission Info</label>
           <input name="admission_info" value={form.admission_info} onChange={handleChange} className="input" placeholder='e.g. "Free entry" or "$20 per car"' />
         </div>
 
         {/* Categories */}
         <div style={{ marginBottom: '16px' }}>
-          <label className="eyebrow" style={{ display: 'block', marginBottom: '8px' }}>Categories</label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '8px' }}>Categories</label>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {CATEGORIES.map(cat => (
               <button
@@ -254,9 +257,9 @@ export default function CreateEventPage() {
                 onClick={() => toggleCategory(cat)}
                 style={{
                   padding: '6px 14px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', border: 'none', transition: 'all 0.2s',
-                  background: form.categories.includes(cat) ? 'rgba(242,169,0,0.12)' : 'var(--color-surface-lowest)',
-                  color: form.categories.includes(cat) ? 'var(--color-accent)' : 'var(--color-muted)',
-                  outline: form.categories.includes(cat) ? '1px solid rgba(242,169,0,0.3)' : '1px solid var(--color-border)',
+                  background: form.categories.includes(cat) ? 'rgba(232,120,23,0.2)' : '#f0f0f0',
+                  color: form.categories.includes(cat) ? '#f97316' : '#555555',
+                  outline: form.categories.includes(cat) ? '1px solid rgba(232,120,23,0.3)' : '1px solid #e4e4e4',
                 }}
               >
                 {cat}
@@ -267,7 +270,7 @@ export default function CreateEventPage() {
 
         {/* Flyer upload */}
         <div style={{ marginBottom: '20px' }}>
-          <label className="eyebrow" style={{ display: 'block', marginBottom: '6px' }}>Event Flyer (optional)</label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-muted-light" style={{ display: 'block', marginBottom: '6px' }}>Event Flyer (optional)</label>
           <input
             type="file"
             accept="image/jpeg,image/png,image/webp"
@@ -279,12 +282,12 @@ export default function CreateEventPage() {
         </div>
 
         {error && (
-          <div style={{ background: 'rgba(229,72,77,0.1)', border: '1px solid rgba(229,72,77,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: 'var(--color-danger)', fontSize: '13px' }}>
+          <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', color: '#ef4444', fontSize: '13px' }}>
             {error}
           </div>
         )}
 
-        <button type="submit" disabled={loading} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.5 : 1 }}>
+        <button type="submit" disabled={loading} className="btn-neon" style={{ width: '100%', justifyContent: 'center', padding: '14px', opacity: loading ? 0.5 : 1 }}>
           {loading ? 'Creating event...' : 'Publish Event'}
         </button>
       </form>

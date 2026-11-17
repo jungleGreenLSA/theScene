@@ -22,7 +22,6 @@ export default function MobileTabBar() {
     supabase.auth.getSession().then(({ data }) => setLoggedIn(!!data.session))
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => setLoggedIn(!!session))
     return () => sub.subscription.unsubscribe()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!loggedIn) return null
@@ -30,13 +29,28 @@ export default function MobileTabBar() {
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/')
 
   return (
-    <nav className="mobile-tab-bar" aria-label="Primary">
-      <div className="tabs">
-        {TABS.map(t => (
-          <Link key={t.href} href={t.href} className={isActive(t.href) ? 'active' : ''} aria-current={isActive(t.href) ? 'page' : undefined}>
-            {t.label}
-          </Link>
-        ))}
+    <nav className="mobile-tab-bar" style={{
+      position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 40,
+      background: '#ffffff', backdropFilter: 'blur(16px)',
+      borderTop: '1px solid #d4d4d4',
+      paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'stretch', justifyContent: 'space-around', height: '56px' }}>
+        {TABS.map(t => {
+          const active = isActive(t.href)
+          return (
+            <Link key={t.href} href={t.href} style={{
+              flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px',
+              textDecoration: 'none',
+              color: active ? '#f97316' : '#555555',
+              transition: 'color 0.15s',
+              position: 'relative',
+            }}>
+              {active && <span style={{ position: 'absolute', top: 0, left: '30%', right: '30%', height: '2px', background: '#f97316', borderRadius: '0 0 2px 2px' }} />}
+              <span style={{ fontSize: '12px', fontWeight: 600 }}>{t.label}</span>
+            </Link>
+          )
+        })}
       </div>
     </nav>
   )

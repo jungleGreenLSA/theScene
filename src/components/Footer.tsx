@@ -1,63 +1,71 @@
 import Link from 'next/link'
 
-const COLS = [
-  {
-    title: 'The site',
-    links: [
-      { href: '/explore', label: 'Explore builds' },
-      { href: '/feed', label: 'Feed' },
-      { href: '/events', label: 'Events' },
-      { href: '/clubs', label: 'Clubs' },
-      { href: '/marketplace', label: 'Marketplace' },
-    ],
-  },
-  {
-    title: 'Members',
-    links: [
-      { href: '/auth/register', label: 'Join — it’s free' },
-      { href: '/auth/login', label: 'Sign in' },
-      { href: '/guidelines', label: 'Community guidelines' },
-    ],
-  },
-  {
-    title: 'Legal',
-    links: [
-      { href: '/privacy', label: 'Privacy' },
-      { href: '/terms', label: 'Terms' },
-      { href: '/cookies', label: 'Cookies' },
-    ],
-  },
-]
+const linkStyle: React.CSSProperties = {
+  fontSize: '12px',
+}
+
+const headingStyle: React.CSSProperties = {
+  fontSize: '11px',
+  fontWeight: 700,
+  textTransform: 'uppercase',
+  letterSpacing: '1px',
+  color: '#2a2a2a',
+  marginBottom: '8px',
+}
 
 export default function Footer() {
   return (
-    <footer className="site-footer">
-      <div className="stripe" aria-hidden="true" />
-      <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '36px 20px 28px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 180px), 1fr))', gap: '28px', alignItems: 'start' }}>
-          <div style={{ gridColumn: 'span 1' }}>
-            <p className="display" style={{ fontSize: '26px', lineHeight: 1 }}>The <span style={{ color: 'var(--color-accent)' }}>Scene</span></p>
-            <p className="spec" style={{ marginTop: '10px', fontSize: '12px', maxWidth: '28ch' }}>
-              Your car. Your page. Your people.<br />Free to join. Every feature, every member.
-            </p>
+    <footer style={{ borderTop: '1px solid var(--color-border)', marginTop: '20px', background: '#ebebeb' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '16px 12px 12px' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '24px',
+          marginBottom: '14px',
+        }}>
+          <div>
+            <h4 style={headingStyle}>Platform</h4>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <li><Link href="/explore" style={linkStyle}>Explore</Link></li>
+              <li><Link href="/feed" style={linkStyle}>Feed</Link></li>
+              <li><Link href="/events" style={linkStyle}>Events</Link></li>
+              <li><Link href="/clubs" style={linkStyle}>Clubs</Link></li>
+            </ul>
           </div>
-          {COLS.map(col => (
-            <div key={col.title}>
-              <h4 className="label-mono" style={{ marginBottom: '12px', fontSize: '10px' }}>{col.title}</h4>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '7px' }}>
-                {col.links.map(l => (
-                  <li key={l.href}><Link href={l.href} style={{ fontSize: '14px' }}>{l.label}</Link></li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div>
+            <h4 style={headingStyle}>Community</h4>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <li><Link href="/auth/register" style={linkStyle}>Join The Scene</Link></li>
+              <li><Link href="/guidelines" style={linkStyle}>Guidelines</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 style={headingStyle}>Legal</h4>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <li><Link href="/privacy" style={linkStyle}>Privacy Policy</Link></li>
+              <li><Link href="/terms" style={linkStyle}>Terms of Service</Link></li>
+              <li><Link href="/cookies" style={linkStyle}>Cookie Policy</Link></li>
+            </ul>
+          </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--color-border)', marginTop: '28px', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
-          <p className="spec" style={{ fontSize: '11px' }}>&copy; {new Date().getFullYear()} The Scene. All rights reserved.</p>
-          <p className="spec" style={{ fontSize: '11px' }}>
-            <a href="mailto:support@thescene.fyi">support@thescene.fyi</a>
-          </p>
+        <div style={{
+          borderTop: '1px solid var(--color-border)',
+          paddingTop: '10px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '8px',
+          fontSize: '11px',
+          color: '#666',
+        }}>
+          <span>&copy; {new Date().getFullYear()} The Scene. All rights reserved.</span>
+          <span>
+            <a href="mailto:support@thescene.fyi" style={linkStyle}>
+              support@thescene.fyi
+            </a>
+          </span>
         </div>
       </div>
     </footer>

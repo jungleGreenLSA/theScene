@@ -33,32 +33,31 @@ export default function BuildMatch({ vehicleId }: { vehicleId: string }) {
   if (matches.length === 0) return null
 
   return (
-    <div className="panel" style={{ padding: '20px', marginTop: '20px', border: '1px solid rgba(242,169,0,0.15)' }}>
-      <div style={{ marginBottom: '14px' }}>
-        <span className="eyebrow">Build Matches</span>
-        <p style={{ fontSize: '11px', color: 'var(--color-muted)', marginTop: '2px' }}>Members with similar mods</p>
-      </div>
+    <div className="glass" style={{ padding: '20px', marginTop: '20px', border: '1px solid rgba(249,115,22,0.15)' }}>
+      <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        Build Matches
+        <span style={{ fontSize: '11px', color: '#555555', fontWeight: 400 }}>Members with similar mods</span>
+      </h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {matches.map(m => (
           <Link key={m.matched_vehicle_id} href={`/user/${m.matched_username}/${m.matched_slug}`}
-            className="card-hover"
-            style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px', borderRadius: '8px', background: 'var(--color-surface-lowest)', border: '1px solid var(--color-border)', minHeight: '44px' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px', borderRadius: '8px', background: '#f0f0f0', border: '1px solid #f5f5f5' }}
           >
-            <div style={{ width: '44px', height: '44px', borderRadius: '8px', overflow: 'hidden', background: 'var(--color-surface-light)', flexShrink: 0 }}>
+            <div style={{ width: '44px', height: '44px', borderRadius: '8px', overflow: 'hidden', background: '#e4e4e4', flexShrink: 0 }}>
               {m.matched_primary_image ? (
                 <img src={m.matched_primary_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : null}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-foreground)' }}><span className="spec">{m.matched_year}</span> {m.matched_make} {m.matched_model}</p>
-              <p style={{ fontSize: '11px', color: 'var(--color-muted-light)' }}>@{m.matched_username} · <span className="spec">{m.common_mods}</span> mods in common</p>
+              <p style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{m.matched_year} {m.matched_make} {m.matched_model}</p>
+              <p style={{ fontSize: '11px', color: '#666666' }}>@{m.matched_username} · {m.common_mods} mods in common</p>
               {m.common_mod_items && m.common_mod_items.length > 0 && (
-                <p style={{ fontSize: '10px', color: 'var(--color-muted)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <p style={{ fontSize: '10px', color: '#555555', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {m.common_mod_items.slice(0, 3).join(', ')}
                 </p>
               )}
             </div>
-            <span className="spec" style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-accent)', flexShrink: 0 }}>{m.common_mods}</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: '#fb923c', flexShrink: 0 }}>{m.common_mods}</span>
           </Link>
         ))}
       </div>

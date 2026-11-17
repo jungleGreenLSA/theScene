@@ -48,19 +48,14 @@ export default function FollowButton({ targetUserId, targetUsername }: { targetU
     <button
       onClick={handleFollow}
       disabled={loading}
-      className={isFollowing ? 'btn-outline' : 'btn-teal'}
       style={{
-        padding: '8px 20px',
-        fontSize: '12px',
-        fontWeight: 600,
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        cursor: loading ? 'default' : 'pointer',
-        transition: 'all 0.2s',
-        opacity: loading ? 0.5 : 1,
-        minHeight: '44px',
+        padding: '8px 20px', borderRadius: '8px', fontSize: '12px', fontWeight: 600,
+        textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer', border: 'none',
+        transition: 'all 0.2s', opacity: loading ? 0.5 : 1,
+        background: isFollowing ? '#f5f5f5' : '#e87817',
+        color: isFollowing ? '#555555' : 'white',
+        outline: isFollowing ? '1px solid #e4e4e4' : 'none',
       }}
-      aria-pressed={isFollowing}
     >
       {isFollowing ? 'Following' : 'Follow'}
     </button>

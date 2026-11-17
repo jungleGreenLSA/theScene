@@ -36,19 +36,18 @@ export default function ChallengesPage() {
   }, [])
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 16px 40px' }}>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '80px 32px 40px' }}>
       <div style={{ marginBottom: '24px' }}>
-        <p className="eyebrow" style={{ marginBottom: '8px' }}>Community</p>
-        <h1 className="text-3xl font-bold">Monthly <span className="gradient-text">Challenges</span></h1>
+        <h1 className="text-3xl font-bold">Monthly <span className="text-neon-light">Challenges</span></h1>
         <p className="text-muted-light" style={{ marginTop: '4px', fontSize: '0.85rem' }}>Enter. Vote. Win. Monthly photo challenges with community voting.</p>
       </div>
 
       {loading ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {[1,2].map(i => <div key={i} className="panel animate-pulse" style={{ height: '200px' }} />)}
+          {[1,2].map(i => <div key={i} className="glass animate-pulse" style={{ height: '200px' }} />)}
         </div>
       ) : challenges.length === 0 ? (
-        <div className="panel" style={{ padding: '48px 32px', textAlign: 'center' }}>
+        <div className="glass" style={{ padding: '48px 32px', textAlign: 'center' }}>
           <h2 className="text-xl font-bold" style={{ marginBottom: '8px' }}>No active challenges</h2>
           <p className="text-muted-light" style={{ fontSize: '0.9rem' }}>Check back soon! Monthly challenges will be posted by the team.</p>
         </div>
@@ -58,14 +57,14 @@ export default function ChallengesPage() {
             const daysLeft = Math.ceil((new Date(c.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
             const entryCount = c.entries?.length || 0
             return (
-              <div key={c.id} className="panel overflow-hidden">
-                <div style={{ height: '180px', background: 'linear-gradient(135deg, rgba(242,169,0,0.12), rgba(142,163,184,0.10))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+              <div key={c.id} className="glass overflow-hidden">
+                <div style={{ height: '180px', background: 'linear-gradient(135deg, rgba(232,120,23,0.15), rgba(249,115,22,0.1))', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                   {c.cover_image_url ? (
                     <img src={c.cover_image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : null}
                   {daysLeft > 0 && (
-                    <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(15,16,18,0.85)', borderRadius: '8px', padding: '6px 14px', border: `1px solid ${daysLeft <= 3 ? 'rgba(229,72,77,0.3)' : 'rgba(242,169,0,0.2)'}` }}>
-                      <span className="spec" style={{ fontSize: '12px', color: daysLeft <= 3 ? 'var(--color-danger)' : 'var(--color-accent)' }}>{daysLeft} day{daysLeft !== 1 ? 's' : ''} left</span>
+                    <div style={{ position: 'absolute', top: '12px', right: '12px', background: '#ffffff', borderRadius: '8px', padding: '6px 14px' }}>
+                      <span style={{ fontSize: '12px', color: daysLeft <= 3 ? '#ef4444' : '#fb923c', fontWeight: 700 }}>{daysLeft} day{daysLeft !== 1 ? 's' : ''} left</span>
                     </div>
                   )}
                 </div>
@@ -75,12 +74,12 @@ export default function ChallengesPage() {
                       <h2 className="font-bold text-foreground" style={{ fontSize: '1.3rem', marginBottom: '6px' }}>{c.title}</h2>
                       <p className="text-muted-light" style={{ fontSize: '14px', lineHeight: 1.6, maxWidth: '600px' }}>{c.description}</p>
                       {c.category && (
-                        <span className="chip" style={{ marginTop: '8px' }}>{c.category}</span>
+                        <span style={{ display: 'inline-block', marginTop: '8px', fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', padding: '3px 10px', borderRadius: '4px', background: 'rgba(232,120,23,0.1)', border: '1px solid rgba(232,120,23,0.2)', color: '#f97316' }}>{c.category}</span>
                       )}
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <p className="font-bold spec" style={{ fontSize: '1.5rem', color: 'var(--color-accent)' }}>{entryCount}</p>
-                      <p className="eyebrow" style={{ fontSize: '10px' }}>entries</p>
+                      <p className="text-foreground font-bold" style={{ fontSize: '1.5rem' }}>{entryCount}</p>
+                      <p className="text-muted" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px' }}>entries</p>
                     </div>
                   </div>
 
@@ -88,17 +87,17 @@ export default function ChallengesPage() {
                   {c.entries && c.entries.length > 0 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
                       {c.entries.slice(0, 8).map((entry) => (
-                        <div key={entry.id} style={{ width: '80px', height: '80px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--color-surface-light)', position: 'relative' }}>
+                        <div key={entry.id} style={{ width: '80px', height: '80px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: '#e4e4e4', position: 'relative' }}>
                           <img src={entry.image_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          <div className="spec" style={{ position: 'absolute', bottom: '2px', right: '4px', fontSize: '10px', color: 'var(--color-accent)', fontWeight: 700, textShadow: '0 1px 3px rgba(0,0,0,0.9)' }}>{entry.vote_count}</div>
+                          <div style={{ position: 'absolute', bottom: '2px', right: '4px', fontSize: '10px', color: '#fb923c', fontWeight: 700, textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>{entry.vote_count}</div>
                         </div>
                       ))}
                     </div>
                   )}
 
-                  <div style={{ marginTop: '16px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                    <button className="btn-neon" style={{ fontSize: '12px', padding: '12px 20px', minHeight: '44px' }}>Enter Challenge</button>
-                    <button className="btn-outline" style={{ fontSize: '12px', padding: '12px 20px', minHeight: '44px' }}>View All Entries</button>
+                  <div style={{ marginTop: '16px', display: 'flex', gap: '10px' }}>
+                    <button className="btn-neon" style={{ fontSize: '12px', padding: '10px 20px' }}>Enter Challenge</button>
+                    <button className="btn-outline" style={{ fontSize: '12px', padding: '10px 20px' }}>View All Entries</button>
                   </div>
                 </div>
               </div>
